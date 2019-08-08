@@ -40,7 +40,8 @@ xterm.on('data', (data) => {
 
 xterm.writeln('\u001b[39mWelcome to \u001b[95mSquid\u001b[39m!');
 xterm.writeln(' ');
-xterm.writeln(' \u001b[39mCurrent version: \u001b[1m0.1.1');
+xterm.writeln(' \u001b[39mCurrent version: \u001b[1m0.1.2');
+xterm.writeln(' \u001b[39mGit: \u001b[1mhttps://github.com/QuiiBz/squid');
 
 ptyProcess.on('data', function (data) {
 
