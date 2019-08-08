@@ -1,7 +1,7 @@
 {
   "name": "squid",
-  "version": "0.1.1",
-  "description": "Terminal application",
+  "version": "0.1.2",
+  "description": "Web-based terminal",
   "main": "main.js",
   "scripts": {
     "start": "electron . --ignore-gpu-blacklist"
