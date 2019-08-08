@@ -132,7 +132,7 @@ function getDefaultSettings(file) {
 
             background: '#191919',
             foreground: '#A9B7C6',
-            cursor: '#E0E2E4'
+            cursor: '#310bf1'
         };
 
     } else if(file == 'shortcuts') {
