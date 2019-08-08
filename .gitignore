@@ -1,0 +1,10 @@
+# Dependency
+node_modules/
+
+# Files
+settings.json
+shortcuts.json
+theme.json
+
+# Jetbrain
+.idea/

@@ -1,0 +1,23 @@
+{
+  "name": "squid",
+  "version": "0.1.1",
+  "description": "Terminal application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --ignore-gpu-blacklist"
+  },
+  "author": "QuiiBz",
+  "dependencies": {
+    "dragula": "^3.7.2",
+    "electron": "4.0.1",
+    "electron-settings": "^3.2.0",
+    "electron-tabs": "^0.9.5",
+    "node-pty": "^0.8.0",
+    "windows-native-registry": "^1.0.14",
+    "xterm": "^3.14.0",
+    "xterm-addon-ligatures": "0.1.0-beta-1"
+  },
+  "devDependencies": {
+    "electron-packager": "^14.0.4"
+  }
+}
