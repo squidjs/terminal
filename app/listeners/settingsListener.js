@@ -34,6 +34,29 @@ class Option {
     }
 }
 
+class Shortcut {
+
+    constructor(type) {
+
+        this.type = type;
+        this.input = document.querySelector('.shortcuts .' + this.type);
+
+        this.input.addEventListener('change', () => this.update());
+    }
+
+    update() {
+
+        ipcRenderer.send('rebind', {
+
+            type: this.type,
+            oldAccelerator: settings.get('shortcuts.' + this.type),
+            newAccelerator: this.input.value
+        });
+
+        settings.set('shortcuts.' + this.type, this.input.value);
+    }
+}
+
 let options = [];
 
 options.push(new Option('general'));
@@ -238,26 +261,3 @@ window.onload = () => {
         fillPreview();
     });
 };
-
-class Shortcut {
-
-    constructor(type) {
-
-        this.type = type;
-        this.input = document.querySelector('.shortcuts .' + this.type);
-
-        this.input.addEventListener('change', () => this.update());
-    }
-
-    update() {
-
-        ipcRenderer.send('rebind', {
-
-            type: this.type,
-            oldAccelerator: settings.get('shortcuts.' + this.type),
-            newAccelerator: this.input.value
-        });
-
-        settings.set('shortcuts.' + this.type, this.input.value);
-    }
-}
