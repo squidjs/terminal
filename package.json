@@ -1,25 +1,27 @@
 {
   "name": "squid",
   "version": "0.1.2",
+  "productName": "Squid",
   "description": "Web-based terminal",
   "main": "main.js",
   "scripts": {
-    "start": "electron . --ignore-gpu-blacklist"
+    "start": "electron . --ignore-gpu-blacklist",
+    "pack-win": "electron-packager . squid --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Squid --version-string.FileDescription=Squid --version-string.ProductName=\"Web-based terminal\"",
+    "installer-win": "node installers/windows/installer.js"
   },
   "author": "QuiiBz",
   "dependencies": {
     "dragula": "^3.7.2",
-    "electron": "4.0.1",
+    "electron": "^4.0.1",
     "electron-settings": "^3.2.0",
     "electron-tabs": "^0.9.5",
     "node-pty": "^0.8.0",
     "windows-native-registry": "^1.0.14",
-    "xterm": "^3.14.0",
-    "xterm-addon-ligatures": "0.1.0-beta-1",
-    "xterm-addon-web-links": "^0.1.0"
+    "xterm": "^3.14.0"
   },
   "devDependencies": {
     "electron-packager": "^14.0.4",
+    "electron-rebuild": "^1.8.5",
     "electron-winstaller": "^4.0.0"
   }
 }

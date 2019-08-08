@@ -9,3 +9,5 @@ theme.json
 # Jetbrain
 .idea/
 hacker\.json
+
+release-builds/

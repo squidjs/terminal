@@ -12,6 +12,20 @@ body {
     outline: none;
 }
 
+webview {
+
+    display: none !important;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+webview.visible {
+
+    display: inline-flex !important;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
 .nav {
 
     width: 100vw;
@@ -50,6 +64,8 @@ body {
     /*animation: show .3s ease;*/
 
     transition: .3s ease;
+
+    padding: 0 20px;
 }
 
 .etabs-buttons {

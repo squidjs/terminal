@@ -24,12 +24,11 @@ function createWindow () {
         minHeight: 500,
         frame: false,
         title: 'Squid',
-        icon: __dirname + '/images/64x64.png',
+        icon: __dirname + '/assets/icons/png/icon.png',
         show: false,
         transparent: true,
         webPreferences: {
-          nodeIntegration: true,
-          experimentalFeatures: true
+          nodeIntegration: true
         }
     });
 

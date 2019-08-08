@@ -8,6 +8,9 @@ let tabGroup = new TabGroup({
     newTab: {
         title: 'Terminal',
         src: '../views/terminal.html',
+        webviewAttributes: {
+          nodeIntegration: 'true'
+        },
         visible: true,
         active: true
     },
@@ -24,6 +27,9 @@ tabGroup.addTab({
 
     title: 'Welcome',
     src: '../views/welcome.html',
+    webviewAttributes: {
+        nodeIntegration: 'true'
+    },
     visible: true,
     active: true
 });
@@ -32,6 +38,11 @@ tabGroup.on('tab-removed', (tab, tabGroup) => {
 
     if(tabGroup.getActiveTab() == null)
         remote.getCurrentWindow().close();
+});
+
+tabGroup.on('tab-added', (tab, tabGroup) => {
+
+    tab.webview.addEventListener("dom-ready", (event) => { tab.webview.blur(); tab.webview.focus(); });
 });
 
 ipcRenderer.on('keypress', (event, message) => {
@@ -52,6 +63,9 @@ ipcRenderer.on('keypress', (event, message) => {
 
                 title: 'Terminal',
                 src: '../views/terminal.html',
+                webviewAttributes: {
+                    nodeIntegration: 'true'
+                },
                 visible: true,
                 active: true
             });
@@ -100,6 +114,9 @@ function openSettings() {
 
             title: 'Settings',
             src: '../views/settings.html',
+            webviewAttributes: {
+                nodeIntegration: 'true'
+            },
             visible: true,
             active: true
         });
