@@ -60,6 +60,7 @@ class Shortcut {
 let options = [];
 
 options.push(new Option('general'));
+options.push(new Option('ssh'));
 options.push(new Option('terminal'));
 options.push(new Option('shortcuts'));
 options.push(new Option('apparence'));
@@ -75,6 +76,10 @@ function fill(categorie) {
         document.getElementById(settings.get('options.cursorStyle')).selected = 'selected';
 
         fillImage();
+
+    } else if(categorie == 'ssh') {
+
+
 
     } else if(categorie == 'terminal') {
 
