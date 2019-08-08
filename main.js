@@ -1,3 +1,8 @@
+const setupEvents = require('./installers/setupEvents');
+
+if(setupEvents.handleSquirrelEvent())
+    return;
+
 const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron');
 
 const settings = require('electron-settings');
