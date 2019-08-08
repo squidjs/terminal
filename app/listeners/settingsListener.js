@@ -2,6 +2,7 @@ const settings = require('electron-settings');
 const { ipcRenderer, remote } = require('electron');
 
 const fs = require('fs');
+const path = require('path');
 
 class Option {
 
@@ -48,6 +49,7 @@ function fill(categorie) {
 
         document.getElementById('fontSize').value = settings.get('options.fontSize');
         document.getElementById('fontFamily').value = settings.get('options.fontFamily');
+        document.getElementById(settings.get('options.cursorStyle')).selected = 'selected';
 
         fillImage();
 
@@ -87,13 +89,9 @@ function fill(categorie) {
 
     } else if(categorie == 'apparence') {
 
-        document.getElementById('background').value = settings.get('theme.background');
-        document.getElementById('foreground').value = settings.get('theme.foreground');
-        document.getElementById('cursor').value = settings.get('theme.cursor');
-
-        document.getElementById('background').style.backgroundColor = settings.get('theme.background');
-        document.getElementById('foreground').style.backgroundColor = settings.get('theme.foreground');
-        document.getElementById('cursor').style.backgroundColor = settings.get('theme.cursor');
+        fillThemeName();
+        fillInputs();
+        fillPreview();
     }
 }
 
@@ -119,10 +117,35 @@ function fillImage() {
     document.getElementById('backgroundImageOpacity').value = opacity;
 }
 
+function fillInputs() {
+
+    document.getElementById('background').value = settings.get('theme.background');
+    document.getElementById('foreground').value = settings.get('theme.foreground');
+    document.getElementById('cursor').value = settings.get('theme.cursor');
+
+    document.getElementById('background').style.backgroundColor = settings.get('theme.background');
+    document.getElementById('foreground').style.backgroundColor = settings.get('theme.foreground');
+    document.getElementById('cursor').style.backgroundColor = settings.get('theme.cursor');
+}
+
+function fillPreview() {
+
+    document.getElementById('backgroundColor').style.backgroundColor = settings.get('theme.background');
+    document.getElementById('foregroundColor').style.color = settings.get('theme.foreground');
+    document.getElementById('cursorColor').style.color = settings.get('theme.cursor');
+}
+
+function fillThemeName() {
+
+    document.getElementById('themeName').innerHTML = settings.get('options.themeName');
+}
+
 window.onload = () => {
 
     document.getElementById('fontSize').addEventListener('change', () => settings.set('options.fontSize', document.getElementById('fontSize').value));
     document.getElementById('fontFamily').addEventListener('change', () => settings.set('options.fontFamily', document.getElementById('fontFamily').value));
+    let cursorStyle = document.getElementById('cursorStyle');
+    document.getElementById('cursorStyle').addEventListener('change', () => settings.set('options.cursorStyle', (cursorStyle.options[cursorStyle.selectedIndex]).value));
 
     document.getElementById('backgroundImage').addEventListener('click', () => {
 
@@ -159,9 +182,61 @@ window.onload = () => {
 
     document.getElementById('bash').addEventListener('change', () => settings.set('options.bash', document.getElementById('bash').value));
     document.getElementById('devTools').addEventListener('click', () => remote.getCurrentWindow().webContents.openDevTools());
-    document.getElementById('background').addEventListener('change', () => settings.set('theme.background', document.getElementById('background').value));
-    document.getElementById('foreground').addEventListener('change', () => settings.set('theme.foreground', document.getElementById('foreground').value));
-    document.getElementById('cursor').addEventListener('change', () => settings.set('theme.cursor', document.getElementById('cursor').value));
+
+    document.getElementById('theme').addEventListener('click', () => {
+
+        remote.dialog.showOpenDialog({
+
+            title: 'Choose a theme image',
+            filters: [{
+
+                name: 'JSON',
+                extensions: ['json']
+            }],
+            properties: ['openFile']
+        }, (file) => {
+
+            let theme = JSON.parse(fs.readFileSync(file[0]));
+
+            settings.set('theme', theme);
+            settings.set('options.themeName', path.basename(file[0], '.json'));
+
+            fillInputs();
+            fillPreview();
+            fillThemeName();
+        });
+    });
+
+    document.getElementById('removeTheme').addEventListener('click', () => {
+
+        settings.set('theme', ipcRenderer.sendSync('removeTheme'));
+        settings.set('options.themeName', 'Default');
+
+        fillInputs();
+        fillPreview();
+        fillThemeName();
+    });
+
+    document.getElementById('background').addEventListener('change', () => {
+
+        settings.set('theme.background', document.getElementById('background').value);
+
+        fillPreview();
+    });
+
+    document.getElementById('foreground').addEventListener('change', () => {
+
+        settings.set('theme.foreground', document.getElementById('foreground').value);
+
+        fillPreview();
+    });
+
+    document.getElementById('cursor').addEventListener('change', () => {
+
+        settings.set('theme.cursor', document.getElementById('cursor').value);
+
+        fillPreview();
+    });
 };
 
 class Shortcut {

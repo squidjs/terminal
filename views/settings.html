@@ -42,6 +42,12 @@
                         <input type="number" id="fontSize" value="">
                         <label for="fontFamily">Font family <p>Name of the terminal font.</p></label>
                         <input type="text" id="fontFamily" value="">
+                        <label for="cursorStyle">Cursor type <p>Change the cursor type.</p></label>
+                        <select id="cursorStyle">
+                            <option value="block" id="block">Block</option>
+                            <option value="underline" id="underline">Underline</option>
+                            <option value="bar" id="bar">Bar</option>
+                        </select>
                         <label for="backgroundImage">Background image <p>Option to add a background image in the terminal.</p></label>
                         <div class="img-container">
                             <img class="img" src="" alt="Background image" id="image">
@@ -88,12 +94,24 @@
                         <p>Edit your current theme options, to looks awesome for you.</p>
                     </div>
                     <div class="sub">
+                        <label for="theme">Import theme <p>Import a theme (themeName.json). Current theme is <span class="themeName" id="themeName"></span>.</p></label>
+                        <div>
+                            <button class="button" type="button" id="theme">Import theme</button>
+                            <button class="button" type="button" id="removeTheme">Back to default</button>
+                        </div>
                         <label for="background">Background color <p>Color used for the background of the terminal.</p></label>
                         <input class="jscolor" id="background" value="">
                         <label for="foreground">Foreground color <p>Color used for the text of the terminal.</p></label>
                         <input class="jscolor" id="foreground" value="">
                         <label for="cursor">Cursor color <p>Color used for the cursor of the terminal.</p></label>
                         <input class="jscolor" id="cursor" value="">
+                        <label for="preview">Preview<p>Preview of the theme apparence.</p></label>
+                        <div class="preview" id="preview">
+                            <div class="backgroundColor" id="backgroundColor">
+                                <p class="foregroundColor" id="foregroundColor">Hello world! <br>
+                                This is a preview of the current theme<span class="cursorColor" id="cursorColor">_</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

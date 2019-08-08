@@ -142,7 +142,7 @@ body {
     margin: 0 0 10px 0;
 }
 
-.sub input {
+.sub input, select {
 
     background: #232a2d;
     border: none;
@@ -158,9 +158,10 @@ body {
     transition: .3s ease;
 }
 
-.sub input:not([type='range']):focus {
+.sub input:not([type='range']):focus, select:focus {
 
     box-shadow: 0 0 2px #ffffff;
+    outline: none;
 }
 
 .sub input[type='range'] {
@@ -258,4 +259,30 @@ body {
 .shortcuts label {
 
     margin-bottom: 10px;
+}
+
+.themeName {
+
+    font-weight: bold;
+    color: #9B9B9B;
+}
+
+.preview {
+
+    box-shadow: 0 0 2px #ffffff;
+    max-width: 300px;
+    height: auto;
+}
+
+.backgroundColor {
+
+    padding: 10px;
+    height: calc(100% - 20px);
+}
+
+.foregroundColor {
+
+    font-family: 'Consolas';
+    font-size: 15px;
+    margin: 0;
 }

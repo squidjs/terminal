@@ -38,7 +38,6 @@ xterm.on('data', (data) => {
     ptyProcess.write(data);
 });
 
-xterm.clear();
 xterm.writeln('\u001b[39mWelcome to \u001b[95mSquid\u001b[39m!');
 xterm.writeln(' ');
 xterm.writeln(' \u001b[39mCurrent version: \u001b[1m0.1.1');
@@ -59,15 +58,9 @@ settings.watch('options.fontSize', (newValue, oldValue) => {
     xterm.fit();
 });
 
-settings.watch('options.backgroundImage', (newValue, oldValue) => {
-
-    updateImage(newValue);
-});
-
-settings.watch('options.backgroundImageOpacity', (newValue, oldValue) => {
-
-    updateImage(null, newValue);
-});
+settings.watch('options.cursorStyle', (newValue, oldValue) => xterm.setOption('cursorStyle', newValue));
+settings.watch('options.backgroundImage', (newValue, oldValue) => updateImage(newValue));
+settings.watch('options.backgroundImageOpacity', (newValue, oldValue) => updateImage(null, newValue));
 
 settings.watch('theme.background', (newValue, oldValue) => {
 

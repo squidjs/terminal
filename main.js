@@ -87,8 +87,12 @@ app.on('activate', () => {
 ipcMain.on('rebind', (event, data) => {
 
    globalShortcut.unregister(data.oldAccelerator);
-
    globalShortcut.register(data.newAccelerator, () => mainWindow.webContents.send('keypress', data.type));
+});
+
+ipcMain.on('removeTheme', (event) => {
+
+    event.returnValue = getDefaultSettings('theme');
 });
 
 function loadSettings(file) {
@@ -115,12 +119,11 @@ function getDefaultSettings(file) {
             backgroundImage: '',
             backgroundImageOpacity: '0.5',
             bash: 'C:\\Program Files\\Git\\\\bin\\bash.exe',
-            allowTransparency: true,
-
-            // TODO
             cursorStyle: 'block',
             cursorBlink: false,
-            experimentalCharAtlas: 'dynamic'
+            themeName: 'Default',
+            experimentalCharAtlas: 'dynamic',
+            allowTransparency: true
         };
 
     } else if(file == 'theme') {
