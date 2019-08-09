@@ -22,7 +22,7 @@ function getInstallerConfig () {
         noMsi: true,
         outputDirectory: path.join(outPath, 'windows-installer'),
         exe: 'squid.exe',
-        setupExe: 'SquidInstaller.exe',
-        setupIcon: path.join(rootPath, 'assets', 'icons', 'win', 'icon.ico')
+        setupExe: 'SquidInstaller.exe'
+        //setupIcon: path.join(rootPath, 'assets', 'icons', 'win', 'icon.ico')
     });
 }
