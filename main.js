@@ -32,10 +32,10 @@ function createWindow () {
         }
     });
 
-    mainWindow.webContents.openDevTools({
+    /*mainWindow.webContents.openDevTools({
 
         mode: 'detach'
-    });
+    });*/
 
     mainWindow.loadURL(url.format({
 
@@ -44,15 +44,8 @@ function createWindow () {
         slashes: true
       }));
 
-    mainWindow.on('ready-to-show', () => {
-
-        mainWindow.show();
-    });
-
-    mainWindow.on('closed', () => {
-
-        window = null
-    });
+    mainWindow.on('ready-to-show', () => mainWindow.show());
+    mainWindow.on('closed', () => window = null);
 }
 
 app.disableHardwareAcceleration();
