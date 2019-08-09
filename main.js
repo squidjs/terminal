@@ -32,10 +32,10 @@ function createWindow () {
         }
     });
 
-    /*mainWindow.webContents.openDevTools({
+    mainWindow.webContents.openDevTools({
 
         mode: 'detach'
-    });*/
+    });
 
     mainWindow.loadURL(url.format({
 

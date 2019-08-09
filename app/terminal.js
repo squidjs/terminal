@@ -60,6 +60,7 @@ settings.watch('options.fontSize', (newValue, oldValue) => {
 });
 
 settings.watch('options.cursorStyle', (newValue, oldValue) => xterm.setOption('cursorStyle', newValue));
+settings.watch('options.cursorBlink', (newValue, oldValue) => xterm.setOption('cursorBlink', newValue));
 settings.watch('options.backgroundImage', (newValue, oldValue) => updateImage(newValue));
 settings.watch('options.backgroundImageOpacity', (newValue, oldValue) => updateImage(null, newValue));
 

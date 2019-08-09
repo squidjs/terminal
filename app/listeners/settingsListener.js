@@ -74,6 +74,7 @@ function fill(categorie) {
         document.getElementById('fontSize').value = settings.get('options.fontSize');
         document.getElementById('fontFamily').value = settings.get('options.fontFamily');
         document.getElementById(settings.get('options.cursorStyle')).selected = 'selected';
+        document.getElementById('cursorBlink').checked = settings.get('options.cursorBlink');
 
         fillImage();
 
@@ -174,6 +175,7 @@ window.onload = () => {
     document.getElementById('fontFamily').addEventListener('change', () => settings.set('options.fontFamily', document.getElementById('fontFamily').value));
     let cursorStyle = document.getElementById('cursorStyle');
     document.getElementById('cursorStyle').addEventListener('change', () => settings.set('options.cursorStyle', (cursorStyle.options[cursorStyle.selectedIndex]).value));
+    document.getElementById('cursorBlink').addEventListener('click', () => settings.set('options.cursorBlink', document.getElementById('cursorBlink').checked));
 
     document.getElementById('backgroundImage').addEventListener('click', () => {
 
