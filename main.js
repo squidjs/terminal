@@ -101,15 +101,15 @@ ipcMain.on('removeTheme', (event) => {
 
 function loadSettings(file) {
 
-    if(fs.existsSync('./' + file + '.json'))
-        return JSON.parse(fs.readFileSync('./' + file + '.json'));
+    if(fs.existsSync(getHome() + '/' + file + '.json'))
+        return JSON.parse(fs.readFileSync(getHome() + '/' + file + '.json'));
     else
         return getDefaultSettings(file);
 }
 
 function saveSettings(file, data) {
 
-    fs.writeFileSync('./' + file + '.json', JSON.stringify(data));
+    fs.writeFileSync(getHome() + '/' + file + '.json', JSON.stringify(data));
 }
 
 function getDefaultSettings(file) {
@@ -149,4 +149,9 @@ function getDefaultSettings(file) {
             openSettings: 'Control+Enter'
         };
     }
+}
+
+function getHome() {
+
+    return app.getPath('userData');
 }
