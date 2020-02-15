@@ -5,9 +5,7 @@
   "description": "Web-based terminal",
   "main": "main.js",
   "scripts": {
-    "start": "electron . --ignore-gpu-blacklist",
-    "pack-win": "electron-packager . squid --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Squid --version-string.FileDescription=Squid --version-string.ProductName=\"Web-based terminal\"",
-    "installer-win": "node installers/windows/installer.js"
+    "start": "electron . --ignore-gpu-blacklist"
   },
   "author": "QuiiBz",
   "dependencies": {
@@ -18,10 +16,5 @@
     "node-pty": "^0.8.0",
     "windows-native-registry": "^1.0.14",
     "xterm": "^3.14.0"
-  },
-  "devDependencies": {
-    "electron-packager": "^14.0.4",
-    "electron-rebuild": "^1.8.5",
-    "electron-winstaller": "^4.0.0"
   }
 }

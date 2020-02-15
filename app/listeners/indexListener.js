@@ -5,31 +5,31 @@ const min = document.getElementById('min-btn');
 const max = document.getElementById('max-btn');
 const close = document.getElementById('close-btn');
 
-options.addEventListener('click', function(e) {
+options.addEventListener('click', (e) => {
 
     e.preventDefault();
 
     remote.getCurrentWindow().webContents.send('open');
 });
 
-min.addEventListener('click', function(e) {
+min.addEventListener('click', (e) => {
 
     e.preventDefault();
 
     remote.getCurrentWindow().minimize();
 });
 
-max.addEventListener('click', function(e) {
+max.addEventListener('click', (e) => {
 
     e.preventDefault();
 
     if(!remote.getCurrentWindow().isMaximized())
-        remote.getCurrentWindow().maximize();
-    else
         remote.getCurrentWindow().unmaximize();
+    else
+        remote.getCurrentWindow().maximize();
 });
 
-close.addEventListener('click', function(e) {
+close.addEventListener('click', (e) => {
 
     e.preventDefault();
 

@@ -2,18 +2,33 @@
 
 ----
 
-# THE SOURCE CODE IS BAD, NEED A LOT OF IMPROVEMENTS
-
 **Squid** is web-based terminal (HTML/CSS/JS) build with Electron.
 
 ## Features
-* Work with Git Bash, PowerShell and CMD
-* You can choose a background image (and change it opacity)
-* Fully configurable terminal (font family, font size, cursor type...)
-* Fully configurable colors (background, foreground, cursor)
-* Remember SSH connections to fast-connect
-* Create groups for SSH connections
-* Clickables links
-* Customisable shortcuts
-* Multipe tabs
-* Font ligatures
+* [ ] Terminal
+    * [ ] Tabs
+        * [ ] Remember tabs
+        * [x] Moveable tabs
+    * [ ] Clickable links
+    * [ ] Copy by selecting
+* [ ] Configuration
+    * [x] Font
+        * [x] Font size
+        * [x] Font family
+        * [x] Font ligature
+    * [x] Cursor
+        * [x] Cursor type
+        * [x] Cursor blink
+    * [x] Background
+        * [x] Background image
+        * [x] Background image opacity
+    * [x] Select bash
+    * [x] Shortcuts
+        * [x] Open tab
+        * [x] Close tab
+        * [x] Switch tab
+    * [ ] Themes
+        * [x] Background color
+        * [x] Foreground color
+        * [x] Cursor color
+        * [ ] Import/export theme  

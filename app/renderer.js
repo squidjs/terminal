@@ -25,8 +25,8 @@ let tabGroup = new TabGroup({
 
 tabGroup.addTab({
 
-    title: 'Welcome',
-    src: '../views/welcome.html',
+    title: 'Terminal',
+    src: '../views/terminal.html',
     webviewAttributes: {
         nodeIntegration: 'true'
     },
@@ -46,6 +46,9 @@ tabGroup.on('tab-added', (tab, tabGroup) => {
 });
 
 ipcRenderer.on('keypress', (event, message) => {
+
+    if(!document.hasFocus())
+        return;
 
     switch (message) {
 

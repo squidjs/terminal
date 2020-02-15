@@ -34,7 +34,7 @@ class Option {
     }
 }
 
-class Shortcut {
+/*class Shortcut {
 
     constructor(type) {
 
@@ -55,7 +55,7 @@ class Shortcut {
 
         settings.set('shortcuts.' + this.type, this.input.value);
     }
-}
+}*/
 
 let options = [];
 
@@ -88,7 +88,7 @@ function fill(categorie) {
 
     } else if(categorie == 'shortcuts') {
 
-        let shortcuts = settings.get('shortcuts');
+        /*let shortcuts = settings.get('shortcuts');
         let node = document.querySelector('#shortcuts .sub');
 
         let listeners = [];
@@ -114,7 +114,7 @@ function fill(categorie) {
 
                 listeners.push(new Shortcut(type));
             }
-        }
+        }*/
 
     } else if(categorie == 'apparence') {
 

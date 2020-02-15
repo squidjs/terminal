@@ -1,13 +1,9 @@
 const os = require('os');
 const pty = require('node-pty');
-
 const Terminal = require('xterm').Terminal;
-
 const fit = require('xterm/lib/addons/fit/fit');
 const webLinks = require('xterm/lib/addons/webLinks/webLinks');
-
 const settings = require('electron-settings');
-
 const path = require('path');
 
 Terminal.applyAddon(fit);
@@ -28,30 +24,12 @@ const ptyProcess = pty.spawn(os.platform() === 'win32' ? settings.get('options.b
     rows: xterm.rows,
 });
 
-xterm.on('resize', size => {
+xterm.on('resize', size => ptyProcess.resize(Math.max(size ? size.cols : xterm.cols, 1), Math.max(size ? size.rows : xterm.rows, 1)));
+xterm.on('data', (data) => ptyProcess.write(data));
 
-    ptyProcess.resize(Math.max(size ? size.cols : xterm.cols, 1), Math.max(size ? size.rows : xterm.rows, 1));
-});
+ptyProcess.on('data', data => xterm.write(data));
 
-xterm.on('data', (data) => {
-
-    ptyProcess.write(data);
-});
-
-xterm.writeln('\u001b[39mWelcome to \u001b[95mSquid\u001b[39m!');
-xterm.writeln(' ');
-xterm.writeln(' \u001b[39mCurrent version: \u001b[1m0.1.2');
-xterm.writeln(' \u001b[39mGit: \u001b[1mhttps://github.com/QuiiBz/squid');
-
-ptyProcess.on('data', function (data) {
-
-    xterm.write(data);
-});
-
-window.onresize = () => {
-
-    xterm.fit();
-};
+window.onresize = () => xterm.fit();
 
 settings.watch('options.fontSize', (newValue, oldValue) => {
 
@@ -104,10 +82,10 @@ updateImage();
 
 function updateImage(image = null, opacity = null) {
 
-    if(image == null)
+    if (image == null)
         image = settings.get('options.backgroundImage');
 
-    if(opacity == null)
+    if (opacity == null)
         opacity = settings.get('options.backgroundImageOpacity');
 
     let div = document.querySelector('.xterm-background');
