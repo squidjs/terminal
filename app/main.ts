@@ -3,7 +3,7 @@ const settings = require('electron-settings');
 const path = require('path');
 const url = require('url');
 
-const { loadSettings, saveSettings, getDefaultSettings } = require('./app/files/file');
+const { loadSettings, saveSettings, getDefaultSettings } = require('./files/file');
 
 let mainWindow;
 
@@ -30,7 +30,7 @@ function createWindow () {
 
     mainWindow.loadURL(url.format({
 
-        pathname: path.join(__dirname, './app/views/index.html'),
+        pathname: path.resolve('app/views/index.html'),
         protocol: 'file:',
         slashes: true
     }));
