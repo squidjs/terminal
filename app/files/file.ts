@@ -1,20 +1,20 @@
-const fs = require('fs');
-const { app } = require('electron');
+import * as fs from 'fs';
+import { app } from 'electron';
 
-const loadSettings = (file) => {
+export const loadSettings = (file) => {
 
     if(fs.existsSync(getHome() + '/' + file + '.json'))
-        return JSON.parse(fs.readFileSync(getHome() + '/' + file + '.json'));
+        return JSON.parse(fs.readFileSync(getHome() + '/' + file + '.json').toString());
     else
         return getDefaultSettings(file);
 };
 
-const saveSettings = (file, data) => {
+export const saveSettings = (file, data) => {
 
     fs.writeFileSync(getHome() + '/' + file + '.json', JSON.stringify(data));
 };
 
-const getDefaultSettings = (file) => {
+export const getDefaultSettings = (file) => {
 
     if(file === 'settings') {
 
@@ -24,7 +24,7 @@ const getDefaultSettings = (file) => {
             fontFamily: 'Consolas',
             backgroundImage: '',
             backgroundImageOpacity: '0.5',
-            bash: 'C:\\Program Files\\Git\\\\bin\\bash.exe',
+            bash: 'C:\\Program Files\\Git\\bin\\bash.exe',
             cursorStyle: 'block',
             cursorBlink: false,
             themeName: 'Default',
@@ -47,7 +47,3 @@ function getHome() {
 
     return app.getPath('userData');
 }
-
-module.exports.loadSettings = loadSettings;
-module.exports.saveSettings = saveSettings;
-module.exports.getDefaultSettings = getDefaultSettings;

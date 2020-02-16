@@ -3,7 +3,7 @@ const { remote } = require('electron');
 const options = document.getElementById('options-btn');
 const min = document.getElementById('min-btn');
 const max = document.getElementById('max-btn');
-const close = document.getElementById('close-btn');
+const closeBtn = document.getElementById('close-btn');
 
 options.addEventListener('click', (e) => {
 
@@ -29,7 +29,7 @@ max.addEventListener('click', (e) => {
         remote.getCurrentWindow().maximize();
 });
 
-close.addEventListener('click', (e) => {
+closeBtn.addEventListener('click', (e) => {
 
     e.preventDefault();
 

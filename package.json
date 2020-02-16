@@ -3,9 +3,10 @@
   "version": "0.1.2",
   "productName": "Squid",
   "description": "Web-based terminal",
-  "main": "main.js",
+  "main": "app/main.ts",
   "scripts": {
-    "start": "electron . --ignore-gpu-blacklist"
+    "tsc": "tsc -w",
+    "start": "electron ./dist/main.js"
   },
   "author": "QuiiBz",
   "dependencies": {
@@ -14,7 +15,10 @@
     "electron-settings": "^3.2.0",
     "electron-tabs": "^0.9.5",
     "node-pty": "^0.8.0",
+    "typescript": "^3.7.5",
     "windows-native-registry": "^1.0.14",
-    "xterm": "^3.14.0"
+    "xterm": "^3.14.5",
+    "xterm-addon-fit": "^0.3.0",
+    "xterm-addon-web-links": "^0.2.1"
   }
 }

@@ -1,13 +1,12 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+import { app, BrowserWindow, ipcMain } from 'electron';
+import * as path from 'path';
+import * as url from 'url';
+import { loadSettings, saveSettings, getDefaultSettings } from './files/file';
+
 const settings = require('electron-settings');
-const path = require('path');
-const url = require('url');
+let mainWindow: BrowserWindow;
 
-const { loadSettings, saveSettings, getDefaultSettings } = require('./files/file');
-
-let mainWindow;
-
-function createWindow () {
+function createWindow() {
 
     mainWindow = new BrowserWindow({
 
@@ -26,17 +25,18 @@ function createWindow () {
         }
     });
 
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
+    mainWindow.webContents.openDevTools({
+        mode: 'detach'
+    });
 
     mainWindow.loadURL(url.format({
-
         pathname: path.resolve('app/views/index.html'),
         protocol: 'file:',
         slashes: true
     }));
 
     mainWindow.on('ready-to-show', () => mainWindow.show());
-    mainWindow.on('closed', () => window = null);
+    mainWindow.on('closed', () => mainWindow = null);
 }
 
 app.disableHardwareAcceleration();

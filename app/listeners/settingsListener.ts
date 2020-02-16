@@ -1,10 +1,14 @@
-const settings = require('electron-settings');
-const { ipcRenderer, remote } = require('electron');
+import * as fs from 'fs';
+import path from 'path';
+import { ipcRenderer, remote } from 'electron';
 
-const fs = require('fs');
-const path = require('path');
+const settings = require('electron-settings');
 
 class Option {
+
+    name: string;
+    button: HTMLElement;
+    content: HTMLElement;
 
     constructor(name) {
 
@@ -71,10 +75,10 @@ function fill(categorie) {
 
     if(categorie == 'general') {
 
-        document.getElementById('fontSize').value = settings.get('options.fontSize');
-        document.getElementById('fontFamily').value = settings.get('options.fontFamily');
-        document.getElementById(settings.get('options.cursorStyle')).selected = 'selected';
-        document.getElementById('cursorBlink').checked = settings.get('options.cursorBlink');
+        (<HTMLInputElement>document.getElementById('fontSize')).value = settings.get('options.fontSize');
+        (<HTMLInputElement>document.getElementById('fontFamily')).value = settings.get('options.fontFamily');
+        (<HTMLOptionElement>document.getElementById(settings.get('options.cursorStyle'))).selected = true;
+        (<HTMLInputElement>document.getElementById('cursorBlink')).checked = settings.get('options.cursorBlink');
 
         fillImage();
 
@@ -84,7 +88,7 @@ function fill(categorie) {
 
     } else if(categorie == 'terminal') {
 
-        document.getElementById('bash').value = settings.get('options.bash');
+        (<HTMLInputElement>document.getElementById('bash')).value = settings.get('options.bash');
 
     } else if(categorie == 'shortcuts') {
 
@@ -126,7 +130,7 @@ function fill(categorie) {
 
 function fillImage() {
 
-    let img = document.getElementById('image');
+    let img = <HTMLImageElement>document.getElementById('image');
     let opacity = settings.get('options.backgroundImageOpacity');
     let deleteBtn = document.getElementById('deleteImage');
 
@@ -143,14 +147,14 @@ function fillImage() {
         deleteBtn.style.display = 'block';
     }
 
-    document.getElementById('backgroundImageOpacity').value = opacity;
+    (<HTMLInputElement>document.getElementById('backgroundImageOpacity')).value = opacity;
 }
 
 function fillInputs() {
 
-    document.getElementById('background').value = settings.get('theme.background');
-    document.getElementById('foreground').value = settings.get('theme.foreground');
-    document.getElementById('cursor').value = settings.get('theme.cursor');
+    (<HTMLInputElement>document.getElementById('background')).value = settings.get('theme.background');
+    (<HTMLInputElement>document.getElementById('foreground')).value = settings.get('theme.foreground');
+    (<HTMLInputElement>document.getElementById('cursor')).value = settings.get('theme.cursor');
 
     document.getElementById('background').style.backgroundColor = settings.get('theme.background');
     document.getElementById('foreground').style.backgroundColor = settings.get('theme.foreground');
@@ -171,11 +175,11 @@ function fillThemeName() {
 
 window.onload = () => {
 
-    document.getElementById('fontSize').addEventListener('change', () => settings.set('options.fontSize', document.getElementById('fontSize').value));
-    document.getElementById('fontFamily').addEventListener('change', () => settings.set('options.fontFamily', document.getElementById('fontFamily').value));
-    let cursorStyle = document.getElementById('cursorStyle');
+    document.getElementById('fontSize').addEventListener('change', () => settings.set('options.fontSize', (<HTMLInputElement>document.getElementById('fontSize')).value));
+    document.getElementById('fontFamily').addEventListener('change', () => settings.set('options.fontFamily', (<HTMLInputElement>document.getElementById('fontFamily')).value));
+    let cursorStyle = <HTMLSelectElement>document.getElementById('cursorStyle');
     document.getElementById('cursorStyle').addEventListener('change', () => settings.set('options.cursorStyle', (cursorStyle.options[cursorStyle.selectedIndex]).value));
-    document.getElementById('cursorBlink').addEventListener('click', () => settings.set('options.cursorBlink', document.getElementById('cursorBlink').checked));
+    document.getElementById('cursorBlink').addEventListener('click', () => settings.set('options.cursorBlink', (<HTMLInputElement>document.getElementById('cursorBlink')).checked));
 
     document.getElementById('backgroundImage').addEventListener('click', () => {
 
@@ -205,12 +209,12 @@ window.onload = () => {
 
     document.getElementById('backgroundImageOpacity').addEventListener('change', () => {
 
-        settings.set('options.backgroundImageOpacity', document.getElementById('backgroundImageOpacity').value);
+        settings.set('options.backgroundImageOpacity', (<HTMLInputElement>document.getElementById('backgroundImageOpacity')).value);
 
         fillImage();
     });
 
-    document.getElementById('bash').addEventListener('change', () => settings.set('options.bash', document.getElementById('bash').value));
+    document.getElementById('bash').addEventListener('change', () => settings.set('options.bash', (<HTMLInputElement>document.getElementById('bash')).value));
     document.getElementById('devTools').addEventListener('click', () => remote.getCurrentWindow().webContents.openDevTools());
 
     document.getElementById('theme').addEventListener('click', () => {
@@ -226,7 +230,7 @@ window.onload = () => {
             properties: ['openFile']
         }, (file) => {
 
-            let theme = JSON.parse(fs.readFileSync(file[0]));
+            let theme = JSON.parse(fs.readFileSync(file[0]).toString());
 
             settings.set('theme', theme);
             settings.set('options.themeName', path.basename(file[0], '.json'));
@@ -249,21 +253,21 @@ window.onload = () => {
 
     document.getElementById('background').addEventListener('change', () => {
 
-        settings.set('theme.background', document.getElementById('background').value);
+        settings.set('theme.background', (<HTMLInputElement>document.getElementById('background')).value);
 
         fillPreview();
     });
 
     document.getElementById('foreground').addEventListener('change', () => {
 
-        settings.set('theme.foreground', document.getElementById('foreground').value);
+        settings.set('theme.foreground', (<HTMLInputElement>document.getElementById('foreground')).value);
 
         fillPreview();
     });
 
     document.getElementById('cursor').addEventListener('change', () => {
 
-        settings.set('theme.cursor', document.getElementById('cursor').value);
+        settings.set('theme.cursor', (<HTMLInputElement>document.getElementById('cursor')).value);
 
         fillPreview();
     });

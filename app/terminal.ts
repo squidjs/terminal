@@ -1,21 +1,21 @@
-const os = require('os');
-const pty = require('node-pty');
-const Terminal = require('xterm').Terminal;
+import * as os from 'os';
+import * as pty from 'node-pty';
+import { Terminal } from 'xterm';
+import path from 'path';
+
+const settings = require('electron-settings');
 const fit = require('xterm/lib/addons/fit/fit');
 const webLinks = require('xterm/lib/addons/webLinks/webLinks');
-const settings = require('electron-settings');
-const path = require('path');
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(webLinks);
 
 const xterm = new Terminal(settings.get('options'));
-
 xterm.setOption('theme', settings.get('theme'));
 
 xterm.open(document.getElementById('xterm'));
-xterm.webLinksInit();
-xterm.fit();
+(xterm as any).webLinksInit();
+(xterm as any).fit();
 
 const ptyProcess = pty.spawn(os.platform() === 'win32' ? settings.get('options.bash') : process.env.SHELL || '/bin/bash', [], {
 
@@ -29,12 +29,12 @@ xterm.on('data', (data) => ptyProcess.write(data));
 
 ptyProcess.on('data', data => xterm.write(data));
 
-window.onresize = () => xterm.fit();
+window.onresize = () => (xterm as any).fit();
 
 settings.watch('options.fontSize', (newValue, oldValue) => {
 
     xterm.setOption('fontSize', newValue);
-    xterm.fit();
+    (xterm as any).fit();
 });
 
 settings.watch('options.cursorStyle', (newValue, oldValue) => xterm.setOption('cursorStyle', newValue));
@@ -88,7 +88,7 @@ function updateImage(image = null, opacity = null) {
     if (opacity == null)
         opacity = settings.get('options.backgroundImageOpacity');
 
-    let div = document.querySelector('.xterm-background');
+    let div: HTMLElement = document.querySelector('.xterm-background');
     let imagePath = path.relative(path.resolve(__dirname), path.resolve(image));
     imagePath = imagePath.replace(/\\/g, '/');
 

@@ -1,7 +1,6 @@
-const TabGroup = require('electron-tabs');
-const dragula = require('dragula');
-
-const { ipcRenderer, remote } = require('electron');
+import * as TabGroup from 'electron-tabs';
+import * as dragula from 'dragula';
+import { ipcRenderer, remote } from 'electron';
 
 let tabGroup = new TabGroup({
 
@@ -54,7 +53,7 @@ ipcRenderer.on('keypress', (event, message) => {
 
         case 'closeTab':
 
-            if(tabGroup.getActiveTab().getTitle() == "Welcome" && tabGroup.getNextTab() == null && tabGroup.getPreviousTab() == null)
+            if(tabGroup.getActiveTab().getTitle() == "Welcome" && tabGroup.getTabByRelPosition(1) == null && tabGroup.getTabByRelPosition(-1) == null)
                 remote.getCurrentWindow().close();
             else
                 tabGroup.getActiveTab().close(true);
@@ -76,7 +75,7 @@ ipcRenderer.on('keypress', (event, message) => {
 
         case 'switchTab':
 
-            let tab = tabGroup.getNextTab();
+            let tab = tabGroup.getTabByRelPosition(1);
 
             if(tab != null)
                 tab.activate();
