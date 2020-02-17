@@ -1,23 +1,33 @@
 import * as os from 'os';
 import * as pty from 'node-pty';
 import { Terminal } from 'xterm';
-import path from 'path';
+import * as path from 'path';
+import Settings from './settings/Settings';
 
-const settings = require('electron-settings');
 const fit = require('xterm/lib/addons/fit/fit');
 const webLinks = require('xterm/lib/addons/webLinks/webLinks');
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(webLinks);
 
-const xterm = new Terminal(settings.get('options'));
-xterm.setOption('theme', settings.get('theme'));
+const settings = new Settings().getSettings();
+
+const xterm = new Terminal({
+
+    cursorBlink: settings.cursor.blink,
+    cursorStyle: settings.cursor.style,
+    experimentalCharAtlas: settings.experimentalCharAtlas,
+    fontSize: settings.font.size,
+    fontFamily: settings.font.family
+});
+
+xterm.setOption('theme', settings.theme);
 
 xterm.open(document.getElementById('xterm'));
 (xterm as any).webLinksInit();
 (xterm as any).fit();
 
-const ptyProcess = pty.spawn(os.platform() === 'win32' ? settings.get('options.bash') : process.env.SHELL || '/bin/bash', [], {
+const ptyProcess = pty.spawn(os.platform() === 'win32' ? settings.bash : process.env.SHELL || '/bin/bash', [], {
 
     name: 'xterm-256color',
     cols: xterm.cols,
@@ -31,7 +41,7 @@ ptyProcess.on('data', data => xterm.write(data));
 
 window.onresize = () => (xterm as any).fit();
 
-settings.watch('options.fontSize', (newValue, oldValue) => {
+/*settings.watch('options.fontSize', (newValue, oldValue) => {
 
     xterm.setOption('fontSize', newValue);
     (xterm as any).fit();
@@ -70,7 +80,7 @@ settings.watch('theme.cursor', (newValue, oldValue) => {
         foreground: settings.get('theme.foreground'),
         cursor: newValue
     });
-});
+});*/
 
 let div = document.createElement('div');
 div.className = 'xterm-background';
@@ -82,11 +92,11 @@ updateImage();
 
 function updateImage(image = null, opacity = null) {
 
-    if (image == null)
-        image = settings.get('options.backgroundImage');
+    if(image == null)
+        image = settings.backgroundImage.path;
 
-    if (opacity == null)
-        opacity = settings.get('options.backgroundImageOpacity');
+    if(opacity == null)
+        opacity = settings.backgroundImage.opacity;
 
     let div: HTMLElement = document.querySelector('.xterm-background');
     let imagePath = path.relative(path.resolve(__dirname), path.resolve(image));

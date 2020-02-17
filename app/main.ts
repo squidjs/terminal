@@ -1,12 +1,14 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import { loadSettings, saveSettings, getDefaultSettings } from './files/file';
+import Settings from './settings/Settings';
 
-const settings = require('electron-settings');
 let mainWindow: BrowserWindow;
+let settings: Settings;
 
 function createWindow() {
+
+    settings = new Settings();
 
     mainWindow = new BrowserWindow({
 
@@ -41,18 +43,11 @@ function createWindow() {
 
 app.disableHardwareAcceleration();
 
-app.on('ready', () => {
-
-    createWindow();
-
-    settings.set('options', loadSettings('settings'));
-    settings.set('theme', loadSettings('theme'));
-});
+app.on('ready', () => createWindow());
 
 app.on('window-all-closed', () => {
 
-    saveSettings('settings', settings.get('options'));
-    saveSettings('theme', settings.get('theme'));
+    settings.save();
 
     if(process.platform !== 'darwin')
         app.quit();
@@ -62,9 +57,4 @@ app.on('activate', () => {
 
     if(mainWindow === null)
         createWindow();
-});
-
-ipcMain.on('removeTheme', (event) => {
-
-    event.returnValue = getDefaultSettings('theme');
 });
