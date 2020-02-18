@@ -16,7 +16,7 @@
     "electron-tabs": "^0.9.5",
     "node-pty": "^0.8.0",
     "typescript": "^3.7.5",
-    "windows-native-registry": "^1.0.14",
+    "windows-native-registry": "^1.0.17",
     "xterm": "^3.14.5",
     "xterm-addon-fit": "^0.3.0",
     "xterm-addon-web-links": "^0.2.1"
