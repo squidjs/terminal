@@ -10,24 +10,26 @@ const webLinks = require('xterm/lib/addons/webLinks/webLinks');
 Terminal.applyAddon(fit);
 Terminal.applyAddon(webLinks);
 
-const settings = new Settings().getSettings();
+const settings = new Settings();
 
 const xterm = new Terminal({
 
-    cursorBlink: settings.cursor.blink,
-    cursorStyle: settings.cursor.style,
-    experimentalCharAtlas: settings.experimentalCharAtlas,
-    fontSize: settings.font.size,
-    fontFamily: settings.font.family
+    cursorBlink: <boolean>settings.get('cursor.blink'),
+    // @ts-ignore
+    cursorStyle: settings.get('cursor.style'),
+    // @ts-ignore
+    experimentalCharAtlas: settings.get('experimentalCharAtlas'),
+    fontSize: <number>settings.get('font.size'),
+    fontFamily: <string>settings.get('font.family')
 });
 
-xterm.setOption('theme', settings.theme);
+xterm.setOption('theme', settings.get('theme'));
 
 xterm.open(document.getElementById('xterm'));
 (xterm as any).webLinksInit();
 (xterm as any).fit();
 
-const ptyProcess = pty.spawn(os.platform() === 'win32' ? settings.bash : process.env.SHELL || '/bin/bash', [], {
+const ptyProcess = pty.spawn(os.platform() === 'win32' ? <string>settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
 
     name: 'xterm-256color',
     cols: xterm.cols,
@@ -93,10 +95,10 @@ updateImage();
 function updateImage(image = null, opacity = null) {
 
     if(image == null)
-        image = settings.backgroundImage.path;
+        image = settings.get('backgroundImage.path');
 
     if(opacity == null)
-        opacity = settings.backgroundImage.opacity;
+        opacity = settings.get('backgroundImage.opacity');
 
     let div: HTMLElement = document.querySelector('.xterm-background');
     let imagePath = path.relative(path.resolve(__dirname), path.resolve(image));

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { userDataPath } from './Utils';
+import defaultConfig from '../config/defaultConfig';
 
 export default class Settings {
 
@@ -13,6 +14,18 @@ export default class Settings {
         this.settings = this.load();
     }
 
+    get(key: string): string | boolean | number {
+
+        return this.settings[key];
+    }
+
+    set(key: string, value: object) {
+
+        this.settings[key] = value;
+
+        save(this.path, this.settings);
+    }
+
     load(): ISettings {
 
         try {
@@ -21,41 +34,14 @@ export default class Settings {
 
         } catch (error) {
 
-            return {
-                theme: {
-                    name: 'default',
-                    background: '#0F0F0F',
-                    foreground: '#348A37',
-                    cursor: '#348A37'
-                },
-                cursor: {
-                    style: 'block',
-                    blink: false
-                },
-                font: {
-                    size: 13,
-                    family: 'Consolas'
-                },
-                backgroundImage: {
-                    path: '',
-                    opacity: 1.0
-                },
-                bash: '',
-                currentTheme: 'default',
-                experimentalCharAtlas: 'dynamic'
-            }
+            return <ISettings>defaultConfig;
         }
     }
+}
 
-    save() {
+function save(path: string, settings: ISettings) {
 
-        fs.writeFileSync(this.path, JSON.stringify(this.settings));
-    }
-
-    getSettings(): ISettings {
-
-        return this.settings;
-    }
+    fs.writeFileSync(path, JSON.stringify(settings));
 }
 
 export interface ISettings {

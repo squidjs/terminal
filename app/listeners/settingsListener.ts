@@ -1,43 +1,9 @@
 import * as fs from 'fs';
 import path from 'path';
 import { ipcRenderer, remote } from 'electron';
-import Settings, { ISettings } from '../settings/Settings';
+import Settings from '../settings/Settings';
 
-const settings: ISettings = new Settings().getSettings();
-
-class Option {
-
-    name: string;
-    button: HTMLElement;
-    content: HTMLElement;
-
-    constructor(name) {
-
-        this.name = name;
-        this.button = document.getElementById(this.name + '-btn');
-        this.content = document.getElementById(this.name);
-
-        this.button.addEventListener('click', (event) => this.toggle(event));
-    }
-
-    toggle(event) {
-
-        event.preventDefault();
-
-        for(let i in options) {
-
-            let current = options[i];
-
-            current.button.classList.remove('selected');
-            current.content.classList.remove('show');
-        }
-
-        this.button.classList.add('selected');
-        this.content.classList.add('show');
-
-        fill(this.name);
-    }
-}
+const settings = new Settings();
 
 /*class Shortcut {
 
@@ -62,87 +28,133 @@ class Option {
     }
 }*/
 
-let options = [];
+class Option {
 
-options.push(new Option('general'));
-options.push(new Option('ssh'));
-options.push(new Option('terminal'));
-options.push(new Option('shortcuts'));
-options.push(new Option('apparence'));
+    private readonly option: IOptions;
+    private button: HTMLElement;
+    private content: HTMLElement;
 
-fill('general');
+    constructor(option: IOptions) {
 
-function fill(categorie) {
+        this.option = option;
+        this.button = document.getElementById(this.option + '-btn');
+        this.content = document.getElementById(this.option);
 
-    if(categorie == 'general') {
+        this.button.addEventListener('click', (event) => this.toggle(event));
+    }
 
-        (<HTMLInputElement>document.getElementById('fontSize')).value = String(settings.font.size);
-        (<HTMLInputElement>document.getElementById('fontFamily')).value = settings.font.family;
-        (<HTMLOptionElement>document.getElementById(settings.cursor.style)).selected = true;
-        (<HTMLInputElement>document.getElementById('cursorBlink')).checked = settings.cursor.blink;
+    toggle(event) {
 
-        fillImage();
+        event.preventDefault();
 
-    } else if(categorie == 'ssh') {
+        for(let i in options) {
 
+            let current = options[i];
 
+            current.button.classList.remove('selected');
+            current.content.classList.remove('show');
+        }
 
-    } else if(categorie == 'terminal') {
+        this.button.classList.add('selected');
+        this.content.classList.add('show');
 
-        (<HTMLInputElement>document.getElementById('bash')).value = settings.bash;
+        fill(this.option);
+    }
+}
 
-    } else if(categorie == 'shortcuts') {
+enum IOptions {
 
-        /*let shortcuts = settings.get('shortcuts');
-        let node = document.querySelector('#shortcuts .sub');
+    GENERAL = 'General',
+    SSH = 'SSH',
+    TERMINAL = 'Terminal',
+    SHORTCUTS = 'Shortcuts',
+    APPARENCE = 'Apparence',
+}
 
-        let listeners = [];
+const options = [
+    new Option(IOptions.GENERAL),
+    new Option(IOptions.SSH),
+    new Option(IOptions.TERMINAL),
+    new Option(IOptions.SHORTCUTS),
+    new Option(IOptions.APPARENCE),
+];
 
-        for(let [type, accelerator] of Object.entries(shortcuts)) {
+function fill(option: IOptions) {
 
-            if(document.querySelector('.' + type) == null) {
+    switch (option) {
 
-                let div = document.createElement('div');
-                div.className = 'shortcuts';
-                node.appendChild(div);
+        case IOptions.GENERAL:
 
-                let label = document.createElement('label');
-                label.for = type;
-                label.innerHTML = type;
+            (<HTMLInputElement>document.getElementById('fontSize')).value = <string>settings.get('font.size');
+            (<HTMLInputElement>document.getElementById('fontFamily')).value = <string>settings.get('font.family');
+            (<HTMLOptionElement>document.getElementById(<string>settings.get('cursor.style'))).selected = true;
+            (<HTMLInputElement>document.getElementById('cursorBlink')).checked = <boolean>settings.get('cursor.blink');
 
-                let shortcut = document.createElement('input');
-                shortcut.className = 'shortcut ' + type;
-                shortcut.value = accelerator;
+            fillImage();
+            break;
 
-                div.appendChild(label);
-                div.appendChild(shortcut);
+        case IOptions.SSH:
+            break;
 
-                listeners.push(new Shortcut(type));
-            }
-        }*/
+        case IOptions.TERMINAL:
 
-    } else if(categorie == 'apparence') {
+            (<HTMLInputElement>document.getElementById('bash')).value = <string>settings.get('bash');
+            break;
 
-        fillThemeName();
-        fillInputs();
-        fillPreview();
+        case IOptions.SHORTCUTS:
+
+            /*let shortcuts = settings.get('shortcuts');
+            let node = document.querySelector('#shortcuts .sub');
+
+            let listeners = [];
+
+            for(let [type, accelerator] of Object.entries(shortcuts)) {
+
+                if(document.querySelector('.' + type) == null) {
+
+                    let div = document.createElement('div');
+                    div.className = 'shortcuts';
+                    node.appendChild(div);
+
+                    let label = document.createElement('label');
+                    label.for = type;
+                    label.innerHTML = type;
+
+                    let shortcut = document.createElement('input');
+                    shortcut.className = 'shortcut ' + type;
+                    shortcut.value = accelerator;
+
+                    div.appendChild(label);
+                    div.appendChild(shortcut);
+
+                    listeners.push(new Shortcut(type));
+                }
+            }*/
+            break;
+
+        case IOptions.APPARENCE:
+
+            fillThemeName();
+            fillInputs();
+            fillPreview();
+            break;
     }
 }
 
 function fillImage() {
 
     let img = <HTMLImageElement>document.getElementById('image');
-    let opacity = settings.backgroundImage.opacity;
+    let opacity = settings.get('backgroundImage.opacity');
     let deleteBtn = document.getElementById('deleteImage');
 
-    if(!fs.existsSync(settings.backgroundImage.path)) {
+    if(!fs.existsSync(<string>settings.get('backgroundImage.path'))) {
 
         img.style.display = 'none';
         deleteBtn.style.display = 'none';
 
     } else {
 
-        img.src = settings.backgroundImage.path;
+        img.src = <string>settings.get('backgroundImage.opacity');
         img.style.opacity = String(opacity);
         img.style.display = 'block';
         deleteBtn.style.display = 'block';
@@ -153,26 +165,28 @@ function fillImage() {
 
 function fillInputs() {
 
-    (<HTMLInputElement>document.getElementById('background')).value = settings.theme.background;
-    (<HTMLInputElement>document.getElementById('foreground')).value = settings.theme.foreground;
-    (<HTMLInputElement>document.getElementById('cursor')).value = settings.theme.cursor;
+    (<HTMLInputElement>document.getElementById('background')).value = <string>settings.get('theme.background');
+    (<HTMLInputElement>document.getElementById('foreground')).value = <string>settings.get('theme.foreground');
+    (<HTMLInputElement>document.getElementById('cursor')).value = <string>settings.get('theme.cursor');
 
-    document.getElementById('background').style.backgroundColor = settings.theme.background;
-    document.getElementById('foreground').style.backgroundColor = settings.theme.foreground;
-    document.getElementById('cursor').style.backgroundColor = settings.theme.cursor;
+    document.getElementById('background').style.backgroundColor = <string>settings.get('theme.background');
+    document.getElementById('foreground').style.backgroundColor = <string>settings.get('theme.foreground');
+    document.getElementById('cursor').style.backgroundColor = <string>settings.get('theme.cursor');
 }
 
 function fillPreview() {
 
-    document.getElementById('backgroundColor').style.backgroundColor = settings.theme.background;
-    document.getElementById('foregroundColor').style.color = settings.theme.foreground;
-    document.getElementById('cursorColor').style.color = settings.theme.cursor;
+    document.getElementById('backgroundColor').style.backgroundColor = <string>settings.get('theme.background');
+    document.getElementById('foregroundColor').style.color = <string>settings.get('theme.foreground');
+    document.getElementById('cursorColor').style.color = <string>settings.get('theme.cursor');
 }
 
 function fillThemeName() {
 
-    document.getElementById('themeName').innerHTML = settings.theme.name;
+    document.getElementById('themeName').innerHTML = <string>settings.get('theme.name');
 }
+
+fill(IOptions.GENERAL);
 
 window.onload = () => {
 
