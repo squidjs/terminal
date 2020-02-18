@@ -1,5 +1,8 @@
 ![](https://i.imgur.com/Rfsn3tg.png)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/QuiiBz/squid/badge.svg?targetFile=package.json)](https://snyk.io/test/github/QuiiBz/squid?targetFile=package.json)
+[![Quality score](https://www.code-inspector.com/project/4175/score/svg)](https://www.code-inspector.com/project/4175/score/svg)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/QuiiBz/squid/issues)
 ----
 
 **Squid** is web-based terminal (HTML/CSS/JS) build with Electron.
