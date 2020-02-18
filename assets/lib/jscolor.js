@@ -150,7 +150,7 @@ if (!window.jscolor) { window.jscolor = (function () {
         },
 
 
-        attachDOMReadyEvent : function (func) {
+        attachDOMReadyEvent : function fixCalle(func) {
             var fired = false;
             var fireOnce = function () {
                 if (!fired) {
@@ -174,7 +174,7 @@ if (!window.jscolor) { window.jscolor = (function () {
                 // IE
                 document.attachEvent('onreadystatechange', function () {
                     if (document.readyState === 'complete') {
-                        document.detachEvent('onreadystatechange', arguments.callee);
+                        document.detachEvent('onreadystatechange', fixCalle(func));
                         fireOnce();
                     }
                 })
