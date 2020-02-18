@@ -58,7 +58,7 @@ export default class Settings {
     }
 }
 
-interface ISettings {
+export interface ISettings {
 
     theme: ITheme;
     cursor: ICursor;

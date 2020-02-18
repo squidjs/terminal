@@ -1,8 +1,9 @@
 import * as fs from 'fs';
 import path from 'path';
 import { ipcRenderer, remote } from 'electron';
+import Settings, { ISettings } from '../settings/Settings';
 
-const settings = require('electron-settings');
+const settings: ISettings = new Settings().getSettings();
 
 class Option {
 
@@ -75,10 +76,10 @@ function fill(categorie) {
 
     if(categorie == 'general') {
 
-        (<HTMLInputElement>document.getElementById('fontSize')).value = settings.get('options.fontSize');
-        (<HTMLInputElement>document.getElementById('fontFamily')).value = settings.get('options.fontFamily');
-        (<HTMLOptionElement>document.getElementById(settings.get('options.cursorStyle'))).selected = true;
-        (<HTMLInputElement>document.getElementById('cursorBlink')).checked = settings.get('options.cursorBlink');
+        (<HTMLInputElement>document.getElementById('fontSize')).value = String(settings.font.size);
+        (<HTMLInputElement>document.getElementById('fontFamily')).value = settings.font.family;
+        (<HTMLOptionElement>document.getElementById(settings.cursor.style)).selected = true;
+        (<HTMLInputElement>document.getElementById('cursorBlink')).checked = settings.cursor.blink;
 
         fillImage();
 
@@ -88,7 +89,7 @@ function fill(categorie) {
 
     } else if(categorie == 'terminal') {
 
-        (<HTMLInputElement>document.getElementById('bash')).value = settings.get('options.bash');
+        (<HTMLInputElement>document.getElementById('bash')).value = settings.bash;
 
     } else if(categorie == 'shortcuts') {
 
@@ -131,51 +132,51 @@ function fill(categorie) {
 function fillImage() {
 
     let img = <HTMLImageElement>document.getElementById('image');
-    let opacity = settings.get('options.backgroundImageOpacity');
+    let opacity = settings.backgroundImage.opacity;
     let deleteBtn = document.getElementById('deleteImage');
 
-    if(!fs.existsSync(settings.get('options.backgroundImage'))) {
+    if(!fs.existsSync(settings.backgroundImage.path)) {
 
         img.style.display = 'none';
         deleteBtn.style.display = 'none';
 
     } else {
 
-        img.src = settings.get('options.backgroundImage');
-        img.style.opacity = opacity;
+        img.src = settings.backgroundImage.path;
+        img.style.opacity = String(opacity);
         img.style.display = 'block';
         deleteBtn.style.display = 'block';
     }
 
-    (<HTMLInputElement>document.getElementById('backgroundImageOpacity')).value = opacity;
+    (<HTMLInputElement>document.getElementById('backgroundImageOpacity')).value = String(opacity);
 }
 
 function fillInputs() {
 
-    (<HTMLInputElement>document.getElementById('background')).value = settings.get('theme.background');
-    (<HTMLInputElement>document.getElementById('foreground')).value = settings.get('theme.foreground');
-    (<HTMLInputElement>document.getElementById('cursor')).value = settings.get('theme.cursor');
+    (<HTMLInputElement>document.getElementById('background')).value = settings.theme.background;
+    (<HTMLInputElement>document.getElementById('foreground')).value = settings.theme.foreground;
+    (<HTMLInputElement>document.getElementById('cursor')).value = settings.theme.cursor;
 
-    document.getElementById('background').style.backgroundColor = settings.get('theme.background');
-    document.getElementById('foreground').style.backgroundColor = settings.get('theme.foreground');
-    document.getElementById('cursor').style.backgroundColor = settings.get('theme.cursor');
+    document.getElementById('background').style.backgroundColor = settings.theme.background;
+    document.getElementById('foreground').style.backgroundColor = settings.theme.foreground;
+    document.getElementById('cursor').style.backgroundColor = settings.theme.cursor;
 }
 
 function fillPreview() {
 
-    document.getElementById('backgroundColor').style.backgroundColor = settings.get('theme.background');
-    document.getElementById('foregroundColor').style.color = settings.get('theme.foreground');
-    document.getElementById('cursorColor').style.color = settings.get('theme.cursor');
+    document.getElementById('backgroundColor').style.backgroundColor = settings.theme.background;
+    document.getElementById('foregroundColor').style.color = settings.theme.foreground;
+    document.getElementById('cursorColor').style.color = settings.theme.cursor;
 }
 
 function fillThemeName() {
 
-    document.getElementById('themeName').innerHTML = settings.get('options.themeName');
+    document.getElementById('themeName').innerHTML = settings.theme.name;
 }
 
 window.onload = () => {
 
-    document.getElementById('fontSize').addEventListener('change', () => settings.set('options.fontSize', (<HTMLInputElement>document.getElementById('fontSize')).value));
+    /*document.getElementById('fontSize').addEventListener('change', () => settings.set('options.fontSize', (<HTMLInputElement>document.getElementById('fontSize')).value));
     document.getElementById('fontFamily').addEventListener('change', () => settings.set('options.fontFamily', (<HTMLInputElement>document.getElementById('fontFamily')).value));
     let cursorStyle = <HTMLSelectElement>document.getElementById('cursorStyle');
     document.getElementById('cursorStyle').addEventListener('change', () => settings.set('options.cursorStyle', (cursorStyle.options[cursorStyle.selectedIndex]).value));
@@ -270,5 +271,5 @@ window.onload = () => {
         settings.set('theme.cursor', (<HTMLInputElement>document.getElementById('cursor')).value);
 
         fillPreview();
-    });
+    });*/
 };
