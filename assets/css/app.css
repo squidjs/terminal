@@ -5,6 +5,8 @@ body {
 
     overflow-x: hidden;
     overflow-y: hidden;
+
+    background-color: #0F0F0F;
 }
 
 *:focus {
@@ -31,7 +33,7 @@ webview.visible {
     width: 100vw;
     height: 30px;
 
-    background-color: rgba(35, 42, 45, 1);
+    background-color: #0F0F0F;
 
     display: flex;
     flex-direction: row;
@@ -90,7 +92,6 @@ webview.visible {
 .etabs-tab.active {
 
     color: #ffffff;
-    background-color: #191919;
 }
 
 .etabs-tab-title {
@@ -162,7 +163,7 @@ webview.visible {
     width: 50px;
     height: 30px;
 
-    color: #ffffff;
+    fill: #646464;
 
     transition: .3s ease;
 
@@ -173,7 +174,7 @@ webview.visible {
 
     cursor: pointer;
 
-    background-color: #191919;
+    fill: #ffffff;
 }
 
 .nav .button.red:hover {

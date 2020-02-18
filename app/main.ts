@@ -20,7 +20,7 @@ function createWindow() {
         title: 'Squid',
         icon: __dirname + '/assets/icons/png/icon.png',
         show: false,
-        transparent: true,
+        backgroundColor: '#0F0F0F',
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true
