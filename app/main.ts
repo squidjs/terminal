@@ -4,11 +4,8 @@ import * as url from 'url';
 import Settings from './settings/Settings';
 
 let mainWindow: BrowserWindow;
-let settings: Settings;
 
 function createWindow() {
-
-    settings = new Settings();
 
     mainWindow = new BrowserWindow({
 
@@ -20,7 +17,7 @@ function createWindow() {
         title: 'Squid',
         icon: __dirname + '/assets/icons/png/icon.png',
         show: false,
-        transparent: true,
+        backgroundColor: '#0F0F0F',
         webPreferences: {
             nodeIntegration: true,
             webviewTag: true
@@ -46,8 +43,6 @@ app.disableHardwareAcceleration();
 app.on('ready', () => createWindow());
 
 app.on('window-all-closed', () => {
-
-    settings.save();
 
     if(process.platform !== 'darwin')
         app.quit();
