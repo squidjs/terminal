@@ -1,13 +1,13 @@
 export default {
     theme: {
         name: 'default',
-        background: '#0F0F0F',
-        foreground: '#348A37',
-        cursor: '#348A37'
+        background: '#112134',
+        foreground: '#3fac42',
+        cursor: '#3fac42'
     },
     cursor: {
         style: 'block',
-        blink: false
+        blink: true
     },
     font: {
         size: 13,
