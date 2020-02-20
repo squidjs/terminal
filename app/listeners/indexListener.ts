@@ -23,8 +23,8 @@ max.addEventListener('click', (e) => {
 
     e.preventDefault();
 
-    if(!remote.getCurrentWindow().isMaximized())
-        remote.getCurrentWindow().unmaximize();
+    if(remote.getCurrentWindow().isMaximized())
+        remote.getCurrentWindow().restore();
     else
         remote.getCurrentWindow().maximize();
 });
