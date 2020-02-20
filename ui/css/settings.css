@@ -1,7 +1,7 @@
 @font-face {
 
     font-family: 'Segoe UI';
-    src: url('../fonts/SegoeUI.ttf') format('truetype');
+    src: url('../../assets/fonts/SegoeUI.ttf') format('truetype');
 }
 
 body {

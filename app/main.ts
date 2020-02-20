@@ -16,7 +16,7 @@ function createWindow() {
         minHeight: 500,
         frame: false,
         title: 'Squid',
-        icon: __dirname + '/assets/icons/png/icon.png',
+        icon: path.resolve('assets/icons/png/icon.png'),
         show: false,
         backgroundColor: '#0F0F0F',
         webPreferences: {
@@ -30,7 +30,7 @@ function createWindow() {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.resolve('app/views/index.html'),
+        pathname: path.resolve('ui/index.html'),
         protocol: 'file:',
         slashes: true
     }));
