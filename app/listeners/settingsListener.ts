@@ -37,8 +37,8 @@ class Option {
     constructor(option: IOptions) {
 
         this.option = option;
-        this.button = document.getElementById(this.option + '-btn');
-        this.content = document.getElementById(this.option);
+        this.button = document.getElementById(this.option.toLowerCase() + '-btn');
+        this.content = document.getElementById(this.option.toLowerCase());
 
         this.button.addEventListener('click', (event) => this.toggle(event));
     }
