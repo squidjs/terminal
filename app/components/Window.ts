@@ -13,7 +13,12 @@ export default class Window {
 
         this.loadURL();
 
-        mainWindow.on('ready-to-show', () => mainWindow.show());
+        mainWindow.on('ready-to-show', () => {
+
+            mainWindow.show();
+            mainWindow.focus();
+        });
+
         mainWindow.on('closed', () => mainWindow = null);
 
         if(electronIsDev)
