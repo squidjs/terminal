@@ -1,4 +1,6 @@
-export default {
+import { ISettings } from '../settings/Settings';
+
+export const defaultConfig: ISettings = {
     theme: {
         name: 'default',
         background: '#0F0F0F',
@@ -19,5 +21,23 @@ export default {
     },
     bash: '',
     currentTheme: 'default',
-    experimentalCharAtlas: 'dynamic'
-}
+    experimentalCharAtlas: 'dynamic',
+    shortcuts: [
+        {
+            keys: 'CommandOrControl+T',
+            action: 'openTab'
+        },
+        {
+            keys: 'CommandOrControl+Shift+W',
+            action: 'closeTab'
+        },
+        {
+            keys: 'CommandOrControl+Tab',
+            action: 'switchTab'
+        },
+        {
+            keys: 'CommandOrControl+H',
+            action: 'openSettings'
+        }
+    ]
+};

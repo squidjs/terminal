@@ -44,9 +44,10 @@ tabGroup.on('tab-added', (tab, tabGroup) => {
     tab.webview.addEventListener("dom-ready", (event) => { tab.webview.blur(); tab.webview.focus(); });
 });
 
-ipcRenderer.on('keypress', (event, message) => {
+ipcRenderer.on('shortcuts', (event, message) => {
 
-    if(!document.hasFocus())
+    // We don't want to process shortcuts if the window is now focused
+    if(!remote.getCurrentWebContents().isFocused())
         return;
 
     switch (message) {

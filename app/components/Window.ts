@@ -50,6 +50,15 @@ export default class Window {
     }
 
     /**
+     * Get the main window
+     * @return The window
+     */
+    getWindow(): BrowserWindow {
+
+        return mainWindow;
+    }
+
+    /**
      * Load the index.html file
      */
     loadURL() {

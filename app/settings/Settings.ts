@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { userDataPath } from './Utils';
-import defaultConfig from '../config/defaultConfig';
+import { defaultConfig } from '../config/defaultConfig';
 
 export default class Settings {
 
@@ -19,7 +19,7 @@ export default class Settings {
      * @param key
      * @return The value from the key
      */
-    get(key: string): string | boolean | number {
+    get(key: string): string | boolean | number | any {
 
         return this.settings[key];
     }
@@ -117,6 +117,11 @@ export interface ISettings {
      * Use or not the experimental char atlas
      */
     experimentalCharAtlas: 'none' | 'static' | 'dynamic';
+
+    /**
+     * A list of the shortcuts
+     */
+    shortcuts: IShortcut[];
 }
 
 interface ITheme {
@@ -171,4 +176,17 @@ interface IBackgroundImage {
      * The opacity of the background image
      */
     opacity: number;
+}
+
+export interface IShortcut {
+
+    /**
+     * The keys that needs to be pressed
+      */
+    keys: string;
+
+    /**
+     * The desired action
+     */
+    action: 'openTab' | 'closeTab' | 'switchTab' | 'openSettings';
 }
