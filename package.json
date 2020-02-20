@@ -12,7 +12,7 @@
   "author": "QuiiBz",
   "dependencies": {
     "dragula": "^3.7.2",
-    "electron": "^4.0.1",
+    "electron": "^5.0.0",
     "electron-tabs": "^0.9.5",
     "node-gyp": "^6.1.0",
     "node-pty": "^0.7.0",
