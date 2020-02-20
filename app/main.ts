@@ -1,5 +1,5 @@
 import { app, globalShortcut } from 'electron';
-import Settings, {IShortcut, save} from './settings/Settings';
+import Settings, { IShortcut, save } from './settings/Settings';
 import Window  from './components/Window';
 
 const settings = new Settings();

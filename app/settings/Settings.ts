@@ -48,7 +48,7 @@ export default class Settings {
 
         } catch (error) {
 
-            return <ISettings>defaultConfig;
+            return defaultConfig;
         }
     }
 
