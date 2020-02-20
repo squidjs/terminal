@@ -187,7 +187,7 @@ webview.visible {
     width: 100vw;
     height: calc(100vh - 30px);
 
-    background-color: #191919;
+    background-color: #0F0F0F;
 }
 
 .xterm {

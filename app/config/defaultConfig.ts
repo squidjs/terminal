@@ -1,7 +1,7 @@
 export default {
     theme: {
         name: 'default',
-        background: '#112134',
+        background: '#0F0F0F',
         foreground: '#3fac42',
         cursor: '#3fac42'
     },
