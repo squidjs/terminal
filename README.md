@@ -1,4 +1,4 @@
-![](https://i.imgur.com/Rfsn3tg.png)
+![](https://i.imgur.com/gcAGPt1.png)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/QuiiBz/squid/badge.svg?targetFile=package.json)](https://snyk.io/test/github/QuiiBz/squid?targetFile=package.json)
 [![Quality score](https://www.code-inspector.com/project/4175/score/svg)](https://www.code-inspector.com/project/4175/score/svg)

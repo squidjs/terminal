@@ -6,7 +6,7 @@ let tabGroup = new TabGroup({
 
     newTab: {
         title: 'Terminal',
-        src: '../views/terminal.html',
+        src: '../ui/terminal.html',
         webviewAttributes: {
           nodeIntegration: 'true'
         },
@@ -25,7 +25,7 @@ let tabGroup = new TabGroup({
 tabGroup.addTab({
 
     title: 'Terminal',
-    src: '../views/terminal.html',
+    src: '../ui/terminal.html',
     webviewAttributes: {
         nodeIntegration: 'true'
     },
@@ -64,7 +64,7 @@ ipcRenderer.on('keypress', (event, message) => {
             tabGroup.addTab({
 
                 title: 'Terminal',
-                src: '../views/terminal.html',
+                src: '../ui/terminal.html',
                 webviewAttributes: {
                     nodeIntegration: 'true'
                 },
@@ -115,7 +115,7 @@ function openSettings() {
         tabGroup.addTab({
 
             title: 'Settings',
-            src: '../views/settings.html',
+            src: '../ui/settings.html',
             webviewAttributes: {
                 nodeIntegration: 'true'
             },

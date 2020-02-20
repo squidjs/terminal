@@ -1,9 +1,10 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import Settings from './settings/Settings';
+import Settings, { save } from './settings/Settings';
 
 let mainWindow: BrowserWindow;
+const settings = new Settings();
 
 function createWindow() {
 
@@ -15,7 +16,7 @@ function createWindow() {
         minHeight: 500,
         frame: false,
         title: 'Squid',
-        icon: __dirname + '/assets/icons/png/icon.png',
+        icon: path.resolve('assets/icons/png/icon.png'),
         show: false,
         backgroundColor: '#0F0F0F',
         webPreferences: {
@@ -29,7 +30,7 @@ function createWindow() {
     });
 
     mainWindow.loadURL(url.format({
-        pathname: path.resolve('app/views/index.html'),
+        pathname: path.resolve('ui/index.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -43,6 +44,8 @@ app.disableHardwareAcceleration();
 app.on('ready', () => createWindow());
 
 app.on('window-all-closed', () => {
+
+    save(settings.getPath(), settings.getSettings());
 
     if(process.platform !== 'darwin')
         app.quit();
