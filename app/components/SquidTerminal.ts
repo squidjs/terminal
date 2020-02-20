@@ -7,8 +7,8 @@ import { ITerminal } from 'node-pty/lib/interfaces';
 const fit = require('xterm/lib/addons/fit/fit');
 const webLinks = require('xterm/lib/addons/webLinks/webLinks');
 const settings = new Settings();
-let xterm;
-let ptyProcess;
+let xterm: Terminal;
+let ptyProcess: ITerminal;
 
 export default class SquidTerminal {
 
