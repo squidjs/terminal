@@ -10,7 +10,7 @@ export default class Settings {
 
     constructor() {
 
-        this.path = path.join(userDataPath, 'settings.json');
+        this.path = path.join(userDataPath, 'settings.squid.json');
         this.settings = this.load();
     }
 
@@ -51,6 +51,24 @@ export default class Settings {
             return <ISettings>defaultConfig;
         }
     }
+
+    /**
+     * Get the path of the file
+     * @return The path to the file
+     */
+    getPath(): string {
+
+        return this.path;
+    }
+
+    /**
+     * Get the settings
+     * @return The settings
+     */
+    getSettings(): ISettings {
+
+        return this.settings;
+    }
 }
 
 /**
@@ -58,7 +76,7 @@ export default class Settings {
  * @param path
  * @param settings
  */
-function save(path: string, settings: ISettings) {
+export function save(path: string, settings: ISettings) {
 
     fs.writeFileSync(path, JSON.stringify(settings));
 }

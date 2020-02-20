@@ -1,9 +1,10 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import Settings from './settings/Settings';
+import Settings, { save } from './settings/Settings';
 
 let mainWindow: BrowserWindow;
+const settings = new Settings();
 
 function createWindow() {
 
@@ -43,6 +44,8 @@ app.disableHardwareAcceleration();
 app.on('ready', () => createWindow());
 
 app.on('window-all-closed', () => {
+
+    save(settings.getPath(), settings.getSettings());
 
     if(process.platform !== 'darwin')
         app.quit();
