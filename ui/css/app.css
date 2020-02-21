@@ -9,6 +9,8 @@ body {
     background-color: #0F0F0F;
 
     font-family: Consolas;
+
+    user-select: none;
 }
 
 *:focus {
