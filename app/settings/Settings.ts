@@ -114,11 +114,6 @@ export interface ISettings {
     currentTheme: string;
 
     /**
-     * Use or not the experimental char atlas
-     */
-    experimentalCharAtlas: 'none' | 'static' | 'dynamic';
-
-    /**
      * A list of the shortcuts
      */
     shortcuts: IShortcut[];
@@ -188,5 +183,5 @@ export interface IShortcut {
     /**
      * The desired action
      */
-    action: 'openTab' | 'closeTab' | 'switchTab';
+    action: 'pane:open' | 'pane:close';
 }

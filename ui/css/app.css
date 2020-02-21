@@ -7,6 +7,8 @@ body {
     overflow-y: hidden;
 
     background-color: #0F0F0F;
+
+    font-family: Consolas;
 }
 
 *:focus {
@@ -69,6 +71,11 @@ body {
     margin-right: 5px;
 }
 
+.hidden {
+
+    display: none;
+}
+
 .xterm-screen {
 
     height: calc(100vh - 50px) !important;
@@ -88,10 +95,39 @@ body {
     position: absolute;
 }
 
-.link {
+.tabs {
 
-    text-decoration: none;
-    font-size: 13px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+    -webkit-app-region: no-drag;
+}
+
+.tab {
+
+    margin: 0 20px;
+    padding: 10px;
+
+    color: #646464;
+    border-bottom: 1px solid #646464;
+    width: 100%;
+    text-align: center;
+
+    transition: .3s ease;
+}
+
+.tab.active {
+
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.tab:hover {
+
+    cursor: pointer;
+
     color: #ffffff;
 }
 

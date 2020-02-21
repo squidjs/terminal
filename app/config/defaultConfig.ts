@@ -13,7 +13,7 @@ export const defaultConfig: ISettings = {
     },
     font: {
         size: 13,
-        family: 'Fira Code'
+        family: 'monospace'
     },
     backgroundImage: {
         path: '',
@@ -21,19 +21,14 @@ export const defaultConfig: ISettings = {
     },
     bash: '',
     currentTheme: 'default',
-    experimentalCharAtlas: 'dynamic',
     shortcuts: [
         {
             keys: 'CommandOrControl+T',
-            action: 'openTab'
+            action: 'pane:open'
         },
         {
             keys: 'CommandOrControl+Shift+W',
-            action: 'closeTab'
-        },
-        {
-            keys: 'CommandOrControl+Tab',
-            action: 'switchTab'
+            action: 'pane:close'
         }
     ]
 };

@@ -18,10 +18,7 @@
     "node-pty": "^0.7.0",
     "typescript": "^3.7.5",
     "windows-native-registry": "^1.0.14",
-    "xterm": "^4.4.0",
-    "xterm-addon-fit": "^0.3.0",
-    "xterm-addon-ligatures": "^0.2.1",
-    "xterm-addon-web-links": "^0.2.1"
+    "xterm": "^3.14.5"
   },
   "devDependencies": {
     "electron-rebuild": "^1.10.0"

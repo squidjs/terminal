@@ -2,37 +2,37 @@ import { Terminal } from 'xterm';
 import Settings from '../settings/Settings';
 import * as pty from 'node-pty';
 import * as os from 'os';
-import { FitAddon } from 'xterm-addon-fit';
-import { WebLinksAddon } from 'xterm-addon-web-links';
-import { LigaturesAddon } from 'xterm-addon-ligatures';
 import { ITerminal } from 'node-pty/lib/interfaces';
 
+const fit = require('xterm/lib/addons/fit/fit');
+const webLinks = require('xterm/lib/addons/webLinks/webLinks');
 const settings = new Settings();
-let xterm: Terminal;
-let ptyProcess: ITerminal;
 
 export default class SquidTerminal {
 
-    private fitAddon = new FitAddon();
-    private webLinksAddon = new WebLinksAddon();
-    private ligaturesAddon = new LigaturesAddon();
+    private xterm: Terminal;
+    private ptyProcess: ITerminal;
+    private termId: string;
 
-    constructor() {
+    constructor(termId: string) {
 
-        xterm = this.buildTerminal();
-        ptyProcess = this.buildPtyProcess();
+        this.termId = termId;
+
+        this.xterm = this.buildTerminal();
+        this.ptyProcess = this.buildPtyProcess();
 
         this.applyTheme();
 
         // Open the terminal
-        xterm.open(document.getElementById('xterm'));
+        this.xterm.open(document.getElementById(termId));
 
         this.applyAddons();
+        (this.xterm as any).webLinksInit();
         this.fit();
 
-        xterm.onResize(this.onResize);
-        xterm.onData(this.onData);
-        ptyProcess.on('data', this.onPtyData);
+        this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
+        this.xterm.onData((data: string) => this.onData(data));
+        this.ptyProcess.on('data', (data: string) => this.onPtyData(data));
 
         window.onresize = () => this.fit();
     }
@@ -50,7 +50,8 @@ export default class SquidTerminal {
             // @ts-ignore
             experimentalCharAtlas: settings.get('experimentalCharAtlas'),
             fontSize: settings.get('font.size'),
-            fontFamily: settings.get('font.family')
+            fontFamily: settings.get('font.family'),
+            rendererType: 'dom',
         });
     }
 
@@ -63,8 +64,8 @@ export default class SquidTerminal {
         return pty.spawn(os.platform() === 'win32' ? <string>settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
 
             name: 'xterm-256color',
-            cols: xterm.cols,
-            rows: xterm.rows,
+            cols: this.xterm.cols,
+            rows: this.xterm.rows,
         });
     }
 
@@ -73,7 +74,7 @@ export default class SquidTerminal {
      */
     applyTheme() {
 
-        xterm.setOption('theme', settings.get('theme'));
+        this.xterm.setOption('theme', settings.get('theme'));
     }
 
     /**
@@ -81,9 +82,8 @@ export default class SquidTerminal {
      */
     applyAddons() {
 
-        xterm.loadAddon(this.fitAddon);
-        xterm.loadAddon(this.webLinksAddon);
-        //xterm.loadAddon(this.ligaturesAddon);
+        Terminal.applyAddon(fit);
+        Terminal.applyAddon(webLinks);
     }
 
     /**
@@ -91,7 +91,15 @@ export default class SquidTerminal {
      */
     fit() {
 
-        this.fitAddon.fit();
+        (this.xterm as any).fit();
+    }
+
+    /**
+     * Focus the terminal
+     */
+    focus() {
+
+        this.xterm.focus();
     }
 
     /**
@@ -100,9 +108,9 @@ export default class SquidTerminal {
      */
     onResize(data: {cols: number, rows: number}) {
 
-        ptyProcess.resize(
-            Math.max(data ? data.cols : xterm.cols, 1),
-            Math.max(data ? data.rows : xterm.rows, 1));
+        this.ptyProcess.resize(
+            Math.max(data ? data.cols : this.xterm.cols, 1),
+            Math.max(data ? data.rows : this.xterm.rows, 1));
     }
 
     /**
@@ -111,7 +119,7 @@ export default class SquidTerminal {
      */
     onData(data: string) {
 
-        ptyProcess.write(data);
+        this.ptyProcess.write(data);
     }
 
     /**
@@ -120,9 +128,15 @@ export default class SquidTerminal {
      */
     onPtyData(data: string) {
 
-        xterm.write(data);
+        this.xterm.write(data);
+    }
+
+    /**
+     * Return the terminal id
+     * @return string
+     */
+    getTermId(): string {
+
+        return this.termId;
     }
 }
-
-// Create the object when this file is required
-new SquidTerminal();
