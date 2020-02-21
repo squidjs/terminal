@@ -34,10 +34,6 @@ export const defaultConfig: ISettings = {
         {
             keys: 'CommandOrControl+Tab',
             action: 'switchTab'
-        },
-        {
-            keys: 'CommandOrControl+H',
-            action: 'openSettings'
         }
     ]
 };

@@ -188,5 +188,5 @@ export interface IShortcut {
     /**
      * The desired action
      */
-    action: 'openTab' | 'closeTab' | 'switchTab' | 'openSettings';
+    action: 'openTab' | 'closeTab' | 'switchTab';
 }

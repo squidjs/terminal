@@ -85,43 +85,5 @@ ipcRenderer.on('shortcuts', (event, message) => {
 
             tab.activate();
           break;
-
-        case 'openSettings':
-
-          openSettings();
-          break;
     }
 });
-
-ipcRenderer.on('open', () => {
-
-    openSettings();
-});
-
-function openSettings() {
-
-    let open = true;
-
-    tabGroup.eachTab((currentTab, index, tabs) => {
-
-        if(currentTab.getTitle() == 'Settings') {
-
-          open = false;
-          currentTab.activate();
-        }
-    });
-
-    if(open) {
-
-        tabGroup.addTab({
-
-            title: 'Settings',
-            src: '../ui/settings.html',
-            webviewAttributes: {
-                nodeIntegration: 'true'
-            },
-            visible: true,
-            active: true
-        });
-    }
-}
