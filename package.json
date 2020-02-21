@@ -13,7 +13,7 @@
   "dependencies": {
     "cross-env": "^7.0.0",
     "dragula": "^3.7.2",
-    "electron": "^4.0.1",
+    "electron": "^4.0.8",
     "electron-is-dev": "^1.1.0",
     "electron-tabs": "^0.9.5",
     "node-gyp": "^6.1.0",
