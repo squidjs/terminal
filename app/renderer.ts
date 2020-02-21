@@ -104,6 +104,24 @@ function closePane() {
     }
 }
 
+function switchPane() {
+
+    if(panes.length > 1) {
+
+        let currentIndex = panes.indexOf(currentTerminal);
+        let toIndex;
+
+        if(currentIndex == panes.length - 1)
+            toIndex = 0;
+        else
+            toIndex = currentIndex + 1;
+
+        const terminal: SquidTerminal = panes[toIndex];
+
+        togglePane(document.querySelector('.tab.active'), terminal);
+    }
+}
+
 ipcRenderer.on('shortcuts', (event, message) => {
 
     // We don't want to process shortcuts if the window is not focused
@@ -118,6 +136,10 @@ ipcRenderer.on('shortcuts', (event, message) => {
 
         case 'pane:close':
             closePane();
+            break;
+
+        case 'pane:switch':
+            switchPane();
             break;
     }
 });

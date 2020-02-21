@@ -45,6 +45,10 @@ export const defaultConfig: ISettings = {
         {
             keys: 'CommandOrControl+Shift+W',
             action: 'pane:close'
+        },
+        {
+            keys: 'CommandOrControl+Tab',
+            action: 'pane:switch'
         }
     ]
 };

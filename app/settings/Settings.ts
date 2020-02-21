@@ -199,5 +199,5 @@ export interface IShortcut {
     /**
      * The desired action
      */
-    action: 'pane:open' | 'pane:close';
+    action: 'pane:open' | 'pane:close' | 'pane:switch';
 }
