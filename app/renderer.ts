@@ -1,7 +1,7 @@
 import { ipcRenderer, remote } from 'electron';
 import SquidTerminal from './components/SquidTerminal';
 
-let panes: SquidTerminal[] = [];
+const panes: SquidTerminal[] = [];
 let currentTerminal: SquidTerminal = null;
 
 function openPane() {
@@ -108,7 +108,7 @@ function switchPane() {
 
     if(panes.length > 1) {
 
-        let currentIndex = panes.indexOf(currentTerminal);
+        const currentIndex = panes.indexOf(currentTerminal);
         let toIndex;
 
         if(currentIndex == panes.length - 1)

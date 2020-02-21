@@ -61,7 +61,7 @@ export default class SquidTerminal {
      */
     buildPtyProcess(): ITerminal {
 
-        return pty.spawn(os.platform() === 'win32' ? <string>settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
+        return pty.spawn(os.platform() === 'win32' ? settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
 
             name: 'xterm-256color',
             cols: this.xterm.cols,

@@ -193,7 +193,7 @@ export interface IShortcut {
 
     /**
      * The keys that needs to be pressed
-      */
+     */
     keys: string;
 
     /**
