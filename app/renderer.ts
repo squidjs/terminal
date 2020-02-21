@@ -1,126 +1,148 @@
-import * as TabGroup from 'electron-tabs';
-import * as dragula from 'dragula';
 import { ipcRenderer, remote } from 'electron';
+import SquidTerminal from './components/SquidTerminal';
 
-let tabGroup = new TabGroup({
+let panes: SquidTerminal[] = [];
+let currentTerminal: SquidTerminal = null;
 
-    newTab: {
-        title: 'Terminal',
-        src: '../ui/terminal.html',
-        webviewAttributes: {
-          nodeIntegration: 'true'
-        },
-        visible: true,
-        active: true
-    },
-    ready: (tabGroup) => {
+function openPane() {
 
-        dragula([tabGroup.tabContainer], {
+    const terminalId = 'pane-' + panes.length;
 
-            direction: 'horizontal'
-        });
+    const node = document.getElementById('panel-container');
+    const terminalElement = document.createElement('div');
+    terminalElement.id = terminalId;
+    node.appendChild(terminalElement);
+
+    const terminal: SquidTerminal = new SquidTerminal(terminalId);
+
+    // Set the current pane
+    currentTerminal = terminal;
+    panes.push(terminal);
+
+    // Toggle visibility
+    panes.forEach(current => document.getElementById(current.getTermId()).classList.add('hidden'));
+    terminalElement.classList.remove('hidden'); // But show the created pane
+
+    // Spawn all the tabs
+    if(panes.length == 2) {
+
+        panes.forEach(current => spawnTab(current));
+        document.getElementById('tab-' + currentTerminal.getTermId()).classList.add('active');
+
+    } else if (panes.length > 2) {
+
+        spawnTab(currentTerminal);
+        document.querySelectorAll('.tab').forEach(current => current.classList.remove('active'));
+        document.getElementById('tab-' + currentTerminal.getTermId()).classList.add('active');
     }
-});
 
-tabGroup.addTab({
+    // Focus the terminal
+    currentTerminal.focus();
+}
 
-    title: 'Terminal',
-    src: '../ui/terminal.html',
-    webviewAttributes: {
-        nodeIntegration: 'true'
-    },
-    visible: true,
-    active: true
-});
+function spawnTab(terminal: SquidTerminal) {
 
-tabGroup.on('tab-removed', (tab, tabGroup) => {
+    const node = document.getElementById('tabs-container');
+    const tabElement = document.createElement('div');
+    tabElement.innerText = 'Terminal';
+    tabElement.className = 'tab';
+    tabElement.id = 'tab-' + terminal.getTermId();
+    node.appendChild(tabElement);
 
-    if(tabGroup.getActiveTab() == null)
+    tabElement.addEventListener('click', () => togglePane(tabElement, terminal));
+}
+
+function togglePane(tabElement: HTMLElement, terminal: SquidTerminal) {
+
+    tabElement.classList.add('active');
+
+    // Old pane
+    document.getElementById(currentTerminal.getTermId()).classList.add('hidden');
+    document.getElementById('tab-' + currentTerminal.getTermId()).classList.remove('active');
+
+    // New pane
+    document.getElementById(terminal.getTermId()).classList.remove('hidden');
+    document.getElementById('tab-' + terminal.getTermId()).classList.add('active');
+
+    // Focus the term
+    terminal.focus();
+
+    currentTerminal = terminal;
+}
+
+function closePane() {
+
+    if(panes.length == 1) {
+
+        // Close the app if there is only one tab open
         remote.getCurrentWindow().close();
-});
 
-tabGroup.on('tab-added', (tab, tabGroup) => {
+    } else {
 
-    tab.webview.addEventListener("dom-ready", (event) => { tab.webview.blur(); tab.webview.focus(); });
-});
+        const termId = currentTerminal.getTermId();
 
-ipcRenderer.on('keypress', (event, message) => {
+        // Remove pane
+        document.getElementById(termId).remove();
 
-    if(!document.hasFocus())
+        // Remove tab
+        document.getElementById('tab-' + termId).remove();
+
+        // Delete the current tab
+        panes.splice(panes.indexOf(currentTerminal), 1);
+
+        currentTerminal = panes[0];
+        document.getElementById(currentTerminal.getTermId()).classList.remove('hidden');
+
+        if(panes.length > 1)
+            document.getElementById('tab-' + currentTerminal.getTermId()).classList.add('active');
+        else
+            document.querySelectorAll('.tab').forEach(current => current.remove());
+
+        // Focus the terminal
+        currentTerminal.focus();
+        currentTerminal.fit();
+    }
+}
+
+function switchPane() {
+
+    if(panes.length > 1) {
+
+        let currentIndex = panes.indexOf(currentTerminal);
+        let toIndex;
+
+        if(currentIndex == panes.length - 1)
+            toIndex = 0;
+        else
+            toIndex = currentIndex + 1;
+
+        const terminal: SquidTerminal = panes[toIndex];
+
+        togglePane(document.querySelector('.tab.active'), terminal);
+    }
+}
+
+ipcRenderer.on('shortcuts', (event, message) => {
+
+    // We don't want to process shortcuts if the window is not focused
+    if(!remote.getCurrentWebContents().isFocused())
         return;
 
     switch (message) {
 
-        case 'closeTab':
-
-            if(tabGroup.getActiveTab().getTitle() == "Welcome" && tabGroup.getTabByRelPosition(1) == null && tabGroup.getTabByRelPosition(-1) == null)
-                remote.getCurrentWindow().close();
-            else
-                tabGroup.getActiveTab().close(true);
+        case 'pane:open':
+            openPane();
             break;
 
-        case 'openTab':
+        case 'pane:close':
+            closePane();
+            break;
 
-            tabGroup.addTab({
-
-                title: 'Terminal',
-                src: '../ui/terminal.html',
-                webviewAttributes: {
-                    nodeIntegration: 'true'
-                },
-                visible: true,
-                active: true
-            });
-          break;
-
-        case 'switchTab':
-
-            let tab = tabGroup.getTabByRelPosition(1);
-
-            if(tab != null)
-                tab.activate();
-            else
-                tab = tabGroup.getTabByPosition(1);
-
-            tab.activate();
-          break;
-
-        case 'openSettings':
-
-          openSettings();
-          break;
+        case 'pane:switch':
+            switchPane();
+            break;
     }
 });
 
-ipcRenderer.on('open', () => {
-
-    openSettings();
-});
-
-function openSettings() {
-
-    let open = true;
-
-    tabGroup.eachTab((currentTab, index, tabs) => {
-
-        if(currentTab.getTitle() == 'Settings') {
-
-          open = false;
-          currentTab.activate();
-        }
-    });
-
-    if(open) {
-
-        tabGroup.addTab({
-
-            title: 'Settings',
-            src: '../ui/settings.html',
-            webviewAttributes: {
-                nodeIntegration: 'true'
-            },
-            visible: true,
-            active: true
-        });
-    }
-}
+// Open a default pane by default
+openPane();

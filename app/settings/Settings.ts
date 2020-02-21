@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { userDataPath } from './Utils';
-import defaultConfig from '../config/defaultConfig';
+import { defaultConfig } from '../config/defaultConfig';
 
 export default class Settings {
 
@@ -19,7 +19,7 @@ export default class Settings {
      * @param key
      * @return The value from the key
      */
-    get(key: string): string | boolean | number {
+    get(key: string): string | boolean | number | any {
 
         return this.settings[key];
     }
@@ -48,7 +48,7 @@ export default class Settings {
 
         } catch (error) {
 
-            return <ISettings>defaultConfig;
+            return defaultConfig;
         }
     }
 
@@ -114,9 +114,9 @@ export interface ISettings {
     currentTheme: string;
 
     /**
-     * Use or not the experimental char atlas
+     * A list of the shortcuts
      */
-    experimentalCharAtlas: 'none' | 'static' | 'dynamic';
+    shortcuts: IShortcut[];
 }
 
 interface ITheme {
@@ -132,6 +132,22 @@ interface ITheme {
     background: string;
     foreground: string;
     cursor: string;
+    black: string;
+    red: string;
+    green: string;
+    yellow: string;
+    blue: string;
+    magenta: string;
+    cyan: string;
+    white: string;
+    lightBlack: string;
+    lightRed: string;
+    lightGreen: string;
+    lightYellow: string;
+    lightBlue: string;
+    lightMagenta: string;
+    lightCyan: string;
+    lightWhite: string;
 }
 
 interface ICursor {
@@ -171,4 +187,17 @@ interface IBackgroundImage {
      * The opacity of the background image
      */
     opacity: number;
+}
+
+export interface IShortcut {
+
+    /**
+     * The keys that needs to be pressed
+      */
+    keys: string;
+
+    /**
+     * The desired action
+     */
+    action: 'pane:open' | 'pane:close' | 'pane:switch';
 }

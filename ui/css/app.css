@@ -7,25 +7,15 @@ body {
     overflow-y: hidden;
 
     background-color: #0F0F0F;
+
+    font-family: Consolas;
+
+    user-select: none;
 }
 
 *:focus {
 
     outline: none;
-}
-
-webview {
-
-    display: none !important;
-    width: 100vw !important;
-    height: 100vh !important;
-}
-
-webview.visible {
-
-    display: inline-flex !important;
-    width: 100vw !important;
-    height: 100vh !important;
 }
 
 .nav {
@@ -37,123 +27,10 @@ webview.visible {
 
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
 
     -webkit-app-region: drag;
 }
-
-.etabs-tabgroup, .etabs-tabs {
-
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-
-    -webkit-app-region: no-drag;
-}
-
-.etabs-tab {
-
-    display: flex;
-    align-items: center;
-
-    font-size: 15px;
-    font-family: 'Consolas';
-
-    overflow: hidden;
-
-    color: #646464;
-
-    /*animation: show .3s ease;*/
-
-    transition: .3s ease;
-
-    padding: 0 20px;
-}
-
-.etabs-buttons {
-
-    transition: .3s ease;
-}
-
-@keyframes show {
-
-    from {
-
-        width: 0px;
-        padding: 0px;
-
-    } to {
-
-        width: auto;
-        padding: 0 20px;
-    }
-}
-
-.etabs-tab.active {
-
-    color: #ffffff;
-}
-
-.etabs-tab-title {
-
-    padding-right: 15px;
-}
-
-.etabs-tab:hover, .etabs-tab-button-close:hover, .etabs-tab-button-new:hover {
-
-    cursor: pointer;
-}
-
-.etabs-tab-button-close, .etabs-tab-button-new {
-
-    background: none;
-    border: none;
-}
-
-.etabs-tab-button-close {
-
-    color: #232a2d;
-
-    transition: .3s ease;
-}
-
-.etabs-tab.active .etabs-tab-button-close {
-
-    color: #191919;;
-}
-
-.etabs-tab:hover .etabs-tab-button-close {
-
-    color: #fff;
-}
-
-.etabs-tab-button-new {
-
-    font-size: 18px;
-    margin-top: 5px;
-
-    color: #646464;
-
-    transition: .3s ease;
-}
-
-.etabs-tab-button-new:hover {
-
-    color: #ffffff;
-}
-
-/*.etabs-view {
-
-    display: none;
-}
-
-.etabs-view.visible {
-
-    display: block;
-
-    width: 100vw;
-    height: 100vh;
-}*/
 
 .nav .button {
 
@@ -187,12 +64,18 @@ webview.visible {
     width: 100vw;
     height: calc(100vh - 30px);
 
-    background-color: #191919;
+    background-color: #0F0F0F;
 }
 
 .xterm {
 
     padding: 15px;
+    margin-right: 5px;
+}
+
+.hidden {
+
+    display: none;
 }
 
 .xterm-screen {
@@ -214,11 +97,39 @@ webview.visible {
     position: absolute;
 }
 
-.link {
+.tabs {
 
-    text-decoration: none;
-    font-family: 'Consolas';
-    font-size: 13px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+    -webkit-app-region: no-drag;
+}
+
+.tab {
+
+    margin: 0 20px;
+    padding: 10px;
+
+    color: #646464;
+    border-bottom: 1px solid #646464;
+    width: 100%;
+    text-align: center;
+
+    transition: .3s ease;
+}
+
+.tab.active {
+
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.tab:hover {
+
+    cursor: pointer;
+
     color: #ffffff;
 }
 

@@ -6,21 +6,19 @@
   "main": "app/main.ts",
   "scripts": {
     "tsc": "tsc -w",
-    "start": "electron ./dist/main.js",
+    "start": "cross-env ELECTRON_IS_DEV=1 electron ./dist/main.js",
     "rebuild": "./node_modules/.bin/electron-rebuild.cmd"
   },
   "author": "QuiiBz",
   "dependencies": {
-    "dragula": "^3.7.2",
-    "electron": "^4.0.1",
-    "electron-tabs": "^0.9.5",
+    "cross-env": "^7.0.0",
+    "electron": "^4.0.8",
+    "electron-is-dev": "^1.1.0",
     "node-gyp": "^6.1.0",
     "node-pty": "^0.7.0",
     "typescript": "^3.7.5",
     "windows-native-registry": "^1.0.14",
-    "xterm": "^3.14.5",
-    "xterm-addon-fit": "^0.3.0",
-    "xterm-addon-web-links": "^0.2.1"
+    "xterm": "^3.14.5"
   },
   "devDependencies": {
     "electron-rebuild": "^1.10.0"

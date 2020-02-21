@@ -1,50 +1,21 @@
-import { app, BrowserWindow } from 'electron';
-import * as path from 'path';
-import * as url from 'url';
-import Settings, { save } from './settings/Settings';
+import { app, globalShortcut } from 'electron';
+import Settings, { IShortcut, save } from './settings/Settings';
+import Window  from './components/Window';
 
-let mainWindow: BrowserWindow;
 const settings = new Settings();
+let window: Window;
 
-function createWindow() {
+app.on('ready', () => {
 
-    mainWindow = new BrowserWindow({
+    window = new Window();
 
-        width: 1200,
-        height: 800,
-        minWidth: 600,
-        minHeight: 500,
-        frame: false,
-        title: 'Squid',
-        icon: path.resolve('assets/icons/png/icon.png'),
-        show: false,
-        backgroundColor: '#0F0F0F',
-        webPreferences: {
-            nodeIntegration: true,
-            webviewTag: true
-        }
-    });
-
-    mainWindow.webContents.openDevTools({
-        mode: 'detach'
-    });
-
-    mainWindow.loadURL(url.format({
-        pathname: path.resolve('ui/index.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-
-    mainWindow.on('ready-to-show', () => mainWindow.show());
-    mainWindow.on('closed', () => mainWindow = null);
-}
-
-app.disableHardwareAcceleration();
-
-app.on('ready', () => createWindow());
+    const shortcuts: IShortcut[] = settings.get('shortcuts');
+    shortcuts.forEach(current => globalShortcut.register(current.keys, () => window.getWindow().webContents.send('shortcuts', current.action)));
+});
 
 app.on('window-all-closed', () => {
 
+    // Save settings by default
     save(settings.getPath(), settings.getSettings());
 
     if(process.platform !== 'darwin')
@@ -53,6 +24,6 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
 
-    if(mainWindow === null)
-        createWindow();
+    if(window === null)
+        window = new Window();
 });
