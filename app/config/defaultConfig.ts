@@ -13,7 +13,7 @@ export const defaultConfig: ISettings = {
     },
     font: {
         size: 13,
-        family: 'Consolas'
+        family: 'Fira Code'
     },
     backgroundImage: {
         path: '',

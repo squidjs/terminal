@@ -1,16 +1,21 @@
 import { Terminal } from 'xterm';
 import Settings from '../settings/Settings';
 import * as pty from 'node-pty';
-import * as os from "os";
+import * as os from 'os';
+import { FitAddon } from 'xterm-addon-fit';
+import { WebLinksAddon } from 'xterm-addon-web-links';
+import { LigaturesAddon } from 'xterm-addon-ligatures';
 import { ITerminal } from 'node-pty/lib/interfaces';
 
-const fit = require('xterm/lib/addons/fit/fit');
-const webLinks = require('xterm/lib/addons/webLinks/webLinks');
 const settings = new Settings();
 let xterm: Terminal;
 let ptyProcess: ITerminal;
 
 export default class SquidTerminal {
+
+    private fitAddon = new FitAddon();
+    private webLinksAddon = new WebLinksAddon();
+    private ligaturesAddon = new LigaturesAddon();
 
     constructor() {
 
@@ -18,16 +23,15 @@ export default class SquidTerminal {
         ptyProcess = this.buildPtyProcess();
 
         this.applyTheme();
-        this.applyAddons();
 
         // Open the terminal
         xterm.open(document.getElementById('xterm'));
 
-        (xterm as any).webLinksInit();
+        this.applyAddons();
         this.fit();
 
-        xterm.on('resize', this.onResize);
-        xterm.on('data', this.onData);
+        xterm.onResize(this.onResize);
+        xterm.onData(this.onData);
         ptyProcess.on('data', this.onPtyData);
 
         window.onresize = () => this.fit();
@@ -41,13 +45,12 @@ export default class SquidTerminal {
 
         return new Terminal({
 
-            cursorBlink: <boolean>settings.get('cursor.blink'),
-            // @ts-ignore
+            cursorBlink: settings.get('cursor.blink'),
             cursorStyle: settings.get('cursor.style'),
             // @ts-ignore
             experimentalCharAtlas: settings.get('experimentalCharAtlas'),
-            fontSize: <number>settings.get('font.size'),
-            fontFamily: <string>settings.get('font.family')
+            fontSize: settings.get('font.size'),
+            fontFamily: settings.get('font.family')
         });
     }
 
@@ -78,8 +81,9 @@ export default class SquidTerminal {
      */
     applyAddons() {
 
-        Terminal.applyAddon(fit);
-        Terminal.applyAddon(webLinks);
+        xterm.loadAddon(this.fitAddon);
+        xterm.loadAddon(this.webLinksAddon);
+        //xterm.loadAddon(this.ligaturesAddon);
     }
 
     /**
@@ -87,7 +91,7 @@ export default class SquidTerminal {
      */
     fit() {
 
-        (xterm as any).fit();
+        this.fitAddon.fit();
     }
 
     /**
