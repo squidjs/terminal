@@ -1,18 +1,40 @@
 {
   "name": "squid",
-  "version": "0.1.2",
+  "version": "1.0.0",
+  "author": "QuiiBz",
   "productName": "Squid",
-  "description": "Web-based terminal",
-  "main": "app/main.ts",
+  "description": "A terminal for everyone",
+  "main": "dist/main.js",
+  "homepage": "./",
   "scripts": {
     "tsc": "tsc -w",
     "start": "cross-env ELECTRON_IS_DEV=1 electron ./dist/main.js",
-    "rebuild": "./node_modules/.bin/electron-rebuild.cmd"
+    "rebuild": "./node_modules/.bin/electron-rebuild.cmd",
+    "pack": "electron-builder build -w",
+    "pack:publish": "electron-builder build -w -p 'onTagOrDraft'",
+    "cert": "electron-builder create-self-signed-cert -p QuiiBz"
   },
-  "author": "QuiiBz",
+  "build": {
+    "appId": "fr.quiibz.squid",
+    "copyright": "Copyright © 2020 ${author}",
+    "directories": {
+      "output": "release"
+    },
+    "files": ["dist/**/*", "ui/**/*"],
+    "linux": {
+      "publish": ["github"],
+      "target": "AppImage",
+      "category": "Utility"
+    },
+    "win": {
+      "publish": ["github"],
+      "certificateFile": "private/QuiiBz.pfx",
+      "verifyUpdateCodeSignature": false,
+      "publisherName": "QuiiBz"
+    }
+  },
   "dependencies": {
     "cross-env": "^7.0.0",
-    "electron": "^4.0.8",
     "electron-is-dev": "^1.1.0",
     "node-gyp": "^6.1.0",
     "node-pty": "^0.7.0",
@@ -21,6 +43,8 @@
     "xterm": "^3.14.5"
   },
   "devDependencies": {
+    "electron": "^4.0.8",
+    "electron-builder": "^22.3.2",
     "electron-rebuild": "^1.10.0"
   }
 }

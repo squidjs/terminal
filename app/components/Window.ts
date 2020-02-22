@@ -43,8 +43,7 @@ export default class Window {
             show: false,
             backgroundColor: '#0F0F0F',
             webPreferences: {
-                nodeIntegration: true,
-                webviewTag: true
+                nodeIntegration: true
             }
         });
     }
@@ -64,7 +63,7 @@ export default class Window {
     loadURL() {
 
         mainWindow.loadURL(url.format({
-            pathname: path.resolve('ui/index.html'),
+            pathname: path.resolve(__dirname, '../../ui/index.html'),
             protocol: 'file:',
             slashes: true
         }));
