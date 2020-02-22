@@ -39,7 +39,7 @@ export default class Window {
             minHeight: 500,
             frame: false,
             title: 'Squid',
-            icon: path.resolve('assets/icons/png/icon.png'),
+            icon: path.resolve('build/icon.png'),
             show: false,
             backgroundColor: '#0F0F0F',
             webPreferences: {
