@@ -4,6 +4,9 @@
   "author": "QuiiBz",
   "productName": "Squid",
   "description": "A terminal for everyone",
+  "repository": "https://github.com/QuiiBz/squid",
+  "license": "MIT",
+  "keywords": ["electron", "terminal", "squid"],
   "main": "dist/main.js",
   "homepage": "./",
   "scripts": {
