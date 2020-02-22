@@ -119,7 +119,7 @@ export interface ISettings {
     shortcuts: IShortcut[];
 }
 
-interface ITheme {
+export interface ITheme {
 
     /**
      * The theme name
