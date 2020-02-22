@@ -4,5 +4,9 @@ node_modules/
 # Jetbrain
 .idea/
 
-# Dist
+# Dist and release directories
 dist/
+release/
+
+# Private directory
+private/

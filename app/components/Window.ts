@@ -39,12 +39,11 @@ export default class Window {
             minHeight: 500,
             frame: false,
             title: 'Squid',
-            icon: path.resolve('assets/icons/png/icon.png'),
+            icon: path.resolve('build/icon.png'),
             show: false,
             backgroundColor: '#0F0F0F',
             webPreferences: {
-                nodeIntegration: true,
-                webviewTag: true
+                nodeIntegration: true
             }
         });
     }
@@ -64,7 +63,7 @@ export default class Window {
     loadURL() {
 
         mainWindow.loadURL(url.format({
-            pathname: path.resolve('ui/index.html'),
+            pathname: path.resolve(__dirname, '../../ui/index.html'),
             protocol: 'file:',
             slashes: true
         }));

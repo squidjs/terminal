@@ -3,6 +3,7 @@ import Settings from '../settings/Settings';
 import * as pty from 'node-pty';
 import * as os from 'os';
 import { ITerminal } from 'node-pty/lib/interfaces';
+import { loadTheme } from '../themes/themeHandler';
 
 const fit = require('xterm/lib/addons/fit/fit');
 const webLinks = require('xterm/lib/addons/webLinks/webLinks');
@@ -47,11 +48,10 @@ export default class SquidTerminal {
 
             cursorBlink: settings.get('cursor.blink'),
             cursorStyle: settings.get('cursor.style'),
-            // @ts-ignore
             experimentalCharAtlas: settings.get('experimentalCharAtlas'),
             fontSize: settings.get('font.size'),
             fontFamily: settings.get('font.family'),
-            rendererType: 'dom',
+            rendererType: 'canvas',
         });
     }
 
@@ -74,7 +74,13 @@ export default class SquidTerminal {
      */
     applyTheme() {
 
-        this.xterm.setOption('theme', settings.get('theme'));
+        const currentTheme = settings.get('currentTheme');
+        let theme = settings.get('theme');
+
+        if(currentTheme != theme.name)
+            theme = loadTheme(currentTheme);
+
+        this.xterm.setOption('theme', theme);
     }
 
     /**

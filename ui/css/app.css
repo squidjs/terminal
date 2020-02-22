@@ -70,7 +70,6 @@ body {
 .xterm {
 
     padding: 15px;
-    margin-right: 5px;
 }
 
 .hidden {
@@ -131,6 +130,27 @@ body {
     cursor: pointer;
 
     color: #ffffff;
+}
+
+.apply-update {
+
+    color: #22da6e;
+    font-size: 12px;
+
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+
+    z-index: 999;
+
+    border: 1px solid #22da6e;
+    border-radius: 3px;
+    padding: 2px 5px;
+}
+
+.apply-update:hover {
+
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar {

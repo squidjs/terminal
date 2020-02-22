@@ -1,4 +1,4 @@
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, clipboard } from 'electron';
 import SquidTerminal from './components/SquidTerminal';
 
 const panes: SquidTerminal[] = [];
@@ -6,7 +6,12 @@ let currentTerminal: SquidTerminal = null;
 
 function openPane() {
 
-    const terminalId = 'pane-' + panes.length;
+    let id = 0;
+
+    while(document.getElementById('pane-' + id))
+        id++;
+
+    const terminalId = 'pane-' + id;
 
     const node = document.getElementById('panel-container');
     const terminalElement = document.createElement('div');
@@ -130,6 +135,10 @@ ipcRenderer.on('shortcuts', (event, message) => {
 
     switch (message) {
 
+        case 'paste':
+            currentTerminal.onData(clipboard.readText());
+            break;
+
         case 'pane:open':
             openPane();
             break;
@@ -144,5 +153,25 @@ ipcRenderer.on('shortcuts', (event, message) => {
     }
 });
 
+ipcRenderer.on('update:ready', () => {
+
+    const node = document.getElementById('panel-container');
+    const updateElement = document.createElement('div');
+    updateElement.innerText = 'Restart to apply update';
+    updateElement.className = 'apply-update';
+    node.appendChild(updateElement);
+
+    updateElement.addEventListener('click', () => {
+
+        ipcRenderer.send('update:apply');
+    });
+});
+
 // Open a default pane by default
 openPane();
+
+document.addEventListener('contextmenu', (event) => {
+
+    event.preventDefault();
+    ipcRenderer.send('contextmenu');
+});
