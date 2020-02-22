@@ -6,7 +6,11 @@
   "description": "A terminal for everyone",
   "repository": "https://github.com/QuiiBz/squid",
   "license": "MIT",
-  "keywords": ["electron", "terminal", "squid"],
+  "keywords": [
+    "electron",
+    "terminal",
+    "squid"
+  ],
   "main": "dist/main.js",
   "homepage": "./",
   "scripts": {
@@ -22,14 +26,21 @@
     "directories": {
       "output": "release"
     },
-    "files": ["dist/**/*", "ui/**/*"],
+    "files": [
+      "dist/**/*",
+      "ui/**/*"
+    ],
     "linux": {
-      "publish": ["github"],
+      "publish": [
+        "github"
+      ],
       "target": "AppImage",
       "category": "Utility"
     },
     "win": {
-      "publish": ["github"],
+      "publish": [
+        "github"
+      ],
       "certificateFile": "private/QuiiBz.pfx",
       "verifyUpdateCodeSignature": false,
       "publisherName": "QuiiBz"
@@ -38,6 +49,8 @@
   "dependencies": {
     "cross-env": "^7.0.0",
     "electron-is-dev": "^1.1.0",
+    "electron-log": "^4.0.6",
+    "electron-updater": "^4.2.2",
     "node-gyp": "^6.1.0",
     "node-pty": "^0.7.0",
     "typescript": "^3.7.5",

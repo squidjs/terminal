@@ -144,5 +144,19 @@ ipcRenderer.on('shortcuts', (event, message) => {
     }
 });
 
+ipcRenderer.on('update:ready', () => {
+
+    const node = document.getElementById('panel-container');
+    const updateElement = document.createElement('div');
+    updateElement.innerText = 'Restart to apply update';
+    updateElement.className = 'apply-update';
+    node.appendChild(updateElement);
+
+    updateElement.addEventListener('click', () => {
+
+        ipcRenderer.send('update:apply');
+    });
+});
+
 // Open a default pane by default
 openPane();

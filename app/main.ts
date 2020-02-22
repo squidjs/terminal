@@ -1,6 +1,7 @@
 import { app, globalShortcut } from 'electron';
 import Settings, { IShortcut, save } from './settings/Settings';
 import Window  from './components/Window';
+import Updater from './update/Updater';
 
 const settings = new Settings();
 let window: Window;
@@ -11,6 +12,9 @@ app.on('ready', () => {
 
     const shortcuts: IShortcut[] = settings.get('shortcuts');
     shortcuts.forEach(current => globalShortcut.register(current.keys, () => window.getWindow().webContents.send('shortcuts', current.action)));
+
+    // Check for updates
+    window.getWindow().on('ready-to-show', () => new Updater());
 });
 
 app.on('window-all-closed', () => {
