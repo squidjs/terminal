@@ -47,7 +47,6 @@ export default class SquidTerminal {
 
             cursorBlink: settings.get('cursor.blink'),
             cursorStyle: settings.get('cursor.style'),
-            // @ts-ignore
             experimentalCharAtlas: settings.get('experimentalCharAtlas'),
             fontSize: settings.get('font.size'),
             fontFamily: settings.get('font.family'),
