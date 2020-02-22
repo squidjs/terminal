@@ -6,7 +6,12 @@ let currentTerminal: SquidTerminal = null;
 
 function openPane() {
 
-    const terminalId = 'pane-' + panes.length;
+    let id = 0;
+
+    while(document.getElementById('pane-' + id))
+        id++;
+
+    const terminalId = 'pane-' + id;
 
     const node = document.getElementById('panel-container');
     const terminalElement = document.createElement('div');
