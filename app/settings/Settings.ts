@@ -189,6 +189,8 @@ interface IBackgroundImage {
     opacity: number;
 }
 
+export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switch';
+
 export interface IShortcut {
 
     /**
@@ -199,5 +201,5 @@ export interface IShortcut {
     /**
      * The desired action
      */
-    action: 'pane:open' | 'pane:close' | 'pane:switch';
+    action: IShortcutType;
 }

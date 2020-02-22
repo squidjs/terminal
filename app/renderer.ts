@@ -1,4 +1,4 @@
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, clipboard } from 'electron';
 import SquidTerminal from './components/SquidTerminal';
 
 const panes: SquidTerminal[] = [];
@@ -130,6 +130,10 @@ ipcRenderer.on('shortcuts', (event, message) => {
 
     switch (message) {
 
+        case 'paste':
+            currentTerminal.onData(clipboard.readText());
+            break;
+
         case 'pane:open':
             openPane();
             break;
@@ -160,3 +164,9 @@ ipcRenderer.on('update:ready', () => {
 
 // Open a default pane by default
 openPane();
+
+document.addEventListener('contextmenu', (event) => {
+
+    event.preventDefault();
+    ipcRenderer.send('contextmenu');
+});
