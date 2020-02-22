@@ -14,7 +14,7 @@ app.on('ready', () => {
     shortcuts.forEach(current => globalShortcut.register(current.keys, () => window.getWindow().webContents.send('shortcuts', current.action)));
 
     // Check for updates
-    window.getWindow().on('ready-to-show', () => new Updater());
+    window.getWindow().on('ready-to-show', () => new Updater(window));
 });
 
 app.on('window-all-closed', () => {

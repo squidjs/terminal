@@ -1,15 +1,19 @@
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import * as path from 'path';
-import { webContents, ipcMain } from 'electron';
+import { ipcMain } from 'electron';
+import Window  from '../components/Window';
 
 const electronIsDev = require('electron-is-dev');
 
 export default class Updater {
 
+    private window: Window;
     private progress: number;
 
-    constructor() {
+    constructor(window: Window) {
+
+        this.window = window;
 
         log.transports.file.level = 'debug';
         autoUpdater.logger = log;
@@ -25,11 +29,11 @@ export default class Updater {
      */
     checkForUpdates() {
 
-        autoUpdater.checkForUpdatesAndNotify();
+        autoUpdater.checkForUpdates();
 
         autoUpdater.on('update-available', () => console.log('update available'));
         autoUpdater.on('download-progress', (info) => this.progress = info.percent);
-        autoUpdater.on('update-downloaded', () => webContents.getFocusedWebContents().send('update:ready'));
+        autoUpdater.on('update-downloaded', () => this.window.getWindow().webContents.send('update:ready'));
 
         ipcMain.on('update:apply', () => autoUpdater.quitAndInstall());
     }
