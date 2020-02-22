@@ -4,5 +4,6 @@ node_modules/
 # Jetbrain
 .idea/
 
-# Dist
+# Dist and build directories
 dist/
+builded/
