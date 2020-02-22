@@ -18,7 +18,8 @@
     "start": "cross-env ELECTRON_IS_DEV=1 electron ./dist/main.js",
     "rebuild": "./node_modules/.bin/electron-rebuild.cmd",
     "pack": "electron-builder build -w",
-    "cert": "electron-builder create-self-signed-cert -p QuiiBz"
+    "cert": "electron-builder create-self-signed-cert -p QuiiBz",
+    "publish": "electron-builder build -w -p onTagOrDraft"
   },
   "build": {
     "appId": "fr.quiibz.squid",
