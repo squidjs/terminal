@@ -78,7 +78,7 @@ export default class Settings {
  */
 export function save(path: string, settings: ISettings) {
 
-    fs.writeFileSync(path, JSON.stringify(settings));
+    fs.writeFileSync(path, JSON.stringify(settings, null, 2));
 }
 
 export interface ISettings {

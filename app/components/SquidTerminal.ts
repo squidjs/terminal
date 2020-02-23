@@ -51,7 +51,7 @@ export default class SquidTerminal {
             experimentalCharAtlas: settings.get('experimentalCharAtlas'),
             fontSize: settings.get('font.size'),
             fontFamily: settings.get('font.family'),
-            rendererType: 'canvas',
+            rendererType: 'dom',
         });
     }
 
