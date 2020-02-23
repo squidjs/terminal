@@ -1,57 +1,34 @@
-osx_image: xcode10.3 # define OS X image which will be mounted
+include:
+  - os: osx
+    osx_image: xcode10.2
+    language: node_js
+    node_js: "11"
+    env:
+      - ELECTRON_CACHE=$HOME/.cache/electron
+      - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
-dist: xenial # use Ubuntu Xenial for Linux operation system
-
-# Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
-# See https://github.com/travis-ci/travis-ci/issues/8836
-sudo: required
-
-# Define Node.js as the programming language as we have a web application
-language: node_js
-node_js: '11'
-
-addons:
-  chrome: stable # Install chrome stable on operating systems
-
-# A list of operating systems which are used for tests
-os:
-  - linux
-  - osx
-
-compiler:
-  - clang
-  - gcc
-
-env:
-  global:
-    - ELECTRON_CACHE=$HOME/.cache/electron
-    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+  - os: linux
+    services: docker
+    language: generic
 
 cache:
-  yarn: true
   directories:
+    - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
-    - $HOME/.npm/_prebuilds
-
-before_cache:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then apt-get install python3.6; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -rf $HOME/.cache/electron-builder/wine; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
-
-# These commands are executed before the scripts are executed
-install:
-  # On OS X we first need to install Yarn via Homebrew
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install yarn; fi
-  # Install all dependencies listed in your package.json file
-  - yarn
 
 script:
-  - echo "Deploy window release to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn publish:win; fi
-
-  - echo "Deploy linux release to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn publish:linux; fi
-
-  - echo "Deploy mac release to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn publish:mac; fi
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      docker run --rm \
+        --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+        -v ${PWD}:/project \
+        -v ~/.cache/electron:/root/.cache/electron \
+        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+        electronuserland/builder:wine \
+        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn publish:win && yarn publish:linux"
+    else
+      yarn publish:mac
+    fi
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
