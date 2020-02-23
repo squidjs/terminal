@@ -18,10 +18,6 @@ os:
   - linux
   - osx
 
-matrix:
-  include:
-    - env: CC=gcc
-
 env:
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
@@ -35,7 +31,9 @@ cache:
     - $HOME/.npm/_prebuilds
 
 before_cache:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then apt-get install python3.6; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -rf $HOME/.cache/electron-builder/wine; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
 
 # These commands are executed before the scripts are executed
 install:
