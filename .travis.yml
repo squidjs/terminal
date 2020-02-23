@@ -43,13 +43,9 @@ install:
 script:
   - echo "Deploy window release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn publish:win; fi
-<<<<<<< HEAD
 
-=======
-
->>>>>>> canary
   - echo "Deploy linux release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn publish:linux; fi
 
   - echo "Deploy mac release to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn publish:mac; fi
+  - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn publish:mac; fi
