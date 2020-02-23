@@ -54,6 +54,7 @@
     "electron-is-dev": "^1.1.0",
     "electron-log": "^4.0.6",
     "electron-updater": "^4.2.2",
+    "md5": "^2.2.1",
     "node-gyp": "^6.1.0",
     "node-pty": "^0.7.0",
     "typescript": "^3.7.5",

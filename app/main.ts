@@ -20,7 +20,7 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
 
     // Save settings by default
-    save(settings.getPath(), settings.getSettings());
+    //save(settings.getPath(), settings.getSettings());
 
     if(process.platform !== 'darwin')
         app.quit();

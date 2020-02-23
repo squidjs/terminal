@@ -1,9 +1,9 @@
 import { Terminal } from 'xterm';
-import Settings from '../settings/Settings';
+import Settings, { ITheme } from '../settings/Settings';
 import * as pty from 'node-pty';
 import * as os from 'os';
 import { ITerminal } from 'node-pty/lib/interfaces';
-import { loadTheme } from '../themes/themeHandler';
+import { loadTheme } from '../settings/handler';
 
 const fit = require('xterm/lib/addons/fit/fit');
 const webLinks = require('xterm/lib/addons/webLinks/webLinks');
@@ -13,9 +13,9 @@ export default class SquidTerminal {
 
     private xterm: Terminal;
     private ptyProcess: ITerminal;
-    private termId: string;
+    private termId: number;
 
-    constructor(termId: string) {
+    constructor(termId: number) {
 
         this.termId = termId;
 
@@ -25,7 +25,7 @@ export default class SquidTerminal {
         this.applyTheme();
 
         // Open the terminal
-        this.xterm.open(document.getElementById(termId));
+        this.xterm.open(document.getElementById(this.getPrefixTermId()));
 
         this.applyAddons();
         (this.xterm as any).webLinksInit();
@@ -79,6 +79,15 @@ export default class SquidTerminal {
 
         if(currentTheme != theme.name)
             theme = loadTheme(currentTheme);
+
+        this.xterm.setOption('theme', theme);
+    }
+
+    /**
+     * Apply a new theme
+     * @param theme
+     */
+    applyNewTheme(theme: ITheme) {
 
         this.xterm.setOption('theme', theme);
     }
@@ -141,8 +150,17 @@ export default class SquidTerminal {
      * Return the terminal id
      * @return string
      */
-    getTermId(): string {
+    getTermId(): number {
 
         return this.termId;
+    }
+
+    /**
+     * Return the terminal id with 'pane-'
+     * @return string
+     */
+    getPrefixTermId(): string {
+
+        return 'pane-' + this.getTermId();
     }
 }

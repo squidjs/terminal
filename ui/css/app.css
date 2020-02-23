@@ -79,7 +79,8 @@ body {
 
 .xterm-screen {
 
-    height: calc(100vh - 50px) !important;
+    width: calc(100vw - 30px) !important;
+    height: calc(100vh - 60px) !important;
 }
 
 .xterm-background {
