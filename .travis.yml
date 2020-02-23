@@ -1,6 +1,6 @@
-osx_image: xcode8.4 # define OS X image which will be mounted
+osx_image: xcode10.3 # define OS X image which will be mounted
 
-dist: trusty # use Ubuntu Trusty for Linux operation system
+dist: xenial # use Ubuntu Xenial for Linux operation system
 
 # Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
 # See https://github.com/travis-ci/travis-ci/issues/8836
