@@ -9,10 +9,6 @@ panes.openPane();
 
 ipcRenderer.on('shortcuts', (event, message) => {
 
-    // We don't want to process shortcuts if the window is not focused
-    if(!remote.getCurrentWebContents().isFocused())
-        return;
-
     switch (message) {
 
         case 'paste':
@@ -54,5 +50,3 @@ document.addEventListener('contextmenu', (event) => {
     event.preventDefault();
     ipcRenderer.send('contextmenu');
 });
-
-document.addEventListener('resize', () => panes.getPanes().forEach(current => current.fit()));
