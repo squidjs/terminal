@@ -18,6 +18,10 @@ os:
   - linux
   - osx
 
+matrix:
+  include:
+    - env: CC=gcc
+
 env:
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
