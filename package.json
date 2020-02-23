@@ -19,7 +19,9 @@
     "rebuild": "./node_modules/.bin/electron-rebuild.cmd",
     "pack": "electron-builder build -w",
     "cert": "electron-builder create-self-signed-cert -p QuiiBz",
-    "publish": "electron-builder build -w -p onTagOrDraft"
+    "publish:win": "electron-builder build -w -p always",
+    "publish:linux": "electron-builder build -l -p always",
+    "publish:mac": "electron-builder build -m -p always"
   },
   "build": {
     "appId": "fr.quiibz.squid",
