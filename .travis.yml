@@ -8,7 +8,11 @@ sudo: required
 
 # Define Node.js as the programming language as we have a web application
 language: node_js
+<<<<<<< HEAD
 node_js: '11'
+=======
+node_js: '8'
+>>>>>>> canary
 
 addons:
   chrome: stable # Install chrome stable on operating systems
@@ -43,7 +47,11 @@ install:
 script:
   - echo "Deploy window release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn publish:win; fi
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> canary
   - echo "Deploy linux release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn publish:linux; fi
 
