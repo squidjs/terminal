@@ -1,5 +1,5 @@
 import { app } from 'electron';
-import Settings, { save } from './settings/Settings';
+import Settings, { save} from './settings/Settings';
 import Window  from './components/Window';
 import Updater from './update/Updater';
 import ContextMenu from './menus/ContextMenu';
@@ -19,8 +19,9 @@ app.on('ready', () => {
 
 app.on('window-all-closed', () => {
 
-    // Save settings by default
-    save(settings.getPath(), settings.getSettings());
+    // Save settings if the file does not exist
+    if(!settings.exists())
+        save(settings.getPath(), settings.getSettings());
 
     if(process.platform !== 'darwin')
         app.quit();

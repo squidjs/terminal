@@ -8,7 +8,7 @@ body {
 
     background-color: #0F0F0F;
 
-    font-family: Consolas;
+    font-family: 'Fira Code', monospace;
 
     user-select: none;
 }

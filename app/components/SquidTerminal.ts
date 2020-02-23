@@ -1,22 +1,24 @@
 import { Terminal } from 'xterm';
-import Settings, { ITheme } from '../settings/Settings';
 import * as pty from 'node-pty';
 import * as os from 'os';
 import { ITerminal } from 'node-pty/lib/interfaces';
 import { loadTheme } from '../settings/handler';
-
-const fit = require('xterm/lib/addons/fit/fit');
-const webLinks = require('xterm/lib/addons/webLinks/webLinks');
-const settings = new Settings();
+import { FitAddon } from 'xterm-addon-fit';
+import { WebLinksAddon } from 'xterm-addon-web-links';
+import { LigaturesAddon } from 'xterm-addon-ligatures';
+import Settings, { ISettings, ITheme } from '../settings/Settings';
 
 export default class SquidTerminal {
 
     private xterm: Terminal;
     private ptyProcess: ITerminal;
+    private settings: Settings;
     private termId: number;
+    private fitAddon: FitAddon;
 
-    constructor(termId: number) {
+    constructor(settings: Settings, termId: number) {
 
+        this.settings = settings;
         this.termId = termId;
 
         this.xterm = this.buildTerminal();
@@ -28,7 +30,6 @@ export default class SquidTerminal {
         this.xterm.open(document.getElementById(this.getPrefixTermId()));
 
         this.applyAddons();
-        (this.xterm as any).webLinksInit();
         this.fit();
 
         this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
@@ -46,12 +47,11 @@ export default class SquidTerminal {
 
         return new Terminal({
 
-            cursorBlink: settings.get('cursor.blink'),
-            cursorStyle: settings.get('cursor.style'),
-            experimentalCharAtlas: settings.get('experimentalCharAtlas'),
-            fontSize: settings.get('font.size'),
-            fontFamily: settings.get('font.family'),
-            rendererType: 'dom',
+            cursorBlink: this.settings.get('cursor').blink,
+            cursorStyle: this.settings.get('cursor').style,
+            //experimentalCharAtlas: settings.get('experimentalCharAtlas'),
+            fontSize: this.settings.get('font').size,
+            fontFamily: this.settings.get('font').family
         });
     }
 
@@ -61,7 +61,7 @@ export default class SquidTerminal {
      */
     buildPtyProcess(): ITerminal {
 
-        return pty.spawn(os.platform() === 'win32' ? settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
+        return pty.spawn(os.platform() === 'win32' ? this.settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
 
             name: 'xterm-256color',
             cols: this.xterm.cols,
@@ -74,8 +74,8 @@ export default class SquidTerminal {
      */
     applyTheme() {
 
-        const currentTheme = settings.get('currentTheme');
-        let theme = settings.get('theme');
+        const currentTheme = this.settings.get('currentTheme');
+        let theme = this.settings.get('theme');
 
         if(currentTheme != theme.name)
             theme = loadTheme(currentTheme);
@@ -97,8 +97,23 @@ export default class SquidTerminal {
      */
     applyAddons() {
 
-        Terminal.applyAddon(fit);
-        Terminal.applyAddon(webLinks);
+        this.xterm.loadAddon(this.fitAddon = new FitAddon());
+        this.xterm.loadAddon(new WebLinksAddon());
+        this.xterm.loadAddon(new LigaturesAddon());
+    }
+
+    /**
+     * Apply the new settings
+     * @param settings
+     */
+    applySettings(settings: ISettings) {
+
+        this.applyNewTheme(loadTheme(settings.currentTheme));
+
+        this.xterm.setOption('cursorBlink', settings.cursor.blink);
+        this.xterm.setOption('cursorStyle', settings.cursor.style);
+        this.xterm.setOption('fontSize', settings.font.size);
+        this.xterm.setOption('fontFamily', settings.font.family);
     }
 
     /**
@@ -106,7 +121,7 @@ export default class SquidTerminal {
      */
     fit() {
 
-        (this.xterm as any).fit();
+        this.fitAddon.fit();
     }
 
     /**

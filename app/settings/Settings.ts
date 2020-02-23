@@ -5,7 +5,7 @@ import { defaultConfig } from '../config/defaultConfig';
 
 export default class Settings {
 
-    private readonly settings: ISettings;
+    private settings: ISettings;
     private readonly path: string;
 
     constructor() {
@@ -53,6 +53,15 @@ export default class Settings {
     }
 
     /**
+     * Does the settings file exist ?
+     * @return If the settings file exist
+     */
+    exists(): boolean {
+
+        return fs.existsSync(this.path);
+    }
+
+    /**
      * Get the path of the file
      * @return The path to the file
      */
@@ -68,6 +77,15 @@ export default class Settings {
     getSettings(): ISettings {
 
         return this.settings;
+    }
+
+    /**
+     * Update the settings
+     * @param settings
+     */
+    setSettings(settings: ISettings) {
+
+        this.settings = settings;
     }
 }
 

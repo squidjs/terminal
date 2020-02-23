@@ -1,11 +1,23 @@
-import { ipcRenderer, remote, clipboard } from 'electron';
-import { loadTheme, watchForChanges } from './settings/handler';
+import { ipcRenderer, clipboard } from 'electron';
+import { watchForChanges } from './settings/handler';
 import { ISettings } from './settings/Settings';
 import Panes from './components/Panes';
+import Settings from './settings/Settings';
 
-const panes = new Panes();
+const settings = new Settings();
+const panes = new Panes(settings);
 // Open a new tab by default
 panes.openPane();
+
+watchForChanges((newFile: ISettings) => {
+
+    panes.setSettings(newFile);
+
+    panes.getPanes().forEach(current => {
+
+        current.applySettings(newFile);
+    });
+});
 
 ipcRenderer.on('shortcuts', (event, message) => {
 
@@ -38,11 +50,6 @@ ipcRenderer.on('update:ready', () => {
     node.appendChild(updateElement);
 
     updateElement.addEventListener('click', () => ipcRenderer.send('update:apply'));
-});
-
-watchForChanges((newFile: ISettings) => {
-
-    panes.getPanes().forEach(current => current.applyNewTheme(loadTheme(newFile.currentTheme)));
 });
 
 document.addEventListener('contextmenu', (event) => {

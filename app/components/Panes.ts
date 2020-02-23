@@ -1,14 +1,17 @@
 import SquidTerminal from './SquidTerminal';
 import { remote } from 'electron';
+import Settings, { ISettings } from '../settings/Settings';
 
 export default class Panes {
 
+    private settings: Settings;
     private panes: SquidTerminal[];
     private currentPane: SquidTerminal;
     private node: HTMLElement;
 
-    constructor() {
+    constructor(settings: Settings) {
 
+        this.settings = settings;
         this.panes = [];
         this.currentPane = null;
         this.node = document.getElementById('panel-container');
@@ -26,7 +29,7 @@ export default class Panes {
         // Add the element to the DOM
         this.node.appendChild(terminalElement);
 
-        const terminal = new SquidTerminal(id);
+        const terminal = new SquidTerminal(this.settings, id);
 
         this.addPane(terminal);
 
@@ -172,6 +175,11 @@ export default class Panes {
     getPanes(): SquidTerminal[] {
 
         return this.panes;
+    }
+
+    setSettings(settings: ISettings) {
+
+        this.settings.setSettings(settings);
     }
 
     /**
