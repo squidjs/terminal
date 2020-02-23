@@ -18,6 +18,10 @@ os:
   - linux
   - osx
 
+compiler:
+  - clang
+  - gcc
+
 env:
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
