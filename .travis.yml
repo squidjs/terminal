@@ -49,8 +49,6 @@ before_install:
 
 # These commands are executed before the scripts are executed
 install:
-  # On OS X we first need to install Yarn via Homebrew
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install npm; fi
   # Install all dependencies listed in your package.json file
   - npm install
 
