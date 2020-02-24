@@ -41,6 +41,7 @@ before_cache:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then apt-get install python2.7; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -rf $HOME/.cache/electron-builder/wine; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gcc; fi
 
 before_install:
   - npm install -g node-gyp
