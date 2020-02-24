@@ -102,28 +102,26 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
 
     -webkit-app-region: no-drag;
+
+    border-bottom: 1px solid #151515;
 }
 
 .tab {
 
-    margin: 0 20px;
-    padding: 10px;
+    padding: 10px 50px;
 
     color: #646464;
-    border-bottom: 1px solid #646464;
-    width: 100%;
-    text-align: center;
+    border: 1px solid #151515;
 
+    text-align: center;
     transition: .3s ease;
 }
 
 .tab.active {
 
     color: #ffffff;
-    border-bottom: 1px solid #ffffff;
 }
 
 .tab:hover {
@@ -131,6 +129,18 @@ body {
     cursor: pointer;
 
     color: #ffffff;
+}
+
+.gu-mirror {
+
+    padding: 0 !important;
+    line-height: 42px !important;
+    background-color: #0F0F0F;
+}
+
+.gu-transit {
+
+    border: 1px dashed #FFFFFF;
 }
 
 .apply-update {

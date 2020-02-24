@@ -1,6 +1,8 @@
 import SquidTerminal from './SquidTerminal';
 import { remote } from 'electron';
 import Settings, { ISettings } from '../settings/Settings';
+import * as dragula from 'dragula';
+import { Drake } from 'dragula';
 
 export default class Panes {
 
@@ -8,6 +10,7 @@ export default class Panes {
     private panes: SquidTerminal[];
     private currentPane: SquidTerminal;
     private node: HTMLElement;
+    private drag: Drake;
 
     constructor(settings: Settings) {
 
@@ -15,6 +18,9 @@ export default class Panes {
         this.panes = [];
         this.currentPane = null;
         this.node = document.getElementById('panel-container');
+        this.drag = dragula([document.getElementById('tabs-container')], {
+            direction: 'horizontal'
+        });
     }
 
     /**
