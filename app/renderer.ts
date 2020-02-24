@@ -25,11 +25,7 @@ ipcRenderer.on('shortcuts', (event, message) => {
     switch (message) {
 
         case 'paste':
-
-            const currentPane = panes.getCurrentPane();
-
-            if(currentPane instanceof SquidTerminal)
-                (<SquidTerminal>panes.getCurrentPane()).onData(clipboard.readText());
+            panes.getCurrentPane().onData(clipboard.readText());
             break;
 
         case 'pane:open':
@@ -56,6 +52,8 @@ ipcRenderer.on('update:ready', () => {
 
     updateElement.addEventListener('click', () => ipcRenderer.send('update:apply'));
 });
+
+ipcRenderer.on('resize', () => panes.getPanes().forEach(current => current.fit()));
 
 document.addEventListener('contextmenu', (event) => {
 

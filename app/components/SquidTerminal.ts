@@ -1,7 +1,7 @@
 import { Terminal } from 'xterm';
+import { remote } from 'electron';
 import * as pty from 'node-pty';
-import * as os from 'os';
-import { ITerminal } from 'node-pty/lib/interfaces';
+import { IPty } from 'node-pty';
 import { loadTheme } from '../settings/handler';
 import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
@@ -12,7 +12,7 @@ import Pane from './Pane';
 export default class SquidTerminal extends Pane {
 
     private xterm: Terminal;
-    private ptyProcess: ITerminal;
+    private ptyProcess: IPty;
     private fitAddon: FitAddon;
     private opened: boolean;
 
@@ -38,15 +38,17 @@ export default class SquidTerminal extends Pane {
         this.xterm.open(document.getElementById(this.getPrefixId()));
 
         this.applyAddons();
-        this.adapt();
 
         this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
         this.xterm.onData((data: string) => this.onData(data));
-        this.ptyProcess.on('data', (data: string) => this.onPtyData(data));
+        this.ptyProcess.onData((data: string) => this.onPtyData(data));
+        this.ptyProcess.onExit(() => this.onExit());
 
         window.onresize = () => this.fit();
 
         this.opened = true;
+
+        this.adapt();
     }
 
     /**
@@ -80,9 +82,9 @@ export default class SquidTerminal extends Pane {
 
             cursorBlink: this.settings.get('cursor').blink,
             cursorStyle: this.settings.get('cursor').style,
-            //experimentalCharAtlas: settings.get('experimentalCharAtlas'),
             fontSize: this.settings.get('font').size,
-            fontFamily: this.settings.get('font').family
+            fontFamily: this.settings.get('font').family,
+            fastScrollModifier: this.settings.get('fastScrollModifier')
         });
     }
 
@@ -91,7 +93,7 @@ export default class SquidTerminal extends Pane {
      * @param The path to the bash
      * @return The pty process
      */
-    buildPtyProcess(bash: string): ITerminal {
+    buildPtyProcess(bash: string): IPty {
 
         return pty.spawn(bash, [], {
 
@@ -191,5 +193,13 @@ export default class SquidTerminal extends Pane {
     onPtyData(data: string) {
 
         this.xterm.write(data);
+    }
+
+    /**
+     * Called when the pty process exit
+     */
+    onExit() {
+
+        remote.getCurrentWindow().webContents.send('shortcuts', 'pane:close');
     }
 }
