@@ -37,9 +37,10 @@ export const defaultConfig: ISettings = {
     },
     bash: '',
     currentTheme: 'default',
+    fastScrollModifier: 'shift',
     shortcuts: [
         {
-            keys: 'CommandOrControl+T',
+            keys: 'CommandOrControl+Shift+T',
             action: 'pane:open'
         },
         {

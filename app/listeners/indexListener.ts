@@ -19,6 +19,8 @@ max.addEventListener('click', (e) => {
         remote.getCurrentWindow().restore();
     else
         remote.getCurrentWindow().maximize();
+
+    remote.getCurrentWindow().webContents.send('resize');
 });
 
 closeBtn.addEventListener('click', (e) => {

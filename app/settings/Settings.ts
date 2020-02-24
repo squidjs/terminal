@@ -21,7 +21,12 @@ export default class Settings {
      */
     get(key: string): string | boolean | number | any {
 
-        return this.settings[key];
+        let value = this.settings[key];
+
+        if(value === undefined)
+            value = defaultConfig[key];
+
+        return value;
     }
 
     /**
@@ -130,6 +135,11 @@ export interface ISettings {
      * The name of the current theme
      */
     currentTheme: string;
+
+    /**
+     * The key to toggle the fast scroll
+     */
+    fastScrollModifier: 'alt' | 'ctrl' | 'shift';
 
     /**
      * A list of the shortcuts
