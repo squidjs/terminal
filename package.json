@@ -60,6 +60,7 @@
     "node-gyp": "^6.1.0",
     "node-pty": "^0.7.0",
     "typescript": "^3.7.5",
+    "v8-compile-cache": "^2.1.0",
     "windows-native-registry": "^1.0.14",
     "xterm": "^4.4.0",
     "xterm-addon-fit": "^0.3.0",

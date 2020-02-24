@@ -4,6 +4,8 @@ import Window  from './components/Window';
 import Updater from './update/Updater';
 import ContextMenu from './menus/ContextMenu';
 
+import 'v8-compiler-cache';
+
 const settings = new Settings();
 let window: Window;
 let contextMenu: ContextMenu;
