@@ -54,6 +54,7 @@ install:
   - npm install
 
 script:
+  - tsc
   - echo "Deploy window release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run publish:win; fi
 
