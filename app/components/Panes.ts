@@ -4,6 +4,7 @@ import * as dragula from 'dragula';
 import { Drake } from 'dragula';
 import SquidTerminal from "./SquidTerminal";
 import * as os from 'os';
+import SSHTerminal from "./SSHTerminal";
 
 export default class Panes {
 
@@ -56,7 +57,7 @@ export default class Panes {
         // Add the element to the DOM
         this.node.appendChild(terminalElement);
 
-        const pane = new SquidTerminal(this.settings, id);
+        const pane = new SSHTerminal(this.settings, id);
 
         this.addPane(pane);
 

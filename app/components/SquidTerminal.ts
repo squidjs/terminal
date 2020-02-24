@@ -11,10 +11,10 @@ import Pane from './Pane';
 
 export default class SquidTerminal extends Pane {
 
-    private xterm: Terminal;
+    protected xterm: Terminal;
     private ptyProcess: IPty;
     private fitAddon: FitAddon;
-    private opened: boolean;
+    protected opened: boolean;
 
     constructor(settings: Settings, id: number) {
 
