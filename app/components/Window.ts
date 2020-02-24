@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -20,6 +20,8 @@ export default class Window {
         });
 
         mainWindow.on('closed', () => mainWindow = null);
+
+        mainWindow.webContents.on('new-window', (event, url) => this.openExternalWindow(event, url));
 
         if(electronIsDev)
             this.openDevTools();
@@ -75,5 +77,12 @@ export default class Window {
     openDevTools() {
 
         mainWindow.webContents.openDevTools({ mode: 'detach' });
+    }
+
+    openExternalWindow(event: Event, url: string) {
+
+        event.preventDefault();
+
+        shell.openExternal(url);
     }
 }

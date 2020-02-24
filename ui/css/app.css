@@ -164,6 +164,54 @@ body {
     cursor: pointer;
 }
 
+.index {
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.index-btn {
+
+    font-family: 'Fira Code';
+    font-size: 14px;
+
+    background: none;
+    color: #646464;
+
+    border: 1px solid #151515;
+    border-radius: 5px;
+    padding: 10px 20px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin: 10px 0;
+
+    transition: .3s ease;
+}
+
+.index-btn:hover {
+
+    background-color: #151515;
+    color: #FFFFFF;
+
+    cursor: pointer;
+}
+
+.index-btn svg {
+
+    width: 15px;
+    margin-right: 10px;
+}
+
 ::-webkit-scrollbar {
 
     background: none;

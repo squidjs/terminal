@@ -3,6 +3,7 @@ import { watchForChanges } from './settings/handler';
 import { ISettings } from './settings/Settings';
 import Panes from './components/Panes';
 import Settings from './settings/Settings';
+import SquidTerminal from './components/SquidTerminal';
 
 const settings = new Settings();
 const panes = new Panes(settings);
@@ -24,7 +25,11 @@ ipcRenderer.on('shortcuts', (event, message) => {
     switch (message) {
 
         case 'paste':
-            panes.getCurrentPane().onData(clipboard.readText());
+
+            const currentPane = panes.getCurrentPane();
+
+            if(currentPane instanceof SquidTerminal)
+                (<SquidTerminal>panes.getCurrentPane()).onData(clipboard.readText());
             break;
 
         case 'pane:open':

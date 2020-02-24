@@ -1,8 +1,9 @@
-import SquidTerminal from './SquidTerminal';
 import { remote } from 'electron';
 import Settings, { ISettings } from '../settings/Settings';
 import * as dragula from 'dragula';
 import { Drake } from 'dragula';
+import SquidTerminal from "./SquidTerminal";
+import * as os from 'os';
 
 export default class Panes {
 
@@ -11,6 +12,7 @@ export default class Panes {
     private currentPane: SquidTerminal;
     private node: HTMLElement;
     private drag: Drake;
+    private index: HTMLElement;
 
     constructor(settings: Settings) {
 
@@ -21,12 +23,31 @@ export default class Panes {
         this.drag = dragula([document.getElementById('tabs-container')], {
             direction: 'horizontal'
         });
+        this.index = document.getElementById('index');
+
+        this.showIndex();
+
+        document.getElementById('open-bash').addEventListener('click', (event) => this.open(event, this.settings.get('bash')));
+        document.getElementById('open-default').addEventListener('click', (event) => this.open(event, os.platform() === 'win32' ? 'powershell.exe' : 'bash'));
+    }
+
+    /**
+     * Open a pane with a bash path
+     */
+    open(event: MouseEvent, path: string) {
+
+        event.preventDefault();
+
+        this.hideIndex();
+        this.currentPane.open(path);
     }
 
     /**
      * Open a new pane
      */
     openPane() {
+
+        this.showIndex();
 
         const id = this.findNextID();
         const terminalElement = document.createElement('div');
@@ -35,25 +56,25 @@ export default class Panes {
         // Add the element to the DOM
         this.node.appendChild(terminalElement);
 
-        const terminal = new SquidTerminal(this.settings, id);
+        const pane = new SquidTerminal(this.settings, id);
 
-        this.addPane(terminal);
+        this.addPane(pane);
 
         // Toggle visibility
-        this.panes.forEach(current => document.getElementById(current.getPrefixTermId()).classList.add('hidden'));
+        this.panes.forEach(current => document.getElementById(current.getPrefixId()).classList.add('hidden'));
         terminalElement.classList.remove('hidden'); // But show the created pane
 
         if(this.panes.length == 2) {
 
             // Create the two tabs
             this.panes.forEach(current => this.createTab(current));
-            document.getElementById('tab-' + terminal.getTermId()).classList.add('active');
+            document.getElementById('tab-' + pane.getId()).classList.add('active');
 
         } else if(this.panes.length > 2) {
 
-            this.createTab(terminal);
+            this.createTab(pane);
             document.querySelectorAll('.tab').forEach(current => current.classList.remove('active'));
-            document.getElementById('tab-' + terminal.getTermId()).classList.add('active');
+            document.getElementById('tab-' + pane.getId()).classList.add('active');
         }
     }
 
@@ -70,24 +91,28 @@ export default class Panes {
         } else {
 
             // Remove current pane and tab
-            document.getElementById(this.currentPane.getPrefixTermId()).remove();
-            document.getElementById('tab-' + this.currentPane.getTermId()).remove();
+            document.getElementById(this.currentPane.getPrefixId()).remove();
+            document.getElementById('tab-' + this.currentPane.getId()).remove();
 
             // Delete the current tab
             this.panes.splice(this.panes.indexOf(this.currentPane), 1);
 
             // Set the new current pane
             this.currentPane = this.getNextPane();
-            document.getElementById(this.currentPane.getPrefixTermId()).classList.remove('hidden');
+            document.getElementById(this.currentPane.getPrefixId()).classList.remove('hidden');
+
+            if(this.currentPane.isOpened())
+                this.hideIndex();
+            else
+                this.showIndex();
 
             if(this.panes.length > 1)
-                document.getElementById('tab-' + this.currentPane.getTermId()).classList.add('active');
+                document.getElementById('tab-' + this.currentPane.getId()).classList.add('active');
             else
                 document.querySelectorAll('.tab').forEach(current => current.remove());
 
             // Focus the new pane
-            this.currentPane.focus();
-            this.currentPane.fit();
+            this.currentPane.adapt();
         }
     }
 
@@ -121,8 +146,7 @@ export default class Panes {
         this.currentPane = pane;
         this.panes.push(pane);
 
-        pane.focus();
-        pane.fit();
+        pane.adapt();
     }
 
     /**
@@ -135,7 +159,7 @@ export default class Panes {
         const tabElement = document.createElement('div');
         tabElement.innerText = 'Terminal';
         tabElement.className = 'tab';
-        tabElement.id = 'tab-' + pane.getTermId();
+        tabElement.id = 'tab-' + pane.getId();
         node.appendChild(tabElement);
 
         tabElement.addEventListener('click', () => this.togglePane(tabElement, pane));
@@ -151,18 +175,38 @@ export default class Panes {
         tab.classList.add('active');
 
         // Old pane
-        document.getElementById(this.currentPane.getPrefixTermId()).classList.add('hidden');
-        document.getElementById('tab-' + this.currentPane.getTermId()).classList.remove('active');
+        document.getElementById(this.currentPane.getPrefixId()).classList.add('hidden');
+        document.getElementById('tab-' + this.currentPane.getId()).classList.remove('active');
 
         // New pane
-        document.getElementById(pane.getPrefixTermId()).classList.remove('hidden');
-        document.getElementById('tab-' + pane.getTermId()).classList.add('active');
+        document.getElementById(pane.getPrefixId()).classList.remove('hidden');
+        document.getElementById('tab-' + pane.getId()).classList.add('active');
 
-        // Focus the term
-        pane.focus();
-        pane.fit();
+        if(pane.isOpened())
+            this.hideIndex();
+        else
+            this.showIndex();
+
+        // Focus the pane
+        pane.adapt();
 
         this.currentPane = pane;
+    }
+
+    /**
+     * Show the index page
+     */
+    showIndex() {
+
+        this.index.style.display = 'flex';
+    }
+
+    /**
+     * Hide the index page
+     */
+    hideIndex() {
+
+        this.index.style.display = 'none';
     }
 
     /**

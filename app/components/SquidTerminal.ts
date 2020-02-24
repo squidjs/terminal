@@ -7,36 +7,67 @@ import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { LigaturesAddon } from 'xterm-addon-ligatures';
 import Settings, { ISettings, ITheme } from '../settings/Settings';
+import Pane from './Pane';
 
-export default class SquidTerminal {
+export default class SquidTerminal extends Pane {
 
     private xterm: Terminal;
     private ptyProcess: ITerminal;
-    private settings: Settings;
-    private termId: number;
     private fitAddon: FitAddon;
+    private opened: boolean;
 
-    constructor(settings: Settings, termId: number) {
+    constructor(settings: Settings, id: number) {
 
-        this.settings = settings;
-        this.termId = termId;
+        super(settings, id);
+
+        this.opened = false;
+    }
+
+    /**
+     * Called when the pane should open his content
+     * @param bash
+     */
+    open(bash: string) {
 
         this.xterm = this.buildTerminal();
-        this.ptyProcess = this.buildPtyProcess();
+        this.ptyProcess = this.buildPtyProcess(bash);
 
         this.applyTheme();
 
         // Open the terminal
-        this.xterm.open(document.getElementById(this.getPrefixTermId()));
+        this.xterm.open(document.getElementById(this.getPrefixId()));
 
         this.applyAddons();
-        this.fit();
+        this.adapt();
 
         this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
         this.xterm.onData((data: string) => this.onData(data));
         this.ptyProcess.on('data', (data: string) => this.onPtyData(data));
 
         window.onresize = () => this.fit();
+
+        this.opened = true;
+    }
+
+    /**
+     * Called when the pane is created or focused
+     */
+    adapt() {
+
+        if(this.isOpened()) {
+
+            this.xterm.focus();
+            this.fit();
+        }
+    }
+
+    /**
+     * Return if the pane is opened or in the index
+     * @return If the pane is opened
+     */
+    isOpened(): boolean {
+
+        return this.opened;
     }
 
     /**
@@ -57,11 +88,12 @@ export default class SquidTerminal {
 
     /**
      * Build the pty process thanks to node-pty
+     * @param The path to the bash
      * @return The pty process
      */
-    buildPtyProcess(): ITerminal {
+    buildPtyProcess(bash: string): ITerminal {
 
-        return pty.spawn(os.platform() === 'win32' ? this.settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
+        return pty.spawn(bash, [], {
 
             name: 'xterm-256color',
             cols: this.xterm.cols,
@@ -159,23 +191,5 @@ export default class SquidTerminal {
     onPtyData(data: string) {
 
         this.xterm.write(data);
-    }
-
-    /**
-     * Return the terminal id
-     * @return string
-     */
-    getTermId(): number {
-
-        return this.termId;
-    }
-
-    /**
-     * Return the terminal id with 'pane-'
-     * @return string
-     */
-    getPrefixTermId(): string {
-
-        return 'pane-' + this.getTermId();
     }
 }
