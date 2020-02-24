@@ -44,6 +44,7 @@ before_cache:
 
 before_install:
   - npm install -g node-gyp
+  - npm uninstall windows-native-registry
 
 # These commands are executed before the scripts are executed
 install:
