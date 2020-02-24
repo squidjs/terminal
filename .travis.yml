@@ -24,11 +24,11 @@ os:
   - osx
 
 env:
-  - CXX=g++-5
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
     - YARN-GPG=no
+    - CXX=g++-5
 
 cache:
   yarn: true
