@@ -46,7 +46,6 @@ before_cache:
 
 before_install:
   - npm install -g node-gyp
-  - npm uninstall windows-native-registry
 
 # These commands are executed before the scripts are executed
 install:
@@ -57,9 +56,6 @@ install:
 
 script:
   - tsc
-  - echo "Deploy window release to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run publish:win; fi
-
   - echo "Deploy linux release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm run publish:linux; fi
 
