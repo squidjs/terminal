@@ -40,6 +40,7 @@ cache:
 before_install:
   - npm install -g node-gyp
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
+  - node_modules/.bin/electron-rebuild
 
 # These commands are executed before the scripts are executed
 install:
