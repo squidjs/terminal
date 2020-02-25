@@ -37,25 +37,17 @@ cache:
     - $HOME/.cache/electron-builder
     - $HOME/.npm/_prebuilds
 
-before_cache:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then apt-get install python2.7; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -rf $HOME/.cache/electron-builder/wine; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
-
 before_install:
   - npm install -g node-gyp
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
 
 # These commands are executed before the scripts are executed
 install:
-  # On OS X we first need to install Yarn via Homebrew
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install npm; fi
   # Install all dependencies listed in your package.json file
   - npm install
 
 script:
-  - echo "Deploy window release to GitHub"
-  - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run publish:win; fi
-
+  - tsc
   - echo "Deploy linux release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm run publish:linux; fi
 
