@@ -155,7 +155,8 @@ export default class SquidTerminal extends Pane {
      */
     fit() {
 
-        this.fitAddon.fit();
+        if(this.isOpened())
+            this.fitAddon.fit();
     }
 
     /**

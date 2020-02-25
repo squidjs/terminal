@@ -1,22 +1,26 @@
 import SquidTerminal from './SquidTerminal';
 import { Client, ClientChannel } from 'ssh2';
 import Settings from '../settings/Settings';
+import { remote } from 'electron';
+import { IHost } from '../hosts/HostHandler';
 
 export default class SSHTerminal extends SquidTerminal {
 
     private connection: Client;
-    private stream: ClientChannel;
-    private cmd: string;
+    private host: IHost;
 
-    constructor(settings: Settings, id: number) {
+    constructor(settings: Settings, id: number, host: IHost) {
 
         super(settings, id);
 
+        this.host = host;
         this.connection = new Client();
-        this.cmd = '';
     }
 
-    open(bash: string) {
+    /**
+     * Called when the pane should open his content
+     */
+    open() {
 
         this.xterm = this.buildTerminal();
 
@@ -28,17 +32,6 @@ export default class SSHTerminal extends SquidTerminal {
         this.applyAddons();
 
         this.xterm.onResize((data: {cols: number, rows: number}) => this.fit());
-        this.xterm.onData((data: string) => this.onData(data));
-        this.xterm.onKey((data: { key: string, domEvent: KeyboardEvent }) => {
-
-            if(data.domEvent.keyCode === 13) {
-
-                this.stream.write(this.cmd + '\n');
-                this.cmd = '';
-
-            } else
-                this.cmd += data.key;
-        });
 
         window.onresize = () => this.fit();
 
@@ -48,6 +41,9 @@ export default class SSHTerminal extends SquidTerminal {
         this.setupConnection();
     }
 
+    /**
+     * Setup the SSH connection
+     */
     setupConnection() {
 
         this.connection.on('ready', () => {
@@ -57,24 +53,37 @@ export default class SSHTerminal extends SquidTerminal {
                 if(error)
                     throw error;
 
-                this.stream = stream.on('close', () => {
+                stream.on('close', () => {
 
                     this.connection.end();
+                    remote.getCurrentWindow().webContents.send('shortcuts', 'pane:close');
 
                 }).on('data', (data) => {
 
-                    this.xterm.write(data);
+                    this.xterm.write(data.toString());
+
+                }).stderr.on('data', (data) => {
+
+                    this.xterm.write(data.toString());
+                });
+
+                this.xterm.onKey((data: {key: string, domEvent: KeyboardEvent }) => {
+
+                    stream.write(data.key);
                 });
             });
-
         }).connect({
-            host: '51.83.40.52',
-            port: 3400,
-            username: 'root',
-            password: 'GLjy7aow'
+            host: this.host.ip,
+            port: this.host.port,
+            username: this.host.username,
+            password: this.host.password,
         });
     }
 
+    /**
+     * Called when data is received from the terminal
+     * @param data
+     */
     onData(data: string) {
 
         this.xterm.write(data);
