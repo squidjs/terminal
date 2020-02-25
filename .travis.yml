@@ -16,7 +16,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-5
+      - g++
 
 # A list of operating systems which are used for tests
 os:
@@ -28,7 +28,7 @@ env:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
     - YARN-GPG=no
-    - CXX=g++-5
+    - CXX=g++
 
 cache:
   yarn: true
