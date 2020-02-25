@@ -4,6 +4,9 @@ import * as dragula from 'dragula';
 import { Drake } from 'dragula';
 import SquidTerminal from "./SquidTerminal";
 import * as os from 'os';
+import HostHandler, {IHost} from '../hosts/HostHandler';
+import { createHostElement } from '../hosts/hostHelper';
+import SSHTerminal from './SSHTerminal';
 
 export default class Panes {
 
@@ -13,6 +16,7 @@ export default class Panes {
     private node: HTMLElement;
     private drag: Drake;
     private index: HTMLElement;
+    private hostHandler: HostHandler;
 
     constructor(settings: Settings) {
 
@@ -24,22 +28,42 @@ export default class Panes {
             direction: 'horizontal'
         });
         this.index = document.getElementById('index');
+        this.hostHandler = new HostHandler();
 
         this.showIndex();
 
         document.getElementById('open-bash').addEventListener('click', (event) => this.open(event, this.settings.get('bash')));
         document.getElementById('open-default').addEventListener('click', (event) => this.open(event, os.platform() === 'win32' ? 'powershell.exe' : 'bash'));
+
+        // Spawn hosts
+        const node = document.getElementById('hosts-container');
+        this.hostHandler.on('keytarLoaded', () => this.hostHandler.getHosts().forEach(current => {
+
+            const element = createHostElement(current, (event: MouseEvent) => this.open(event, null, current));
+
+            node.appendChild(element);
+        }));
     }
 
     /**
      * Open a pane with a bash path
+     * @param event
+     * @param path
+     * @param host?
      */
-    open(event: MouseEvent, path: string) {
+    open(event: MouseEvent, path: string, host?: IHost) {
 
         event.preventDefault();
 
         this.hideIndex();
-        this.currentPane.open(path);
+
+        if(host) {
+
+            this.currentPane = new SSHTerminal(this.settings, this.currentPane.getId(), host);
+            (this.currentPane as SSHTerminal).open();
+
+        } else
+            this.currentPane.open(path);
     }
 
     /**
@@ -56,7 +80,7 @@ export default class Panes {
         // Add the element to the DOM
         this.node.appendChild(terminalElement);
 
-        const pane = new SquidTerminal(this.settings, id);
+        let pane = new SquidTerminal(this.settings, id);
 
         this.addPane(pane);
 
@@ -64,18 +88,9 @@ export default class Panes {
         this.panes.forEach(current => document.getElementById(current.getPrefixId()).classList.add('hidden'));
         terminalElement.classList.remove('hidden'); // But show the created pane
 
-        if(this.panes.length == 2) {
-
-            // Create the two tabs
-            this.panes.forEach(current => this.createTab(current));
-            document.getElementById('tab-' + pane.getId()).classList.add('active');
-
-        } else if(this.panes.length > 2) {
-
-            this.createTab(pane);
-            document.querySelectorAll('.tab').forEach(current => current.classList.remove('active'));
-            document.getElementById('tab-' + pane.getId()).classList.add('active');
-        }
+        this.createTab(pane);
+        document.querySelectorAll('.tab').forEach(current => current.classList.remove('active'));
+        document.getElementById('tab-' + pane.getId()).classList.add('active');
     }
 
     /**
@@ -106,10 +121,7 @@ export default class Panes {
             else
                 this.showIndex();
 
-            if(this.panes.length > 1)
-                document.getElementById('tab-' + this.currentPane.getId()).classList.add('active');
-            else
-                document.querySelectorAll('.tab').forEach(current => current.remove());
+            document.getElementById('tab-' + this.currentPane.getId()).classList.add('active');
 
             // Focus the new pane
             this.currentPane.adapt();
@@ -126,15 +138,10 @@ export default class Panes {
 
     getNextPane(): SquidTerminal {
 
-        if(this.panes.length > 1) {
+        const currentIndex = this.panes.indexOf(this.currentPane);
+        const toIndex = (currentIndex == this.panes.length - 1) ? 0 : currentIndex + 1;
 
-            const currentIndex = this.panes.indexOf(this.currentPane);
-            const toIndex = (currentIndex == this.panes.length - 1) ? 0 : currentIndex + 1;
-
-            return this.panes[toIndex];
-        }
-
-        return this.panes[0];
+        return this.panes[toIndex];
     }
 
     /**
