@@ -37,14 +37,12 @@ cache:
     - $HOME/.cache/electron-builder
     - $HOME/.npm/_prebuilds
 
-before_cache:
+before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then apt-get install python2.7; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then rm -rf $HOME/.cache/electron-builder/wine; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gcc; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcode-select --install; fi
-
-before_install:
   - npm install -g node-gyp
 
 # These commands are executed before the scripts are executed
