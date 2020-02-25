@@ -1,6 +1,6 @@
 {
   "name": "squid",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "author": "QuiiBz",
   "productName": "Squid",
   "description": "A terminal for everyone",
@@ -19,7 +19,9 @@
     "rebuild": "./node_modules/.bin/electron-rebuild.cmd",
     "pack": "electron-builder build -w",
     "cert": "electron-builder create-self-signed-cert -p QuiiBz",
-    "publish": "electron-builder build -w -p onTagOrDraft"
+    "publish:win": "electron-builder build -w -p always",
+    "publish:linux": "electron-builder build -l -p always",
+    "publish:mac": "electron-builder build -m -p always"
   },
   "build": {
     "appId": "fr.quiibz.squid",
@@ -48,15 +50,23 @@
     }
   },
   "dependencies": {
+    "@types/dragula": "^3.7.0",
+    "@types/ssh2": "^0.5.40",
     "cross-env": "^7.0.0",
+    "dragula": "^3.7.2",
     "electron-is-dev": "^1.1.0",
     "electron-log": "^4.0.6",
     "electron-updater": "^4.2.2",
+    "keytar": "^5.3.0",
+    "md5": "^2.2.1",
     "node-gyp": "^6.1.0",
-    "node-pty": "^0.7.0",
+    "node-pty": "^0.9.0",
+    "ssh2": "^0.8.7",
     "typescript": "^3.7.5",
-    "windows-native-registry": "^1.0.14",
-    "xterm": "^3.14.5"
+    "xterm": "^4.4.0",
+    "xterm-addon-fit": "^0.3.0",
+    "xterm-addon-ligatures": "^0.2.1",
+    "xterm-addon-web-links": "^0.2.1"
   },
   "devDependencies": {
     "electron": "^4.0.8",

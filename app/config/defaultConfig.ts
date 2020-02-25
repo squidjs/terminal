@@ -29,7 +29,7 @@ export const defaultConfig: ISettings = {
     },
     font: {
         size: 13,
-        family: 'monospace'
+        family:  '"Fira Code", "Consolas", monospace'
     },
     backgroundImage: {
         path: '',
@@ -37,9 +37,10 @@ export const defaultConfig: ISettings = {
     },
     bash: '',
     currentTheme: 'default',
+    fastScrollModifier: 'shift',
     shortcuts: [
         {
-            keys: 'CommandOrControl+T',
+            keys: 'CommandOrControl+Shift+T',
             action: 'pane:open'
         },
         {

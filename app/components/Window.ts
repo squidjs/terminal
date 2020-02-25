@@ -1,25 +1,28 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, shell } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
 const electronIsDev = require('electron-is-dev');
-let mainWindow: BrowserWindow;
 
 export default class Window {
 
+    private mainWindow: BrowserWindow;
+
     constructor() {
 
-        mainWindow = this.buildWindow();
+        this.mainWindow = this.buildWindow();
 
         this.loadURL();
 
-        mainWindow.on('ready-to-show', () => {
+        this.mainWindow.on('ready-to-show', () => {
 
-            mainWindow.show();
-            mainWindow.focus();
+            this.mainWindow.show();
+            this.mainWindow.focus();
         });
 
-        mainWindow.on('closed', () => mainWindow = null);
+        this.mainWindow.on('closed', () => this.mainWindow = null);
+
+        this.mainWindow.webContents.on('new-window', (event, url) => this.openExternalWindow(event, url));
 
         if(electronIsDev)
             this.openDevTools();
@@ -54,7 +57,7 @@ export default class Window {
      */
     getWindow(): BrowserWindow {
 
-        return mainWindow;
+        return this.mainWindow;
     }
 
     /**
@@ -62,7 +65,7 @@ export default class Window {
      */
     loadURL() {
 
-        mainWindow.loadURL(url.format({
+        this.mainWindow.loadURL(url.format({
             pathname: path.resolve(__dirname, '../../ui/index.html'),
             protocol: 'file:',
             slashes: true
@@ -74,6 +77,13 @@ export default class Window {
      */
     openDevTools() {
 
-        mainWindow.webContents.openDevTools({ mode: 'detach' });
+        this.mainWindow.webContents.openDevTools({ mode: 'detach' });
+    }
+
+    openExternalWindow(event: Event, url: string) {
+
+        event.preventDefault();
+
+        shell.openExternal(url);
     }
 }

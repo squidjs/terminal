@@ -5,7 +5,7 @@ import { defaultConfig } from '../config/defaultConfig';
 
 export default class Settings {
 
-    private readonly settings: ISettings;
+    private settings: ISettings;
     private readonly path: string;
 
     constructor() {
@@ -21,7 +21,12 @@ export default class Settings {
      */
     get(key: string): string | boolean | number | any {
 
-        return this.settings[key];
+        let value = this.settings[key];
+
+        if(value === undefined)
+            value = defaultConfig[key];
+
+        return value;
     }
 
     /**
@@ -53,6 +58,15 @@ export default class Settings {
     }
 
     /**
+     * Does the settings file exist ?
+     * @return If the settings file exist
+     */
+    exists(): boolean {
+
+        return fs.existsSync(this.path);
+    }
+
+    /**
      * Get the path of the file
      * @return The path to the file
      */
@@ -69,6 +83,15 @@ export default class Settings {
 
         return this.settings;
     }
+
+    /**
+     * Update the settings
+     * @param settings
+     */
+    setSettings(settings: ISettings) {
+
+        this.settings = settings;
+    }
 }
 
 /**
@@ -78,7 +101,7 @@ export default class Settings {
  */
 export function save(path: string, settings: ISettings) {
 
-    fs.writeFileSync(path, JSON.stringify(settings));
+    fs.writeFileSync(path, JSON.stringify(settings, null, 2));
 }
 
 export interface ISettings {
@@ -112,6 +135,11 @@ export interface ISettings {
      * The name of the current theme
      */
     currentTheme: string;
+
+    /**
+     * The key to toggle the fast scroll
+     */
+    fastScrollModifier: 'alt' | 'ctrl' | 'shift';
 
     /**
      * A list of the shortcuts

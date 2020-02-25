@@ -1,41 +1,75 @@
 import { Terminal } from 'xterm';
-import Settings from '../settings/Settings';
+import { remote } from 'electron';
 import * as pty from 'node-pty';
-import * as os from 'os';
-import { ITerminal } from 'node-pty/lib/interfaces';
-import { loadTheme } from '../themes/themeHandler';
+import { IPty } from 'node-pty';
+import { loadTheme } from '../settings/handler';
+import { FitAddon } from 'xterm-addon-fit';
+import { WebLinksAddon } from 'xterm-addon-web-links';
+import { LigaturesAddon } from 'xterm-addon-ligatures';
+import Settings, { ISettings, ITheme } from '../settings/Settings';
+import Pane from './Pane';
 
-const fit = require('xterm/lib/addons/fit/fit');
-const webLinks = require('xterm/lib/addons/webLinks/webLinks');
-const settings = new Settings();
+export default class SquidTerminal extends Pane {
 
-export default class SquidTerminal {
+    protected xterm: Terminal;
+    private ptyProcess: IPty;
+    private fitAddon: FitAddon;
+    protected opened: boolean;
 
-    private xterm: Terminal;
-    private ptyProcess: ITerminal;
-    private termId: string;
+    constructor(settings: Settings, id: number) {
 
-    constructor(termId: string) {
+        super(settings, id);
 
-        this.termId = termId;
+        this.opened = false;
+    }
+
+    /**
+     * Called when the pane should open his content
+     * @param bash
+     */
+    open(bash: string) {
 
         this.xterm = this.buildTerminal();
-        this.ptyProcess = this.buildPtyProcess();
+        this.ptyProcess = this.buildPtyProcess(bash);
 
         this.applyTheme();
 
         // Open the terminal
-        this.xterm.open(document.getElementById(termId));
+        this.xterm.open(document.getElementById(this.getPrefixId()));
 
         this.applyAddons();
-        (this.xterm as any).webLinksInit();
-        this.fit();
 
         this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
         this.xterm.onData((data: string) => this.onData(data));
-        this.ptyProcess.on('data', (data: string) => this.onPtyData(data));
+        this.ptyProcess.onData((data: string) => this.onPtyData(data));
+        this.ptyProcess.onExit(() => this.onExit());
 
         window.onresize = () => this.fit();
+
+        this.opened = true;
+
+        this.adapt();
+    }
+
+    /**
+     * Called when the pane is created or focused
+     */
+    adapt() {
+
+        if(this.isOpened()) {
+
+            this.xterm.focus();
+            this.fit();
+        }
+    }
+
+    /**
+     * Return if the pane is opened or in the index
+     * @return If the pane is opened
+     */
+    isOpened(): boolean {
+
+        return this.opened;
     }
 
     /**
@@ -46,22 +80,22 @@ export default class SquidTerminal {
 
         return new Terminal({
 
-            cursorBlink: settings.get('cursor.blink'),
-            cursorStyle: settings.get('cursor.style'),
-            experimentalCharAtlas: settings.get('experimentalCharAtlas'),
-            fontSize: settings.get('font.size'),
-            fontFamily: settings.get('font.family'),
-            rendererType: 'canvas',
+            cursorBlink: this.settings.get('cursor').blink,
+            cursorStyle: this.settings.get('cursor').style,
+            fontSize: this.settings.get('font').size,
+            fontFamily: this.settings.get('font').family,
+            fastScrollModifier: this.settings.get('fastScrollModifier')
         });
     }
 
     /**
      * Build the pty process thanks to node-pty
+     * @param The path to the bash
      * @return The pty process
      */
-    buildPtyProcess(): ITerminal {
+    buildPtyProcess(bash: string): IPty {
 
-        return pty.spawn(os.platform() === 'win32' ? settings.get('bash') : process.env.SHELL || '/bin/bash', [], {
+        return pty.spawn(bash, [], {
 
             name: 'xterm-256color',
             cols: this.xterm.cols,
@@ -74,11 +108,20 @@ export default class SquidTerminal {
      */
     applyTheme() {
 
-        const currentTheme = settings.get('currentTheme');
-        let theme = settings.get('theme');
+        const currentTheme = this.settings.get('currentTheme');
+        let theme = this.settings.get('theme');
 
         if(currentTheme != theme.name)
             theme = loadTheme(currentTheme);
+
+        this.xterm.setOption('theme', theme);
+    }
+
+    /**
+     * Apply a new theme
+     * @param theme
+     */
+    applyNewTheme(theme: ITheme) {
 
         this.xterm.setOption('theme', theme);
     }
@@ -88,8 +131,23 @@ export default class SquidTerminal {
      */
     applyAddons() {
 
-        Terminal.applyAddon(fit);
-        Terminal.applyAddon(webLinks);
+        this.xterm.loadAddon(this.fitAddon = new FitAddon());
+        this.xterm.loadAddon(new WebLinksAddon());
+        this.xterm.loadAddon(new LigaturesAddon());
+    }
+
+    /**
+     * Apply the new settings
+     * @param settings
+     */
+    applySettings(settings: ISettings) {
+
+        this.applyNewTheme(loadTheme(settings.currentTheme));
+
+        this.xterm.setOption('cursorBlink', settings.cursor.blink);
+        this.xterm.setOption('cursorStyle', settings.cursor.style);
+        this.xterm.setOption('fontSize', settings.font.size);
+        this.xterm.setOption('fontFamily', settings.font.family);
     }
 
     /**
@@ -97,7 +155,8 @@ export default class SquidTerminal {
      */
     fit() {
 
-        (this.xterm as any).fit();
+        if(this.isOpened())
+            this.fitAddon.fit();
     }
 
     /**
@@ -138,11 +197,10 @@ export default class SquidTerminal {
     }
 
     /**
-     * Return the terminal id
-     * @return string
+     * Called when the pty process exit
      */
-    getTermId(): string {
+    onExit() {
 
-        return this.termId;
+        remote.getCurrentWindow().webContents.send('shortcuts', 'pane:close');
     }
 }
