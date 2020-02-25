@@ -38,7 +38,6 @@ cache:
     - $HOME/.npm/_prebuilds
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcode-select --install; fi
   - npm install -g node-gyp
 
 # These commands are executed before the scripts are executed
