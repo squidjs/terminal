@@ -25,45 +25,47 @@
                 <div class="logo-container">
                     <img class="logo" src="images/logo.png" alt="Logo">
                 </div>
-                <div class="terminals">
-                    <div class="title">
-                        <h1>Terminals</h1>
-                        <div class="search">
-                            <input type="text" placeholder="Search a terminal...">
-                            <button class="button" type="button"><img src="icons/search.png" alt="Search"></button>
+                <div class="main-container">
+                    <div class="terminals">
+                        <div class="title">
+                            <h1>Terminals</h1>
+                            <div class="search">
+                                <input type="text" placeholder="Search a terminal...">
+                                <button class="button" type="button"><img src="icons/search.png" alt="Search"></button>
+                            </div>
+                        </div>
+                        <div class="scroll-container">
+                            <div class="host">
+                                <div class="info">
+                                    <p class="name">Custom</p>
+                                    <p class="description">Bash set in settings</p>
+                                </div>
+                                <div class="buttons">
+                                    <button class="btn" type="button" id="open-bash">Launch</button>
+                                </div>
+                            </div>
+                            <div class="host">
+                                <div class="info">
+                                    <p class="name">OS default</p>
+                                    <p class="description">Default OS bash</p>
+                                </div>
+                                <div class="buttons">
+                                    <button class="btn" type="button" id="open-default">Launch</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="scroll-container">
-                        <div class="host">
-                            <div class="info">
-                                <p class="name">Custom</p>
-                                <p class="description">Bash set in settings</p>
-                            </div>
-                            <div class="buttons">
-                                <button class="btn" type="button" id="open-bash">Launch</button>
-                            </div>
-                        </div>
-                        <div class="host">
-                            <div class="info">
-                                <p class="name">OS default</p>
-                                <p class="description">Default OS bash</p>
-                            </div>
-                            <div class="buttons">
-                                <button class="btn" type="button" id="open-default">Launch</button>
+                    <div class="hosts">
+                        <div class="title">
+                            <button type="button" class="btn" id="create-host">+</button>
+                            <h1>Your hosts</h1>
+                            <div class="search">
+                                <input type="text" placeholder="Search a host...">
+                                <button class="button" type="button"><img src="icons/search.png" alt="Search"></button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="hosts">
-                    <div class="title">
-                        <button type="button" class="btn" id="create-host">+</button>
-                        <h1>Your hosts</h1>
-                        <div class="search">
-                            <input type="text" placeholder="Search a host...">
-                            <button class="button" type="button"><img src="icons/search.png" alt="Search"></button>
+                        <div class="scroll-container" id="hosts-container">
                         </div>
-                    </div>
-                    <div class="scroll-container" id="hosts-container">
                     </div>
                 </div>
                 <div class="create-host-container" id="create-host-container">
