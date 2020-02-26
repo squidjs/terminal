@@ -181,6 +181,12 @@
     color: #ffffff;
 }
 
+#create-host {
+
+    position: absolute;
+    left: calc(30% - 60px);
+}
+
 #valid-create-host, #valid-edit-host {
 
     width: 50%;
