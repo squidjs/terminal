@@ -1,5 +1,6 @@
 ![](https://i.imgur.com/gcAGPt1.png)
 
+[![Build Status](https://travis-ci.org/QuiiBz/squid.svg?branch=canary)](https://travis-ci.org/QuiiBz/squid)
 [![Known Vulnerabilities](https://snyk.io/test/github/QuiiBz/squid/badge.svg?targetFile=package.json)](https://snyk.io/test/github/QuiiBz/squid?targetFile=package.json)
 [![Quality score](https://www.code-inspector.com/project/4175/score/svg)](https://www.code-inspector.com/project/4175/score/svg)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/QuiiBz/squid/issues)

@@ -1,24 +1,20 @@
-osx_image: xcode10.3 # define OS X image which will be mounted
+osx_image: xcode10.3
 
-dist: xenial # use Ubuntu Xenial for Linux operation system
+dist: xenial
 
-# Note: if you switch to sudo: false, you'll need to launch chrome with --no-sandbox.
-# See https://github.com/travis-ci/travis-ci/issues/8836
 sudo: required
 
-# Define Node.js as the programming language as we have a web application
 language: node_js
 node_js: '11'
 
 addons:
-  chrome: stable # Install chrome stable on operating systems
+  chrome: stable
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-5
+      - g++
 
-# A list of operating systems which are used for tests
 os:
   - linux
   - osx
@@ -28,7 +24,7 @@ env:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
     - YARN-GPG=no
-    - CXX=g++-5
+    - CXX=g++
 
 cache:
   yarn: true
@@ -40,16 +36,15 @@ cache:
 before_install:
   - npm install -g node-gyp
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install libsecret-1-dev; fi
 
-# These commands are executed before the scripts are executed
 install:
-  # Install all dependencies listed in your package.json file
   - npm install
+  - node_modules/.bin/electron-rebuild
 
 script:
   - tsc
   - echo "Deploy linux release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm run publish:linux; fi
-
   - echo "Deploy mac release to GitHub"
   - if [[ "$TRAVIS_BRANCH" == "canary" ]] && [[ "$TRAVIS_OS_NAME" == "osx" ]]; then npm run publish:mac; fi
