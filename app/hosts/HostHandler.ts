@@ -74,12 +74,14 @@ export default class HostHandler extends events.EventEmitter {
 
         const name = host.name;
 
-        if(this.hostNames.includes(host.name))
-            return;
+        if(!this.hostNames.includes(host.name))
+            this.hostNames.push(name);
 
-        this.hostNames.push(name);
+        keytar.setPassword('squid', name, JSON.stringify(host)).then(() => {
 
-        keytar.setPassword('squid', name, JSON.stringify(host)).then(() => done());
+            this.save();
+            done();
+        });
     }
 
     /**
@@ -92,8 +94,6 @@ export default class HostHandler extends events.EventEmitter {
         let host = null;
 
         this.hosts.forEach(current => {
-
-            console.log(current.name + ' ' + name);
 
             if(current.name == name)
                 host = current;

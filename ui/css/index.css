@@ -1,0 +1,201 @@
+.index {
+
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    height: 100vh;
+}
+
+.logo-container {
+
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10%;
+}
+
+.logo {
+
+    width: 200px;
+    height: 200px;
+}
+
+.main-container {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.terminals, .hosts {
+
+    width: 35vw;
+    max-width: 500px;
+    height: auto;
+    margin: 0 50px;
+}
+
+.index .title {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #151515;
+    margin-bottom: 25px;
+}
+
+.index .title h1 {
+
+    font-size: 25px;
+    font-weight: normal;
+    margin: 0;
+    color: #ffffff;
+}
+
+.index .title .search {
+
+    display: flex;
+    flex-direction: row;
+}
+
+.index .title .search input {
+
+    background: none;
+    border: none;
+    color: #646464;
+    text-align: right;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+.index .title .button {
+
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.index .title .button:hover {
+
+    cursor: pointer;
+}
+
+.index .scroll-container {
+
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: calc(40vh - 120px);
+}
+
+.host {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: #151515;
+    border-radius: 5px;
+    margin-top: 10px;
+    scroll-snap-align: start;
+}
+
+.host .info .name {
+
+    color: #ffffff;
+    font-size: 18px;
+    margin: 0;
+}
+
+.host .info .description {
+
+    color: #646464;
+    font-size: 12px;
+    margin: 0;
+}
+
+.btn {
+
+    background: none;
+    border: 1px solid #22da6e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #22da6e;
+    font-size: 16px;
+    margin: 0 5px;
+    text-shadow: 0 0 1px #22da6e;
+    transition: .3s ease;
+}
+
+.btn.blue {
+
+    border: 1px solid #82aaff;
+    color: #82aaff;
+    text-shadow: 0 0 1px #82aaff;
+}
+
+.btn:hover {
+
+    text-shadow: 0 0 5px #22da6e;
+    cursor: pointer;
+}
+
+.btn.blue:hover {
+
+    text-shadow: 0 0 5px #82aaff;
+}
+
+#add-host {
+
+    position: absolute;
+    left: calc(30% - 60px);
+}
+
+.create-host-container, .edit-host-container {
+
+    display: none;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    flex-direction: row-reverse;
+}
+
+.create-host-container.visible, .edit-host-container.visible {
+
+    display: flex;
+}
+
+.side {
+
+    height: 100vh;
+    width: 350px;
+    background: #0F0F0F;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.side input {
+
+    margin: 10px;
+    background: #151515;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+#create-host {
+
+    position: absolute;
+    right: calc(50% - 22px);
+}
+
+#valid-create-host, #valid-edit-host {
+
+    width: 50%;
+    margin: 20px auto;
+}

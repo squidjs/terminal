@@ -35,8 +35,6 @@ export default class SSHTerminal extends SquidTerminal {
 
         window.onresize = () => this.fit();
 
-        this.opened = true;
-
         this.adapt();
         this.setupConnection();
     }
