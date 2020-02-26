@@ -2,10 +2,10 @@ import { remote } from 'electron';
 import Settings, { ISettings } from '../settings/Settings';
 import * as dragula from 'dragula';
 import { Drake } from 'dragula';
-import SquidTerminal from "./SquidTerminal";
+import SquidTerminal from './SquidTerminal';
 import * as os from 'os';
 import HostHandler, {IHost} from '../hosts/HostHandler';
-import { createHostElement } from '../hosts/hostHelper';
+import { addListeners, createHostElement, openSide, closeSide, provideHost} from '../hosts/hostHelper';
 import SSHTerminal from './SSHTerminal';
 
 export default class Panes {
@@ -39,10 +39,36 @@ export default class Panes {
         const node = document.getElementById('hosts-container');
         this.hostHandler.on('keytarLoaded', () => this.hostHandler.getHosts().forEach(current => {
 
-            const element = createHostElement(current, (event: MouseEvent) => this.open(event, null, current));
-
-            node.appendChild(element);
+            node.appendChild(createHostElement(current, () => openSide('edit', current),(event: MouseEvent) => this.open(event, null, current)));
         }));
+
+        document.getElementById('valid-create-host').addEventListener('click', (event) => {
+
+            event.preventDefault();
+            closeSide('create');
+
+            const host: IHost = provideHost('create');
+
+            this.hostHandler.addHost(host, () => {
+
+                node.appendChild(createHostElement(host, () => openSide('edit', host),(event: MouseEvent) => this.open(event, null, host)));
+            });
+        });
+
+        document.getElementById('valid-edit-host').addEventListener('click', (event) => {
+
+            event.preventDefault();
+            closeSide('edit');
+
+            const host: IHost = provideHost('edit');
+
+            this.hostHandler.addHost(host, () => {
+
+                node.appendChild(createHostElement(host, () => openSide('edit', host),(event: MouseEvent) => this.open(event, null, host)));
+            });
+        });
+
+        addListeners();
     }
 
     /**
@@ -53,7 +79,8 @@ export default class Panes {
      */
     open(event: MouseEvent, path: string, host?: IHost) {
 
-        event.preventDefault();
+        if(event)
+            event.preventDefault();
 
         this.hideIndex();
 
@@ -64,6 +91,8 @@ export default class Panes {
 
         } else
             this.currentPane.open(path);
+
+        this.currentPane.setOpened();
     }
 
     /**
@@ -180,6 +209,9 @@ export default class Panes {
     togglePane(tab: HTMLElement, pane: SquidTerminal) {
 
         tab.classList.add('active');
+
+        closeSide('create');
+        closeSide('edit');
 
         // Old pane
         document.getElementById(this.currentPane.getPrefixId()).classList.add('hidden');
