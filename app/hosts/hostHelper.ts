@@ -30,6 +30,20 @@ export function addListeners() {
         event.preventDefault();
         closeSide('edit');
     });
+
+    document.getElementById('search-host').addEventListener('keyup', () => {
+
+        const hosts: HTMLCollection = document.getElementById('hosts-container').children;
+        const searching = (document.getElementById('search-host') as HTMLInputElement).value;
+
+        Array.from(hosts).forEach((current: HTMLElement) => {
+
+            if(current.id.replace('host-', '').toLowerCase().includes(searching))
+               current.style.display = 'flex';
+            else
+                current.style.display = 'none';
+        })
+    });
 }
 
 export function openSide(type: side, host: IHost) {
