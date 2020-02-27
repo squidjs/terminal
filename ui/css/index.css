@@ -115,6 +115,11 @@
     margin: 0;
 }
 
+.host .info :hover {
+
+    cursor: pointer;
+}
+
 .btn {
 
     background: none;
@@ -135,6 +140,13 @@
     text-shadow: 0 0 1px #82aaff;
 }
 
+.btn.red {
+
+    border: 1px solid #EF5350;
+    color: #EF5350;
+    text-shadow: 0 0 1px #EF5350;
+}
+
 .btn:hover {
 
     text-shadow: 0 0 5px #22da6e;
@@ -144,6 +156,11 @@
 .btn.blue:hover {
 
     text-shadow: 0 0 5px #82aaff;
+}
+
+.btn.red:hover {
+
+    text-shadow: 0 0 5px #EF5350;
 }
 
 #add-host {
@@ -194,7 +211,7 @@
     right: calc(50% - 22px);
 }
 
-#valid-create-host, #valid-edit-host {
+#valid-create-host, #valid-edit-host, #delete-host {
 
     width: 50%;
     margin: 20px auto;

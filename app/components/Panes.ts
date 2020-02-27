@@ -18,6 +18,7 @@ export default class Panes {
     private drag: Drake;
     private index: HTMLElement;
     private hostHandler: HostHandler;
+    private currentHost: IHost;
 
     constructor(settings: Settings) {
 
@@ -40,7 +41,12 @@ export default class Panes {
         const node = document.getElementById('hosts-container');
         this.hostHandler.on('keytarLoaded', () => this.hostHandler.getHosts().forEach(current => {
 
-            node.appendChild(createHostElement(current, () => openSide('edit', current),(event: MouseEvent) => this.open(event, null, current)));
+            node.appendChild(createHostElement(current, () => {
+
+                this.currentHost = current;
+                openSide('edit', current);
+
+            },(event: MouseEvent) => this.open(event, null, current)));
         }));
 
         document.getElementById('valid-create-host').addEventListener('click', (event) => {
@@ -52,7 +58,12 @@ export default class Panes {
 
             this.hostHandler.addHost(host, () => {
 
-                node.appendChild(createHostElement(host, () => openSide('edit', host),(event: MouseEvent) => this.open(event, null, host)));
+                node.appendChild(createHostElement(host, () => {
+
+                    this.currentHost = host;
+                    openSide('edit', host);
+
+                },(event: MouseEvent) => this.open(event, null, host)));
             });
         });
 
@@ -61,11 +72,27 @@ export default class Panes {
             event.preventDefault();
             closeSide('edit');
 
-            const host: IHost = provideHost('edit');
+            const newHost: IHost = provideHost('edit');
 
-            this.hostHandler.addHost(host, () => {
+            this.hostHandler.editHost(this.currentHost, newHost, () => {
 
-                node.appendChild(createHostElement(host, () => openSide('edit', host),(event: MouseEvent) => this.open(event, null, host)));
+                node.appendChild(createHostElement(newHost, () => {
+
+                    this.currentHost = newHost;
+                    openSide('edit', newHost);
+
+                },(event: MouseEvent) => this.open(event, null, newHost)));
+            });
+        });
+
+        document.getElementById('delete-host').addEventListener('click', (event) => {
+
+            event.preventDefault();
+            closeSide('edit');
+
+            this.hostHandler.removeHost(this.currentHost, () => {
+
+                 document.getElementById('host-' + this.currentHost.name).remove();
             });
         });
 

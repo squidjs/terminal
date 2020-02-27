@@ -85,6 +85,33 @@ export default class HostHandler extends events.EventEmitter {
     }
 
     /**
+     * Remove a host from keytar
+     * @param host
+     * @param done
+     */
+    removeHost(host: IHost, done: () => void) {
+
+        this.hostNames.slice(this.hostNames.indexOf(host.name), 1);
+
+        keytar.deletePassword('squid', host.name).then(() => {
+
+            this.save();
+            done();
+        });
+    }
+
+    /**
+     * Edit a host credentials
+     * @param oldHost
+     * @param newHost
+     * @param done
+     */
+    editHost(oldHost: IHost, newHost: IHost, done: () => void) {
+
+        this.removeHost(oldHost, () => this.addHost(newHost, () => done()));
+    }
+
+    /**
      * Get a IHost thanks to this name
      * @param name
      * @return IHost
