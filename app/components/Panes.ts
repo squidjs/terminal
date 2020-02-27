@@ -93,6 +93,7 @@ export default class Panes {
             this.currentPane.open(path);
 
         this.currentPane.setOpened();
+        this.currentPane.adapt();
     }
 
     /**
