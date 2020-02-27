@@ -15,7 +15,8 @@ export function addListeners() {
             ip: '',
             port: 22,
             username: 'root',
-            password: ''
+            password: '',
+            privateKey: ''
         });
     });
 
@@ -69,6 +70,7 @@ export function provideHost(type: side): IHost {
         port: Number((document.getElementById(type + '-host-port') as HTMLInputElement).value),
         username: (document.getElementById(type + '-host-username') as HTMLInputElement).value,
         password: (document.getElementById(type + '-host-password') as HTMLInputElement).value,
+        privateKey: (document.getElementById(type + '-host-privateKey') as HTMLInputElement).value,
     };
 }
 
@@ -84,6 +86,7 @@ export function fillInputs(type: side, host: IHost) {
     (document.getElementById(type + '-host-port') as HTMLInputElement).value = String(host.port);
     (document.getElementById(type + '-host-username') as HTMLInputElement).value = host.username;
     (document.getElementById(type + '-host-password') as HTMLInputElement).value = host.password;
+    (document.getElementById(type + '-host-privateKey') as HTMLInputElement).value = host.privateKey;
 }
 
 /**

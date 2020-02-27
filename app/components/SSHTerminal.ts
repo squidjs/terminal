@@ -1,4 +1,4 @@
-import { Client, ClientChannel } from 'ssh2';
+import {Client, ClientChannel, ClientErrorExtensions} from 'ssh2';
 import Settings, {ISettings, ITheme} from '../settings/Settings';
 import { remote } from 'electron';
 import { IHost } from '../hosts/HostHandler';
@@ -137,6 +137,8 @@ export default class SSHTerminal extends Pane {
      */
     setupConnection() {
 
+        this.connection.on('error', (error: Error & ClientErrorExtensions) => this.xterm.write(error.message));
+
         this.connection.on('ready', () => {
 
             this.connection.shell((error: Error | undefined, stream: ClientChannel) => {
@@ -158,16 +160,14 @@ export default class SSHTerminal extends Pane {
                     this.xterm.write(data.toString());
                 });
 
-                this.xterm.onKey((data: {key: string, domEvent: KeyboardEvent }) => {
-
-                    stream.write(data.key);
-                });
+                this.xterm.onKey((data: {key: string, domEvent: KeyboardEvent }) => stream.write(data.key));
             });
         }).connect({
             host: this.host.ip,
             port: this.host.port,
             username: this.host.username,
             password: this.host.password,
+            privateKey: require('fs').readFileSync(this.host.privateKey)
         });
     }
 

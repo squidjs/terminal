@@ -163,4 +163,5 @@ export interface IHost {
     port: number;
     username: string;
     password: string;
+    privateKey: string;
 }
