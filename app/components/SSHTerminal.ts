@@ -40,8 +40,6 @@ export default class SSHTerminal extends Pane {
 
         this.applyAddons();
 
-        this.xterm.onResize((data: {cols: number, rows: number}) => this.fit());
-
         window.onresize = () => this.fit();
 
         this.adapt();
@@ -141,10 +139,16 @@ export default class SSHTerminal extends Pane {
 
         this.connection.on('ready', () => {
 
-            this.connection.shell((error: Error | undefined, stream: ClientChannel) => {
+            this.connection.shell({rows: this.xterm.rows, cols: this.xterm.cols}, (error: Error | undefined, stream: ClientChannel) => {
 
                 if(error)
                     throw error;
+
+                this.xterm.onResize((data: {cols: number, rows: number}) => {
+
+                    this.fit();
+                    stream.setWindow(data.rows, data.cols, window.innerHeight, window.innerWidth);
+                });
 
                 stream.on('close', () => {
 
