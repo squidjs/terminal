@@ -1,17 +1,19 @@
 import Settings, { ISettings } from '../settings/Settings';
 
-export default class Pane {
+export default abstract class Pane {
 
     protected settings: Settings;
     protected id: number;
     protected opened: boolean;
 
-    constructor(settings: Settings, id: number) {
+    protected constructor(settings: Settings, id: number) {
 
         this.settings = settings;
         this.id = id;
         this.opened = false;
     }
+
+    abstract adapt();
 
     /**
      * Return if the pane is opened or in the index

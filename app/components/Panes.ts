@@ -7,12 +7,13 @@ import * as os from 'os';
 import HostHandler, {IHost} from '../hosts/HostHandler';
 import { addListeners, createHostElement, openSide, closeSide, provideHost} from '../hosts/hostHelper';
 import SSHTerminal from './SSHTerminal';
+import Pane from './Pane';
 
 export default class Panes {
 
     private settings: Settings;
-    private panes: SquidTerminal[];
-    private currentPane: SquidTerminal;
+    private panes: Pane[];
+    private currentPane: Pane;
     private node: HTMLElement;
     private drag: Drake;
     private index: HTMLElement;
@@ -86,11 +87,15 @@ export default class Panes {
 
         if(host) {
 
-            this.currentPane = new SSHTerminal(this.settings, this.currentPane.getId(), host);
-            (this.currentPane as SSHTerminal).open();
+            const ssh = new SSHTerminal(this.settings, this.currentPane.getId(), host);
+
+            this.panes.splice(this.panes.indexOf(this.currentPane), 1, ssh);
+            this.currentPane = ssh;
+
+            ssh.open();
 
         } else
-            this.currentPane.open(path);
+            (this.currentPane as SquidTerminal).open(path);
 
         this.currentPane.setOpened();
         this.currentPane.adapt();
@@ -110,6 +115,7 @@ export default class Panes {
         // Add the element to the DOM
         this.node.appendChild(terminalElement);
 
+        // Open a squid terminal by default
         let pane = new SquidTerminal(this.settings, id);
 
         this.addPane(pane);
@@ -166,7 +172,7 @@ export default class Panes {
         this.togglePane(document.querySelector('.tab.active'), this.getNextPane());
     }
 
-    getNextPane(): SquidTerminal {
+    getNextPane(): Pane {
 
         const currentIndex = this.panes.indexOf(this.currentPane);
         const toIndex = (currentIndex == this.panes.length - 1) ? 0 : currentIndex + 1;
@@ -178,7 +184,7 @@ export default class Panes {
      * Add a new pane and register it to default
      * @param pane
      */
-    addPane(pane: SquidTerminal) {
+    addPane(pane: Pane) {
 
         this.currentPane = pane;
         this.panes.push(pane);
@@ -190,7 +196,7 @@ export default class Panes {
      * Create a new tab thanks to a pane
      * @param pane
      */
-    createTab(pane: SquidTerminal) {
+    createTab(pane: Pane) {
 
         const node = document.getElementById('tabs-container');
         const tabElement = document.createElement('div');
@@ -199,15 +205,22 @@ export default class Panes {
         tabElement.id = 'tab-' + pane.getId();
         node.appendChild(tabElement);
 
-        tabElement.addEventListener('click', () => this.togglePane(tabElement, pane));
+        tabElement.addEventListener('click', () => this.togglePane(tabElement));
     }
 
     /**
      * Toggle the panes and tabs
      * @param tab
-     * @param pane
+     * @param desiredPane?
      */
-    togglePane(tab: HTMLElement, pane: SquidTerminal) {
+    togglePane(tab: HTMLElement, desiredPane?: Pane) {
+
+        let pane: Pane;
+
+        if(desiredPane)
+            pane = desiredPane;
+        else
+            pane = this.panes.find(current => 'tab-' + current.getId() === tab.id);
 
         tab.classList.add('active');
 
@@ -253,7 +266,7 @@ export default class Panes {
      * Get the current opened pane
      * @return The current pane
      */
-    getCurrentPane(): SquidTerminal {
+    getCurrentPane(): Pane {
 
         return this.currentPane;
     }
@@ -262,7 +275,7 @@ export default class Panes {
      * Get all the panes
      * @return The panes
      */
-    getPanes(): SquidTerminal[] {
+    getPanes(): Pane[] {
 
         return this.panes;
     }
