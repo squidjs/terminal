@@ -14,6 +14,9 @@ export default abstract class Pane {
     }
 
     abstract adapt();
+    abstract onData(data: string);
+    abstract applySettings(settings: ISettings);
+    abstract fit();
 
     /**
      * Return if the pane is opened or in the index

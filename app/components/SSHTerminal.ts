@@ -1,5 +1,5 @@
 import { Client, ClientChannel } from 'ssh2';
-import Settings, {ITheme} from '../settings/Settings';
+import Settings, {ISettings, ITheme} from '../settings/Settings';
 import { remote } from 'electron';
 import { IHost } from '../hosts/HostHandler';
 import Pane from './Pane';
@@ -79,6 +79,15 @@ export default class SSHTerminal extends Pane {
     }
 
     /**
+     * Apply a new theme
+     * @param theme
+     */
+    applyNewTheme(theme: ITheme) {
+
+        this.xterm.setOption('theme', theme);
+    }
+
+    /**
      * Apply the addons needed
      */
     applyAddons() {
@@ -86,6 +95,20 @@ export default class SSHTerminal extends Pane {
         this.xterm.loadAddon(this.fitAddon = new FitAddon());
         this.xterm.loadAddon(new WebLinksAddon());
         this.xterm.loadAddon(new LigaturesAddon());
+    }
+
+    /**
+     * Apply the new settings
+     * @param settings
+     */
+    applySettings(settings: ISettings) {
+
+        this.applyNewTheme(loadTheme(settings.currentTheme));
+
+        this.xterm.setOption('cursorBlink', settings.cursor.blink);
+        this.xterm.setOption('cursorStyle', settings.cursor.style);
+        this.xterm.setOption('fontSize', settings.font.size);
+        this.xterm.setOption('fontFamily', settings.font.family);
     }
 
     /**

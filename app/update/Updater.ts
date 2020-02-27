@@ -9,7 +9,6 @@ const electronIsDev = require('electron-is-dev');
 export default class Updater {
 
     private window: Window;
-    private progress: number;
 
     constructor(window: Window) {
 
@@ -31,8 +30,8 @@ export default class Updater {
 
         autoUpdater.checkForUpdates();
 
-        autoUpdater.on('update-available', () => console.log('update available'));
-        autoUpdater.on('download-progress', (info) => this.progress = info.percent);
+        autoUpdater.on('update-not-available', () => this.window.getWindow().webContents.send('update:latest'));
+        autoUpdater.on('download-progress', (info) => this.window.getWindow().webContents.send('update:download', info.percent));
         autoUpdater.on('update-downloaded', () => this.window.getWindow().webContents.send('update:ready'));
 
         ipcMain.on('update:apply', () => autoUpdater.quitAndInstall());

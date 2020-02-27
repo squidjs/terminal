@@ -3,12 +3,13 @@ import { watchForChanges } from './settings/handler';
 import { ISettings } from './settings/Settings';
 import Panes from './components/Panes';
 import Settings from './settings/Settings';
-import SquidTerminal from './components/SquidTerminal';
 
 const settings = new Settings();
 const panes = new Panes(settings);
 // Open a new tab by default
 panes.openPane();
+
+const updateElement = document.getElementById('update-status');
 
 watchForChanges((newFile: ISettings) => {
 
@@ -42,14 +43,22 @@ ipcRenderer.on('shortcuts', (event, message) => {
     }
 });
 
+ipcRenderer.on('update:latest', () => {
+
+    updateElement.innerText = 'You are using the latest version';
+    updateElement.className = 'uptodate-update';
+});
+
+ipcRenderer.on('update:download', (event, args) => {
+
+    updateElement.innerText = 'Downloading latest version... (' + args + ')';
+    updateElement.className = 'downloading-update';
+});
+
 ipcRenderer.on('update:ready', () => {
 
-    const node = document.getElementById('panel-container');
-    const updateElement = document.createElement('div');
     updateElement.innerText = 'Restart to apply update';
     updateElement.className = 'apply-update';
-    node.appendChild(updateElement);
-
     updateElement.addEventListener('click', () => ipcRenderer.send('update:apply'));
 });
 
