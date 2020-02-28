@@ -1,15 +1,14 @@
-import {Client, ClientChannel, ClientErrorExtensions} from 'ssh2';
+import { Client, ClientChannel, ClientErrorExtensions, ConnectConfig } from 'ssh2';
 import Settings, {ISettings, ITheme} from '../settings/Settings';
 import { remote } from 'electron';
 import { IHost } from '../hosts/HostHandler';
 import Pane from './Pane';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
-import {IPty} from "node-pty";
-import * as pty from "node-pty";
-import {loadTheme} from "../settings/handler";
-import {WebLinksAddon} from "xterm-addon-web-links";
-import {LigaturesAddon} from "xterm-addon-ligatures";
+import { loadTheme } from '../settings/handler';
+import { WebLinksAddon } from 'xterm-addon-web-links';
+import { LigaturesAddon } from 'xterm-addon-ligatures';
+import * as fs from 'fs';
 
 export default class SSHTerminal extends Pane {
 
@@ -137,6 +136,16 @@ export default class SSHTerminal extends Pane {
 
         this.connection.on('error', (error: Error & ClientErrorExtensions) => this.xterm.write(error.message));
 
+        const config: ConnectConfig = {
+            host: this.host.ip,
+            port: this.host.port,
+            username: this.host.username,
+            password: this.host.password
+        };
+
+        if(fs.existsSync(this.host.privateKey))
+            config.privateKey = fs.readFileSync(this.host.privateKey);
+
         this.connection.on('ready', () => {
 
             this.connection.shell({rows: this.xterm.rows, cols: this.xterm.cols}, (error: Error | undefined, stream: ClientChannel) => {
@@ -166,13 +175,7 @@ export default class SSHTerminal extends Pane {
 
                 this.xterm.onKey((data: {key: string, domEvent: KeyboardEvent }) => stream.write(data.key));
             });
-        }).connect({
-            host: this.host.ip,
-            port: this.host.port,
-            username: this.host.username,
-            password: this.host.password,
-            privateKey: require('fs').readFileSync(this.host.privateKey)
-        });
+        }).connect(config);
     }
 
     /**

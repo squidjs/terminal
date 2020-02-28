@@ -51,7 +51,7 @@ ipcRenderer.on('update:latest', () => {
 
 ipcRenderer.on('update:download', (event, args) => {
 
-    updateElement.innerText = 'Downloading latest version... (' + args + ')';
+    updateElement.innerText = 'Downloading latest version... (' + args + '%)';
     updateElement.className = 'downloading-update';
 });
 

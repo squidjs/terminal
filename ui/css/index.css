@@ -1,7 +1,7 @@
 .index {
 
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     margin: auto;
     height: 100vh;
 }
@@ -11,7 +11,7 @@
     height: 20vh;
     display: flex;
     justify-content: center;
-    margin-bottom: 10%;
+    margin: 5% 0;
 }
 
 .logo {
@@ -85,7 +85,7 @@
 
     scroll-snap-type: y mandatory;
     overflow-y: scroll;
-    height: calc(40vh - 120px);
+    height: calc(50vh - 50px);
 }
 
 .host {

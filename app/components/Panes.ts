@@ -8,6 +8,7 @@ import HostHandler, {IHost} from '../hosts/HostHandler';
 import { addListeners, createHostElement, openSide, closeSide, provideHost} from '../hosts/hostHelper';
 import SSHTerminal from './SSHTerminal';
 import Pane from './Pane';
+import netLog = Electron.netLog;
 
 export default class Panes {
 
@@ -121,8 +122,13 @@ export default class Panes {
 
             ssh.open();
 
-        } else
+            this.setTabTitle(this.currentPane, host.name);
+
+        } else {
+
             (this.currentPane as SquidTerminal).open(path);
+            this.setTabTitle(this.currentPane, (path === '' ? 'Custom bash' : path));
+        }
 
         this.currentPane.setOpened();
         this.currentPane.adapt();
@@ -227,12 +233,22 @@ export default class Panes {
 
         const node = document.getElementById('tabs-container');
         const tabElement = document.createElement('div');
-        tabElement.innerText = 'Terminal';
+        tabElement.innerText = 'Squid';
         tabElement.className = 'tab';
         tabElement.id = 'tab-' + pane.getId();
         node.appendChild(tabElement);
 
         tabElement.addEventListener('click', () => this.togglePane(tabElement));
+    }
+
+    /**
+     * Set a tab title
+     * @param pane
+     * @param title
+     */
+    setTabTitle(pane: Pane, title: string) {
+
+        document.getElementById('tab-' + pane.getId()).innerText = title;
     }
 
     /**
