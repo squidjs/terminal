@@ -62,7 +62,7 @@
     "node-gyp": "^6.1.0",
     "node-pty": "^0.9.0",
     "ssh2": "^0.8.7",
-    "typescript": "^3.7.5",
+    "typescript": "^3.8.2",
     "xterm": "^4.4.0",
     "xterm-addon-fit": "^0.3.0",
     "xterm-addon-ligatures": "^0.2.1",
