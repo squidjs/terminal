@@ -4,68 +4,101 @@ import { ISettings } from './settings/Settings';
 import Panes from './components/Panes';
 import Settings from './settings/Settings';
 
-const settings = new Settings();
-const panes = new Panes(settings);
-// Open a new tab by default
-panes.openPane();
+new class Renderer {
 
-const updateElement = document.getElementById('update-status');
+    private readonly settings: Settings;
+    private panes: Panes;
+    private updateElement: HTMLElement;
 
-watchForChanges((newFile: ISettings) => {
+    constructor() {
 
-    panes.setSettings(newFile);
+        this.settings = new Settings();
+        this.panes = new Panes(this.settings);
+        this.updateElement = document.getElementById('update-status');
 
-    panes.getPanes().forEach(current => {
-
-        current.applySettings(newFile);
-    });
-});
-
-ipcRenderer.on('shortcuts', (event, message) => {
-
-    switch (message) {
-
-        case 'paste':
-            panes.getCurrentPane().onData(clipboard.readText());
-            break;
-
-        case 'pane:open':
-            panes.openPane();
-            break;
-
-        case 'pane:close':
-            panes.closePane();
-            break;
-
-        case 'pane:switch':
-            panes.switchPane();
-            break;
+        this.watchForChanges();
+        this.setupListeners();
     }
-});
 
-ipcRenderer.on('update:latest', () => {
+    /**
+     * Watch for changes on the settings file
+     */
+    watchForChanges() {
 
-    updateElement.innerText = 'You are using the latest version';
-    updateElement.className = 'uptodate-update';
-});
+        if(this.settings.exists()) {
 
-ipcRenderer.on('update:download', (event, args) => {
+            watchForChanges((newFile: ISettings) => {
 
-    updateElement.innerText = 'Downloading latest version... (' + args + '%)';
-    updateElement.className = 'downloading-update';
-});
+                this.panes.setSettings(newFile);
+                this.panes.getPanes().forEach(current => current.applySettings(newFile));
+            });
+        }
+    }
 
-ipcRenderer.on('update:ready', () => {
+    /**
+     * Setup the listeners
+     */
+    setupListeners() {
 
-    updateElement.innerText = 'Restart to apply update';
-    updateElement.className = 'apply-update';
-    updateElement.addEventListener('click', () => ipcRenderer.send('update:apply'));
-});
+        // Shortcuts
+        ipcRenderer.on('shortcuts', (event, message) => {
 
-ipcRenderer.on('resize', () => panes.getPanes().forEach(current => current.fit()));
+            switch (message) {
 
-document.addEventListener('contextmenu', (event) => {
+                case 'paste':
+                    this.panes.getCurrentPane().onData(clipboard.readText());
+                    break;
 
-    event.preventDefault();
-    ipcRenderer.send('contextmenu');
-});
+                case 'pane:open':
+                    this.panes.openPane();
+                    break;
+
+                case 'pane:close':
+                    this.panes.closePane();
+                    break;
+
+                case 'pane:switch':
+                    this.panes.switchPane();
+                    break;
+            }
+        });
+
+        // Updates
+        ipcRenderer.on('update:latest', () => {
+
+            this.updateElement.innerText = 'You are using the latest version';
+            this.updateElement.className = 'uptodate-update';
+        });
+
+        ipcRenderer.on('update:download', (event, args) => {
+
+            this.updateElement.innerText = 'Downloading latest version... (' + args + '%)';
+            this.updateElement.className = 'downloading-update';
+        });
+
+        ipcRenderer.on('update:ready', () => {
+
+            this.updateElement.innerText = 'Restart to apply update';
+            this.updateElement.className = 'apply-update';
+            this.updateElement.addEventListener('click', () => ipcRenderer.send('update:apply'));
+        });
+
+        // Resize
+        ipcRenderer.on('resize', () => this.panes.getPanes().forEach(current => current.fit()));
+
+        // Right-click listener
+        document.addEventListener('contextmenu', (event) => {
+
+            event.preventDefault();
+            ipcRenderer.send('contextmenu');
+        });
+    }
+
+    /**
+     * Open a pane by default
+     */
+    openPane() {
+
+        this.panes.openPane();
+    }
+}
