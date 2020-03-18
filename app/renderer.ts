@@ -16,6 +16,7 @@ new class Renderer {
         this.panes = new Panes(this.settings);
         this.updateElement = document.getElementById('update-status');
 
+        this.openPane();
         this.watchForChanges();
         this.setupListeners();
     }

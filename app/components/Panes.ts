@@ -4,11 +4,10 @@ import * as dragula from 'dragula';
 import { Drake } from 'dragula';
 import SquidTerminal from './SquidTerminal';
 import * as os from 'os';
-import HostHandler, {IHost} from '../hosts/HostHandler';
-import { addListeners, createHostElement, openSide, closeSide, provideHost} from '../hosts/hostHelper';
+import HostHandler, { IHost } from '../hosts/HostHandler';
+import { addListeners, createHostElement, openSide, closeSide, provideHost } from '../hosts/hostHelper';
 import SSHTerminal from './SSHTerminal';
 import Pane from './Pane';
-import netLog = Electron.netLog;
 
 export default class Panes {
 
@@ -76,6 +75,8 @@ export default class Panes {
             const newHost: IHost = provideHost('edit');
 
             this.hostHandler.editHost(this.currentHost, newHost, () => {
+
+                document.getElementById('host-' + this.currentHost.name).remove();
 
                 node.appendChild(createHostElement(newHost, () => {
 

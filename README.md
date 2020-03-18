@@ -9,7 +9,7 @@
 **Squid** is a terminal emulator, build with new technologies.
 
 ## Download
-A **canary** version of Squid is available for download in [releases](https://github.com/QuiiBz/squid/releases)
+**Canary** versions of Squid are availables for download in [releases](https://github.com/QuiiBz/squid/releases)
 
 ## Contribute
 First of all, make sure you have NPM installed on your system. Then :
@@ -19,7 +19,15 @@ First of all, make sure you have NPM installed on your system. Then :
 4) In another terminal tab, run `npm start` to launch the app
 
 ## Screenshots
-![](https://i.imgur.com/ya1IA7J.png)
+
+### Home page
+![](https://i.imgur.com/XrNMD9k.png)
+
+### Terminals
+![](https://i.imgur.com/NWbRhjR.png)
+
+### Add/edit host
+![](https://i.imgur.com/EIUqjmk.png)
 
 ## Themes and settings
 You can create and set a theme very easily. Themes are basic JSON files, located in `userData` :
@@ -54,4 +62,42 @@ To create a theme, create a new file in `userData` folder, named `<themeName>.th
 }
 ```
 
-Then, to apply your theme, locate the key `currentTheme` in the settings file (`userData/settings.squid.json`), and change it to the name of the theme you created or downloaded. Restart the app to see the changes.
+Then, to apply your theme, locate the key `currentTheme` in the settings file (`userData/settings.squid.json`), and change it to the name of the theme you created or downloaded. You dont't need to restart, the app watch for changes in the settings file and automatically process the changes.
+
+Where is the settings file, more options are coming :
+```
+{
+  "theme": {
+    ...
+  },
+  "cursor": {
+    "style": "block",
+    "blink": true
+  },
+  "font": {
+    "size": 13,
+    "family": "\"Fira Code\", \"Consolas\", monospace"
+  },
+  "backgroundImage": {
+    "path": "",
+    "opacity": 1
+  },
+  "bash": "",
+  "currentTheme": "default",
+  "fastScrollModifier": "shift",
+  "shortcuts": [
+    {
+      "keys": "CommandOrControl+Shift+T",
+      "action": "pane:open"
+    },
+    {
+      "keys": "CommandOrControl+Shift+W",
+      "action": "pane:close"
+    },
+    {
+      "keys": "CommandOrControl+Tab",
+      "action": "pane:switch"
+    }
+  ]
+}
+```
