@@ -2,21 +2,23 @@ import { remote } from 'electron';
 import Settings, { ISettings } from '../settings/Settings';
 import * as dragula from 'dragula';
 import { Drake } from 'dragula';
-import SquidTerminal from "./SquidTerminal";
+import SquidTerminal from './SquidTerminal';
 import * as os from 'os';
-import HostHandler, {IHost} from '../hosts/HostHandler';
-import { createHostElement } from '../hosts/hostHelper';
+import HostHandler, { IHost } from '../hosts/HostHandler';
+import { addListeners, createHostElement, openSide, closeSide, provideHost } from '../hosts/hostHelper';
 import SSHTerminal from './SSHTerminal';
+import Pane from './Pane';
 
 export default class Panes {
 
     private settings: Settings;
-    private panes: SquidTerminal[];
-    private currentPane: SquidTerminal;
+    private panes: Pane[];
+    private currentPane: Pane;
     private node: HTMLElement;
     private drag: Drake;
     private index: HTMLElement;
     private hostHandler: HostHandler;
+    private currentHost: IHost;
 
     constructor(settings: Settings) {
 
@@ -39,10 +41,64 @@ export default class Panes {
         const node = document.getElementById('hosts-container');
         this.hostHandler.on('keytarLoaded', () => this.hostHandler.getHosts().forEach(current => {
 
-            const element = createHostElement(current, (event: MouseEvent) => this.open(event, null, current));
+            node.appendChild(createHostElement(current, () => {
 
-            node.appendChild(element);
+                this.currentHost = current;
+                openSide('edit', current);
+
+            },(event: MouseEvent) => this.open(event, null, current)));
         }));
+
+        document.getElementById('valid-create-host').addEventListener('click', (event) => {
+
+            event.preventDefault();
+            closeSide('create');
+
+            const host: IHost = provideHost('create');
+
+            this.hostHandler.addHost(host, () => {
+
+                node.appendChild(createHostElement(host, () => {
+
+                    this.currentHost = host;
+                    openSide('edit', host);
+
+                },(event: MouseEvent) => this.open(event, null, host)));
+            });
+        });
+
+        document.getElementById('valid-edit-host').addEventListener('click', (event) => {
+
+            event.preventDefault();
+            closeSide('edit');
+
+            const newHost: IHost = provideHost('edit');
+
+            this.hostHandler.editHost(this.currentHost, newHost, () => {
+
+                document.getElementById('host-' + this.currentHost.name).remove();
+
+                node.appendChild(createHostElement(newHost, () => {
+
+                    this.currentHost = newHost;
+                    openSide('edit', newHost);
+
+                },(event: MouseEvent) => this.open(event, null, newHost)));
+            });
+        });
+
+        document.getElementById('delete-host').addEventListener('click', (event) => {
+
+            event.preventDefault();
+            closeSide('edit');
+
+            this.hostHandler.removeHost(this.currentHost, () => {
+
+                 document.getElementById('host-' + this.currentHost.name).remove();
+            });
+        });
+
+        addListeners();
     }
 
     /**
@@ -53,17 +109,30 @@ export default class Panes {
      */
     open(event: MouseEvent, path: string, host?: IHost) {
 
-        event.preventDefault();
+        if(event)
+            event.preventDefault();
 
         this.hideIndex();
 
         if(host) {
 
-            this.currentPane = new SSHTerminal(this.settings, this.currentPane.getId(), host);
-            (this.currentPane as SSHTerminal).open();
+            const ssh = new SSHTerminal(this.settings, this.currentPane.getId(), host);
 
-        } else
-            this.currentPane.open(path);
+            this.panes.splice(this.panes.indexOf(this.currentPane), 1, ssh);
+            this.currentPane = ssh;
+
+            ssh.open();
+
+            this.setTabTitle(this.currentPane, host.name);
+
+        } else {
+
+            (this.currentPane as SquidTerminal).open(path);
+            this.setTabTitle(this.currentPane, (path === '' ? 'Custom bash' : path));
+        }
+
+        this.currentPane.setOpened();
+        this.currentPane.adapt();
     }
 
     /**
@@ -80,7 +149,8 @@ export default class Panes {
         // Add the element to the DOM
         this.node.appendChild(terminalElement);
 
-        let pane = new SquidTerminal(this.settings, id);
+        // Open a squid terminal by default
+        const pane = new SquidTerminal(this.settings, id);
 
         this.addPane(pane);
 
@@ -136,7 +206,7 @@ export default class Panes {
         this.togglePane(document.querySelector('.tab.active'), this.getNextPane());
     }
 
-    getNextPane(): SquidTerminal {
+    getNextPane(): Pane {
 
         const currentIndex = this.panes.indexOf(this.currentPane);
         const toIndex = (currentIndex == this.panes.length - 1) ? 0 : currentIndex + 1;
@@ -148,7 +218,7 @@ export default class Panes {
      * Add a new pane and register it to default
      * @param pane
      */
-    addPane(pane: SquidTerminal) {
+    addPane(pane: Pane) {
 
         this.currentPane = pane;
         this.panes.push(pane);
@@ -160,26 +230,46 @@ export default class Panes {
      * Create a new tab thanks to a pane
      * @param pane
      */
-    createTab(pane: SquidTerminal) {
+    createTab(pane: Pane) {
 
         const node = document.getElementById('tabs-container');
         const tabElement = document.createElement('div');
-        tabElement.innerText = 'Terminal';
+        tabElement.innerText = 'Squid';
         tabElement.className = 'tab';
         tabElement.id = 'tab-' + pane.getId();
         node.appendChild(tabElement);
 
-        tabElement.addEventListener('click', () => this.togglePane(tabElement, pane));
+        tabElement.addEventListener('click', () => this.togglePane(tabElement));
+    }
+
+    /**
+     * Set a tab title
+     * @param pane
+     * @param title
+     */
+    setTabTitle(pane: Pane, title: string) {
+
+        document.getElementById('tab-' + pane.getId()).innerText = title;
     }
 
     /**
      * Toggle the panes and tabs
      * @param tab
-     * @param pane
+     * @param desiredPane?
      */
-    togglePane(tab: HTMLElement, pane: SquidTerminal) {
+    togglePane(tab: HTMLElement, desiredPane?: Pane) {
+
+        let pane: Pane;
+
+        if(desiredPane)
+            pane = desiredPane;
+        else
+            pane = this.panes.find(current => 'tab-' + current.getId() === tab.id);
 
         tab.classList.add('active');
+
+        closeSide('create');
+        closeSide('edit');
 
         // Old pane
         document.getElementById(this.currentPane.getPrefixId()).classList.add('hidden');
@@ -220,7 +310,7 @@ export default class Panes {
      * Get the current opened pane
      * @return The current pane
      */
-    getCurrentPane(): SquidTerminal {
+    getCurrentPane(): Pane {
 
         return this.currentPane;
     }
@@ -229,7 +319,7 @@ export default class Panes {
      * Get all the panes
      * @return The panes
      */
-    getPanes(): SquidTerminal[] {
+    getPanes(): Pane[] {
 
         return this.panes;
     }

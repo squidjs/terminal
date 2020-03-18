@@ -47,7 +47,7 @@ export default class HostHandler extends events.EventEmitter {
      */
     loadKeytar(done: (hosts: IHost[]) => void) {
 
-        let hosts = [];
+        const hosts = [];
         let count = 0;
 
         this.hostNames.forEach(current => {
@@ -74,12 +74,41 @@ export default class HostHandler extends events.EventEmitter {
 
         const name = host.name;
 
-        if(this.hostNames.includes(host.name))
-            return;
+        if(!this.hostNames.includes(host.name))
+            this.hostNames.push(name);
 
-        this.hostNames.push(name);
+        keytar.setPassword('squid', name, JSON.stringify(host)).then(() => {
 
-        keytar.setPassword('squid', name, JSON.stringify(host)).then(() => done());
+            this.save();
+            done();
+        });
+    }
+
+    /**
+     * Remove a host from keytar
+     * @param host
+     * @param done
+     */
+    removeHost(host: IHost, done: () => void) {
+
+        this.hostNames.slice(this.hostNames.indexOf(host.name), 1);
+
+        keytar.deletePassword('squid', host.name).then(() => {
+
+            this.save();
+            done();
+        });
+    }
+
+    /**
+     * Edit a host credentials
+     * @param oldHost
+     * @param newHost
+     * @param done
+     */
+    editHost(oldHost: IHost, newHost: IHost, done: () => void) {
+
+        this.removeHost(oldHost, () => this.addHost(newHost, () => done()));
     }
 
     /**
@@ -92,8 +121,6 @@ export default class HostHandler extends events.EventEmitter {
         let host = null;
 
         this.hosts.forEach(current => {
-
-            console.log(current.name + ' ' + name);
 
             if(current.name == name)
                 host = current;
@@ -136,4 +163,5 @@ export interface IHost {
     port: number;
     username: string;
     password: string;
+    privateKey: string;
 }

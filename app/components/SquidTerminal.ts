@@ -14,13 +14,10 @@ export default class SquidTerminal extends Pane {
     protected xterm: Terminal;
     private ptyProcess: IPty;
     private fitAddon: FitAddon;
-    protected opened: boolean;
 
     constructor(settings: Settings, id: number) {
 
         super(settings, id);
-
-        this.opened = false;
     }
 
     /**
@@ -46,8 +43,6 @@ export default class SquidTerminal extends Pane {
 
         window.onresize = () => this.fit();
 
-        this.opened = true;
-
         this.adapt();
     }
 
@@ -61,15 +56,6 @@ export default class SquidTerminal extends Pane {
             this.xterm.focus();
             this.fit();
         }
-    }
-
-    /**
-     * Return if the pane is opened or in the index
-     * @return If the pane is opened
-     */
-    isOpened(): boolean {
-
-        return this.opened;
     }
 
     /**

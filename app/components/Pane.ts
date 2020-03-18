@@ -1,14 +1,38 @@
 import Settings, { ISettings } from '../settings/Settings';
 
-export default class Pane {
+export default abstract class Pane {
 
     protected settings: Settings;
     protected id: number;
+    protected opened: boolean;
 
-    constructor(settings: Settings, id: number) {
+    protected constructor(settings: Settings, id: number) {
 
         this.settings = settings;
         this.id = id;
+        this.opened = false;
+    }
+
+    abstract adapt();
+    abstract onData(data: string);
+    abstract applySettings(settings: ISettings);
+    abstract fit();
+
+    /**
+     * Return if the pane is opened or in the index
+     * @return If the pane is opened
+     */
+    isOpened(): boolean {
+
+        return this.opened;
+    }
+
+    /**
+     * Set the pane to opened
+     */
+    setOpened() {
+
+        this.opened = true;
     }
 
     /**
