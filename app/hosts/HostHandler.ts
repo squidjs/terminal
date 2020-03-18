@@ -47,7 +47,7 @@ export default class HostHandler extends events.EventEmitter {
      */
     loadKeytar(done: (hosts: IHost[]) => void) {
 
-        let hosts = [];
+        const hosts = [];
         let count = 0;
 
         this.hostNames.forEach(current => {

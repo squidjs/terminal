@@ -149,7 +149,7 @@ export default class Panes {
         this.node.appendChild(terminalElement);
 
         // Open a squid terminal by default
-        let pane = new SquidTerminal(this.settings, id);
+        const pane = new SquidTerminal(this.settings, id);
 
         this.addPane(pane);
 
