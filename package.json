@@ -52,7 +52,7 @@
   "dependencies": {
     "@types/dragula": "^3.7.0",
     "@types/ssh2": "^0.5.40",
-    "cross-env": "^7.0.0",
+    "cross-env": "^7.0.1",
     "dragula": "^3.7.2",
     "electron-is-dev": "^1.1.0",
     "electron-log": "^4.0.6",
