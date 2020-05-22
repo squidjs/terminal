@@ -3,10 +3,11 @@
         <top-nav />
         <div @click.right.prevent="openContextMenu" class="main">
             <div class="tabs">
-                <tab v-for="terminal in terminals" @switch="switchTab" :key="terminal.index" :index="terminal.index" :current="current" />
+                <tab v-for="terminal in terminals" @switch="switchTab" @close="closeTab" :key="terminal.index" :index="terminal.index" :current="current" />
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
         </div>
+        <div class="border" />
     </div>
 </template>
 
@@ -85,11 +86,37 @@
          */
         private closeCurrentTab(): void {
 
-            // Remove the current terminal
+            // Close the current tab
+            this.closeTab(this.current);
+        }
+
+        /**
+         * Switch tab
+         *
+         * @param number
+         * @return void
+         */
+        private switchTab(id: number): void {
+
+            this.current = id;
+        }
+
+        /**
+         * Close the tab with the specified id
+         *
+         * @param number
+         * @return void
+         */
+        private closeTab(id: number): void {
+
+            // Remove the terminal
             for(let i = 0; i < this.terminals.length; i++) {
 
-                if(this.terminals[i].index === this.current)
+                if(this.terminals[i].index === id) {
+
                     this.terminals.splice(i, 1);
+                    return;
+                }
             }
 
             if(this.terminals.length === 0) {
@@ -103,17 +130,6 @@
 
             // Set the new current terminal
             this.current = newCurrent;
-        }
-
-        /**
-         * Switch tab
-         *
-         * @param number
-         * @return void
-         */
-        private switchTab(id: number): void {
-
-            this.current = id;
         }
 
         /**
@@ -144,6 +160,18 @@
         user-select: none;
     }
 
+    .border {
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px solid #646464;
+        pointer-events: none;
+        z-index: 100;
+    }
+
     *:focus {
 
         outline: none;
@@ -164,7 +192,7 @@
         justify-content: space-around;
         align-items: center;
         height: 30px;
-        border-bottom: 1px solid #646464;
+        border-bottom: 1px solid #212121;
     }
 
     ::-webkit-scrollbar {
