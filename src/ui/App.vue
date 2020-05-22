@@ -164,6 +164,7 @@
         justify-content: space-around;
         align-items: center;
         height: 30px;
+        border-bottom: 1px solid #646464;
     }
 
     ::-webkit-scrollbar {

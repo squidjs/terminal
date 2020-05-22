@@ -4,6 +4,7 @@ import { IPty } from 'node-pty';
 import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { LigaturesAddon } from 'xterm-addon-ligatures';
+import { Unicode11Addon } from 'xterm-addon-unicode11';
 import Options, { IOptions, ITheme } from '@/options/options';
 import AppWatcher from '@/app/appWatcher';
 import { remote } from 'electron';
@@ -115,6 +116,9 @@ export default class AppTerminal {
         this.xterm.loadAddon(this.fitAddon = new FitAddon());
         this.xterm.loadAddon(new WebLinksAddon());
         this.xterm.loadAddon(new LigaturesAddon());
+        this.xterm.loadAddon(new Unicode11Addon());
+
+        this.xterm.unicode.activeVersion = '11';
     }
 
     /**
