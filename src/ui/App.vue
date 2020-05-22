@@ -86,7 +86,11 @@
         private closeCurrentTab(): void {
 
             // Remove the current terminal
-            this.terminals = this.terminals.filter(terminal => terminal.index !== this.current);
+            for(let i = 0; i < this.terminals.length; i++) {
+
+                if(this.terminals[i].index === this.current)
+                    this.terminals.splice(i, 1);
+            }
 
             if(this.terminals.length === 0) {
 
