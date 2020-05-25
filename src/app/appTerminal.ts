@@ -7,7 +7,7 @@ import { LigaturesAddon } from 'xterm-addon-ligatures';
 import { Unicode11Addon } from 'xterm-addon-unicode11';
 import Options, { IOptions, ITheme } from '@/options/options';
 import AppWatcher from '@/app/appWatcher';
-import { remote } from 'electron';
+import { remote, clipboard } from 'electron';
 
 export default class AppTerminal {
 
@@ -36,6 +36,7 @@ export default class AppTerminal {
         // Listeners
         this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
         this.xterm.onData((data: string) => this.onData(data));
+        this.xterm.onSelectionChange(() => clipboard.writeText(this.xterm.getSelection(), 'selection'));
         this.ptyProcess.onData((data: string) => this.onPtyData(data));
         this.ptyProcess.onExit(() => this.exit());
 

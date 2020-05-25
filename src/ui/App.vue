@@ -7,13 +7,15 @@
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
         </div>
+        <bottom-nav />
         <div class="border" />
     </div>
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Watch } from 'vue-property-decorator';
+    import { Vue, Component } from 'vue-property-decorator';
     import TopNav from '@/ui/components/TopNav.vue';
+    import BottomNav from '@/ui/components/BottomNav.vue';
     import { ipcRenderer, remote } from 'electron';
     import Tab from '@/ui/components/Tab.vue';
     import Terminal from '@/ui/components/Terminal.vue';
@@ -24,6 +26,7 @@
         components: {
 
             TopNav,
+            BottomNav,
             Tab,
             Terminal,
         }
@@ -33,6 +36,8 @@
         private id: number = 0;
         private current: number = 0;
         private terminals: ITerminal[] = [];
+
+        private isDevelopment = process.env.NODE_ENV !== 'production';
 
         /**
          * Create the default terminal
@@ -115,11 +120,11 @@
                 if(this.terminals[i].index === id) {
 
                     this.terminals.splice(i, 1);
-                    return;
+                    break;
                 }
             }
 
-            if(this.terminals.length === 0) {
+            if(this.terminals.length === 0 && !this.isDevelopment) {
 
                 remote.getCurrentWindow().close();
                 return;
@@ -180,7 +185,7 @@
     .main {
 
         width: 100vw;
-        height: calc(100vh - 30px);
+        height: calc(100vh - 30px - 20px);
 
         background-color: #0F0F0F;
     }
