@@ -31,10 +31,7 @@ export const defaultConfig: IOptions = {
         size: 14,
         family:  '"Fira Code", monospace'
     },
-    backgroundImage: {
-        path: '',
-        opacity: 1.0
-    },
+    opacity: 1.0,
     bash: 'C:\\Windows\\System32\\wsl.exe',
     currentTheme: 'default',
     fastScrollModifier: 'shift',
