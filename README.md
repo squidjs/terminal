@@ -14,9 +14,8 @@
 ## Contribute
 First of all, make sure you have NPM installed on your system. Then :
 1) Clone this repo : `git clone https://github.com/QuiiBz/squid`
-2) Install the dependencies : `cd squid && npm install`
-3) Run `npm run tsc` to build TypeScript to JavaScript
-4) In another terminal tab, run `npm start` to launch the app
+2) Install the dependencies : `cd squid && yarn`
+3) Run `yarn electron:serve` to launch the development server and the app
 
 ## Screenshots
 
