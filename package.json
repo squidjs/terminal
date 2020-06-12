@@ -26,7 +26,7 @@
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.1",
     "xterm": "4.4.0",
-    "xterm-addon-fit": "0.3.0",
+    "xterm-addon-fit": "0.4.0",
     "xterm-addon-ligatures": "0.2.1",
     "xterm-addon-unicode11": "^0.2.0",
     "xterm-addon-web-links": "0.2.1"
