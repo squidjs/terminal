@@ -120,9 +120,9 @@ export interface IOptions {
     font: IFont;
 
     /**
-     * The background image interface
+     * The opacity of the window
      */
-    backgroundImage: IBackgroundImage;
+    opacity: number;
 
     /**
      * A path to the bash you which to use
@@ -200,19 +200,6 @@ interface IFont {
      * The family of the font in the terminal
      */
     family: string;
-}
-
-interface IBackgroundImage {
-
-    /**
-     * The path to the background image
-     */
-    path: string;
-
-    /**
-     * The opacity of the background image
-     */
-    opacity: number;
 }
 
 export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switch' | 'devtools';

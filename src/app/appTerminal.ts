@@ -20,6 +20,9 @@ export default class AppTerminal {
     // The fitAddon instance - needed to call fit()
     private fitAddon: FitAddon | undefined;
 
+    // The id of this terminal;
+    private id: number;
+
     constructor(id: number) {
 
         const options: IOptions = Options.get().getOptions();
@@ -27,10 +30,11 @@ export default class AppTerminal {
         // Build the instances
         this.xterm = this.buildTerminal(options);
         this.ptyProcess = this.buildPty(options.bash);
+        this.id = id;
 
         // Apply themes and addons
         this.applyTheme(options.theme);
-        this.summonTerminal(id);
+        this.summonTerminal(this.id);
         this.applyAddons();
 
         // Listeners
@@ -211,6 +215,16 @@ export default class AppTerminal {
 
         this.xterm.dispose();
         this.ptyProcess.kill();
+    }
+
+    /**
+     * Get the id of the terminal
+     *
+     * @return number
+     */
+    public getId(): number {
+
+        return this.id;
     }
 }
 

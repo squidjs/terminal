@@ -1,10 +1,11 @@
 <template>
-    <div :id="'terminal-' + this.index" :class="!isActive ? 'hidden' : ''"></div>
+    <div :id="'terminal-' + this.index" :class="!isActive ? 'hidden' : ''" :style="'opacity: ' + opacity"></div>
 </template>
 
 <script lang="ts">
     import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
     import AppTerminal from "@/app/appTerminal";
+    import Options, {IOptions} from "@/options/options";
 
     @Component
     export default class Terminal extends Vue {
@@ -44,6 +45,15 @@
             return this.current === this.index;
         }
 
+        /**
+         * Computed method to get the
+         * opacity of the terminal
+         */
+        private get opacity(): number {
+
+            return Options.get().getOptions().opacity;
+        }
+
         @Watch('current')
         private currentChanged(newVal: number): void {
 
@@ -74,6 +84,12 @@
         -ms-user-select: none;
         -webkit-user-select: none;
         padding: 15px;
+    }
+
+    .term {
+
+        opacity: 1;
+        //background-color: #0F0F0F;
     }
 
     .xterm.focus,

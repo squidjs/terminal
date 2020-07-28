@@ -37,7 +37,7 @@ export default class AppWindow {
             minWidth: 600,
             minHeight: 500,
             frame: process.platform === 'darwin',
-            transparent: process.platform === 'darwin',
+            transparent: true,
             title: 'Squid',
             titleBarStyle: 'hiddenInset',
             icon: path.resolve('src/app/ui/assets/logo.png'),

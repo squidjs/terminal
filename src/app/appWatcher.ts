@@ -27,6 +27,9 @@ export default class AppWatcher {
 
             Options.get().setOptions(options);
 
+            // @ts-ignore
+            document.getElementById(`terminal-${this.appTerminal.getId()}`).style.opacity = String(options.opacity);
+
             this.appTerminal.applyTheme(options.theme);
             this.appTerminal.setOption('cursorBlink', options.cursor.blink);
             this.appTerminal.setOption('cursorStyle', options.cursor.style);

@@ -187,7 +187,7 @@
         width: 100vw;
         height: calc(100vh - 30px - 20px);
 
-        background-color: #0F0F0F;
+        //background-color: #0F0F0F;
     }
 
     .tabs {
@@ -198,6 +198,7 @@
         align-items: center;
         height: 30px;
         border-bottom: 1px solid #212121;
+        background-color: #0F0F0F;
     }
 
     ::-webkit-scrollbar {
