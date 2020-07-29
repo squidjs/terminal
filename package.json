@@ -21,7 +21,7 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "systeminformation": "^4.26.5",
-    "v8-compile-cache": "^2.1.0",
+    "v8-compile-cache": "^2.1.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.1",
