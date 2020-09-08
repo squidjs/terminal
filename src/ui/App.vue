@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" :style="'fontFamily: ' + fontFamily">
         <top-nav />
         <div @click.right.prevent="openContextMenu" class="main">
             <div class="tabs">
@@ -20,6 +20,7 @@
     import Tab from '@/ui/components/Tab.vue';
     import Terminal from '@/ui/components/Terminal.vue';
     import { ITerminal } from "@/app/appTerminal";
+    import Options from "@/options/options";
 
     @Component({
 
@@ -146,6 +147,17 @@
 
             ipcRenderer.send('contextmenu');
         }
+
+        /**
+         * Computed method to get the
+         * opacity of the terminal
+         *
+         * @return string
+         */
+        private get fontFamily(): string {
+
+            return Options.get().getOptions().font.family;
+        }
     }
 </script>
 
@@ -157,10 +169,6 @@
 
         overflow-x: hidden;
         overflow-y: hidden;
-
-        font-family: 'Fira Code', monospace;
-        font-feature-settings: "calt" 1;
-        font-variant-ligatures: contextual;
 
         user-select: none;
     }
@@ -199,6 +207,12 @@
         height: 30px;
         border-bottom: 1px solid #212121;
         background-color: #0F0F0F;
+        overflow-x: scroll;
+    }
+
+    .tabs::-webkit-scrollbar {
+
+        display: none;
     }
 
     ::-webkit-scrollbar {

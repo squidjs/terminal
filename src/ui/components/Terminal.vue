@@ -48,6 +48,8 @@
         /**
          * Computed method to get the
          * opacity of the terminal
+         *
+         * @return number
          */
         private get opacity(): number {
 
