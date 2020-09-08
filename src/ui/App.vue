@@ -2,7 +2,7 @@
     <div id="app" :style="'fontFamily: ' + fontFamily">
         <top-nav />
         <div @click.right.prevent="openContextMenu" class="main">
-            <div class="tabs" :style="'background-color: ' + background + ', border-color: ' + border">
+            <div class="tabs" :style="{'background-color': background, 'border-color': border}">
                 <tab v-for="terminal in terminals" @switch="switchTab" @close="closeTab" :key="terminal.index" :index="terminal.index" :current="current" />
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
