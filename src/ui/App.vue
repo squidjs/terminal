@@ -150,7 +150,7 @@
 
         /**
          * Computed method to get the
-         * opacity of the terminal
+         * fontFamily of the terminal
          *
          * @return string
          */
