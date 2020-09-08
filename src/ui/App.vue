@@ -2,13 +2,13 @@
     <div id="app" :style="'fontFamily: ' + fontFamily">
         <top-nav />
         <div @click.right.prevent="openContextMenu" class="main">
-            <div class="tabs">
+            <div class="tabs" :style="'background-color: ' + background">
                 <tab v-for="terminal in terminals" @switch="switchTab" @close="closeTab" :key="terminal.index" :index="terminal.index" :current="current" />
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
         </div>
         <bottom-nav />
-        <div class="border" />
+        <div class="border" :style="'border-color: ' + border" />
     </div>
 </template>
 
@@ -158,6 +158,28 @@
 
             return Options.get().getOptions().font.family;
         }
+
+        /**
+         * Computed method to get the
+         * background color of the terminal
+         *
+         * @return string
+         */
+        private get background(): string {
+
+            return Options.get().getOptions().theme.background;
+        }
+
+        /**
+         * Computed method to get the
+         * border color of the terminal
+         *
+         * @return string
+         */
+        private get border(): string {
+
+            return Options.get().getOptions().theme.border;
+        }
     }
 </script>
 
@@ -180,7 +202,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        border: 1px solid #646464;
+        border: 1px solid;
         pointer-events: none;
         z-index: 100;
     }
@@ -206,7 +228,6 @@
         align-items: center;
         height: 30px;
         border-bottom: 1px solid #212121;
-        background-color: #0F0F0F;
         overflow-x: scroll;
     }
 

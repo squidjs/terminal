@@ -8,6 +8,7 @@ export const defaultConfig: IOptions = {
         cursor: '#22da6e',
         cursorAccent: '#22da6e',
         selection: '#22da6e',
+        border: '#646464',
         black: '#011627',
         red: '#EF5350',
         green: '#22da6e',

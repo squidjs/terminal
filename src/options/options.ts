@@ -160,6 +160,7 @@ export interface ITheme {
     cursor: string;
     cursorAccent: string;
     selection: string;
+    border: string;
     black: string;
     red: string;
     green: string;
