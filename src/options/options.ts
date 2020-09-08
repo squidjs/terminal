@@ -140,6 +140,11 @@ export interface IOptions {
     fastScrollModifier: 'alt' | 'ctrl' | 'shift';
 
     /**
+     * WebGL rendering
+     */
+    webGlRendering: boolean;
+
+    /**
      * A list of the shortcuts
      */
     shortcuts: IShortcut[];

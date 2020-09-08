@@ -38,6 +38,7 @@ export const defaultConfig: IOptions = {
     bash: 'C:\\Windows\\System32\\wsl.exe',
     currentTheme: 'default',
     fastScrollModifier: 'shift',
+    webGlRendering: true,
     shortcuts: [
         {
             keys: 'CommandOrControl+Shift+T',
