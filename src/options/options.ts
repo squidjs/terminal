@@ -158,6 +158,8 @@ export interface ITheme {
     background: string;
     foreground: string;
     cursor: string;
+    cursorAccent: string;
+    selection: string;
     black: string;
     red: string;
     green: string;
@@ -166,14 +168,14 @@ export interface ITheme {
     magenta: string;
     cyan: string;
     white: string;
-    lightBlack: string;
-    lightRed: string;
-    lightGreen: string;
-    lightYellow: string;
-    lightBlue: string;
-    lightMagenta: string;
-    lightCyan: string;
-    lightWhite: string;
+    brightBlack: string;
+    brightRed: string;
+    brightGreen: string;
+    brightYellow: string;
+    brightBlue: string;
+    brightMagenta: string;
+    brightCyan: string;
+    brightWhite: string;
 }
 
 interface ICursor {
