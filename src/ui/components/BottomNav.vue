@@ -1,5 +1,5 @@
 <template>
-    <div class="bottom-nav">
+    <div class="bottom-nav" :style="'background-color: ' + background">
         <div class="group">
             <p>{{ this.activeMem }} MB ({{ this.percent }}%)</p>
             <div class="separator"></div>
@@ -16,6 +16,7 @@
     import system, { Systeminformation } from 'systeminformation';
     import os from 'os';
     import { formatUptime } from '@/utils/utils';
+    import Options from "@/options/options";
 
     @Component
     export default class BottomNav extends Vue {
@@ -104,6 +105,17 @@
 
             return parseInt((bytes / 1048576).toFixed(0));
         }
+
+        /**
+         * Computed method to get the
+         * background color of the terminal
+         *
+         * @return string
+         */
+        private get background(): string {
+
+            return Options.get().getOptions().theme.background;
+        }
     }
 </script>
 
@@ -112,8 +124,6 @@
 
         width: 100vw;
         height: 20px;
-
-        background-color: #0F0F0F;
 
         display: flex;
         flex-direction: row;

@@ -2,7 +2,7 @@
     <div id="app" :style="'fontFamily: ' + fontFamily">
         <top-nav />
         <div @click.right.prevent="openContextMenu" class="main">
-            <div class="tabs" :style="'background-color: ' + background">
+            <div class="tabs" :style="'background-color: ' + background + ', border-color: ' + border">
                 <tab v-for="terminal in terminals" @switch="switchTab" @close="closeTab" :key="terminal.index" :index="terminal.index" :current="current" />
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
@@ -227,7 +227,7 @@
         justify-content: space-around;
         align-items: center;
         height: 30px;
-        border-bottom: 1px solid #212121;
+        border-bottom: 1px solid;
         overflow-x: scroll;
     }
 
