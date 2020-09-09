@@ -145,6 +145,11 @@ export interface IOptions {
     webGlRendering: boolean;
 
     /**
+     * Vibrancy settings
+     */
+    vibrancy: IVibrancy;
+
+    /**
      * A list of the shortcuts
      */
     shortcuts: IShortcut[];
@@ -209,6 +214,42 @@ interface IFont {
      */
     family: string;
 }
+
+export interface IVibrancy {
+
+    /**
+     * The theme of the vibrancy.
+     * Can be dark, light, appearance-based
+     * or a hex color
+     */
+    theme: IVibrancyType;
+
+    /**
+     * The vibrancy effect. Can be
+     * acrylic or blur
+     */
+    effect: IVibrancyEffect;
+
+    /**
+     * Experimental value
+     */
+    useCustomWindowRefreshMethod: boolean;
+
+    /**
+     * Maximum value to refresh application
+     * screen in seconds.
+     */
+    maximumRefreshRate: number;
+
+    /**
+     * If true, acrylic effect will be
+     * disabled when window lost focus.
+     */
+    disableOnBlur: boolean;
+}
+
+export type IVibrancyType = 'dark' | 'light' | 'appearance-based' | string;
+export type IVibrancyEffect = 'acrylic' | 'blur';
 
 export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switch' | 'devtools';
 

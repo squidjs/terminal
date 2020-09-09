@@ -16,6 +16,7 @@
     "@types/md5": "^2.2.0",
     "@types/node": "12",
     "core-js": "^3.6.4",
+    "electron-acrylic-window": "^0.4.3",
     "md5": "^2.2.1",
     "node-gyp": "6.1.0",
     "node-pty": "0.9.0",

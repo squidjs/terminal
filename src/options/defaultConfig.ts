@@ -39,6 +39,14 @@ export const defaultConfig: IOptions = {
     currentTheme: 'default',
     fastScrollModifier: 'shift',
     webGlRendering: true,
+    vibrancy: {
+
+        theme: 'light',
+        effect: 'acrylic',
+        useCustomWindowRefreshMethod: true,
+        maximumRefreshRate: 60,
+        disableOnBlur: true,
+    },
     shortcuts: [
         {
             keys: 'CommandOrControl+Shift+T',

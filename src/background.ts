@@ -14,7 +14,7 @@ const options: Options = new Options();
 app.on('ready', async () => {
 
     // Load the app window
-    appWindow = new AppWindow();
+    appWindow = new AppWindow(options.getOptions());
 
     // Create the context menu
     new ContextMenu(options.getOptions().shortcuts, appWindow.getWindow());
@@ -34,7 +34,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
 
     if(appWindow.getWindow() === null)
-        appWindow = new AppWindow();
+        appWindow = new AppWindow(options.getOptions());
 });
 
 if(isDevelopment) {

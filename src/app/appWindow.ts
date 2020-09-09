@@ -1,16 +1,18 @@
-import { BrowserWindow } from 'electron';
+// @ts-ignore
+import { BrowserWindow } from 'electron-acrylic-window';
 import path from 'path';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
+import { IOptions } from "@/options/options";
 
 export default class AppWindow {
 
     // The instance of the BrowserWindow
     private readonly window: BrowserWindow;
 
-    constructor() {
+    constructor(options: IOptions) {
 
         // Buil the window
-        this.window = this.buildWindow();
+        this.window = this.buildWindow(options);
 
         // Load the url
         this.loadUrl();
@@ -28,7 +30,7 @@ export default class AppWindow {
      *
      * @return BrowserWindow
      */
-    private buildWindow(): BrowserWindow {
+    private buildWindow(options: IOptions): BrowserWindow {
 
         return new BrowserWindow({
 
@@ -45,7 +47,8 @@ export default class AppWindow {
             //backgroundColor: '#0F0F0F',
             webPreferences: {
                 nodeIntegration: true
-            }
+            },
+            vibrancy: options.vibrancy,
         });
     }
 
