@@ -81,11 +81,14 @@ export default class AppTerminal {
      */
     private buildPty(bash: string): IPty {
 
+        const cwd: string = require('os').homedir();
+
         return pty.spawn(bash, [], {
 
             name: 'xterm-256color',
             cols: this.xterm.cols,
             rows: this.xterm.rows,
+            cwd
         });
     }
 
