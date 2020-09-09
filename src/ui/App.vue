@@ -64,7 +64,7 @@
                         break;
 
                     case 'pane:switch':
-                        console.log('switch')
+                        this.switchTab(this.current + 1);
                         break;
                 }
             });
@@ -103,6 +103,9 @@
          * @return void
          */
         private switchTab(id: number): void {
+
+            if(this.terminals.length < id)
+                id = 1;
 
             this.current = id;
         }
