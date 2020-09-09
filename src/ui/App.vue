@@ -7,7 +7,6 @@
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
         </div>
-        <bottom-nav />
         <div class="border" :style="'border-color: ' + border" />
     </div>
 </template>
@@ -15,7 +14,6 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator';
     import TopNav from '@/ui/components/TopNav.vue';
-    import BottomNav from '@/ui/components/BottomNav.vue';
     import { ipcRenderer, remote } from 'electron';
     import Tab from '@/ui/components/Tab.vue';
     import Terminal from '@/ui/components/Terminal.vue';
@@ -27,7 +25,6 @@
         components: {
 
             TopNav,
-            BottomNav,
             Tab,
             Terminal,
         }
@@ -218,7 +215,7 @@
     .main {
 
         width: 100vw;
-        height: calc(100vh - 30px - 20px);
+        height: calc(100vh - 30px);
 
         //background-color: #0F0F0F;
     }
