@@ -41,7 +41,6 @@ before_install:
 
 install:
   - npm install
-  - npm run electron:build
 
 script:
   - if [[ "$TRAVIS_BRANCH" == "master" ]] && [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm run publish:linux; fi
