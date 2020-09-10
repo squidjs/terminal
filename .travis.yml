@@ -9,6 +9,8 @@ node_js: '11'
 
 addons:
   chrome: stable
+  snaps:
+    - core
   apt:
     sources:
       - ubuntu-toolchain-r-test
