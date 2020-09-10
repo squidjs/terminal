@@ -1,15 +1,17 @@
 {
   "name": "squid",
   "version": "0.1.0",
-  "private": true,
+  "description": "A terminal for everyone",
+  "author": {
+    "email": "quiibzdev@gmail.com",
+    "name": "QuiiBz",
+    "url": "https://github.com/QuiiBz"
+  },
+  "license": "MIT",
+  "repository": "QuiiBz/squid",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps",
     "publish:win": "vue-cli-service electron:build -w -p always",
     "publish:linux": "vue-cli-service electron:build -l -p always -c.snap.publish=github",
     "publish:mac": "vue-cli-service electron:build -m -p always"
