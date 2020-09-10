@@ -45,7 +45,8 @@ export default class AppWindow {
             transparent: true,
             title: 'Squid',
             titleBarStyle: 'hiddenInset',
-            icon: path.resolve('src/app/ui/assets/logo.png'),
+            // @ts-ignore
+            icon: path.join(__static, 'logo.png'),
             show: false,
             webPreferences: {
                 nodeIntegration: true
