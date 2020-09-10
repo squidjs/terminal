@@ -11,7 +11,7 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "publish:win": "vue-cli-service electron:build -w -p always",
-    "publish:linux": "vue-cli-service electron:build -l -p always",
+    "publish:linux": "vue-cli-service electron:build -l -p always -c.snap.publish=github",
     "publish:mac": "vue-cli-service electron:build -m -p always"
   },
   "main": "background.js",
