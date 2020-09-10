@@ -1,25 +1,26 @@
 {
   "name": "squid",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
+  "description": "A terminal for everyone",
+  "author": {
+    "email": "quiibzdev@gmail.com",
+    "name": "QuiiBz",
+    "url": "https://github.com/QuiiBz"
+  },
+  "license": "MIT",
+  "repository": "QuiiBz/squid",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps",
     "publish:win": "vue-cli-service electron:build -w -p always",
     "publish:linux": "vue-cli-service electron:build -l -p always -c.snap.publish=github",
     "publish:mac": "vue-cli-service electron:build -m -p always"
   },
   "main": "background.js",
   "dependencies": {
-    "@types/md5": "^2.2.0",
-    "@types/node": "12",
     "core-js": "^3.6.4",
     "electron-acrylic-window": "^0.4.3",
+    "electron-window-state": "^5.0.3",
     "md5": "^2.2.1",
     "node-gyp": "6.1.0",
     "node-pty": "0.9.0",
@@ -37,6 +38,8 @@
     "xterm-addon-webgl": "0.8.0"
   },
   "devDependencies": {
+    "@types/md5": "^2.2.0",
+    "@types/node": "12",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "@vue/cli-plugin-babel": "~4.3.0",
@@ -52,27 +55,5 @@
     "typescript": "~3.8.3",
     "vue-cli-plugin-electron-builder": "~1.4.6",
     "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended",
-      "@vue/typescript"
-    ],
-    "parserOptions": {
-      "parser": "@typescript-eslint/parser"
-    },
-    "rules": {
-      "no-unused-vars": "off"
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  }
 }

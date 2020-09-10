@@ -3,6 +3,7 @@ import path from 'path';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import { IOptions } from '@/options/options';
 import { BrowserWindow as EBrowserWindow, BrowserWindowConstructorOptions } from 'electron';
+import windowStateKeeper from 'electron-window-state';
 
 type Window = BrowserWindow | EBrowserWindow;
 
@@ -13,7 +14,7 @@ export default class AppWindow {
 
     constructor(options: IOptions) {
 
-        // Buil the window
+        // Build the window
         this.window = this.buildWindow(options);
 
         // Load the url
@@ -34,18 +35,27 @@ export default class AppWindow {
      */
     private buildWindow(options: IOptions): Window {
 
+        const windowState: windowStateKeeper.State = windowStateKeeper({
+
+            defaultWidth: 1200,
+            defaultHeight: 800,
+        });
+
         // The parameters for the window
         const params: BrowserWindowConstructorOptions = {
 
-            width: 1200,
-            height: 800,
+            width: windowState.width,
+            height: windowState.height,
+            x: windowState.x,
+            y: windowState.y,
             minWidth: 600,
             minHeight: 500,
             frame: process.platform === 'darwin',
             transparent: true,
             title: 'Squid',
             titleBarStyle: 'hiddenInset',
-            icon: path.resolve('src/app/ui/assets/logo.png'),
+            // @ts-ignore
+            icon: path.join(__static, 'logo.png'),
             show: false,
             webPreferences: {
                 nodeIntegration: true
@@ -63,7 +73,12 @@ export default class AppWindow {
         // If vibrancy is enabled, return BrowserWindow
         // from electron-acrylic-window, else return
         // electron's BrowserWindow
-        return (vibrancyEnabled ? new BrowserWindow(<AcrylicBrowserWindowConstructorOptions>params) : new EBrowserWindow(params));
+        const window: Window = (vibrancyEnabled ? new BrowserWindow(<AcrylicBrowserWindowConstructorOptions>params) : new EBrowserWindow(params));
+
+        // Manage the window to save it properties.
+        windowState.manage(window);
+
+        return window;
     }
 
     /**
