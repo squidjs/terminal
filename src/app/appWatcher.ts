@@ -2,8 +2,6 @@ import AppTerminal from '@/app/appTerminal';
 import { watchForChanges } from '@/options/watcher';
 import Options, { IOptions } from '@/options/options';
 import { clipboard, ipcRenderer, remote } from 'electron';
-// @ts-ignore
-//import { setVibrancy } from 'electron-acrylic-window';
 
 export default class AppWatcher {
 
@@ -46,8 +44,6 @@ export default class AppWatcher {
             this.appTerminal.setOption('fontSize', options.font.size);
             this.appTerminal.setOption('fontFamily', options.font.family);
             this.appTerminal.setOption('fastScrollModifier', options.fastScrollModifier);
-
-            require('electron-acrylic-window').setVibrancy(remote.getCurrentWindow(), options.vibrancy);
         });
     }
 
