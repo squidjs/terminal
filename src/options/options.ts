@@ -218,6 +218,11 @@ interface IFont {
 export interface IVibrancy {
 
     /**
+     * If the vibrancy is enabled
+     */
+    enabled: boolean;
+
+    /**
      * The theme of the vibrancy.
      * Can be dark, light, appearance-based
      * or a hex color

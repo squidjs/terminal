@@ -41,6 +41,7 @@ export const defaultConfig: IOptions = {
     webGlRendering: true,
     vibrancy: {
 
+        enabled: true,
         theme: 'light',
         effect: 'acrylic',
         useCustomWindowRefreshMethod: true,

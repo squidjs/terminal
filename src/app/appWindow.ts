@@ -2,12 +2,15 @@
 import { BrowserWindow } from 'electron-acrylic-window';
 import path from 'path';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
-import { IOptions } from "@/options/options";
+import { IOptions } from '@/options/options';
+import { BrowserWindow as EBrowserWindow, BrowserWindowConstructorOptions } from 'electron';
+
+type Window = BrowserWindow | EBrowserWindow;
 
 export default class AppWindow {
 
     // The instance of the BrowserWindow
-    private readonly window: BrowserWindow;
+    private readonly window: Window;
 
     constructor(options: IOptions) {
 
@@ -30,9 +33,10 @@ export default class AppWindow {
      *
      * @return BrowserWindow
      */
-    private buildWindow(options: IOptions): BrowserWindow {
+    private buildWindow(options: IOptions): Window {
 
-        return new BrowserWindow({
+        // The parameters for the window
+        const params: BrowserWindowConstructorOptions = {
 
             width: 1200,
             height: 800,
@@ -44,12 +48,23 @@ export default class AppWindow {
             titleBarStyle: 'hiddenInset',
             icon: path.resolve('src/app/ui/assets/logo.png'),
             show: false,
-            //backgroundColor: '#0F0F0F',
             webPreferences: {
                 nodeIntegration: true
             },
-            vibrancy: options.vibrancy,
-        });
+        };
+
+        // If we should add vibrancy to the window
+        const vibrancyEnabled = options.vibrancy.enabled;
+
+        // Add the vibrancy options to the params object
+        // if vibrancy is enabled
+        if(vibrancyEnabled)
+            Object.assign(params, options.vibrancy);
+
+        // If vibrancy is enabled, return BrowserWindow
+        // from electron-acrylic-window, else return
+        // electron's BrowserWindow
+        return (vibrancyEnabled ? new BrowserWindow(params) : new EBrowserWindow(params));
     }
 
     /**
