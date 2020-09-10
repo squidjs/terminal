@@ -1,5 +1,5 @@
 import { IShortcut, IShortcutType } from '@/options/options';
-import { Menu, MenuItem, ipcMain, BrowserWindow } from 'electron';;
+import { Menu, MenuItem, ipcMain, BrowserWindow } from 'electron';
 
 export default class ContextMenu {
 
