@@ -10,6 +10,7 @@ module.exports = {
                 publish: ['github'],
                 appId: 'com.quiibz.squid',
                 copyright: 'Copyright © 2020 Squid',
+                productName: 'Squid',
             }
         }
     },
