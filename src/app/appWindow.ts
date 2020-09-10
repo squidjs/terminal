@@ -1,5 +1,4 @@
-// @ts-ignore
-import { BrowserWindow } from 'electron-acrylic-window';
+import { AcrylicBrowserWindowConstructorOptions, BrowserWindow, setVibrancy } from 'electron-acrylic-window';
 import path from 'path';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import { IOptions } from '@/options/options';
@@ -64,7 +63,7 @@ export default class AppWindow {
         // If vibrancy is enabled, return BrowserWindow
         // from electron-acrylic-window, else return
         // electron's BrowserWindow
-        return (vibrancyEnabled ? new BrowserWindow(params) : new EBrowserWindow(params));
+        return (vibrancyEnabled ? new BrowserWindow(<AcrylicBrowserWindowConstructorOptions>params) : new EBrowserWindow(params));
     }
 
     /**
