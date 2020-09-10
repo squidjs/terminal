@@ -62,6 +62,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        white-space: nowrap;
 
         &.active {
 

@@ -1,32 +1,30 @@
 <template>
-    <div id="app">
+    <div id="app" :style="'fontFamily: ' + fontFamily">
         <top-nav />
         <div @click.right.prevent="openContextMenu" class="main">
-            <div class="tabs">
+            <div class="tabs" :style="{'background-color': background, 'border-color': border}">
                 <tab v-for="terminal in terminals" @switch="switchTab" @close="closeTab" :key="terminal.index" :index="terminal.index" :current="current" />
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
         </div>
-        <bottom-nav />
-        <div class="border" />
+        <div class="border" :style="'border-color: ' + border" />
     </div>
 </template>
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator';
     import TopNav from '@/ui/components/TopNav.vue';
-    import BottomNav from '@/ui/components/BottomNav.vue';
     import { ipcRenderer, remote } from 'electron';
     import Tab from '@/ui/components/Tab.vue';
     import Terminal from '@/ui/components/Terminal.vue';
     import { ITerminal } from "@/app/appTerminal";
+    import Options from "@/options/options";
 
     @Component({
 
         components: {
 
             TopNav,
-            BottomNav,
             Tab,
             Terminal,
         }
@@ -63,7 +61,7 @@
                         break;
 
                     case 'pane:switch':
-                        console.log('switch')
+                        this.switchTab(this.current + 1);
                         break;
                 }
             });
@@ -102,6 +100,9 @@
          * @return void
          */
         private switchTab(id: number): void {
+
+            if(this.terminals.length < id)
+                id = 1;
 
             this.current = id;
         }
@@ -146,6 +147,39 @@
 
             ipcRenderer.send('contextmenu');
         }
+
+        /**
+         * Computed method to get the
+         * fontFamily of the terminal
+         *
+         * @return string
+         */
+        private get fontFamily(): string {
+
+            return Options.get().getOptions().font.family;
+        }
+
+        /**
+         * Computed method to get the
+         * background color of the terminal
+         *
+         * @return string
+         */
+        private get background(): string {
+
+            return Options.get().getOptions().theme.background;
+        }
+
+        /**
+         * Computed method to get the
+         * border color of the terminal
+         *
+         * @return string
+         */
+        private get border(): string {
+
+            return Options.get().getOptions().theme.border;
+        }
     }
 </script>
 
@@ -158,10 +192,6 @@
         overflow-x: hidden;
         overflow-y: hidden;
 
-        font-family: 'Fira Code', monospace;
-        font-feature-settings: "calt" 1;
-        font-variant-ligatures: contextual;
-
         user-select: none;
     }
 
@@ -172,7 +202,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        border: 1px solid #646464;
+        border: 1px solid;
         pointer-events: none;
         z-index: 100;
     }
@@ -185,7 +215,7 @@
     .main {
 
         width: 100vw;
-        height: calc(100vh - 30px - 20px);
+        height: calc(100vh - 30px);
 
         //background-color: #0F0F0F;
     }
@@ -197,8 +227,13 @@
         justify-content: space-around;
         align-items: center;
         height: 30px;
-        border-bottom: 1px solid #212121;
-        background-color: #0F0F0F;
+        border-bottom: 1px solid;
+        overflow-x: scroll;
+    }
+
+    .tabs::-webkit-scrollbar {
+
+        display: none;
     }
 
     ::-webkit-scrollbar {

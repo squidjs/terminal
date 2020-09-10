@@ -1,5 +1,5 @@
 <template>
-    <div class="nav">
+    <div class="nav" :style="'background-color: ' + background">
         <p class="title">Squid</p>
         <div class="buttons">
             <button @click="minimize" class="button"><svg height="10" width="10"><path d="M 0,5 10,5 10,6 0,6 Z"></path></svg></button>
@@ -12,6 +12,7 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator';
     import { remote } from 'electron';
+    import Options from '@/options/options';
 
     @Component
     export default class TopNav extends Vue {
@@ -48,6 +49,17 @@
 
             remote.getCurrentWindow().close();
         }
+
+        /**
+         * Computed method to get the
+         * background color of the terminal
+         *
+         * @return string
+         */
+        private get background(): string {
+
+            return Options.get().getOptions().theme.background;
+        }
     }
 </script>
 
@@ -56,8 +68,6 @@
 
         width: 100vw;
         height: 30px;
-
-        background-color: #0F0F0F;
 
         display: flex;
         flex-direction: row;

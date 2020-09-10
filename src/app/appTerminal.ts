@@ -5,6 +5,7 @@ import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { LigaturesAddon } from 'xterm-addon-ligatures';
 import { Unicode11Addon } from 'xterm-addon-unicode11';
+import { WebglAddon } from 'xterm-addon-webgl';
 import Options, { IOptions, ITheme } from '@/options/options';
 import AppWatcher from '@/app/appWatcher';
 import { remote, clipboard } from 'electron';
@@ -35,7 +36,7 @@ export default class AppTerminal {
         // Apply themes and addons
         this.applyTheme(options.theme);
         this.summonTerminal(this.id);
-        this.applyAddons();
+        this.applyAddons(options);
 
         // Listeners
         this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
@@ -80,11 +81,14 @@ export default class AppTerminal {
      */
     private buildPty(bash: string): IPty {
 
+        const cwd: string = require('os').homedir();
+
         return pty.spawn(bash, [], {
 
             name: 'xterm-256color',
             cols: this.xterm.cols,
             rows: this.xterm.rows,
+            cwd
         });
     }
 
@@ -116,12 +120,15 @@ export default class AppTerminal {
      *
      * @return void
      */
-    private applyAddons(): void {
+    private applyAddons(options: IOptions): void {
 
         this.xterm.loadAddon(this.fitAddon = new FitAddon());
         this.xterm.loadAddon(new WebLinksAddon());
         this.xterm.loadAddon(new LigaturesAddon());
         this.xterm.loadAddon(new Unicode11Addon());
+
+        if(options.webGlRendering)
+            this.xterm.loadAddon(new WebglAddon());
 
         this.xterm.unicode.activeVersion = '11';
     }

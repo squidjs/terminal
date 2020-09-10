@@ -48,6 +48,8 @@
         /**
          * Computed method to get the
          * opacity of the terminal
+         *
+         * @return number
          */
         private get opacity(): number {
 
@@ -150,7 +152,7 @@
 
         position: relative;
         width: calc(100vw - 30px) !important;
-        height: calc(100vh - 30px - 30px - 30px - 20px) !important;
+        height: calc(100vh - 30px - 30px - 30px) !important;
     }
 
     .xterm .xterm-screen canvas {

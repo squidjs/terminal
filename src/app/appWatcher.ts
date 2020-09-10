@@ -27,8 +27,16 @@ export default class AppWatcher {
 
             Options.get().setOptions(options);
 
-            // @ts-ignore
-            document.getElementById(`terminal-${this.appTerminal.getId()}`).style.opacity = String(options.opacity);
+            const opacity: string = String(options.opacity);
+            const background: string = String(options.theme.background);
+            const border: string = String(options.theme.border);
+            
+            (<HTMLElement>document.getElementById(`terminal-${this.appTerminal.getId()}`)).style.opacity = opacity;
+            (<HTMLElement>document.querySelector('.nav')).style.backgroundColor = background;
+            (<HTMLElement>document.querySelector('.tabs')).style.backgroundColor = background;
+            (<HTMLElement>document.querySelector('.tabs')).style.borderColor = border;
+            (<HTMLElement>document.querySelector('.border')).style.borderColor = border;
+            (<HTMLElement>document.querySelector('.bottom-nav')).style.backgroundColor = background;
 
             this.appTerminal.applyTheme(options.theme);
             this.appTerminal.setOption('cursorBlink', options.cursor.blink);

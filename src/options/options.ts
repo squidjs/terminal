@@ -140,6 +140,16 @@ export interface IOptions {
     fastScrollModifier: 'alt' | 'ctrl' | 'shift';
 
     /**
+     * WebGL rendering
+     */
+    webGlRendering: boolean;
+
+    /**
+     * Vibrancy settings
+     */
+    vibrancy: IVibrancy;
+
+    /**
      * A list of the shortcuts
      */
     shortcuts: IShortcut[];
@@ -158,6 +168,9 @@ export interface ITheme {
     background: string;
     foreground: string;
     cursor: string;
+    cursorAccent: string;
+    selection: string;
+    border: string;
     black: string;
     red: string;
     green: string;
@@ -166,14 +179,14 @@ export interface ITheme {
     magenta: string;
     cyan: string;
     white: string;
-    lightBlack: string;
-    lightRed: string;
-    lightGreen: string;
-    lightYellow: string;
-    lightBlue: string;
-    lightMagenta: string;
-    lightCyan: string;
-    lightWhite: string;
+    brightBlack: string;
+    brightRed: string;
+    brightGreen: string;
+    brightYellow: string;
+    brightBlue: string;
+    brightMagenta: string;
+    brightCyan: string;
+    brightWhite: string;
 }
 
 interface ICursor {
@@ -201,6 +214,47 @@ interface IFont {
      */
     family: string;
 }
+
+export interface IVibrancy {
+
+    /**
+     * If the vibrancy is enabled
+     */
+    enabled: boolean;
+
+    /**
+     * The theme of the vibrancy.
+     * Can be dark, light, appearance-based
+     * or a hex color
+     */
+    theme: IVibrancyType;
+
+    /**
+     * The vibrancy effect. Can be
+     * acrylic or blur
+     */
+    effect: IVibrancyEffect;
+
+    /**
+     * Experimental value
+     */
+    useCustomWindowRefreshMethod: boolean;
+
+    /**
+     * Maximum value to refresh application
+     * screen in seconds.
+     */
+    maximumRefreshRate: number;
+
+    /**
+     * If true, acrylic effect will be
+     * disabled when window lost focus.
+     */
+    disableOnBlur: boolean;
+}
+
+export type IVibrancyType = 'dark' | 'light' | 'appearance-based' | string;
+export type IVibrancyEffect = 'acrylic' | 'blur';
 
 export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switch' | 'devtools';
 

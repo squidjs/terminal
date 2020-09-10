@@ -6,6 +6,9 @@ export const defaultConfig: IOptions = {
         background: '#0F0F0F',
         foreground: '#22da6e',
         cursor: '#22da6e',
+        cursorAccent: '#22da6e',
+        selection: '#22da6e',
+        border: '#646464',
         black: '#011627',
         red: '#EF5350',
         green: '#22da6e',
@@ -14,14 +17,14 @@ export const defaultConfig: IOptions = {
         magenta: '#c792ea',
         cyan: '#21c7a8',
         white: '#ffffff',
-        lightBlack: '#575656',
-        lightRed: '#ef5350',
-        lightGreen: '#22da6e',
-        lightYellow: '#ffeb95',
-        lightBlue: '#82aaff',
-        lightMagenta: '#c792ea',
-        lightCyan: '#7fdbca',
-        lightWhite: '#ffffff'
+        brightBlack: '#575656',
+        brightRed: '#ef5350',
+        brightGreen: '#22da6e',
+        brightYellow: '#ffeb95',
+        brightBlue: '#82aaff',
+        brightMagenta: '#c792ea',
+        brightCyan: '#7fdbca',
+        brightWhite: '#ffffff'
     },
     cursor: {
         style: 'block',
@@ -35,6 +38,16 @@ export const defaultConfig: IOptions = {
     bash: 'C:\\Windows\\System32\\wsl.exe',
     currentTheme: 'default',
     fastScrollModifier: 'shift',
+    webGlRendering: true,
+    vibrancy: {
+
+        enabled: true,
+        theme: 'light',
+        effect: 'acrylic',
+        useCustomWindowRefreshMethod: true,
+        maximumRefreshRate: 60,
+        disableOnBlur: true,
+    },
     shortcuts: [
         {
             keys: 'CommandOrControl+Shift+T',
