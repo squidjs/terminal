@@ -8,73 +8,66 @@
 
 **Squid** is a terminal emulator, build with new technologies.
 
-## Download
+## Downloading
 **Canary** versions of Squid are availables for download in [releases](https://github.com/QuiiBz/squid/releases)
 
-## Contribute
-First of all, make sure you have NPM installed on your system. Then :
-1) Clone this repo : `git clone https://github.com/QuiiBz/squid`
-2) Install the dependencies : `cd squid && yarn`
-3) Run `yarn electron:serve` to launch the development server and the app
-
-## Screenshots
-
 ## Themes and settings
-You can create and set a theme very easily. Themes are basic JSON files, located in `userData` :
+`userData` folder:
 * `%APPDATA%` on Windows
 * `$XDG_CONFIG_HOME` or `~/.config` on Linux
 * `~/Library/Application Support` on macOS
 
-The default theme is in the settings file, which is located in `userData/settings.squid.json`. More settings are scheduled.
-To create a theme, create a new file in `userData` folder, named `<themeName>.theme.json`. Here is the `material` theme for exemple :
-```
-{
-  "name":"material",
-  "background":"rgb(41, 45, 62)",
-  "foreground":"#ECEFF1",
-  "cursor":"#FFCC00",
-  "black":"#000000",
-  "red":"#E54B4B",
-  "green":"#9ECE58",
-  "yellow":"#FAED70",
-  "blue":"#396FE2",
-  "magenta":"#BB80B3",
-  "cyan":"#2DDAFD",
-  "white":"#d0d0d0",
-  "lightBlack":"#6b6b6b",
-  "lightRed":"#FF5370",
-  "lightGreen":"#C3E88D",
-  "lightYellow":"#FFCB6B",
-  "lightBlue":"#82AAFF",
-  "lightMagenta":"#C792EA",
-  "lightCyan":"#89DDFF",
-  "lightWhite":"#ffffff"
-}
-```
+Here is the settings file, located in `userData/settings.squid.json`.
 
-Then, to apply your theme, locate the key `currentTheme` in the settings file (`userData/settings.squid.json`), and change it to the name of the theme you created or downloaded. You dont't need to restart, the app watch for changes in the settings file and automatically process the changes.
-
-Where is the settings file, more options are coming :
+Most of theses settings will apply immediately when saving the file, without need to restart the app.
 ```
 {
   "theme": {
-    ...
+    "name": "default",
+    "background": "#090b10",
+    "foreground": "#ECEFF1",
+    "cursor": "#89DDFF",
+    "cursorAccent": "#89DDFF",
+    "selection": "#ECEFF1",
+    "border": "rgba(0, 0, 0, 0)",
+    "black": "#000000",
+    "red": "#E54B4B",
+    "green": "#9ECE58",
+    "yellow": "#FAED70",
+    "blue": "#396FE2",
+    "magenta": "#BB80B3",
+    "cyan": "#2DDAFD",
+    "white": "#d0d0d0",
+    "brightBlack": "#6b6b6b",
+    "brightRed": "#FF5370",
+    "brightGreen": "#C3E88D",
+    "brightYellow": "#FFCB6B",
+    "brightBlue": "#82AAFF",
+    "brightMagenta": "#C792EA",
+    "brightCyan": "#89DDFF",
+    "brightWhite": "#ffffff"
   },
   "cursor": {
     "style": "block",
     "blink": true
   },
   "font": {
-    "size": 13,
-    "family": "\"Fira Code\", \"Consolas\", monospace"
+    "size": 15,
+    "family": "\"DroidSansMono Nerd Font\", \"Fira Code\", monospace"
   },
-  "backgroundImage": {
-    "path": "",
-    "opacity": 1
-  },
-  "bash": "",
-  "currentTheme": "default",
+  "opacity": 0.9,
+  "bash": "C:\\Windows\\System32\\wsl.exe",
+  "currentTheme": "material",
   "fastScrollModifier": "shift",
+  "webGlRendering": true,
+  "vibrancy": {
+    "enabled": false,
+    "theme": "appearance-based",
+    "effect": "acrylic",
+    "useCustomWindowRefreshMethod": true,
+    "maximumRefreshRate": 60,
+    "disableOnBlur": false
+  },
   "shortcuts": [
     {
       "keys": "CommandOrControl+Shift+T",
@@ -91,3 +84,13 @@ Where is the settings file, more options are coming :
   ]
 }
 ```
+
+## Contributing
+First of all, make sure you have NPM or Yarn installed on your system. Then:
+1) Fork this repository, then clone it to your device
+2) Install JS dependencies with:
+   - NPM: `npm install`
+   - Yarn: `yarn`
+3) Launch the development server and the app:
+   - NPM: `npm run electron:serve`
+   - Yarn: `yarn electron:serve`
