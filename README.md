@@ -94,3 +94,6 @@ First of all, make sure you have NPM or Yarn installed on your system. Then:
 3) Launch the development server and the app:
    - NPM: `npm run electron:serve`
    - Yarn: `yarn electron:serve`
+   
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
