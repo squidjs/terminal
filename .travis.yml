@@ -7,6 +7,11 @@ sudo: required
 language: node_js
 node_js: '11'
 
+branches:
+  only:
+    - master
+    - canary
+
 addons:
   chrome: stable
   snaps:
