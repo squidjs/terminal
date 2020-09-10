@@ -11,6 +11,12 @@ module.exports = {
                 appId: 'com.quiibz.squid',
                 copyright: 'Copyright © 2020 Squid',
                 productName: 'Squid',
+                snap: {
+                    publish: {
+                        provider: 'generic',
+                        url: 'https://anydummyurl.com',
+                    },
+                },
             }
         }
     },
