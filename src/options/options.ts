@@ -9,7 +9,7 @@ export default class Options {
     // The singleton instance
     private static instance: Options;
 
-    private options: IOptions | undefined;
+    private options: IOptions;
     private readonly path: string;
 
     constructor() {
@@ -21,7 +21,7 @@ export default class Options {
     /**
      * Load the options from the path
      *
-     * @return IOptions
+     * @returns IOptions
      */
     private loadOptions(): IOptions {
 
@@ -38,7 +38,7 @@ export default class Options {
     /**
      * Return if the options file exist
      *
-     * @return boolean
+     * @returns boolean
      */
     public exist(): boolean {
 
@@ -48,18 +48,19 @@ export default class Options {
     /**
      * Get the options
      *
-     * @return IOptions
+     * @returns IOptions
      */
     public getOptions(): IOptions {
 
-        return <IOptions>this.options;
+        return this.options;
     }
 
     /**
      * Set the options
      *
-     * @param options
-     * @return void
+     * @param options -The options to set
+     *
+     * @returns void
      */
     public setOptions(options: IOptions): void {
 
@@ -71,7 +72,7 @@ export default class Options {
     /**
      * Get the path
      *
-     * @return string
+     * @returns string
      */
     public getPath(): string {
 
@@ -81,7 +82,7 @@ export default class Options {
     /**
      * Save the options
      *
-     * @return void
+     * @returns void
      */
     public save(): void {
 
@@ -91,7 +92,7 @@ export default class Options {
     /**
      * Get the instance
      *
-     * @return AppWindow
+     * @returns AppWindow
      */
     public static get(): Options {
 

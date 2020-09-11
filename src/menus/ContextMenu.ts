@@ -19,19 +19,19 @@ export default class ContextMenu {
     /**
      * Build the menu
      *
-     * @return Menu
+     * @returns Menu
      */
     buildMenu(): Menu {
 
         const menu = new Menu();
 
-        menu.append(new MenuItem({ label: 'Paste', click: () => this.paste()}));
-        menu.append(new MenuItem({ type: 'separator'}));
-        menu.append(new MenuItem({ label: 'New tab', accelerator: this.findShortcut('pane:open'), click: () => this.newTab()}));
-        menu.append(new MenuItem({ label: 'Close tab', accelerator: this.findShortcut('pane:close'), click: () => this.closeTab()}));
-        menu.append(new MenuItem({ label: 'Switch tab', accelerator: this.findShortcut('pane:switch'), click: () => this.switchTab()}));
-        menu.append(new MenuItem({ type: 'separator'}));
-        menu.append(new MenuItem({ label: 'Open DevTools', accelerator: 'Ctrl+Shift+I', click: () => this.openDevTools()}));
+        menu.append(new MenuItem({ label: 'Paste', click: () => this.paste() }));
+        menu.append(new MenuItem({ type: 'separator' }));
+        menu.append(new MenuItem({ label: 'New tab', accelerator: this.findShortcut('pane:open'), click: () => this.newTab() }));
+        menu.append(new MenuItem({ label: 'Close tab', accelerator: this.findShortcut('pane:close'), click: () => this.closeTab() }));
+        menu.append(new MenuItem({ label: 'Switch tab', accelerator: this.findShortcut('pane:switch'), click: () => this.switchTab() }));
+        menu.append(new MenuItem({ type: 'separator' }));
+        menu.append(new MenuItem({ label: 'Open DevTools', accelerator: 'Ctrl+Shift+I', click: () => this.openDevTools() }));
 
         Menu.setApplicationMenu(menu);
 
@@ -41,8 +41,8 @@ export default class ContextMenu {
     /**
      * Find a shortcut thanks to a IShortcutType
      *
-     * @param IShortcutType
-     * @return string
+     * @param type - The type of the shortcut to find
+     * @returns string
      */
     findShortcut(type: IShortcutType): string {
 
@@ -61,7 +61,7 @@ export default class ContextMenu {
     /**
      * Open the menu
      *
-     * @return void
+     * @returns void
      */
     private openMenu(): void {
 
@@ -71,7 +71,7 @@ export default class ContextMenu {
     /**
      * Paste to the terminal
      *
-     * @return void
+     * @returns void
      */
     private paste(): void {
 
@@ -81,7 +81,7 @@ export default class ContextMenu {
     /**
      * Open a new tab
      *
-     * @return void
+     * @returns void
      */
     private newTab(): void {
 
@@ -91,7 +91,7 @@ export default class ContextMenu {
     /**
      * Close the current tab
      *
-     * @return void
+     * @returns void
      */
     private closeTab(): void {
 
@@ -101,7 +101,7 @@ export default class ContextMenu {
     /**
      * Switch to the next tab
      *
-     * @return void
+     * @returns void
      */
     private switchTab(): void {
 
@@ -111,7 +111,7 @@ export default class ContextMenu {
     /**
      * Open the DevTools
      *
-     * @return void
+     * @returns void
      */
     private openDevTools(): void {
 
@@ -121,11 +121,11 @@ export default class ContextMenu {
     /**
      * Send the query to process a shortcut
      *
-     * @param IShortcutType
-     * @return void
+     * @param type - The shortcut type to send
+     * @returns void
      */
-    private sendToWebContents(action: IShortcutType): void {
+    private sendToWebContents(type: IShortcutType): void {
 
-        this.window.webContents.send('shortcuts', action);
+        this.window.webContents.send('shortcuts', type);
     }
 }

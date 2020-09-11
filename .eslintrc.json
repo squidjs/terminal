@@ -8,10 +8,20 @@
     "eslint:recommended",
     "@vue/typescript"
   ],
+  "parser": "vue-eslint-parser",
   "parserOptions": {
     "parser": "@typescript-eslint/parser"
   },
+  "plugins": [
+    "@typescript-eslint",
+    "unused-imports",
+    "eslint-plugin-tsdoc"
+  ],
   "rules": {
-    "no-unused-vars": "off"
+    "quotes": [2, "single", {"avoidEscape":  true}],
+    "object-curly-spacing": [2, "always"],
+    "unused-imports/no-unused-imports-ts": 2,
+    "tsdoc/syntax": 2,
+    "@typescript-eslint/consistent-type-assertions": 2
   }
 }

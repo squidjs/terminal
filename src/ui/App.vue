@@ -17,8 +17,8 @@
     import { ipcRenderer, remote } from 'electron';
     import Tab from '@/ui/components/Tab.vue';
     import Terminal from '@/ui/components/Terminal.vue';
-    import { ITerminal } from "@/app/appTerminal";
-    import Options from "@/options/options";
+    import { ITerminal } from '@/app/appTerminal';
+    import Options from '@/options/options';
 
     @Component({
 
@@ -40,7 +40,7 @@
         /**
          * Create the default terminal
          *
-         * @return void
+         * @returns void
          */
         private mounted(): void {
 
@@ -70,7 +70,7 @@
         /**
          * Open a tab
          *
-         * @return void
+         * @returns void
          */
         private openTab(): void {
 
@@ -85,7 +85,7 @@
         /**
          * Close the current tab
          *
-         * @return void
+         * @returns void
          */
         private closeCurrentTab(): void {
 
@@ -94,10 +94,10 @@
         }
 
         /**
-         * Switch tab
+         * Switch tab to specified tab id
          *
-         * @param number
-         * @return void
+         * @param id - The tab's id to switch to
+         * @returns void
          */
         private switchTab(id: number): void {
 
@@ -110,8 +110,8 @@
         /**
          * Close the tab with the specified id
          *
-         * @param number
-         * @return void
+         * @param id - The tab's id do close
+         * @returns void
          */
         private closeTab(id: number): void {
 
@@ -141,7 +141,7 @@
         /**
          * Open the context menu
          *
-         * @return void
+         * @returns void
          */
         private openContextMenu(): void {
 
@@ -152,7 +152,7 @@
          * Computed method to get the
          * fontFamily of the terminal
          *
-         * @return string
+         * @returns string
          */
         private get fontFamily(): string {
 
@@ -163,7 +163,7 @@
          * Computed method to get the
          * background color of the terminal
          *
-         * @return string
+         * @returns string
          */
         private get background(): string {
 
@@ -174,7 +174,7 @@
          * Computed method to get the
          * border color of the terminal
          *
-         * @return string
+         * @returns string
          */
         private get border(): string {
 

@@ -20,7 +20,7 @@
         /**
          * Minimize the current window
          *
-         * @return void
+         * @returns void
          */
         private minimize(): void {
 
@@ -30,7 +30,7 @@
         /**
          * Maximize or restore the current window
          *
-         * @return void
+         * @returns void
          */
         private maximize(): void {
 
@@ -43,7 +43,7 @@
         /**
          * Close the current window
          *
-         * @return void
+         * @returns void
          */
         private close(): void {
 
@@ -54,7 +54,7 @@
          * Computed method to get the
          * background color of the terminal
          *
-         * @return string
+         * @returns string
          */
         private get background(): string {
 
