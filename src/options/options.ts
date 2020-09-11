@@ -118,9 +118,9 @@ export interface IOptions {
      */
     opacity: number;
     /**
-     * A path to the bash you which to use.
+     * A path to the shell you which to use.
      */
-    bash: string;
+    shell: string;
     /**
      * The name of the current theme.
      */

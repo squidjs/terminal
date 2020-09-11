@@ -35,7 +35,7 @@ export const defaultConfig: IOptions = {
         family:  '"Fira Code", monospace'
     },
     opacity: 1.0,
-    bash: 'C:\\Windows\\System32\\wsl.exe',
+    shell: 'bash',
     currentTheme: 'default',
     fastScrollModifier: 'shift',
     webGlRendering: true,

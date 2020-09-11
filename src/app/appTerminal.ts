@@ -30,7 +30,7 @@ export default class AppTerminal {
 
         // Build the instances
         this.xterm = this.buildTerminal(options);
-        this.ptyProcess = this.buildPty(options.bash);
+        this.ptyProcess = this.buildPty(options.shell);
         this.id = id;
 
         // Apply themes and addons
@@ -76,14 +76,14 @@ export default class AppTerminal {
      * Build the pty instance with the good
      * cols and rows from xterm.
      *
-     * @param bash - The path to the desired bash
+     * @param shell - The path to the desired shell
      * @returns The IPty instance
      */
-    private buildPty(bash: string): IPty {
+    private buildPty(shell: string): IPty {
 
         const cwd: string = require('os').homedir();
 
-        return pty.spawn(bash, [], {
+        return pty.spawn(shell, [], {
 
             name: 'xterm-256color',
             cols: this.xterm.cols,
