@@ -39,6 +39,10 @@ declare module 'electron-acrylic-window' {
     interface VibrancyOptions {
 
         /**
+         * If the vibrancy is enabled.
+         */
+        enabled: boolean;
+        /**
          * The theme to use.
          */
         theme?: VibrancyTheme;

@@ -2,7 +2,7 @@ import { AcrylicBrowserWindowConstructorOptions, BrowserWindow } from 'electron-
 import path from 'path';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import { IOptions } from '@/options/options';
-import { BrowserWindow as EBrowserWindow, BrowserWindowConstructorOptions } from 'electron';
+import { BrowserWindow as EBrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 
 type Window = BrowserWindow | EBrowserWindow;
@@ -42,7 +42,7 @@ export default class AppWindow {
         });
 
         // The parameters for the window
-        const params: BrowserWindowConstructorOptions = {
+        const params: AcrylicBrowserWindowConstructorOptions = {
 
             width: windowState.width,
             height: windowState.height,
@@ -60,15 +60,11 @@ export default class AppWindow {
             webPreferences: {
                 nodeIntegration: true
             },
+            vibrancy: options.vibrancy,
         };
 
         // If we should add vibrancy to the window
         const vibrancyEnabled = options.vibrancy.enabled;
-
-        // Add the vibrancy options to the params object
-        // if vibrancy is enabled
-        if(vibrancyEnabled)
-            Object.assign(params, options.vibrancy);
 
         // If vibrancy is enabled, return BrowserWindow
         // from electron-acrylic-window, else return

@@ -51,6 +51,13 @@ export default class AppWatcher {
             this.appTerminal.setOption('fontSize', options.font.size);
             this.appTerminal.setOption('fontFamily', options.font.family);
             this.appTerminal.setOption('fastScrollModifier', options.fastScrollModifier);
+
+            if(options.vibrancy.enabled)
+                // @ts-ignore
+                remote.getCurrentWindow().setVibrancy(options.vibrancy);
+            else
+                // @ts-ignore
+                remote.getCurrentWindow().setVibrancy();
         });
     }
 
