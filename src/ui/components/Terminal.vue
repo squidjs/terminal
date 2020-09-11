@@ -4,8 +4,8 @@
 
 <script lang="ts">
     import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-    import AppTerminal from "@/app/appTerminal";
-    import Options, {IOptions} from "@/options/options";
+    import AppTerminal from '@/app/appTerminal';
+    import Options from '@/options/options';
 
     @Component
     export default class Terminal extends Vue {
@@ -22,7 +22,7 @@
         /**
          * Create the terminal
          *
-         * @return void
+         * @returns void
          */
         private mounted(): void {
 
@@ -38,7 +38,7 @@
          * Computed method to check if this terminal
          * is actually active
          *
-         * @return boolean
+         * @returns boolean
          */
         private get isActive(): boolean {
 
@@ -49,7 +49,7 @@
          * Computed method to get the
          * opacity of the terminal
          *
-         * @return number
+         * @returns number
          */
         private get opacity(): number {
 

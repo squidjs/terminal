@@ -20,7 +20,7 @@
         /**
          * Switch to tab
          *
-         * @return void
+         * @returns void
          */
         private switchTab(): void {
 
@@ -31,7 +31,7 @@
          * Computed method to check if this terminal
          * is actually active
          *
-         * @return boolean
+         * @returns boolean
          */
         private get isActive(): boolean {
 
@@ -41,7 +41,7 @@
         /**
          * Close this terminal
          *
-         * @return void
+         * @returns void
          */
         private close(): void {
 

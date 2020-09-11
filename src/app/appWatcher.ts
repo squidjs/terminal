@@ -19,7 +19,7 @@ export default class AppWatcher {
     /**
      * Watch the option files
      *
-     * @return void
+     * @returns void
      */
     private watchOptions(): void {
 
@@ -28,15 +28,21 @@ export default class AppWatcher {
             Options.get().setOptions(options);
 
             const opacity: string = String(options.opacity);
-            const background: string = String(options.theme.background);
-            const border: string = String(options.theme.border);
-            
-            (<HTMLElement>document.getElementById(`terminal-${this.appTerminal.getId()}`)).style.opacity = opacity;
-            (<HTMLElement>document.querySelector('.nav')).style.backgroundColor = background;
-            (<HTMLElement>document.querySelector('.tabs')).style.backgroundColor = background;
-            (<HTMLElement>document.querySelector('.tabs')).style.borderColor = border;
-            (<HTMLElement>document.querySelector('.border')).style.borderColor = border;
-            (<HTMLElement>document.querySelector('.bottom-nav')).style.backgroundColor = background;
+            const backgroundColor: string = String(options.theme.background);
+            const borderColor: string = String(options.theme.border);
+
+            const currentTerminal: HTMLElement = document.getElementById(`terminal-${this.appTerminal.getId()}`) as HTMLElement;
+            currentTerminal.style.opacity = opacity;
+
+            const nav: HTMLElement = document.querySelector('.nav') as HTMLElement;
+            nav.style.backgroundColor = backgroundColor;
+
+            const tabs: HTMLElement = document.querySelector('.tabs') as HTMLElement;
+            tabs.style.backgroundColor = backgroundColor;
+            tabs.style.borderColor = borderColor;
+
+            const border: HTMLElement = document.querySelector('.border') as HTMLElement;
+            border.style.borderColor = borderColor;
 
             this.appTerminal.applyTheme(options.theme);
             this.appTerminal.setOption('cursorBlink', options.cursor.blink);
@@ -50,7 +56,7 @@ export default class AppWatcher {
     /**
      * Watch the context menu actions
      *
-     * @return void
+     * @returns void
      */
     private watchContextMenu(): void {
 
@@ -64,7 +70,7 @@ export default class AppWatcher {
                     break;
 
                 case 'devtools':
-                    remote.getCurrentWindow().webContents.openDevTools({mode: 'detach'});
+                    remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
                     break;
             }
         });

@@ -1,4 +1,4 @@
-import { AcrylicBrowserWindowConstructorOptions, BrowserWindow, setVibrancy } from 'electron-acrylic-window';
+import { AcrylicBrowserWindowConstructorOptions, BrowserWindow } from 'electron-acrylic-window';
 import path from 'path';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import { IOptions } from '@/options/options';
@@ -31,7 +31,7 @@ export default class AppWindow {
     /**
      * Build the window instance
      *
-     * @return BrowserWindow
+     * @returns BrowserWindow
      */
     private buildWindow(options: IOptions): Window {
 
@@ -73,7 +73,7 @@ export default class AppWindow {
         // If vibrancy is enabled, return BrowserWindow
         // from electron-acrylic-window, else return
         // electron's BrowserWindow
-        const window: Window = (vibrancyEnabled ? new BrowserWindow(<AcrylicBrowserWindowConstructorOptions>params) : new EBrowserWindow(params));
+        const window: Window = (vibrancyEnabled ? new BrowserWindow(params as AcrylicBrowserWindowConstructorOptions) : new EBrowserWindow(params));
 
         // Manage the window to save it properties.
         windowState.manage(window);
@@ -84,7 +84,7 @@ export default class AppWindow {
     /**
      * Load the index.html file
      *
-     * @return void
+     * @returns void
       */
     private loadUrl(): void {
 
@@ -106,7 +106,7 @@ export default class AppWindow {
     /**
      * Get the BrowserWindow instance
      *
-     * @return BrowserWindow
+     * @returns BrowserWindow
      */
     public getWindow(): BrowserWindow {
 
@@ -116,10 +116,10 @@ export default class AppWindow {
     /**
      * Open the dev tools
      *
-     * @return void
+     * @returns void
      */
     private openDevTools(): void {
 
-        this.window.webContents.openDevTools({mode: 'detach'});
+        this.window.webContents.openDevTools({ mode: 'detach' });
     }
 }

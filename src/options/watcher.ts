@@ -5,9 +5,9 @@ import md5 from 'md5';
 /**
  * Watch for changes on a file
  *
- * @param path
- * @param onChange
- * @return void
+ * @param path - The path of the file to watch
+ * @param onChange - A callback called when the file changed
+ * @returns void
  */
 export function watchForChanges(path: string, onChange: (options: IOptions) => any): void {
 

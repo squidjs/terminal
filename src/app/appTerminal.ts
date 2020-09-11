@@ -57,8 +57,8 @@ export default class AppTerminal {
     /**
      * Build the terminal instance with the settings
      *
-     * @param IOptions
-     * @return Terminal
+     * @param options - The options to set
+     * @returns Terminal
      */
     private buildTerminal(options: IOptions): Terminal {
 
@@ -76,8 +76,8 @@ export default class AppTerminal {
      * Build the pty instance with the good
      * cols and rows from xterm
      *
-     * @param bash
-     * @return IPty
+     * @param bash - The path to the desired bash
+     * @returns IPty
      */
     private buildPty(bash: string): IPty {
 
@@ -96,19 +96,19 @@ export default class AppTerminal {
      * Summon the terminal to the element
      * in the DOM with the ID #terminal
      *
-     * @param number
-     * @return void
+     * @param id - The id of the terminal to summon
+     * @returns void
      */
     private summonTerminal(id: number): void {
 
-        this.xterm.open(<HTMLElement>document.getElementById(`terminal-${id}`));
+        this.xterm.open(document.getElementById(`terminal-${id}`) as HTMLElement);
     }
 
     /**
      * Apply the current theme colors
      * to the xterm instance
      *
-     * @return void
+     * @returns void
      */
     public applyTheme(theme: ITheme): void {
 
@@ -118,7 +118,7 @@ export default class AppTerminal {
     /**
      * Apply the addons to the xterm instance
      *
-     * @return void
+     * @returns void
      */
     private applyAddons(options: IOptions): void {
 
@@ -136,9 +136,9 @@ export default class AppTerminal {
     /**
      * Set a option to the xterm instance
      *
-     * @param string
-     * @param any
-     * @return void
+     * @param option - The option key
+     * @param value - The option value
+     * @returns void
      */
     public setOption(option: string, value: any): void {
 
@@ -148,7 +148,7 @@ export default class AppTerminal {
     /**
      * Fit xterm thanks to fitAddon
      *
-     * @return void
+     * @returns void
      */
     public fit(): void {
 
@@ -159,7 +159,7 @@ export default class AppTerminal {
     /**
      * Focus the xterm instance
      *
-     * @return void
+     * @returns void
      */
     public focus(): void {
 
@@ -170,21 +170,21 @@ export default class AppTerminal {
      * Resize the pty process to the specified
      * cols and rows
      *
-     * @param data
-     * @return void
+     * @param size - The size object to resize
+     * @returns void
      */
-    private onResize(data: {cols: number, rows: number}): void {
+    private onResize(size: {cols: number, rows: number}): void {
 
         this.ptyProcess.resize(
-            Math.max(data ? data.cols : this.xterm.cols, 1),
-            Math.max(data ? data.rows : this.xterm.rows, 1));
+            Math.max(size ? size.cols : this.xterm.cols, 1),
+            Math.max(size ? size.rows : this.xterm.rows, 1));
     }
 
     /**
      * Write the data in the pty instance
      *
-     * @param data
-     * @return void
+     * @param data - The data to write to the pty instance
+     * @returns void
      */
     public onData(data: string): void {
 
@@ -194,8 +194,8 @@ export default class AppTerminal {
     /**
      * Write the data in the xterm instance
      *
-     * @param data
-     * @return void
+     * @param data - The data to write to xterm
+     * @returns void
      */
     private onPtyData(data: string): void {
 
@@ -205,7 +205,7 @@ export default class AppTerminal {
     /**
      * Called when we exit the process
      *
-     * @return void
+     * @returns void
      */
     public exit(): void {
 
@@ -216,7 +216,7 @@ export default class AppTerminal {
      * Called when the terminal instance
      * is destroyed
      *
-     * @return void
+     * @returns void
      */
     public onDestroy(): void {
 
@@ -227,7 +227,7 @@ export default class AppTerminal {
     /**
      * Get the id of the terminal
      *
-     * @return number
+     * @returns number
      */
     public getId(): number {
 

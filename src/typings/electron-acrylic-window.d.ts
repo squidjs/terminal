@@ -10,8 +10,8 @@ declare module 'electron-acrylic-window' {
     /**
      * Set the vibrancy for the specified window.
      *
-     * @param window
-     * @param options
+     * @param window - The window to set vibrancy
+     * @param options - The desired options for the vibrancy
      */
     function setVibrancy(window: EBrowserWindow, options: AcrylicBrowserWindowConstructorOptions | null): void;
 
