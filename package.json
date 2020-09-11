@@ -8,7 +8,7 @@
     "url": "https://github.com/QuiiBz"
   },
   "license": "MIT",
-  "repository": "QuiiBz/squid",
+  "repository": "https://github.com/QuiiBz/squid",
   "scripts": {
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
@@ -20,6 +20,8 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "electron-acrylic-window": "^0.4.3",
+    "electron-log": "^4.2.4",
+    "electron-updater": "^4.3.4",
     "electron-window-state": "^5.0.3",
     "md5": "^2.2.1",
     "node-gyp": "6.1.0",

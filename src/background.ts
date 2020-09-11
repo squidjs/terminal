@@ -3,6 +3,7 @@ import { app } from 'electron';
 import AppWindow from '@/app/appWindow';
 import Options from '@/options/options';
 import ContextMenu from "@/menus/ContextMenu";
+import Updater from "@/app/updater";
 
 // If the app is running in dev mode
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -10,6 +11,9 @@ let appWindow: AppWindow;
 
 // Load the options
 const options: Options = new Options();
+
+// Load the updater
+new Updater();
 
 app.on('ready', async () => {
 
