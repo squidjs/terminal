@@ -8,7 +8,7 @@ import { Unicode11Addon } from 'xterm-addon-unicode11';
 import { WebglAddon } from 'xterm-addon-webgl';
 import Options, { IOptions, ITheme } from '@/options/options';
 import AppWatcher from '@/app/appWatcher';
-import { remote, clipboard } from 'electron';
+import { remote, clipboard, shell } from 'electron';
 
 export default class AppTerminal {
 
@@ -118,7 +118,7 @@ export default class AppTerminal {
     private applyAddons(options: IOptions) {
 
         this.xterm.loadAddon(this.fitAddon = new FitAddon());
-        this.xterm.loadAddon(new WebLinksAddon());
+        this.xterm.loadAddon(new WebLinksAddon((event: MouseEvent, uri: string) => shell.openExternal(uri)));
         this.xterm.loadAddon(new LigaturesAddon());
         this.xterm.loadAddon(new Unicode11Addon());
 
