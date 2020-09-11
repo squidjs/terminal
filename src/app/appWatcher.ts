@@ -14,6 +14,7 @@ export default class AppWatcher {
 
         this.watchOptions();
         this.watchContextMenu();
+        this.watchDrop();
     }
 
     /**
@@ -69,6 +70,33 @@ export default class AppWatcher {
                     remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
                     break;
             }
+        });
+    }
+
+    /**
+     * Watch files/folders dropping.
+     */
+    private watchDrop() {
+
+        document.addEventListener('drop', (event: DragEvent) => {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            if(event.dataTransfer == null || event.dataTransfer.files.length < 0)
+                return;
+
+            // We get the path of the first file
+            const filePath: string = event.dataTransfer.files[0].path;
+
+            // Write the path to the pty instance
+            this.appTerminal.onData(filePath);
+        });
+
+        document.addEventListener('dragover', (event: DragEvent) => {
+
+            event.preventDefault();
+            event.stopPropagation();
         });
     }
 }
