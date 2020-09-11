@@ -18,21 +18,17 @@
     export default class TopNav extends Vue {
 
         /**
-         * Minimize the current window
-         *
-         * @returns void
+         * Minimize the current window.
          */
-        private minimize(): void {
+        private minimize() {
 
             remote.getCurrentWindow().minimize();
         }
 
         /**
-         * Maximize or restore the current window
-         *
-         * @returns void
+         * Maximize or restore the current window.
          */
-        private maximize(): void {
+        private maximize() {
 
             if(remote.getCurrentWindow().isMaximized())
                 remote.getCurrentWindow().restore();
@@ -41,20 +37,18 @@
         }
 
         /**
-         * Close the current window
-         *
-         * @returns void
+         * Close the current window.
          */
-        private close(): void {
+        private close() {
 
             remote.getCurrentWindow().close();
         }
 
         /**
          * Computed method to get the
-         * background color of the terminal
+         * background color of the terminal.
          *
-         * @returns string
+         * @returns The background color
          */
         private get background(): string {
 

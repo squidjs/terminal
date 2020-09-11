@@ -38,11 +38,9 @@
         private isDevelopment = process.env.NODE_ENV !== 'production';
 
         /**
-         * Create the default terminal
-         *
-         * @returns void
+         * Create the default terminal.
          */
-        private mounted(): void {
+        private mounted() {
 
             // Open a new tab by default
             this.openTab();
@@ -68,11 +66,9 @@
         }
 
         /**
-         * Open a tab
-         *
-         * @returns void
+         * Open a tab.
          */
-        private openTab(): void {
+        private openTab() {
 
             this.terminals.push({
 
@@ -83,23 +79,20 @@
         }
 
         /**
-         * Close the current tab
-         *
-         * @returns void
+         * Close the current tab.
          */
-        private closeCurrentTab(): void {
+        private closeCurrentTab() {
 
             // Close the current tab
             this.closeTab(this.current);
         }
 
         /**
-         * Switch tab to specified tab id
+         * Switch tab to specified tab id.
          *
          * @param id - The tab's id to switch to
-         * @returns void
          */
-        private switchTab(id: number): void {
+        private switchTab(id: number) {
 
             if(this.terminals.length < id)
                 id = 1;
@@ -108,12 +101,11 @@
         }
 
         /**
-         * Close the tab with the specified id
+         * Close the tab with the specified id.
          *
          * @param id - The tab's id do close
-         * @returns void
          */
-        private closeTab(id: number): void {
+        private closeTab(id: number) {
 
             // Remove the terminal
             for(let i = 0; i < this.terminals.length; i++) {
@@ -139,20 +131,18 @@
         }
 
         /**
-         * Open the context menu
-         *
-         * @returns void
+         * Open the context menu.
          */
-        private openContextMenu(): void {
+        private openContextMenu() {
 
             ipcRenderer.send('contextmenu');
         }
 
         /**
          * Computed method to get the
-         * fontFamily of the terminal
+         * fontFamily of the terminal.
          *
-         * @returns string
+         * @returns The font family to use
          */
         private get fontFamily(): string {
 
@@ -161,9 +151,9 @@
 
         /**
          * Computed method to get the
-         * background color of the terminal
+         * background color of the terminal.
          *
-         * @returns string
+         * @returns The background color
          */
         private get background(): string {
 
@@ -172,9 +162,9 @@
 
         /**
          * Computed method to get the
-         * border color of the terminal
+         * border color of the terminal.
          *
-         * @returns string
+         * @returns The border color
          */
         private get border(): string {
 

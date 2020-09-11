@@ -19,9 +19,9 @@ export default class Options {
     }
 
     /**
-     * Load the options from the path
+     * Load the options from the path.
      *
-     * @returns IOptions
+     * @returns The IOptions options
      */
     private loadOptions(): IOptions {
 
@@ -36,9 +36,9 @@ export default class Options {
     }
 
     /**
-     * Return if the options file exist
+     * Return if the options file exist.
      *
-     * @returns boolean
+     * @returns Return true if the file exist
      */
     public exist(): boolean {
 
@@ -46,9 +46,9 @@ export default class Options {
     }
 
     /**
-     * Get the options
+     * Get the options.
      *
-     * @returns IOptions
+     * @returns The current options
      */
     public getOptions(): IOptions {
 
@@ -56,13 +56,11 @@ export default class Options {
     }
 
     /**
-     * Set the options
+     * Set the options.
      *
      * @param options -The options to set
-     *
-     * @returns void
      */
-    public setOptions(options: IOptions): void {
+    public setOptions(options: IOptions) {
 
         this.options = options;
 
@@ -70,9 +68,9 @@ export default class Options {
     }
 
     /**
-     * Get the path
+     * Get the path of the options.
      *
-     * @returns string
+     * @returns The path of the options
      */
     public getPath(): string {
 
@@ -80,19 +78,17 @@ export default class Options {
     }
 
     /**
-     * Save the options
-     *
-     * @returns void
+     * Save the options.
      */
-    public save(): void {
+    public save() {
 
         fs.writeFile(this.path, JSON.stringify(this.options, null, 2), () => console.log('file saved'));
     }
 
     /**
-     * Get the instance
+     * Get the instance.
      *
-     * @returns AppWindow
+     * @returns The Options instance
      */
     public static get(): Options {
 
@@ -106,52 +102,43 @@ export default class Options {
 export interface IOptions {
 
     /**
-     * The theme interface
+     * The theme interface.
      */
     theme: ITheme;
-
     /**
-     * The cursor interface
+     * The cursor interface.
      */
     cursor: ICursor;
-
     /**
-     * The font interface
+     * The font interface.
      */
     font: IFont;
-
     /**
-     * The opacity of the window
+     * The opacity of the window.
      */
     opacity: number;
-
     /**
-     * A path to the bash you which to use
+     * A path to the bash you which to use.
      */
     bash: string;
-
     /**
-     * The name of the current theme
+     * The name of the current theme.
      */
     currentTheme: string;
-
     /**
-     * The key to toggle the fast scroll
+     * The key to toggle the fast scroll.
      */
     fastScrollModifier: 'alt' | 'ctrl' | 'shift';
-
     /**
-     * WebGL rendering
+     * WebGL rendering.
      */
     webGlRendering: boolean;
-
     /**
-     * Vibrancy settings
+     * Vibrancy settings.
      */
     vibrancy: IVibrancy;
-
     /**
-     * A list of the shortcuts
+     * A list of the shortcuts.
      */
     shortcuts: IShortcut[];
 }
@@ -159,12 +146,11 @@ export interface IOptions {
 export interface ITheme {
 
     /**
-     * The theme name
+     * The theme name.
      */
     name: string;
-
     /**
-     * Bellow are the colors of the theme
+     * Bellow are the colors of the theme.
      */
     background: string;
     foreground: string;
@@ -191,14 +177,12 @@ export interface ITheme {
 }
 
 interface ICursor {
-
     /**
-     * The style of the cursor
+     * The style of the cursor.
      */
     style: 'block' | 'underline' | 'bar';
-
     /**
-     * Does the cursor should blink or not
+     * Does the cursor should blink or not.
      */
     blink: boolean;
 }
@@ -206,12 +190,11 @@ interface ICursor {
 interface IFont {
 
     /**
-     * The size of the font in the terminal
+     * The size of the font in the terminal.
      */
     size: number;
-
     /**
-     * The family of the font in the terminal
+     * The family of the font in the terminal.
      */
     family: string;
 }
@@ -219,34 +202,29 @@ interface IFont {
 export interface IVibrancy {
 
     /**
-     * If the vibrancy is enabled
+     * If the vibrancy is enabled.
      */
     enabled: boolean;
-
     /**
      * The theme of the vibrancy.
      * Can be dark, light, appearance-based
-     * or a hex color
+     * or a hex color.
      */
     theme: IVibrancyType;
-
     /**
      * The vibrancy effect. Can be
-     * acrylic or blur
+     * acrylic or blur.
      */
     effect: IVibrancyEffect;
-
     /**
-     * Experimental value
+     * Experimental value.
      */
     useCustomWindowRefreshMethod: boolean;
-
     /**
      * Maximum value to refresh application
      * screen in seconds.
      */
     maximumRefreshRate: number;
-
     /**
      * If true, acrylic effect will be
      * disabled when window lost focus.
@@ -262,12 +240,11 @@ export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switch' | 'devtoo
 export interface IShortcut {
 
     /**
-     * The keys that needs to be pressed
+     * The keys that needs to be pressed.
      */
     keys: string;
-
     /**
-     * The desired action
+     * The desired action.
      */
     action: IShortcutType;
 }

@@ -20,25 +20,26 @@
         private terminal: AppTerminal;
 
         /**
-         * Create the terminal
-         *
-         * @returns void
+         * Create the terminal.
          */
-        private mounted(): void {
+        private mounted() {
 
             this.terminal = new AppTerminal(this.index);
         }
 
-        private beforeDestroy(): void {
+        /**
+         * Called when this terminal will destroy.
+         */
+        private beforeDestroy() {
 
             this.terminal.onDestroy();
         }
 
         /**
          * Computed method to check if this terminal
-         * is actually active
+         * is actually active.
          *
-         * @returns boolean
+         * @returns Return true if this terminal is active
          */
         private get isActive(): boolean {
 
@@ -47,9 +48,9 @@
 
         /**
          * Computed method to get the
-         * opacity of the terminal
+         * opacity of the terminal.
          *
-         * @returns number
+         * @returns The opacity number
          */
         private get opacity(): number {
 
@@ -57,7 +58,7 @@
         }
 
         @Watch('current')
-        private currentChanged(newVal: number): void {
+        private currentChanged(newVal: number) {
 
             if(newVal === this.index) {
 

@@ -18,18 +18,16 @@
         private readonly current!: number;
 
         /**
-         * Switch to tab
-         *
-         * @returns void
+         * Switch to tab.
          */
-        private switchTab(): void {
+        private switchTab() {
 
             this.$emit('switch', this.index);
         }
 
         /**
          * Computed method to check if this terminal
-         * is actually active
+         * is actually active.
          *
          * @returns boolean
          */
@@ -39,11 +37,9 @@
         }
 
         /**
-         * Close this terminal
-         *
-         * @returns void
+         * Close this terminal.
          */
-        private close(): void {
+        private close() {
 
             this.$emit('close', this.index);
         }

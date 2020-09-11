@@ -55,10 +55,10 @@ export default class AppTerminal {
     }
 
     /**
-     * Build the terminal instance with the settings
+     * Build the terminal instance with the settings.
      *
      * @param options - The options to set
-     * @returns Terminal
+     * @returns The Terminal instance
      */
     private buildTerminal(options: IOptions): Terminal {
 
@@ -74,10 +74,10 @@ export default class AppTerminal {
 
     /**
      * Build the pty instance with the good
-     * cols and rows from xterm
+     * cols and rows from xterm.
      *
      * @param bash - The path to the desired bash
-     * @returns IPty
+     * @returns The IPty instance
      */
     private buildPty(bash: string): IPty {
 
@@ -94,33 +94,28 @@ export default class AppTerminal {
 
     /**
      * Summon the terminal to the element
-     * in the DOM with the ID #terminal
+     * in the DOM with the ID #terminal.
      *
      * @param id - The id of the terminal to summon
-     * @returns void
      */
-    private summonTerminal(id: number): void {
+    private summonTerminal(id: number) {
 
         this.xterm.open(document.getElementById(`terminal-${id}`) as HTMLElement);
     }
 
     /**
      * Apply the current theme colors
-     * to the xterm instance
-     *
-     * @returns void
+     * to the xterm instance.
      */
-    public applyTheme(theme: ITheme): void {
+    public applyTheme(theme: ITheme) {
 
         this.xterm.setOption('theme', theme);
     }
 
     /**
-     * Apply the addons to the xterm instance
-     *
-     * @returns void
+     * Apply the addons to the xterm instance.
      */
-    private applyAddons(options: IOptions): void {
+    private applyAddons(options: IOptions) {
 
         this.xterm.loadAddon(this.fitAddon = new FitAddon());
         this.xterm.loadAddon(new WebLinksAddon());
@@ -134,46 +129,40 @@ export default class AppTerminal {
     }
 
     /**
-     * Set a option to the xterm instance
+     * Set a option to the xterm instance.
      *
      * @param option - The option key
      * @param value - The option value
-     * @returns void
      */
-    public setOption(option: string, value: any): void {
+    public setOption(option: string, value: any) {
 
         this.xterm.setOption(option, value);
     }
 
     /**
-     * Fit xterm thanks to fitAddon
-     *
-     * @returns void
+     * Fit xterm thanks to fitAddon.
      */
-    public fit(): void {
+    public fit() {
 
         // @ts-ignore
         this.fitAddon.fit();
     }
 
     /**
-     * Focus the xterm instance
-     *
-     * @returns void
+     * Focus the xterm instance.
      */
-    public focus(): void {
+    public focus() {
 
         this.xterm.focus();
     }
 
     /**
      * Resize the pty process to the specified
-     * cols and rows
+     * cols and rows.
      *
      * @param size - The size object to resize
-     * @returns void
      */
-    private onResize(size: {cols: number, rows: number}): void {
+    private onResize(size: {cols: number, rows: number}) {
 
         this.ptyProcess.resize(
             Math.max(size ? size.cols : this.xterm.cols, 1),
@@ -181,51 +170,45 @@ export default class AppTerminal {
     }
 
     /**
-     * Write the data in the pty instance
+     * Write the data in the pty instance.
      *
      * @param data - The data to write to the pty instance
-     * @returns void
      */
-    public onData(data: string): void {
+    public onData(data: string) {
 
         this.ptyProcess.write(data);
     }
 
     /**
-     * Write the data in the xterm instance
+     * Write the data in the xterm instance.
      *
      * @param data - The data to write to xterm
-     * @returns void
      */
-    private onPtyData(data: string): void {
+    private onPtyData(data: string) {
 
         this.xterm.write(data);
     }
 
     /**
-     * Called when we exit the process
-     *
-     * @returns void
+     * Called when we exit the process.
      */
-    public exit(): void {
+    public exit() {
 
         remote.getCurrentWindow().webContents.send('shortcuts', 'pane:close');
     }
 
     /**
      * Called when the terminal instance
-     * is destroyed
-     *
-     * @returns void
+     * is destroyed.
      */
-    public onDestroy(): void {
+    public onDestroy() {
 
         this.xterm.dispose();
         this.ptyProcess.kill();
     }
 
     /**
-     * Get the id of the terminal
+     * Get the id of the terminal.
      *
      * @returns number
      */

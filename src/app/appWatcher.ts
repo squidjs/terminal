@@ -17,11 +17,9 @@ export default class AppWatcher {
     }
 
     /**
-     * Watch the option files
-     *
-     * @returns void
+     * Watch the option files.
      */
-    private watchOptions(): void {
+    private watchOptions() {
 
         watchForChanges(Options.get().getPath(), (options: IOptions) => {
 
@@ -54,11 +52,9 @@ export default class AppWatcher {
     }
 
     /**
-     * Watch the context menu actions
-     *
-     * @returns void
+     * Watch the context menu actions.
      */
-    private watchContextMenu(): void {
+    private watchContextMenu() {
 
         // Shortcuts
         ipcRenderer.on('shortcuts', (event, message) => {

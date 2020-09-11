@@ -3,13 +3,12 @@ import { IOptions } from '@/options/options';
 import md5 from 'md5';
 
 /**
- * Watch for changes on a file
+ * Watch for changes on a file.
  *
  * @param path - The path of the file to watch
  * @param onChange - A callback called when the file changed
- * @returns void
  */
-export function watchForChanges(path: string, onChange: (options: IOptions) => any): void {
+export function watchForChanges(path: string, onChange: (options: IOptions) => any) {
 
     let previousMD5: string;
     let fsWait: boolean = false;

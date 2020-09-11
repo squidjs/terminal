@@ -28,6 +28,8 @@ app.on('window-all-closed', () => {
 
     const options = Options.get();
 
+    // Save the options to create the file the
+    // first time the app is closed
     if(!options.exist())
         options.save();
 

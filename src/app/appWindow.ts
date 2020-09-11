@@ -29,9 +29,9 @@ export default class AppWindow {
     }
 
     /**
-     * Build the window instance
+     * Build the window instance.
      *
-     * @returns BrowserWindow
+     * @returns The Window instance
      */
     private buildWindow(options: IOptions): Window {
 
@@ -82,11 +82,9 @@ export default class AppWindow {
     }
 
     /**
-     * Load the index.html file
-     *
-     * @returns void
+     * Load the index.html file.
       */
-    private loadUrl(): void {
+    private loadUrl() {
 
         if(process.env.WEBPACK_DEV_SERVER_URL) {
 
@@ -104,9 +102,9 @@ export default class AppWindow {
     }
 
     /**
-     * Get the BrowserWindow instance
+     * Get the BrowserWindow instance.
      *
-     * @returns BrowserWindow
+     * @returns The BrowserWindow instance
      */
     public getWindow(): BrowserWindow {
 
@@ -114,11 +112,9 @@ export default class AppWindow {
     }
 
     /**
-     * Open the dev tools
-     *
-     * @returns void
+     * Open the dev tools.
      */
-    private openDevTools(): void {
+    private openDevTools() {
 
         this.window.webContents.openDevTools({ mode: 'detach' });
     }

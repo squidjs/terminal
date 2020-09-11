@@ -17,9 +17,9 @@ export default class ContextMenu {
     }
 
     /**
-     * Build the menu
+     * Build the menu.
      *
-     * @returns Menu
+     * @returns The Menu instance
      */
     buildMenu(): Menu {
 
@@ -39,10 +39,10 @@ export default class ContextMenu {
     }
 
     /**
-     * Find a shortcut thanks to a IShortcutType
+     * Find a shortcut thanks to a IShortcutType.
      *
      * @param type - The type of the shortcut to find
-     * @returns string
+     * @returns The shortcut
      */
     findShortcut(type: IShortcutType): string {
 
@@ -59,72 +59,59 @@ export default class ContextMenu {
     }
 
     /**
-     * Open the menu
-     *
-     * @returns void
+     * Open the menu.
      */
-    private openMenu(): void {
+    private openMenu() {
 
         this.menu.popup();
     }
 
     /**
-     * Paste to the terminal
-     *
-     * @returns void
+     * Paste to the terminal.
      */
-    private paste(): void {
+    private paste() {
 
         this.window.webContents.send('shortcuts', 'paste');
     }
 
     /**
-     * Open a new tab
-     *
-     * @returns void
+     * Open a new tab.
      */
-    private newTab(): void {
+    private newTab() {
 
         this.sendToWebContents('pane:open');
     }
 
     /**
-     * Close the current tab
-     *
-     * @returns void
+     * Close the current tab.
      */
-    private closeTab(): void {
+    private closeTab() {
 
         this.sendToWebContents('pane:close');
     }
 
     /**
-     * Switch to the next tab
-     *
-     * @returns void
+     * Switch to the next tab.
      */
-    private switchTab(): void {
+    private switchTab() {
 
         this.sendToWebContents('pane:switch');
     }
 
     /**
-     * Open the DevTools
-     *
-     * @returns void
+     * Open the DevTools.
      */
-    private openDevTools(): void {
+    private openDevTools() {
 
         this.window.webContents.send('shortcuts', 'devtools');
     }
 
     /**
-     * Send the query to process a shortcut
+     * Send the query to process a shortcut.
      *
      * @param type - The shortcut type to send
-     * @returns void
      */
-    private sendToWebContents(type: IShortcutType): void {
+    private sendToWebContents(type: IShortcutType) {
 
         this.window.webContents.send('shortcuts', type);
     }
