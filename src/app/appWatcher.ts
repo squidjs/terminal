@@ -35,10 +35,12 @@ export default class AppWatcher {
 
             const nav: HTMLElement = document.querySelector('.nav') as HTMLElement;
             nav.style.backgroundColor = backgroundColor;
+            nav.style.opacity = opacity;
 
             const tabs: HTMLElement = document.querySelector('.tabs') as HTMLElement;
             tabs.style.backgroundColor = backgroundColor;
             tabs.style.borderColor = borderColor;
+            tabs.style.opacity = opacity;
 
             const border: HTMLElement = document.querySelector('.border') as HTMLElement;
             border.style.borderColor = borderColor;

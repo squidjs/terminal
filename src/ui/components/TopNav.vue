@@ -1,5 +1,5 @@
 <template>
-    <div class="nav" :style="'background-color: ' + background">
+    <div class="nav" :style="{'background-color': background, 'opacity': opacity}">
         <p class="title">Squid</p>
         <div class="buttons">
             <button @click="minimize" class="button"><svg height="10" width="10"><path d="M 0,5 10,5 10,6 0,6 Z"></path></svg></button>
@@ -53,6 +53,17 @@
         private get background(): string {
 
             return Options.get().getOptions().theme.background;
+        }
+
+        /**
+         * Computed method to get the
+         * opacity of the terminal.
+         *
+         * @returns The opacity number
+         */
+        private get opacity(): number {
+
+            return Options.get().getOptions().opacity;
         }
     }
 </script>

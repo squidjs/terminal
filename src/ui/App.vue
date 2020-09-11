@@ -2,7 +2,7 @@
     <div id="app" :style="'fontFamily: ' + fontFamily">
         <top-nav />
         <div @click.right.prevent="openContextMenu" class="main">
-            <div class="tabs" :style="{'background-color': background, 'border-color': border}">
+            <div class="tabs" :style="{'background-color': background, 'border-color': border, 'opacity': opacity}">
                 <tab v-for="terminal in terminals" @switch="switchTab" @close="closeTab" :key="terminal.index" :index="terminal.index" :current="current" />
             </div>
             <terminal v-for="terminal in this.terminals" :key="terminal.index" :index="terminal.index" :current="current"/>
@@ -169,6 +169,17 @@
         private get border(): string {
 
             return Options.get().getOptions().theme.border;
+        }
+
+        /**
+         * Computed method to get the
+         * opacity of the terminal.
+         *
+         * @returns The opacity number
+         */
+        private get opacity(): number {
+
+            return Options.get().getOptions().opacity;
         }
     }
 </script>
