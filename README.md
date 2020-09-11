@@ -57,17 +57,17 @@ Most of theses settings will apply immediately when saving the file, without nee
     "family": "\"DroidSansMono Nerd Font\", \"Fira Code\", monospace"
   },
   "opacity": 0.9,
-  "bash": "C:\\Windows\\System32\\wsl.exe",
+  "shell": "bash",
   "currentTheme": "material",
   "fastScrollModifier": "shift",
   "webGlRendering": true,
   "vibrancy": {
-    "enabled": false,
-    "theme": "appearance-based",
+    "enabled": true,
+    "theme": "light",
     "effect": "acrylic",
     "useCustomWindowRefreshMethod": true,
     "maximumRefreshRate": 60,
-    "disableOnBlur": false
+    "disableOnBlur": true
   },
   "shortcuts": [
     {
