@@ -59,6 +59,6 @@
     "eslint-plugin-vue": "^6.2.2",
     "typescript": "~3.8.3",
     "vue-cli-plugin-electron-builder": "~1.4.6",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "2.6.11"
   }
 }
