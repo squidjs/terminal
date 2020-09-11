@@ -13,9 +13,9 @@
     "lint": "eslint . --ext .js,.ts,.vue",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "publish:win": "vue-cli-service electron:build -w -p always",
-    "publish:linux": "vue-cli-service electron:build -l -p always",
-    "publish:mac": "vue-cli-service electron:build -m -p always"
+    "publish:win": "vue-cli-service electron:build -w -p onTagOrDraft",
+    "publish:linux": "vue-cli-service electron:build -l -p onTagOrDraft",
+    "publish:mac": "vue-cli-service electron:build -m -p onTagOrDraft"
   },
   "main": "background.js",
   "dependencies": {
