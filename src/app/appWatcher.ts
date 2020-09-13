@@ -95,11 +95,14 @@ export default class AppWatcher {
             if(event.dataTransfer == null || event.dataTransfer.files.length < 0)
                 return;
 
-            // We get the path of the first file
-            const filePath: string = event.dataTransfer.files[0].path;
+            let filesPath: string = '';
+
+            // Build the files path separated by a space
+            for(let i = 0; i < event.dataTransfer.files.length; i++)
+                filesPath += event.dataTransfer.files[i].path + ' ';
 
             // Write the path to the pty instance
-            this.appTerminal.onData(filePath);
+            this.appTerminal.onData(filesPath);
         });
 
         document.addEventListener('dragover', (event: DragEvent) => {
