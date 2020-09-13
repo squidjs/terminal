@@ -20,6 +20,12 @@
 **Squid** is a terminal emulator, build with new technologies (HTML, CSS, JS).
 We use [Electron](https://electronjs.org) and [VueJS](https://vuejs.org). Everything is written in [TypeScript](https://typescriptlang.org).
 
+## Table of content
+- [Downloading](#downloading)
+- [App settings](#app-settings)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Downloading
 **Canary** versions of Squid are availables for download in [releases](https://github.com/QuiiBz/squid/releases).
 
@@ -125,11 +131,11 @@ Here are all the settings explained:
 | vibrancy.enabled | If you want to enable vibrancy | A boolean value (true / false) | ✔ |
 | vibrancy.theme | The theme of the vibrancy | 'light' / 'dark' / 'appearance-based' / A hex color | ✔ |
 | vibrancy.effect | The type of effect to use | 'acrylic' / 'blur' | ✔ |
-| vibrancy.useCustomWindowRefreshMethod | If you want to enable a fast refresh method | A boolean value (true / false) | ❌ |
+| vibrancy.useCusWinRefMethod | If you want to enable a fast refresh method | A boolean value (true / false) | ❌ |
 | vibrancy.maximumRefreshRate | The maximum value to refresh application screen in seconds | A number in seconds | ✔ |
 | vibrancy.disableOnBlur | If the vibrancy should disable on blur | A boolean value (true / false) | ✔ |
 | shortcuts | All the shortcuts you want to use | An array of shortcuts with the keys and an action | ❌ |
-| shortcuts.keys | The keys to trigger this shortcut | See https://www.electronjs.org/docs/api/accelerator | |
+| shortcuts.keys | The keys to trigger this shortcut | See <a href="https://www.electronjs.org/docs/api/accelerator">Accelerator doc</a> | |
 | shortcuts.action | The action for this shortcut | 'pane:open' / 'pane:close' / 'pane:switchLeft' / 'pane:switchRight' / Plugins actions | |
 
 ## Contributing
