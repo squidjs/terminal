@@ -42,74 +42,72 @@ Depending on your OS, `userData` correspond to:
 Below is an example settings file, located in `userData/settings.squid.json`:
 <details>
     <summary>Example settings file</summary>
-    <pre>
+    <pre>{
+  "theme": {
+    "name": "default",
+    "background": "#090b10",
+    "foreground": "#ECEFF1",
+    "cursor": "#89DDFF",
+    "cursorAccent": "#89DDFF",
+    "selection": "#ECEFF1",
+    "border": "rgba(0, 0, 0, 0)",
+    "black": "#000000",
+    "red": "#E54B4B",
+    "green": "#9ECE58",
+    "yellow": "#FAED70",
+    "blue": "#396FE2",
+    "magenta": "#BB80B3",
+    "cyan": "#2DDAFD",
+    "white": "#d0d0d0",
+    "brightBlack": "#6b6b6b",
+    "brightRed": "#FF5370",
+    "brightGreen": "#C3E88D",
+    "brightYellow": "#FFCB6B",
+    "brightBlue": "#82AAFF",
+    "brightMagenta": "#C792EA",
+    "brightCyan": "#89DDFF",
+    "brightWhite": "#ffffff"
+  },
+  "cursor": {
+    "style": "block",
+    "blink": true
+  },
+  "font": {
+    "size": 15,
+    "family": "\"DroidSansMono Nerd Font\", \"Fira Code\", monospace"
+  },
+  "opacity": 0.9,
+  "shell": "bash",
+  "currentTheme": "material",
+  "fastScrollModifier": "shift",
+  "webGlRendering": true,
+  "vibrancy": {
+    "enabled": true,
+    "theme": "light",
+    "effect": "acrylic",
+    "useCustomWindowRefreshMethod": true,
+    "maximumRefreshRate": 60,
+    "disableOnBlur": true
+  },
+  "shortcuts": [
     {
-      "theme": {
-        "name": "default",
-        "background": "#090b10",
-        "foreground": "#ECEFF1",
-        "cursor": "#89DDFF",
-        "cursorAccent": "#89DDFF",
-        "selection": "#ECEFF1",
-        "border": "rgba(0, 0, 0, 0)",
-        "black": "#000000",
-        "red": "#E54B4B",
-        "green": "#9ECE58",
-        "yellow": "#FAED70",
-        "blue": "#396FE2",
-        "magenta": "#BB80B3",
-        "cyan": "#2DDAFD",
-        "white": "#d0d0d0",
-        "brightBlack": "#6b6b6b",
-        "brightRed": "#FF5370",
-        "brightGreen": "#C3E88D",
-        "brightYellow": "#FFCB6B",
-        "brightBlue": "#82AAFF",
-        "brightMagenta": "#C792EA",
-        "brightCyan": "#89DDFF",
-        "brightWhite": "#ffffff"
-      },
-      "cursor": {
-        "style": "block",
-        "blink": true
-      },
-      "font": {
-        "size": 15,
-        "family": "\"DroidSansMono Nerd Font\", \"Fira Code\", monospace"
-      },
-      "opacity": 0.9,
-      "shell": "bash",
-      "currentTheme": "material",
-      "fastScrollModifier": "shift",
-      "webGlRendering": true,
-      "vibrancy": {
-        "enabled": true,
-        "theme": "light",
-        "effect": "acrylic",
-        "useCustomWindowRefreshMethod": true,
-        "maximumRefreshRate": 60,
-        "disableOnBlur": true
-      },
-      "shortcuts": [
-        {
-          "keys": "CommandOrControl+Shift+T",
-          "action": "pane:open"
-        },
-        {
-          "keys": "CommandOrControl+Shift+W",
-          "action": "pane:close"
-        },
-        {
-          "keys": "Alt+Left",
-          "action": "pane:switchLeft"
-        },
-        {
-          "keys": "Alt+Right",
-          "action": "pane:switchRight"
-        }
-      ]
+      "keys": "CommandOrControl+Shift+T",
+      "action": "pane:open"
+    },
+    {
+      "keys": "CommandOrControl+Shift+W",
+      "action": "pane:close"
+    },
+    {
+      "keys": "Alt+Left",
+      "action": "pane:switchLeft"
+    },
+    {
+      "keys": "Alt+Right",
+      "action": "pane:switchRight"
     }
-    </pre>
+  ]
+}</pre>
 </details>
 
 Most of theses settings will apply immediately when saving the file, without need to restart the app.
@@ -149,6 +147,8 @@ First of all, make sure you have NPM or Yarn installed on your system. Then:
 3) Launch the development server and the app:
    - NPM: `npm run electron:serve`
    - Yarn: `yarn electron:serve`
+   
+See [contributing](CONTRIBUTING.md) for more informations   
    
 ## License
 Squid is licenced under [MIT](https://choosealicense.com/licenses/mit/) license.
