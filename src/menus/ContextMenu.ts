@@ -87,7 +87,7 @@ export default class ContextMenu {
      */
     private closeTab() {
 
-        this.sendToWebContents('pane:close');
+        this.sendToWebContents('pane:close', 'current');
     }
 
     /**
@@ -110,9 +110,10 @@ export default class ContextMenu {
      * Send the query to process a shortcut.
      *
      * @param type - The shortcut type to send
+     * @param object - A optional parameter
      */
-    private sendToWebContents(type: IShortcutType) {
+    private sendToWebContents(type: IShortcutType, object?: any) {
 
-        this.window.webContents.send('shortcuts', type);
+        this.window.webContents.send('shortcuts', type, object);
     }
 }

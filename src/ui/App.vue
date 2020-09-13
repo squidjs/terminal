@@ -14,7 +14,7 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator';
     import TopNav from '@/ui/components/TopNav.vue';
-    import { ipcRenderer, remote } from 'electron';
+    import { ipcRenderer, IpcRendererEvent, remote } from 'electron';
     import Tab from '@/ui/components/Tab.vue';
     import Terminal from '@/ui/components/Terminal.vue';
     import { ITerminal } from '@/app/appTerminal';
@@ -31,7 +31,6 @@
     })
     export default class App extends Vue {
 
-        private id: number = 0;
         private current: number = 0;
         private terminals: ITerminal[] = [];
 
@@ -46,7 +45,7 @@
             this.openTab();
 
             // Shortcuts
-            ipcRenderer.on('shortcuts', (event, message) => {
+            ipcRenderer.on('shortcuts', (event: IpcRendererEvent, message: string, object: number | string) => {
 
                 switch (message) {
 
@@ -55,7 +54,10 @@
                         break;
 
                     case 'pane:close':
-                        this.closeCurrentTab();
+                        if(object === 'current')
+                            this.closeCurrentTab();
+                        else if(typeof object === 'number')
+                            this.closeTab(object);
                         break;
 
                     case 'pane:switch':
@@ -70,12 +72,16 @@
          */
         private openTab() {
 
-            this.terminals.push({
+            // Find the terminal with the lowest index
+            const lowestIndex: number = Math.min(...this.terminals.map(terminal => terminal.index));
+            let index: number = (lowestIndex > 1 ? 1 : lowestIndex + 1);
 
-                index: ++this.id,
-            });
+            while(this.terminals.filter(terminal => terminal.index == index).length >= 1)
+                index += 1;
 
-            this.switchTab(this.id);
+            this.terminals.push({ index });
+
+            this.switchTab(index);
         }
 
         /**
@@ -93,9 +99,6 @@
          * @param id - The tab's id to switch to
          */
         private switchTab(id: number) {
-
-            if(this.terminals.length < id)
-                id = 1;
 
             this.current = id;
         }
