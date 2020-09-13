@@ -79,8 +79,12 @@ Most of theses settings will apply immediately when saving the file, without nee
       "action": "pane:close"
     },
     {
-      "keys": "CommandOrControl+Tab",
-      "action": "pane:switch"
+      "keys": "Alt+Left",
+      "action": "pane:switchLeft"
+    },
+    {
+      "keys": "Alt+Right",
+      "action": "pane:switchRight"
     }
   ]
 }
