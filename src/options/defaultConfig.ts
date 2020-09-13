@@ -58,8 +58,12 @@ export const defaultConfig: IOptions = {
             action: 'pane:close'
         },
         {
-            keys: 'CommandOrControl+Tab',
-            action: 'pane:switch'
+            keys: 'Alt+Left',
+            action: 'pane:switchLeft'
+        },
+        {
+            keys: 'Alt+Right',
+            action: 'pane:switchRight'
         }
     ]
 };

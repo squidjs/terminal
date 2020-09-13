@@ -18,7 +18,7 @@
     import Tab from '@/ui/components/Tab.vue';
     import Terminal from '@/ui/components/Terminal.vue';
     import { ITerminal } from '@/app/appTerminal';
-    import Options from '@/options/options';
+    import Options, { IShortcutType } from '@/options/options';
 
     @Component({
 
@@ -45,7 +45,7 @@
             this.openTab();
 
             // Shortcuts
-            ipcRenderer.on('shortcuts', (event: IpcRendererEvent, message: string, object: number | string) => {
+            ipcRenderer.on('shortcuts', (event: IpcRendererEvent, message: IShortcutType, object: number | string) => {
 
                 switch (message) {
 
@@ -60,7 +60,11 @@
                             this.closeTab(object);
                         break;
 
-                    case 'pane:switch':
+                    case 'pane:switchLeft':
+                        this.switchTab(this.current - 1);
+                        break;
+
+                    case 'pane:switchRight':
                         this.switchTab(this.current + 1);
                         break;
                 }
@@ -100,7 +104,14 @@
          */
         private switchTab(id: number) {
 
-            this.current = id;
+            console.log('requested switch to tab ' + id);
+
+            if(this.terminals.filter(terminal => terminal.index == id).length >= 1) {
+
+                console.log('switched')
+                this.current = id;
+            }
+
         }
 
         /**

@@ -200,7 +200,7 @@ interface IFont {
     family: string;
 }
 
-export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switch' | 'devtools';
+export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switchLeft' | 'pane:switchRight' | 'devtools';
 
 export interface IShortcut {
 
