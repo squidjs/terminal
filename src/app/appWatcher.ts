@@ -102,7 +102,8 @@ export default class AppWatcher {
                 filesPath += event.dataTransfer.files[i].path + ' ';
 
             // Write the path to the pty instance
-            this.appTerminal.onData(filesPath);
+            if(this.appTerminal.isFocused())
+                this.appTerminal.onData(filesPath);
         });
 
         document.addEventListener('dragover', (event: DragEvent) => {

@@ -216,6 +216,18 @@ export default class AppTerminal {
 
         return this.id;
     }
+
+    /**
+     * Check if this terminal is focused or not.
+     *
+     * @returns True if this terminal is focused
+     */
+    public isFocused(): boolean {
+
+        const element: HTMLElement = document.getElementById(`terminal-${this.id}`) as HTMLElement;
+
+        return !element.classList.contains('hidden');
+    }
 }
 
 export interface ITerminal {
