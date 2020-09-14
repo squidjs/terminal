@@ -3640,10 +3640,10 @@ ejs@~2.5.6:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.9.tgz#7ba254582a560d267437109a68354112475b0ce5"
   integrity sha512-GJCAeDBKfREgkBtgrYSf9hQy9kTb3helv0zGdzqhM7iAkW8FA/ZF97VQDbwFiwIT8MQLLOe5VlPZOEvZAqtUAQ==
 
-electron-acrylic-window@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/electron-acrylic-window/-/electron-acrylic-window-0.4.3.tgz#33a0a5f97745eeead684a9bca5687e69c95f5d5d"
-  integrity sha512-LUMXA56IlRNFDnjVaJeJCksmMWExch42+R1k091PRYanwu8XCmsK7voCNsfbIyiYIoCqPCQiI15+gbSMICai0Q==
+electron-acrylic-window@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/electron-acrylic-window/-/electron-acrylic-window-0.4.4.tgz#71397f680ca9c8027e5239c813c099565a507328"
+  integrity sha512-J/rcsqPTseXHFGDHCFSKuLoj6nvG1XfcYPlOJJbNqv9qNkegg7Ar1IM/oGYF6/aS19YDaS3TxaojHq4XX1rrjg==
   dependencies:
     bindings "^1.5.0"
     node-addon-api "^3.0.0"
