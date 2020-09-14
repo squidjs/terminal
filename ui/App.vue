@@ -61,11 +61,11 @@
                         break;
 
                     case 'pane:switchLeft':
-                        this.switchTab(this.current - 1);
+                        this.switchTabDirection(true);
                         break;
 
                     case 'pane:switchRight':
-                        this.switchTab(this.current + 1);
+                        this.switchTabDirection(false);
                         break;
                 }
             });
@@ -98,20 +98,38 @@
         }
 
         /**
+         * Switch tab to the left or right.
+         *
+         * @param goLeft - If we want to switch to the left tab or the right
+         */
+        private switchTabDirection(goLeft: boolean) {
+
+            let currentIndex: number = 0;
+
+            for(let i = 0; i < this.terminals.length; i++) {
+
+                if(this.terminals[i].index === this.current)
+                    currentIndex = i;
+            }
+
+            const newIndex: number = currentIndex + (goLeft ? -1 : 1);
+
+            for(let i = 0; i < this.terminals.length; i++) {
+
+                if(i === newIndex)
+                    this.current = this.terminals[i].index;
+            }
+        }
+
+        /**
          * Switch tab to specified tab id.
          *
          * @param id - The tab's id to switch to
          */
         private switchTab(id: number) {
 
-            console.log('requested switch to tab ' + id);
-
-            if(this.terminals.filter(terminal => terminal.index == id).length >= 1) {
-
-                console.log('switched')
+            if(this.terminals.filter(terminal => terminal.index == id).length >= 1)
                 this.current = id;
-            }
-
         }
 
         /**
