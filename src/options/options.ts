@@ -11,12 +11,14 @@ export default class Options {
     private static instance: Options;
 
     private options: IOptions;
+    private themes: ITheme[];
     private readonly path: string;
 
     constructor() {
 
         this.path = path.join(userDataPath, 'settings.squid.json');
         this.options = this.loadOptions();
+        this.themes = this.loadThemes();
     }
 
     /**
@@ -34,6 +36,20 @@ export default class Options {
 
         } else
             return defaultConfig;
+    }
+
+    /**
+     * Load the themes from the path.
+     *
+     * @returns An array of themes
+     */
+    private loadThemes(): ITheme[] {
+
+        const themes: ITheme[] = [];
+
+        
+
+        return themes;
     }
 
     /**
