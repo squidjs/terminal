@@ -13,12 +13,12 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator';
-    import TopNav from '@/ui/components/TopNav.vue';
+    import TopNav from './components/TopNav.vue';
     import { ipcRenderer, IpcRendererEvent, remote } from 'electron';
-    import Tab from '@/ui/components/Tab.vue';
-    import Terminal from '@/ui/components/Terminal.vue';
-    import { ITerminal } from '@/app/appTerminal';
-    import Options, { IShortcutType } from '@/options/options';
+    import Tab from './components/Tab.vue';
+    import Terminal from './components/Terminal.vue';
+    import { ITerminal } from '../src/app/appTerminal';
+    import Options, { IShortcutType } from '../src/options/options';
 
     @Component({
 
