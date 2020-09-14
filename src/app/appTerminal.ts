@@ -34,7 +34,7 @@ export default class AppTerminal {
         this.id = id;
 
         // Apply themes and addons
-        this.applyTheme(options.theme);
+        this.applyTheme(options);
         this.summonTerminal(this.id);
         this.applyAddons(options);
 
@@ -110,14 +110,20 @@ export default class AppTerminal {
     /**
      * Apply the current theme colors
      * to the xterm instance.
+     *
+     * @param options - The options
      */
-    public applyTheme(theme: ITheme) {
+    public applyTheme(options: IOptions) {
+
+        const theme: ITheme = Options.get().getTheme();
 
         this.xterm.setOption('theme', theme);
     }
 
     /**
      * Apply the addons to the xterm instance.
+     *
+     * @param options - The options
      */
     private applyAddons(options: IOptions) {
 
