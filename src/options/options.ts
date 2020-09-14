@@ -11,12 +11,14 @@ export default class Options {
     private static instance: Options;
 
     private options: IOptions;
+    private themes: ITheme[];
     private readonly path: string;
 
     constructor() {
 
         this.path = path.join(userDataPath, 'settings.squid.json');
         this.options = this.loadOptions();
+        this.themes = this.loadThemes();
     }
 
     /**
@@ -34,6 +36,46 @@ export default class Options {
 
         } else
             return defaultConfig;
+    }
+
+    /**
+     * Load the themes from the path.
+     *
+     * @returns An array of themes
+     */
+    private loadThemes(): ITheme[] {
+
+        const themes: ITheme[] = [];
+
+        // We read all the files in the userData folder
+        fs.readdirSync(userDataPath).forEach((file: string) => {
+
+            // If it's a theme
+            if(file.endsWith('.theme.json')) {
+
+                // Load and push this theme
+                const buffer: Buffer = fs.readFileSync(path.join(userDataPath, file));
+                const theme: ITheme = JSON.parse(buffer.toString());
+
+                themes.push(theme);
+            }
+        });
+
+        return themes;
+    }
+
+    /**
+     * Resolve the theme to use.
+     *
+     * @returns The theme to use
+     */
+    public getTheme(): ITheme {
+
+        const themeName: string = this.options.currentTheme;
+        const theme: ITheme | null = this.themes.filter((theme: ITheme) => theme.name === themeName)[0];
+
+        // Return the loaded theme of the default theme
+        return theme || this.options.theme;
     }
 
     /**

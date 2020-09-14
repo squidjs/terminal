@@ -45,7 +45,7 @@ export default class AppWatcher {
             const border: HTMLElement = document.querySelector('.border') as HTMLElement;
             border.style.borderColor = borderColor;
 
-            this.appTerminal.applyTheme(options.theme);
+            this.appTerminal.applyTheme(options);
             this.appTerminal.setOption('bellSound', options.bell.sound);
             this.appTerminal.setOption('bellStyle', options.bell.style);
             this.appTerminal.setOption('cursorBlink', options.cursor.blink);
