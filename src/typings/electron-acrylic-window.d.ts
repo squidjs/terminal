@@ -2,7 +2,7 @@ declare module 'electron-acrylic-window' {
 
     import { BrowserWindow as EBrowserWindow, BrowserWindowConstructorOptions } from 'electron';
 
-    class BrowserWindow extends EBrowserWindow {
+    class SBrowserWindow extends EBrowserWindow {
 
         constructor(options?: AcrylicBrowserWindowConstructorOptions);
     }
@@ -19,12 +19,12 @@ declare module 'electron-acrylic-window' {
      * Allow modifying default BrowserWindowConstructorOptions
      * to change vibrancy to VibrancyOptions.
      */
-    type Modify<T, R> = Omit<T, keyof R> & R;
+    type SModify<T, R> = Omit<T, keyof R> & R;
 
     /**
      * The new options of the BrowserWindow with the VibrancyOptions.
      */
-    type AcrylicBrowserWindowConstructorOptions = Modify<BrowserWindowConstructorOptions, {
+    type SAcrylicBrowserWindowConstructorOptions = Modify<BrowserWindowConstructorOptions, {
 
         /**
          * The vibrancy settings for the window. Can be
@@ -72,9 +72,9 @@ declare module 'electron-acrylic-window' {
      * 'dark', 'appearance-based' or a custom HEX color
      * with alpha.
      */
-    type VibrancyTheme = 'light' | 'dark' | 'appearance-based' | 0xFF;
+    type SVibrancyTheme = 'light' | 'dark' | 'appearance-based' | 0xFF;
     /**
      * The effect to apply. Can be 'acrylic' or 'blur'.
      */
-    type VibrancyEffect = 'acrylic' | 'blur';
+    type SVibrancyEffect = 'acrylic' | 'blur';
 }
