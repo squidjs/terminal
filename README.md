@@ -68,6 +68,9 @@ Below is an example settings file, located in `userData/settings.squid.json`:
     "brightCyan": "#89DDFF",
     "brightWhite": "#ffffff"
   },
+  "bell": {
+    "style": "none"
+  },
   "cursor": {
     "style": "block",
     "blink": true
@@ -80,9 +83,11 @@ Below is an example settings file, located in `userData/settings.squid.json`:
   "shell": "bash",
   "currentTheme": "material",
   "fastScrollModifier": "shift",
+  "fastScrollSensitivity": 5,
+  "scrollSensitivity": 1,
   "webGlRendering": true,
+  "vibrancyEnabled": true,
   "vibrancy": {
-    "enabled": true,
     "theme": "light",
     "effect": "acrylic",
     "useCustomWindowRefreshMethod": true,
@@ -117,6 +122,8 @@ Here are all the settings explained:
 | Key | Description | Possible values | Auto refresh |
 | --- | --- | --- | --- |
 | theme | The default theme | A theme object | ✔ |
+| bell.sound | The sound for the bell | A data uri | ✔ |
+| bell.style | The style of the bell | 'none' / 'sound' | ✔ |
 | cursor.style | The style of the cursor | 'block' / 'underline' / 'bar' | ✔ |
 | cursor.blink | If the cursor should blink | A boolean value (true / false) | ✔ |
 | font.size | The size of the font | A number | ✔ |
@@ -125,8 +132,10 @@ Here are all the settings explained:
 | shell | The path to your shell | '/bin/bash' / 'C:\\Windows\\System32\\wsl.exe' / ... | ❌ |
 | currentTheme | The name of the theme you want to use | A string of the theme name | ❌ |
 | fastScrollModifier | The key you want to use to scroll faster when pressed | 'shift' / 'alt' / ... | ✔ |
+| fastScrollSensitivity | The sensitivity for the fast scroll | A number above 0 | ✔ |
+| scrollSensitivity | The sensitivity for the scroll | A number above 0 | ✔ |
 | webGlRendering | If you want to use WebGl rendering (usually faster) | A boolean value (true / false) | ❌ |
-| vibrancy.enabled | If you want to enable vibrancy | A boolean value (true / false) | ✔ |
+| vibrancyEnabled | If you want to enable vibrancy | A boolean value (true / false) | ✔ |
 | vibrancy.theme | The theme of the vibrancy | 'light' / 'dark' / 'appearance-based' / A hex color | ✔ |
 | vibrancy.effect | The type of effect to use | 'acrylic' / 'blur' | ✔ |
 | vibrancy.useCusWinRefMethod | If you want to enable a fast refresh method | A boolean value (true / false) | ❌ |

@@ -26,6 +26,9 @@ export const defaultConfig: IOptions = {
         brightCyan: '#7fdbca',
         brightWhite: '#ffffff'
     },
+    bell: {
+        style: 'none',
+    },
     cursor: {
         style: 'block',
         blink: true
@@ -38,10 +41,11 @@ export const defaultConfig: IOptions = {
     shell: 'bash',
     currentTheme: 'default',
     fastScrollModifier: 'shift',
+    fastScrollSensitivity: 5,
+    scrollSensitivity: 1,
     webGlRendering: true,
+    vibrancyEnabled: false,
     vibrancy: {
-
-        enabled: true,
         theme: 'light',
         effect: 'acrylic',
         useCustomWindowRefreshMethod: true,

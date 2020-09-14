@@ -46,13 +46,17 @@ export default class AppWatcher {
             border.style.borderColor = borderColor;
 
             this.appTerminal.applyTheme(options.theme);
+            this.appTerminal.setOption('bellSound', options.bell.sound);
+            this.appTerminal.setOption('bellStyle', options.bell.style);
             this.appTerminal.setOption('cursorBlink', options.cursor.blink);
             this.appTerminal.setOption('cursorStyle', options.cursor.style);
             this.appTerminal.setOption('fontSize', options.font.size);
             this.appTerminal.setOption('fontFamily', options.font.family);
             this.appTerminal.setOption('fastScrollModifier', options.fastScrollModifier);
+            this.appTerminal.setOption('fastScrollSensitivity', options.fastScrollSensitivity);
+            this.appTerminal.setOption('scrollSensitivity', options.scrollSensitivity);
 
-            if(options.vibrancy.enabled)
+            if(options.vibrancyEnabled)
                 // @ts-ignore
                 remote.getCurrentWindow().setVibrancy(options.vibrancy);
             else

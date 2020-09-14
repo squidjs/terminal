@@ -64,11 +64,15 @@ export default class AppTerminal {
 
         return new Terminal({
 
+            bellSound: options.bell.sound,
+            bellStyle: options.bell.style,
             cursorBlink: options.cursor.blink,
             cursorStyle: options.cursor.style,
             fontSize: options.font.size,
             fontFamily: options.font.family,
             fastScrollModifier: options.fastScrollModifier,
+            fastScrollSensitivity: options.fastScrollSensitivity,
+            scrollSensitivity: options.scrollSensitivity,
         });
     }
 

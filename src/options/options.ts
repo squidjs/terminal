@@ -107,6 +107,10 @@ export interface IOptions {
      */
     theme: ITheme;
     /**
+     * The bell interface.
+     */
+    bell: IBell;
+    /**
      * The cursor interface.
      */
     cursor: ICursor;
@@ -131,9 +135,21 @@ export interface IOptions {
      */
     fastScrollModifier: 'alt' | 'ctrl' | 'shift';
     /**
+     * The sensitivity of the fast scroll.
+     */
+    fastScrollSensitivity: number;
+    /**
+     * The sensitivity of the scroll.
+     */
+    scrollSensitivity: number;
+    /**
      * WebGL rendering.
      */
     webGlRendering: boolean;
+    /**
+     * If the vibrancy is enabled.
+     */
+    vibrancyEnabled: boolean;
     /**
      * Vibrancy settings.
      */
@@ -175,6 +191,12 @@ export interface ITheme {
     brightMagenta: string;
     brightCyan: string;
     brightWhite: string;
+}
+
+interface IBell {
+
+    sound?: string;
+    style: 'none' | 'sound';
 }
 
 interface ICursor {

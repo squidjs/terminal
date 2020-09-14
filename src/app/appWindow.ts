@@ -1,11 +1,11 @@
-import { SAcrylicBrowserWindowConstructorOptions, SBrowserWindow } from 'electron-acrylic-window';
+import { AcrylicBrowserWindowConstructorOptions, BrowserWindow } from 'electron-acrylic-window';
 import path from 'path';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import { IOptions } from '@/options/options';
 import { BrowserWindow as EBrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 
-type Window = SBrowserWindow | EBrowserWindow;
+type Window = BrowserWindow | EBrowserWindow;
 
 export default class AppWindow {
 
@@ -42,7 +42,7 @@ export default class AppWindow {
         });
 
         // The parameters for the window
-        const params: SAcrylicBrowserWindowConstructorOptions = {
+        const params: AcrylicBrowserWindowConstructorOptions = {
 
             width: windowState.width,
             height: windowState.height,
@@ -64,12 +64,12 @@ export default class AppWindow {
         };
 
         // If we should add vibrancy to the window
-        const vibrancyEnabled = options.vibrancy.enabled;
+        const vibrancyEnabled = options.vibrancyEnabled;
 
         // If vibrancy is enabled, return BrowserWindow
         // from electron-acrylic-window, else return
         // electron's BrowserWindow
-        const window: Window = (vibrancyEnabled ? new SBrowserWindow(params as SAcrylicBrowserWindowConstructorOptions) : new EBrowserWindow(params));
+        const window: Window = (vibrancyEnabled ? new BrowserWindow(params as AcrylicBrowserWindowConstructorOptions) : new EBrowserWindow(params));
 
         // Manage the window to save it properties.
         windowState.manage(window);
@@ -102,7 +102,7 @@ export default class AppWindow {
      *
      * @returns The BrowserWindow instance
      */
-    public getWindow(): SBrowserWindow {
+    public getWindow(): BrowserWindow {
 
         return this.window;
     }
