@@ -1,7 +1,5 @@
 <p align="center">
     <img src="https://i.imgur.com/L5TUf4J.png" width="100" />
-    <b>Squid</b>
-    <small>A terminal for everyone</small>
 </p>
 
 <p align="center">
