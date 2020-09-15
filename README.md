@@ -1,5 +1,7 @@
 <p align="center">
-    <img src="https://i.imgur.com/XRBjSBc.png" />
+    <img src="https://i.imgur.com/L5TUf4J.png" width="100" />
+    <b>Squid</b>
+    <small>A terminal for everyone</small>
 </p>
 
 <p align="center">
@@ -23,6 +25,7 @@ We use [Electron](https://electronjs.org) and [VueJS](https://vuejs.org). Everyt
 ## Table of content
 - [Downloading](#downloading)
 - [App settings](#app-settings)
+- [Screenshot](#screenshot)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -152,6 +155,11 @@ Here are all the settings explained:
 | shortcuts | All the shortcuts you want to use | An array of shortcuts with the keys and an action | ❌ |
 | shortcuts.keys | The keys to trigger this shortcut | See <a href="https://www.electronjs.org/docs/api/accelerator">Accelerator doc</a> | |
 | shortcuts.action | The action for this shortcut | 'pane:open' / 'pane:close' / 'pane:switchLeft' / 'pane:switchRight' / Plugins actions | |
+
+## Screenshot
+<p align="center">
+    <img src="https://i.imgur.com/1pSJyPI.png" />
+</p>
 
 ## Contributing
 Yarn is highly recommanded, but you can still use NPM.
