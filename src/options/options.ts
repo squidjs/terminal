@@ -264,7 +264,7 @@ interface IFont {
     family: string;
 }
 
-export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switchLeft' | 'pane:switchRight' | 'devtools';
+export type IShortcutType = 'pane:open' | 'pane:close' | 'pane:switchLeft' | 'pane:switchRight' | 'pane:zoomIn' | 'pane:zoomOut' | 'devtools';
 
 export interface IShortcut {
 

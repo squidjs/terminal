@@ -68,6 +68,14 @@ export const defaultConfig: IOptions = {
         {
             keys: 'Alt+Right',
             action: 'pane:switchRight'
+        },
+        {
+            keys: 'CommandOrControl+Up',
+            action: 'pane:zoomIn'
+        },
+        {
+            keys: 'CommandOrControl+Down',
+            action: 'pane:zoomOut'
         }
     ]
 };

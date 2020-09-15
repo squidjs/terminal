@@ -32,6 +32,8 @@ export default class ContextMenu {
         globalShortcut.register(this.findShortcut('pane:close'), () => this.closeTab());
         globalShortcut.register(this.findShortcut('pane:switchLeft'), () => this.switchLeft());
         globalShortcut.register(this.findShortcut('pane:switchRight'), () => this.switchRight());
+        globalShortcut.register(this.findShortcut('pane:zoomIn'), () => this.zoomIn());
+        globalShortcut.register(this.findShortcut('pane:zoomOut'), () => this.zoomOut());
     }
 
     /**
@@ -49,6 +51,9 @@ export default class ContextMenu {
         menu.append(new MenuItem({ label: 'Close tab', click: () => this.closeTab() }));
         menu.append(new MenuItem({ label: 'Go to left tab', click: () => this.switchLeft() }));
         menu.append(new MenuItem({ label: 'Go to right tab', click: () => this.switchRight() }));
+        menu.append(new MenuItem({ type: 'separator' }));
+        menu.append(new MenuItem({ label: 'Zoom in', click: () => this.zoomIn() }));
+        menu.append(new MenuItem({ label: 'Zoom out', click: () => this.zoomOut() }));
         menu.append(new MenuItem({ type: 'separator' }));
         menu.append(new MenuItem({ label: 'Open DevTools', accelerator: 'Ctrl+Shift+I', click: () => this.openDevTools() }));
 
@@ -123,6 +128,22 @@ export default class ContextMenu {
     private switchRight() {
 
         this.sendToWebContents('pane:switchRight');
+    }
+
+    /**
+     * Zoom in the current terminal.
+     */
+    private zoomIn() {
+
+        this.sendToWebContents('pane:zoomIn');
+    }
+
+    /**
+     * Zoom out the current terminal.
+     */
+    private zoomOut() {
+
+        this.sendToWebContents('pane:zoomOut');
     }
 
     /**

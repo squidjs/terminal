@@ -75,6 +75,14 @@ export default class AppWatcher {
 
             switch (message) {
 
+                case 'pane:zoomIn':
+                    this.zoomIn();
+                    break;
+
+                case 'pane:zoomOut':
+                    this.zoomOut();
+                    break;
+
                 case 'paste':
                     this.appTerminal.onData(clipboard.readText());
                     break;
@@ -84,6 +92,35 @@ export default class AppWatcher {
                     break;
             }
         });
+    }
+
+    /**
+     * Zoom in the current terminal.
+     */
+    private zoomIn() {
+
+        const currentZoom: number = this.appTerminal.getOption('fontSize');
+        const newZoom: number = currentZoom + 1;
+
+        // Set back the font size
+        this.appTerminal.setOption('fontSize', newZoom);
+        this.appTerminal.fit();
+    }
+
+    /**
+     * Zoom out the current terminal.
+     */
+    private zoomOut() {
+
+        const currentZoom: number = this.appTerminal.getOption('fontSize');
+        let newZoom: number = currentZoom - 1;
+
+        if(newZoom <= 0)
+            newZoom = 1;
+
+        // Set back the font size
+        this.appTerminal.setOption('fontSize', newZoom);
+        this.appTerminal.fit();
     }
 
     /**

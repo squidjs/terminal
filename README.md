@@ -110,6 +110,14 @@ Below is an example settings file, located in `userData/settings.squid.json`:
     {
       "keys": "Alt+Right",
       "action": "pane:switchRight"
+    },
+    {
+      "keys": "CommandOrControl+Up",
+      "action": "pane:zoomIn"
+    },
+    {
+      "keys": "CommandOrControl+Down",
+      "action": "pane:zoomOut"
     }
   ]
 }</pre>

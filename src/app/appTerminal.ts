@@ -151,6 +151,17 @@ export default class AppTerminal {
     }
 
     /**
+     * Get a option to the xterm instance.
+     *
+     * @param option - The option key
+     * @returns The value for this option
+     */
+    public getOption(option: string): any {
+
+        return this.xterm.getOption(option);
+    }
+
+    /**
      * Fit xterm thanks to fitAddon.
      */
     public fit() {
