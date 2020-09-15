@@ -42,6 +42,7 @@ export default class AppTerminal {
         this.xterm.onResize((data: {cols: number, rows: number}) => this.onResize(data));
         this.xterm.onData((data: string) => this.onData(data));
         this.xterm.onSelectionChange(() => clipboard.writeText(this.xterm.getSelection(), 'selection'));
+        this.xterm.onTitleChange((title: string) => this.setTitle(title));
         this.ptyProcess.onData((data: string) => this.onPtyData(data));
         this.ptyProcess.onExit(() => this.exit());
 
@@ -197,6 +198,19 @@ export default class AppTerminal {
     private onPtyData(data: string) {
 
         this.xterm.write(data);
+    }
+
+    /**
+     * Set a new title for the tab.
+     *
+     * @param title - The title to set
+     */
+    private setTitle(title: string) {
+
+        const tabElement: HTMLElement | null = document.getElementById(`tab-title-${this.id}`);
+
+        if(tabElement !== null)
+            tabElement.innerText = title;
     }
 
     /**
