@@ -38,7 +38,7 @@ export const defaultConfig: IOptions = {
         family:  '"Fira Code", monospace'
     },
     opacity: 1.0,
-    shell: 'bash',
+    shell: process.platform === 'win32' ? 'cmd.exe' : 'bash',
     currentTheme: 'default',
     fastScrollModifier: 'shift',
     fastScrollSensitivity: 5,
