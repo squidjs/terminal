@@ -19,7 +19,7 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.4",
-    "electron-acrylic-window": "^0.4.3",
+    "electron-acrylic-window": "^0.4.4",
     "electron-window-state": "^5.0.3",
     "md5": "^2.2.1",
     "node-gyp": "6.1.0",
