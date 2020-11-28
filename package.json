@@ -18,7 +18,7 @@
   },
   "main": "background.js",
   "dependencies": {
-    "core-js": "^3.6.4",
+    "core-js": "^3.7.0",
     "electron-acrylic-window": "^0.4.3",
     "electron-window-state": "^5.0.3",
     "md5": "^2.2.1",
