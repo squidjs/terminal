@@ -1,0 +1,11 @@
+{
+  "commonSourceDirectory": "common",
+  "staticSourceDirectory": "static",
+  "title": true,
+  "main": {
+    "sourceDirectory": "src"
+  },
+  "renderer": {
+    "sourceDirectory": "ui"
+  }
+}
