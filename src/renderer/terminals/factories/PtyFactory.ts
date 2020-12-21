@@ -1,0 +1,50 @@
+import { Factory } from '../../../common/factories/Factory';
+import { UndefinedObject } from '../../../common/types/types';
+import { IPty } from 'node-pty';
+import * as pty from 'node-pty';
+import { Terminal as XTerminal } from 'xterm';
+
+export default class PtyFactory implements Factory<IPty> {
+
+	public factoryObject: UndefinedObject<IPty>;
+
+	/**
+	 * Build a IPty object with params.
+	 *
+	 * @see PtyFactoryParams
+	 *
+	 * @param params - PtyFactoryParams
+	 * @returns The IPty instance
+	 */
+	public build(params: PtyFactoryParams): IPty {
+
+		this.factoryObject = pty.spawn('C:\\Windows\\System32\\wsl.exe', [], {
+
+			name: 'xterm-256color',
+			cols: params.terminal.cols,
+			rows: params.terminal.rows,
+			cwd: params.cwd,
+		});
+
+		return this.factoryObject;
+	}
+
+	/**
+	 * Get the instance of the built object.
+	 *
+	 * @returns The IPty instance
+	 */
+	public getFactoryObject(): IPty {
+
+		return this.factoryObject as IPty;
+	}
+}
+
+/**
+ * The parameters to build the pty process.
+ */
+export type PtyFactoryParams = {
+
+	terminal: XTerminal;
+	cwd: string;
+}
