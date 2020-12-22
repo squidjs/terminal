@@ -34,6 +34,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 			minHeight: 500,
 			frame: process.platform === 'darwin',
 			transparent: true,
+			maximizable: true,
 			title: 'Squid',
 			titleBarStyle: 'hiddenInset',
 			//icon: path.join(__static, 'logo.png'),

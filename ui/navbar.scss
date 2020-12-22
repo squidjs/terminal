@@ -1,0 +1,27 @@
+.navbar {
+
+    width: 100vw;
+    height: 30px;
+
+    display: flex;
+    justify-content: flex-end;
+
+    -webkit-app-region: drag;
+
+    button {
+
+        -webkit-app-region: no-drag;
+
+        background: none;
+        border: none;
+        fill: #a7a7a7;
+
+        margin: 0 5px;
+        cursor: pointer;
+
+        &:hover {
+
+            fill: #FFFFFF;
+        }
+    }
+}

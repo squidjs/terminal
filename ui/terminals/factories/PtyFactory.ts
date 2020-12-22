@@ -30,6 +30,24 @@ export default class PtyFactory implements Factory<IPty> {
 	}
 
 	/**
+	 * Listen for events on the pty instance.
+	 *
+	 * @param terminal - The terminal to write on
+	 */
+	public listen(terminal: XTerminal) {
+
+		this.getFactoryObject().onData((data: string) => {
+
+			terminal.write(data);
+		});
+
+		this.getFactoryObject().onExit(() => {
+
+			// TODO
+		});
+	}
+
+	/**
 	 * Get the instance of the built object.
 	 *
 	 * @returns The IPty instance

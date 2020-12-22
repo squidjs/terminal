@@ -1,0 +1,21 @@
+body {
+
+    margin: 0;
+    overflow: hidden;
+}
+
+*:focus {
+
+    outline: none;
+}
+
+.main {
+
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal {
+
+    margin: 10px;
+}
