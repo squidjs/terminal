@@ -45,11 +45,7 @@ export default class App extends Component<Props, State> {
             terminals: [{
                 id: 0,
                 name: 'Terminal 1',
-            },
-                {
-                    id: 1,
-                    name: 'Terminal 2',
-                }],
+            }],
             selected: 0,
         });
     }
@@ -60,7 +56,8 @@ export default class App extends Component<Props, State> {
             <div className="main" style={{backgroundColor: this.state.config.theme.background}}>
                 <Navbar
                     terminals={this.state.terminals}
-                    selectTerminal={(terminal) => this.selectTerminal(terminal)} />
+                    selectTerminal={(terminal) => this.selectTerminal(terminal)}
+                    createTerminal={() => this.createTerminal() }/>
                 {
                     this.state.terminals.map((terminal) =>
                         <AppTerminal
@@ -79,5 +76,22 @@ export default class App extends Component<Props, State> {
         const selected = terminal.id;
 
         this.setState({ selected });
+    }
+
+    private createTerminal() {
+
+        const id = this.state.terminals.length + 1;
+
+        this.setState({
+
+            terminals: [
+                ...this.state.terminals,
+                {
+                    id,
+                    name: `Terminal ${id}`,
+                }
+            ],
+            selected: id,
+        });
     }
 }
