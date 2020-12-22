@@ -36,6 +36,11 @@
  *  Modified for Squid
  */
 
+.hidden {
+
+    display: none;
+}
+
 .xterm {
     font-feature-settings: "liga" 0;
     position: relative;

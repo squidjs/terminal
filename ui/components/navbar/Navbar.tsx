@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import NavbarButton from './NavbarButton';
 import './navbar.scss';
 import { remote } from 'electron';
+import { ITerminal } from '../../../app/Terminal';
+import Tabs from '../tabs/Tabs';
 
-interface Props { }
+interface Props {
+
+	terminals: ITerminal[];
+	selectTerminal: (terminal: ITerminal) => void;
+}
+
 interface State {
 
 	maximized: boolean;
@@ -25,9 +32,12 @@ export default class Navbar extends Component<Props, State> {
 
 		return (
 			<div className="navbar">
-				<NavbarButton onClick={() => this.minimize()} path="M 0,5 10,5 10,6 0,6 Z" />
-				<NavbarButton onClick={() => this.maximize()} path="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z" />
-				<NavbarButton onClick={() => this.close()} path="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z" />
+				<Tabs terminals={this.props.terminals} selectTerminal={this.props.selectTerminal} />
+				<div className="buttons">
+					<NavbarButton onClick={() => this.minimize()} path="M 0,5 10,5 10,6 0,6 Z" />
+					<NavbarButton onClick={() => this.maximize()} path="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z" />
+					<NavbarButton onClick={() => this.close()} path="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z" />
+				</div>
 			</div>
 		)
 	}

@@ -7,6 +7,8 @@ import './xterm.scss';
 interface Props {
 
 	config: IConfig;
+	id: number;
+	selected: boolean;
 }
 
 interface State {
@@ -31,7 +33,7 @@ export default class AppTerminal extends Component<Props, State> {
 	 */
 	componentDidMount() {
 
-		this.setState({ terminal: new Terminal(this.props.config) });
+		this.trySummonTerminal();
 	}
 
 	/**
@@ -44,12 +46,25 @@ export default class AppTerminal extends Component<Props, State> {
 	 */
 	componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
 
-		if(prevProps != this.props)
+		this.state.terminal?.focus();
+
+		if(prevProps.config != this.props.config)
 			this.state.terminal?.updateConfig(this.props.config);
+
+		if(!this.state.terminal)
+			this.trySummonTerminal();
 	}
 
 	render() {
 
-		return <div id="terminal" />
+		const className = this.props.selected ? '' : 'hidden';
+
+		return <div className={className} id={`terminal-${this.props.id}`} />
+	}
+
+	private trySummonTerminal() {
+
+		if(this.props.selected)
+			this.setState({ terminal: new Terminal(this.props.config, this.props.id) });
 	}
 }

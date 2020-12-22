@@ -4,24 +4,53 @@
     height: 30px;
 
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 
     -webkit-app-region: drag;
 
-    button {
+    .tabs {
 
-        -webkit-app-region: no-drag;
+        display: flex;
+        justify-content: flex-start;
 
-        background: none;
-        border: none;
-        fill: #a7a7a7;
+        .tab {
 
-        margin: 0 5px;
-        cursor: pointer;
+            -webkit-app-region: no-drag;
 
-        &:hover {
+            background: none;
+            border: none;
+            color: #a7a7a7;
 
-            fill: #FFFFFF;
+            margin: 0 5px;
+            cursor: pointer;
+
+            &:hover {
+
+                color: #FFFFFF;
+            }
+        }
+    }
+
+    .buttons {
+
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+
+            -webkit-app-region: no-drag;
+
+            background: none;
+            border: none;
+            fill: #a7a7a7;
+
+            margin: 0 5px;
+            cursor: pointer;
+
+            &:hover {
+
+                fill: #FFFFFF;
+            }
         }
     }
 }

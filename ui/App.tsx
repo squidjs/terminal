@@ -4,11 +4,14 @@ import AppTerminal from './components/terminals/AppTerminal';
 import Config, { IConfig } from '../app/config/Config';
 import Navbar from './components/navbar/Navbar';
 import { defaultConfig } from '../app/config/defaultConfig';
+import { ITerminal } from '../app/Terminal';
 
 interface Props { }
 interface State {
 
     config: IConfig;
+    terminals: ITerminal[];
+    selected: number;
 }
 
 export default class App extends Component<Props, State> {
@@ -20,6 +23,8 @@ export default class App extends Component<Props, State> {
         this.state = {
 
             config: defaultConfig,
+            terminals: [],
+            selected: -1,
         };
     }
 
@@ -34,16 +39,45 @@ export default class App extends Component<Props, State> {
             this.setState({ config: newConfig });
         });
 
-        this.setState({ config });
+        // Set first terminal by default
+        this.setState({
+            config,
+            terminals: [{
+                id: 0,
+                name: 'Terminal 1',
+            },
+                {
+                    id: 1,
+                    name: 'Terminal 2',
+                }],
+            selected: 0,
+        });
     }
 
     render() {
 
         return (
             <div className="main" style={{backgroundColor: this.state.config.theme.background}}>
-                <Navbar />
-                <AppTerminal config={this.state.config} />
+                <Navbar
+                    terminals={this.state.terminals}
+                    selectTerminal={(terminal) => this.selectTerminal(terminal)} />
+                {
+                    this.state.terminals.map((terminal) =>
+                        <AppTerminal
+                            key={terminal.id}
+                            config={this.state.config}
+                            id={terminal.id}
+                            selected={terminal.id === this.state.selected} />
+                    )
+                }
             </div>
         )
+    }
+
+    private selectTerminal(terminal: ITerminal) {
+
+        const selected = terminal.id;
+
+        this.setState({ selected });
     }
 }

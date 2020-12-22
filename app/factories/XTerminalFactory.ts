@@ -58,11 +58,12 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 * Spawn the xterm instance, listen for events and
 	 * setup addons.
 	 *
+	 * @param id - The id of the terminal
 	 * @param pty - The pty instance to write on
 	 */
-	public spawn(pty: IPty) {
+	public spawn(id: number, pty: IPty) {
 
-		const terminalElement = document.getElementById('terminal');
+		const terminalElement = document.getElementById(`terminal-${id}`);
 
 		if(terminalElement)
 			this.getFactoryObject().open(terminalElement);

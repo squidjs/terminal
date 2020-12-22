@@ -9,7 +9,7 @@ export default class Terminal {
 	private xTerminal: XTerminalFactory;
 	private pty: PtyFactory;
 
-	constructor(config: IConfig) {
+	constructor(config: IConfig, id: number) {
 
 		this.config = config;
 
@@ -27,8 +27,16 @@ export default class Terminal {
 			cwd: require('os').homedir(),
 		});
 
-		this.xTerminal.spawn(pty);
+		this.xTerminal.spawn(id, pty);
 		this.pty.listen(terminal);
+	}
+
+	/**
+	 * Focus the xterm instance.
+	 */
+	public focus() {
+
+		this.xTerminal.getFactoryObject().focus();
 	}
 
 	/**
@@ -42,4 +50,10 @@ export default class Terminal {
 
 		this.xTerminal.loadConfig(config);
 	}
+}
+
+export interface ITerminal {
+
+	id: number;
+	name: string;
 }
