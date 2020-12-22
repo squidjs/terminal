@@ -5,6 +5,7 @@ import Config, { IConfig } from '../app/config/Config';
 import Navbar from './components/navbar/Navbar';
 import { defaultConfig } from '../app/config/defaultConfig';
 import { ITerminal } from '../app/Terminal';
+import { remote } from 'electron';
 
 interface Props { }
 interface State {
@@ -64,13 +65,19 @@ export default class App extends Component<Props, State> {
                             key={terminal.id}
                             config={this.state.config}
                             id={terminal.id}
-                            selected={terminal.id === this.state.selected} />
+                            selected={terminal.id === this.state.selected}
+                            deleteTerminal={(id) => this.deleteTerminal(id) } />
                     )
                 }
             </div>
         )
     }
 
+    /**
+     * Select a terminal to be focused.
+     *
+     * @param terminal - The terminal to focus.
+     */
     private selectTerminal(terminal: ITerminal) {
 
         const selected = terminal.id;
@@ -78,6 +85,9 @@ export default class App extends Component<Props, State> {
         this.setState({ selected });
     }
 
+    /**
+     * Create a new terminal.
+     */
     private createTerminal() {
 
         const id = this.state.terminals.length + 1;
@@ -93,5 +103,24 @@ export default class App extends Component<Props, State> {
             ],
             selected: id,
         });
+    }
+
+    /**
+     * Delete the terminal with the given id.
+     *
+     * @param id - The id of the terminal to delete
+     */
+    private deleteTerminal(id: number) {
+
+        let terminals = [...this.state.terminals];
+        terminals = terminals.filter((current) => current.id !== id);
+
+        // The next id of the terminal to be selected
+        const selected = terminals.length > 0 ? terminals[0].id : -1;
+
+        if(selected != -1)
+            this.setState({ terminals, selected });
+        else
+            remote.getCurrentWindow().close();
     }
 }

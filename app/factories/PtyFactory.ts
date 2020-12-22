@@ -33,18 +33,16 @@ export default class PtyFactory implements Factory<IPty> {
 	 * Listen for events on the pty instance.
 	 *
 	 * @param terminal - The terminal to write on
+	 * @param onClose - Called when the pty process is closed
 	 */
-	public listen(terminal: XTerminal) {
+	public listen(terminal: XTerminal, onClose: () => void) {
 
 		this.getFactoryObject().onData((data: string) => {
 
 			terminal.write(data);
 		});
 
-		this.getFactoryObject().onExit(() => {
-
-			// TODO
-		});
+		this.getFactoryObject().onExit(onClose);
 	}
 
 	/**

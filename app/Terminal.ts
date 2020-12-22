@@ -9,7 +9,7 @@ export default class Terminal {
 	private xTerminal: XTerminalFactory;
 	private pty: PtyFactory;
 
-	constructor(config: IConfig, id: number) {
+	constructor(config: IConfig, id: number, onClose: () => void) {
 
 		this.config = config;
 
@@ -28,7 +28,12 @@ export default class Terminal {
 		});
 
 		this.xTerminal.spawn(id, pty);
-		this.pty.listen(terminal);
+
+		this.pty.listen(terminal, () => {
+
+			this.xTerminal.getFactoryObject().dispose();
+			onClose();
+		});
 	}
 
 	/**

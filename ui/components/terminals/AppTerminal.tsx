@@ -9,6 +9,7 @@ interface Props {
 	config: IConfig;
 	id: number;
 	selected: boolean;
+	deleteTerminal: (id: number) => void;
 }
 
 interface State {
@@ -29,7 +30,7 @@ export default class AppTerminal extends Component<Props, State> {
 	}
 
 	/**
-	 * Create a new Terminal instance for each AppTerminal components.
+	 * Try summoning a new terminal if possible.
 	 */
 	componentDidMount() {
 
@@ -62,9 +63,22 @@ export default class AppTerminal extends Component<Props, State> {
 		return <div className={className} id={`terminal-${this.props.id}`} />
 	}
 
+	/**
+	 * Summon a terminal, if selected. We also handle the closing of this
+	 * terminal.
+	 */
 	private trySummonTerminal() {
 
-		if(this.props.selected)
-			this.setState({ terminal: new Terminal(this.props.config, this.props.id) });
+		if(this.props.selected) {
+
+			const { config, id } = this.props;
+
+			const terminal = new Terminal(config, id, () => {
+
+				this.props.deleteTerminal(id);
+			});
+
+			this.setState({ terminal });
+		}
 	}
 }
