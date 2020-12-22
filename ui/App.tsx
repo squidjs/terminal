@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './app.scss';
-import AppTerminal from './terminals/AppTerminal';
-import Config, { IConfig } from './config/Config';
+import AppTerminal from './components/terminals/AppTerminal';
+import Config, { IConfig } from '../app/config/Config';
 import Navbar from './components/navbar/Navbar';
-import { defaultConfig } from './config/defaultConfig';
+import { defaultConfig } from '../app/config/defaultConfig';
 
 interface Props { }
 interface State {

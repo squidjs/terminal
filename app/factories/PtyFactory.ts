@@ -1,5 +1,5 @@
-import { Factory } from '../../../common/factories/Factory';
-import { UndefinedObject } from '../../../common/types/types';
+import { Factory } from '../../common/factories/Factory';
+import { UndefinedObject } from '../../common/types/types';
 import { IPty } from 'node-pty';
 import * as pty from 'node-pty';
 import { Terminal as XTerminal } from 'xterm';

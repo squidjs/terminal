@@ -1,12 +1,12 @@
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
-import { Factory } from '../../../common/factories/Factory';
-import { UndefinedObject } from '../../../common/types/types';
+import { Factory } from '../../common/factories/Factory';
+import { UndefinedObject } from '../../common/types/types';
 import { IPty } from 'node-pty';
 import { clipboard } from 'electron';
 import { FitAddon } from 'xterm-addon-fit';
 import { AddonType } from '../addons/Addons';
 import AddonsProvider from '../addons/AddonsProvider';
-import { IConfig } from '../../config/Config';
+import { IConfig } from '../config/Config';
 
 export default class XTerminalFactory implements Factory<XTerminal> {
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NavbarButton from './NavbarButton';
-import '../../navbar.scss';
+import './navbar.scss';
 import { remote } from 'electron';
 
 interface Props { }

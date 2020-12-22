@@ -1,6 +1,6 @@
 import XTerminalFactory from './factories/XTerminalFactory';
 import PtyFactory from './factories/PtyFactory';
-import { IConfig } from '../config/Config';
+import { IConfig } from './config/Config';
 
 export default class Terminal {
 
