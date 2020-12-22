@@ -1,7 +1,14 @@
 {
-  "name": "electron-webpack-quick-start",
-  "version": "0.0.0",
+  "name": "squid",
+  "version": "0.1.0-canary",
+  "description": "A terminal for everyone",
+  "author": {
+    "email": "quiibzdev@gmail.com",
+    "name": "QuiiBz",
+    "url": "https://github.com/QuiiBz"
+  },
   "license": "MIT",
+  "repository": "https://github.com/QuiiBz/squid",
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
