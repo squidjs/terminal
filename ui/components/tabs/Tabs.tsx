@@ -8,6 +8,7 @@ interface Props {
 	terminals: ITerminal[];
 	selectTerminal: (terminal: ITerminal) => void;
 	createTerminal: () => void;
+	deleteTerminal: (terminal: ITerminal) => void;
 }
 
 export default class Tabs extends Component<Props> {
@@ -21,7 +22,8 @@ export default class Tabs extends Component<Props> {
 						<Tab
 							key={terminal.id}
 							terminal={terminal}
-							selectTerminal={this.props.selectTerminal} />
+							selectTerminal={this.props.selectTerminal}
+							deleteTerminal={this.props.deleteTerminal}/>
 					)
 				}
 				<TabCreateTerminal createTerminal={this.props.createTerminal} />

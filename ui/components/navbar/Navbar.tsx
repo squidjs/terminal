@@ -9,6 +9,7 @@ interface Props {
 
 	terminals: ITerminal[];
 	selectTerminal: (terminal: ITerminal) => void;
+	deleteTerminal: (terminal: ITerminal) => void;
 	createTerminal: () => void;
 }
 
@@ -36,6 +37,7 @@ export default class Navbar extends Component<Props, State> {
 				<Tabs
 					terminals={this.props.terminals}
 					selectTerminal={this.props.selectTerminal}
+					deleteTerminal={this.props.deleteTerminal}
 					createTerminal={this.props.createTerminal} />
 				<div className="buttons">
 					<NavbarButton onClick={() => this.minimize()} path="M 0,5 10,5 10,6 0,6 Z" />

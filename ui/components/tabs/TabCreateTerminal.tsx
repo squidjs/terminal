@@ -10,9 +10,9 @@ export default class TabCreateTerminal extends Component<Props> {
 	render() {
 
 		return <button
-			type="button"
-			className="tab"
-			onClick={this.props.createTerminal}
-			>+</button>;
+					type="button"
+					className="tab-create"
+					onClick={this.props.createTerminal}
+					>+</button>;
 	}
 }
