@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import NavbarButton from './NavbarButton';
-import './navbar.scss';
 import { remote } from 'electron';
 import { ITerminal } from '../../../app/Terminal';
 import Tabs from '../tabs/Tabs';
+import '../../styles/navbar.scss';
 
 interface Props {
 

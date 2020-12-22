@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Terminal from '../../../app/Terminal';
 import { IConfig } from '../../../app/config/Config';
 import { UndefinedObject } from '../../../common/types/types';
-import './xterm.scss';
+import '../../styles/xterm.scss';
 
 interface Props {
 

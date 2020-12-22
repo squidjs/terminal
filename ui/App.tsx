@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './app.scss';
+import './styles/app.scss';
 import AppTerminal from './components/terminals/AppTerminal';
 import Config, { IConfig } from '../app/config/Config';
 import Navbar from './components/navbar/Navbar';

@@ -1,0 +1,49 @@
+.tabs {
+
+  display: flex;
+  justify-content: flex-start;
+
+  .tab {
+
+    -webkit-app-region: no-drag;
+
+    display: flex;
+
+    .tab-title, .tab-close {
+
+      background: none;
+      border: none;
+      color: #a7a7a7;
+
+      margin: 0 5px;
+      cursor: pointer;
+
+      &:hover {
+
+        color: #FFFFFF;
+      }
+    }
+
+    .tab-close {
+
+      margin: 0;
+    }
+  }
+
+  .tab-create {
+
+    -webkit-app-region: no-drag;
+
+    background: none;
+    border: none;
+    color: #a7a7a7;
+
+    margin: 0 5px;
+    cursor: pointer;
+
+    &:hover {
+
+      color: #FFFFFF;
+    }
+  }
+}
