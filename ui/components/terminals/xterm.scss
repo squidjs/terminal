@@ -110,7 +110,7 @@
 .xterm .xterm-screen/*, .xterm canvas */{
 
     width: calc(100vw - 20px) !important;
-    height: calc(100vh - 30px - 20px) !important;
+    height: calc(100vh - 30px) !important;
 }
 
 .xterm .xterm-screen canvas {
