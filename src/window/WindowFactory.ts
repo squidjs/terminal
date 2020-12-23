@@ -3,8 +3,7 @@ import { Factory } from '../../common/factories/Factory';
 import { format as formatUrl } from 'url';
 import path from 'path';
 import { UndefinedObject } from '../../common/types/types';
-import { IVibrancy } from '../../app/config/Config';
-import { BrowserWindow as EBrowserWindow } from 'electron';
+import Config, { IVibrancy } from '../../app/config/Config';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 
@@ -13,6 +12,15 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 	constructor(isDev: boolean) {
 
 		this.factoryObject = this.build();
+
+		Config.getInstance().loadConfig(({ vibrancy }) => {
+
+			this.setVibrancy(vibrancy);
+
+		}).then(({ vibrancy }) => {
+
+			this.setVibrancy(vibrancy);
+		});
 
 		// Open the devtools if we are in dev
 		if(isDev)
@@ -77,7 +85,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 
 		if(vibrancy.enabled) {
 			// @ts-ignore
-			this.getFactoryObject().setVibrancy(EBrowserWindow.getFocusedWindow(), {
+			this.getFactoryObject().setVibrancy({
 
 				theme: vibrancy.theme,
 				effect: vibrancy.effect,
@@ -89,7 +97,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 		} else {
 
 			// @ts-ignore
-			this.getFactoryObject().setVibrancy(EBrowserWindow.getFocusedWindow(), null);
+			this.getFactoryObject().setVibrancy();
 		}
 	}
 
