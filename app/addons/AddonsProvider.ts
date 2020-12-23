@@ -37,6 +37,8 @@ export default class AddonsProvider {
 
 			terminal.loadAddon(addon.addon);
 		});
+
+		terminal.unicode.activeVersion = '11';
 	}
 
 	/**
