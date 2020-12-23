@@ -6,6 +6,7 @@ import { WebglAddon } from 'xterm-addon-webgl';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
 import { shell } from 'electron';
+import { IConfig } from '../config/Config';
 
 export default class AddonsProvider {
 
@@ -25,7 +26,8 @@ export default class AddonsProvider {
 		{
 			type: AddonType.WEBGL,
 			addon: new WebglAddon(),
-		},{
+		},
+		{
 			type: AddonType.WEBLINKS,
 			addon: new WebLinksAddon((event, uri) => {
 
@@ -37,13 +39,15 @@ export default class AddonsProvider {
 	/**
 	 * Setup all addons to the xterm instance.
 	 *
+	 * @param config - The config to use
 	 * @param terminal - The xterm instance
 	 */
-	public setupAddons(terminal: XTerminal) {
+	public setupAddons(config: IConfig, terminal: XTerminal) {
 
 		this.ADDONS.forEach((addon) => {
 
-			terminal.loadAddon(addon.addon);
+			if(addon.type !== AddonType.WEBGL || config.webGlRendering)
+				terminal.loadAddon(addon.addon);
 		});
 
 		terminal.unicode.activeVersion = '11';

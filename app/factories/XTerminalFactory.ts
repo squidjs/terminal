@@ -12,10 +12,12 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 
 	public factoryObject: UndefinedObject<XTerminal>;
 	private addonsProvider: AddonsProvider;
+	private config: IConfig;
 
-	constructor() {
+	constructor(config: IConfig) {
 
 		this.addonsProvider = new AddonsProvider();
+		this.config = config;
 	}
 
 	/**
@@ -82,7 +84,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 
 		this.listen(pty, onTitle);
 
-		this.addonsProvider.setupAddons(this.getFactoryObject());
+		this.addonsProvider.setupAddons(this.config, this.getFactoryObject());
 
 		this.fit();
 	}

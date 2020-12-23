@@ -13,7 +13,7 @@ export default class Terminal {
 
 		this.config = config;
 
-		this.xTerminal = new XTerminalFactory();
+		this.xTerminal = new XTerminalFactory(config);
 		this.pty = new PtyFactory();
 
 		const terminal = this.xTerminal.build({
