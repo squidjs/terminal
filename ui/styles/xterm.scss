@@ -106,6 +106,26 @@
     left: 0;
     top: 0;
     bottom: 0;
+
+    &::-webkit-scrollbar {
+
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+
+        background: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+
+        background: rgba(0, 0, 0, 0.4);
+    }
 }
 
 .xterm .xterm-screen {
