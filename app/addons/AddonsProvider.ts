@@ -3,7 +3,9 @@ import { FitAddon } from 'xterm-addon-fit';
 import { Unicode11Addon } from 'xterm-addon-unicode11';
 import { LigaturesAddon } from 'xterm-addon-ligatures';
 import { WebglAddon } from 'xterm-addon-webgl';
+import { WebLinksAddon } from 'xterm-addon-web-links';
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
+import { shell } from 'electron';
 
 export default class AddonsProvider {
 
@@ -23,6 +25,12 @@ export default class AddonsProvider {
 		{
 			type: AddonType.WEBGL,
 			addon: new WebglAddon(),
+		},{
+			type: AddonType.WEBLINKS,
+			addon: new WebLinksAddon((event, uri) => {
+
+				shell.openExternal(uri);
+			}),
 		},
 	];
 

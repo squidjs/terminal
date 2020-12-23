@@ -22,4 +22,5 @@ export enum AddonType {
 	UNICODE,
 	LIGATURES,
 	WEBGL,
+	WEBLINKS,
 }
