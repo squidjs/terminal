@@ -67,7 +67,8 @@ export default class App extends Component<Props, State> {
                             config={this.state.config}
                             id={terminal.id}
                             selected={terminal.id === this.state.selected}
-                            deleteTerminal={(id) => this.deleteTerminal(id) } />
+                            deleteTerminal={(id) => this.deleteTerminal(id)}
+                            updateTitle={(id, title) => this.updateTitle(id, title) }/>
                     )
                 }
             </div>
@@ -123,5 +124,29 @@ export default class App extends Component<Props, State> {
             this.setState({ terminals, selected });
         else
             remote.getCurrentWindow().close();
+    }
+
+    /**
+     * Update the title of a tab.
+     *
+     * @param id - The tab id to update its title
+     * @param name - The new title to set
+     */
+    private updateTitle(id: number, name: string) {
+
+        let terminals = [...this.state.terminals];
+
+        terminals = terminals.map((current) => {
+
+            if(current.id === id)
+                return {
+                    id,
+                    name
+                }
+            else
+                return current;
+        });
+
+        this.setState({ terminals });
     }
 }

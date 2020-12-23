@@ -10,6 +10,7 @@ interface Props {
 	id: number;
 	selected: boolean;
 	deleteTerminal: (id: number) => void;
+	updateTitle: (id: number, title: string) => void;
 }
 
 interface State {
@@ -74,6 +75,10 @@ export default class AppTerminal extends Component<Props, State> {
 			const terminal = new Terminal(config, id, () => {
 
 				this.props.deleteTerminal(id);
+
+			}, (title: string) => {
+
+				this.props.updateTitle(id, title);
 			});
 
 			this.setState({ terminal });

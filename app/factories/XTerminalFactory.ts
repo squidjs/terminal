@@ -60,15 +60,16 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 *
 	 * @param id - The id of the terminal
 	 * @param pty - The pty instance to write on
+	 * @param onTitle - Called when the title change
 	 */
-	public spawn(id: number, pty: IPty) {
+	public spawn(id: number, pty: IPty, onTitle: (title: string) => void) {
 
 		const terminalElement = document.getElementById(`terminal-${id}`);
 
 		if(terminalElement)
 			this.getFactoryObject().open(terminalElement);
 
-		this.listen(pty);
+		this.listen(pty, onTitle);
 
 		this.addonsProvider.setupAddons(this.getFactoryObject());
 
@@ -79,8 +80,10 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 * Listen for events on the xterm instance.
 	 *
 	 * @param pty - The pty instance to write and resize on
+	 * @param onTitle - Called when the title change
+	 *
 	 */
-	private listen(pty: IPty) {
+	private listen(pty: IPty, onTitle: (title: string) => void) {
 
 		this.getFactoryObject().onData((data: string) => {
 
@@ -94,11 +97,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 				Math.max(data ? data.rows : this.getFactoryObject().rows, 1));
 		});
 
-		this.getFactoryObject().onTitleChange((title: string) => {
-
-			// TODO
-		});
-
+		this.getFactoryObject().onTitleChange((title: string) => onTitle(title));
 		this.getFactoryObject().onSelectionChange(() => clipboard.writeText(this.getFactoryObject().getSelection(), 'selection'));
 
 		window.onresize = () => this.fit();
