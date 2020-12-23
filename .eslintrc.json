@@ -1,0 +1,29 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "unused-imports",
+    "eslint-plugin-tsdoc"
+  ],
+  "rules": {
+    "quotes": [2, "single", {"avoidEscape":  true}],
+    "object-curly-spacing": [2, "always"],
+    "unused-imports/no-unused-imports-ts": 2,
+    "tsdoc/syntax": 2,
+    "@typescript-eslint/consistent-type-assertions": 2,
+    "@typescript-eslint/no-empty-interface": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0
+  }
+}

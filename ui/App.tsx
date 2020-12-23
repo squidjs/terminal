@@ -54,7 +54,7 @@ export default class App extends Component<Props, State> {
     render() {
 
         return (
-            <div className="main" style={{backgroundColor: this.state.config.theme.background}}>
+            <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
                 <Navbar
                     terminals={this.state.terminals}
                     selectTerminal={(terminal) => this.selectTerminal(terminal)}

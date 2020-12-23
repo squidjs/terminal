@@ -24,4 +24,5 @@ export interface Factory<T> {
     getFactoryObject(): T;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FactoryBuildParams = any;

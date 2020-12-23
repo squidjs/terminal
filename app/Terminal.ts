@@ -24,6 +24,7 @@ export default class Terminal {
 		const pty = this.pty.build({
 
 			terminal: terminal,
+			// eslint-disable-next-line @typescript-eslint/no-var-requires
 			cwd: require('os').homedir(),
 		});
 

@@ -42,10 +42,8 @@ export default class AppTerminal extends Component<Props, State> {
 	 * we update the config of the state terminal instance.
 	 *
 	 * @param prevProps - The previous props
-	 * @param prevState - The previous state
-	 * @param snapshot
 	 */
-	componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
+	componentDidUpdate(prevProps: Readonly<Props>) {
 
 		this.state.terminal?.focus();
 
