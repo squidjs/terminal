@@ -110,10 +110,6 @@ export interface IConfig {
 	 */
 	font: IFont;
 	/**
-	 * The opacity of the window.
-	 */
-	opacity: number;
-	/**
 	 * A path to the shell you which to use.
 	 */
 	shell: string;
@@ -137,6 +133,18 @@ export interface IConfig {
 	 * WebGL rendering.
 	 */
 	webGlRendering: boolean;
+	/**
+	 * If we should use background image.
+	 */
+	useBackgroundImage: boolean;
+	/**
+	 * Opacity of the background image
+	 */
+	backgroundImageOpacity: number;
+	/**
+	 * Background image url.
+	 */
+	backgroundImage: string;
 }
 
 export interface ITheme {

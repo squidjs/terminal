@@ -13,9 +13,20 @@ body {
 
     display: flex;
     flex-direction: column;
-}
 
-.terminal {
+    .background {
 
-    margin: 10px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .terminal {
+
+        padding: 10px;
+    }
 }

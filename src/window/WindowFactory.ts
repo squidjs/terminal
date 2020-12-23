@@ -41,6 +41,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 			show: false,
 			webPreferences: {
 				nodeIntegration: true,
+				webSecurity: false,
 			},
 		});
 

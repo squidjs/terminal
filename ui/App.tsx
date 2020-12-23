@@ -55,6 +55,10 @@ export default class App extends Component<Props, State> {
 
         return (
             <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
+                {
+                    this.state.config.useBackgroundImage &&
+                        <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage})`, opacity: this.state.config.backgroundImageOpacity }} />
+                }
                 <Navbar
                     config={this.state.config}
                     terminals={this.state.terminals}

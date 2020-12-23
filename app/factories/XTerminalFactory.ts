@@ -28,7 +28,11 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 */
 	public build({ config }: XTerminalFactoryParams): XTerminal {
 
-		this.factoryObject = new XTerminal();
+		this.factoryObject = new XTerminal({
+			theme: {
+				background: 'none',
+			}
+		});
 		this.loadConfig(config);
 
 		return this.factoryObject;
@@ -52,6 +56,13 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 		terminal.setOption('fastScrollSensitivity', config.fastScrollSensitivity);
 		terminal.setOption('fastScrollModifier', config.fastScrollModifier);
 		terminal.setOption('theme', config.theme);
+		terminal.setOption('allowTransparency', true);
+
+		if(config.useBackgroundImage)
+			terminal.setOption('theme', {
+				...terminal.getOption('theme'),
+				background: 'transparent',
+			});
 	}
 
 	/**
