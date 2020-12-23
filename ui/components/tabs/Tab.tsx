@@ -13,12 +13,10 @@ export default class Tab extends Component<Props> {
 	render() {
 
 		return (
-			<div className="tab">
+			<div className="tab" onClick={() => this.props.selectTerminal(this.props.terminal)}>
 				<button
 					type="button"
-					className="tab-title"
-					onClick={() => this.props.selectTerminal(this.props.terminal)}
-					>{this.props.terminal.name}</button>
+					className="tab-title">{this.props.terminal.name}</button>
 				<button
 					type="button"
 					className="tab-close"
