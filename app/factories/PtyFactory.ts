@@ -16,14 +16,14 @@ export default class PtyFactory implements Factory<IPty> {
 	 * @param params - PtyFactoryParams
 	 * @returns The IPty instance
 	 */
-	public build(params: PtyFactoryParams): IPty {
+	public build({ shell, terminal, cwd }: PtyFactoryParams): IPty {
 
-		this.factoryObject = pty.spawn('cmd.exe', [], {
+		this.factoryObject = pty.spawn(shell, [], {
 
 			name: 'xterm-256color',
-			cols: params.terminal.cols,
-			rows: params.terminal.rows,
-			cwd: params.cwd,
+			cols: terminal.cols,
+			rows: terminal.rows,
+			cwd,
 		});
 
 		return this.factoryObject;
@@ -62,5 +62,6 @@ export default class PtyFactory implements Factory<IPty> {
 export type PtyFactoryParams = {
 
 	terminal: XTerminal;
+	shell: string;
 	cwd: string;
 }
