@@ -36,7 +36,7 @@ export const defaultConfig: IConfig = {
 	},
 	font: {
 		size: 14,
-		family:  '"Fira Code", monospace'
+		family:  'monospace'
 	},
 	shell: process.platform === 'win32' ? 'cmd.exe' : 'bash',
 	currentTheme: 'default',
@@ -44,7 +44,7 @@ export const defaultConfig: IConfig = {
 	fastScrollSensitivity: 5,
 	fastScrollModifier: 'shift',
 	webGlRendering: true,
-	useBackgroundImage: true,
+	useBackgroundImage: false,
 	backgroundImageOpacity: 0.5,
-	backgroundImage: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80',
+	backgroundImage: '',
 }
