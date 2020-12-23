@@ -47,4 +47,12 @@ export const defaultConfig: IConfig = {
 	useBackgroundImage: false,
 	backgroundImageOpacity: 0.5,
 	backgroundImage: '',
+	vibrancy: {
+		enabled: true,
+		theme: 'appearance-based',
+		effect: 'acrylic',
+		useCustomWindowRefreshMethod: true,
+		maximumRefreshRate: 60,
+		disableOnBlur: false,
+	}
 }

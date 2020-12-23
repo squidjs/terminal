@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { userDataPath } from '../../common/utils/utils';
 import { defaultConfig } from './defaultConfig';
 import chokidar from 'chokidar';
+import { VibrancyEffect, VibrancyTheme } from 'electron-acrylic-window';
 
 export default class Config {
 
@@ -145,6 +146,10 @@ export interface IConfig {
 	 * Background image url.
 	 */
 	backgroundImage: string;
+	/**
+	 * Vibrancy settings
+	 */
+	vibrancy: IVibrancy;
 }
 
 export interface ITheme {
@@ -205,4 +210,14 @@ interface IFont {
 	 * The family of the font in the terminal.
 	 */
 	family: string;
+}
+
+export interface IVibrancy {
+
+	enabled: boolean;
+	theme: VibrancyTheme;
+	effect: VibrancyEffect;
+	useCustomWindowRefreshMethod: boolean;
+	maximumRefreshRate: number;
+	disableOnBlur: boolean;
 }

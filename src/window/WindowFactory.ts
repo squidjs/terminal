@@ -1,8 +1,10 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow } from 'electron-acrylic-window';
 import { Factory } from '../../common/factories/Factory';
 import { format as formatUrl } from 'url';
 import path from 'path';
 import { UndefinedObject } from '../../common/types/types';
+import { IVibrancy } from '../../app/config/Config';
+import { BrowserWindow as EBrowserWindow } from 'electron';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 
@@ -39,6 +41,13 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 			titleBarStyle: 'hiddenInset',
 			//icon: path.join(__static, 'logo.png'),
 			show: false,
+			vibrancy: {
+				theme: 'appearance-based',
+				effect: 'acrylic',
+				useCustomWindowRefreshMethod: true,
+				maximumRefreshRate: 60,
+				disableOnBlur: false,
+			},
 			webPreferences: {
 				nodeIntegration: true,
 				webSecurity: false,
@@ -57,6 +66,31 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 		});
 
 		return window;
+	}
+
+	/**
+	 * Set the vibrancy settings for this window.
+	 *
+	 * @param vibrancy - The vibrancy settings
+	 */
+	private setVibrancy(vibrancy: IVibrancy) {
+
+		if(vibrancy.enabled) {
+			// @ts-ignore
+			this.getFactoryObject().setVibrancy(EBrowserWindow.getFocusedWindow(), {
+
+				theme: vibrancy.theme,
+				effect: vibrancy.effect,
+				useCustomWindowRefreshMethod: vibrancy.useCustomWindowRefreshMethod,
+				maximumRefreshRate: vibrancy.maximumRefreshRate,
+				disableOnBlur: vibrancy.disableOnBlur,
+			});
+
+		} else {
+
+			// @ts-ignore
+			this.getFactoryObject().setVibrancy(EBrowserWindow.getFocusedWindow(), null);
+		}
 	}
 
 	/**
