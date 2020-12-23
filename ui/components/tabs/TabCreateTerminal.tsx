@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
+import { IConfig } from '../../../app/config/Config';
 
 interface Props {
 
+	config: IConfig;
 	createTerminal: () => void;
 }
 
@@ -13,6 +15,6 @@ export default class TabCreateTerminal extends Component<Props> {
 					type="button"
 					className="tab-create"
 					onClick={this.props.createTerminal}
-					>+</button>;
+					style={{ '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>+</button>;
 	}
 }

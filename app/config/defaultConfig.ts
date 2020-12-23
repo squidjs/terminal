@@ -3,6 +3,9 @@ import { IConfig } from './Config';
 export const defaultConfig: IConfig = {
 	theme: {
 		background: '#0F0F0F',
+		border: '#575656',
+		text: '#575656',
+		textHover: '#ffffff',
 		foreground: '#22da6e',
 		cursor: '#22da6e',
 		cursorAccent: '#22da6e',

@@ -18,7 +18,7 @@ export default class PtyFactory implements Factory<IPty> {
 	 */
 	public build(params: PtyFactoryParams): IPty {
 
-		this.factoryObject = pty.spawn('C:\\Windows\\System32\\wsl.exe', [], {
+		this.factoryObject = pty.spawn('cmd.exe', [], {
 
 			name: 'xterm-256color',
 			cols: params.terminal.cols,

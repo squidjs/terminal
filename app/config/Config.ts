@@ -145,6 +145,9 @@ export interface ITheme {
 	 * Bellow are the colors of the theme.
 	 */
 	background: string;
+	border: string;
+	text: string;
+	textHover: string;
 	foreground: string;
 	cursor: string;
 	cursorAccent: string;

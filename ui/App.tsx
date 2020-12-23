@@ -56,6 +56,7 @@ export default class App extends Component<Props, State> {
         return (
             <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
                 <Navbar
+                    config={this.state.config}
                     terminals={this.state.terminals}
                     selectTerminal={(terminal) => this.selectTerminal(terminal)}
                     deleteTerminal={({ id }) => this.deleteTerminal(id)}
