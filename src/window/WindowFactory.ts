@@ -47,7 +47,8 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 			maximizable: true,
 			title: 'Squid',
 			titleBarStyle: 'hiddenInset',
-			//icon: path.join(__static, 'logo.png'),
+			// @ts-ignore
+			icon: path.join(__static, 'logo.png'),
 			show: false,
 			vibrancy: {
 				theme: 'appearance-based',
