@@ -41,6 +41,7 @@
     "@typescript-eslint/parser": "^4.11.0",
     "electron": "8.2.0",
     "electron-builder": "^22.4.1",
+    "electron-builder-squirrel-windows": "^22.10.4",
     "electron-rebuild": "^2.3.4",
     "electron-webpack": "^2.8.2",
     "electron-webpack-ts": "^4.0.1",
