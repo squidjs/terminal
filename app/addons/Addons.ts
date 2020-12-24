@@ -11,6 +11,7 @@ export interface Addon {
 
 	type: AddonType;
 	addon: ITerminalAddon;
+	loaded: boolean;
 }
 
 /**

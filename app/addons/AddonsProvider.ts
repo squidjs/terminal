@@ -7,50 +7,68 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
 import { shell } from 'electron';
 import { IConfig } from '../../common/config/Config';
+import { UndefinedObject } from '../../common/types/types';
+import onIdle from 'on-idle';
 
 export default class AddonsProvider {
 
 	private ADDONS: Addon[] = [
-		{
-			type: AddonType.FIT,
-			addon: new FitAddon(),
-		},
-		{
-			type: AddonType.UNICODE,
-			addon: new Unicode11Addon(),
-		},
-		{
-			type: AddonType.LIGATURES,
-			addon: new LigaturesAddon(),
-		},
-		{
-			type: AddonType.WEBGL,
-			addon: new WebglAddon(),
-		},
-		{
-			type: AddonType.WEBLINKS,
-			addon: new WebLinksAddon((event, uri) => {
-
-				shell.openExternal(uri);
-			}),
-		},
+		this.buildAddon(AddonType.FIT),
+		this.buildAddon(AddonType.UNICODE),
+		this.buildAddon(AddonType.LIGATURES),
+		this.buildAddon(AddonType.WEBGL),
+		this.buildAddon(AddonType.WEBLINKS),
 	];
 
 	/**
-	 * Setup all addons to the xterm instance.
+	 * Setup all addons to the xterm instance. We setup
+	 * them when the browser is idle to allow faster
+	 * startup and speed.
 	 *
 	 * @param config - The config to use
 	 * @param terminal - The xterm instance
+	 * @param fit - Callback to fit the terminal
 	 */
-	public setupAddons(config: IConfig, terminal: XTerminal) {
+	public setupAddons(config: IConfig, terminal: XTerminal, fit: () => void) {
 
-		this.ADDONS.forEach((addon) => {
+		onIdle(() => {
 
-			if(addon.type !== AddonType.WEBGL || config.webGlRendering)
-				terminal.loadAddon(addon.addon);
+			const addon = this.ADDONS.find((addon) => !addon.loaded);
+
+			this.setupAddon(config, terminal, fit, addon);
+
+			if(this.ADDONS.filter((addon) => !addon.loaded).length >= 1)
+				this.setupAddons(config, terminal, fit);
 		});
+	}
 
-		terminal.unicode.activeVersion = '11';
+	/**
+	 * Setup a single addon to the terminal instance.
+	 *
+	 * @param config - The config to use
+	 * @param terminal - The terminal instance
+	 * @param fit - Callback to fit the terminal
+	 * @param addon - The addon to setup
+	 */
+	private setupAddon(config: IConfig, terminal: XTerminal, fit: () => void, addon: UndefinedObject<Addon>) {
+
+		if(addon && (addon.type !== AddonType.WEBGL || config.webGlRendering)) {
+
+			addon.loaded = true;
+			terminal.loadAddon(addon.addon);
+
+			switch(addon.type) {
+
+				case AddonType.FIT:
+					fit();
+					break;
+				case AddonType.UNICODE:
+					terminal.unicode.activeVersion = '11';
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	/**
@@ -70,5 +88,46 @@ export default class AddonsProvider {
 			return foundAddon.addon as T;
 
 		return null;
+	}
+
+	/**
+	 * Build an Addon by default with loaded to false.
+	 *
+	 * @param addonType - The type of the addon to build
+	 */
+	private buildAddon(addonType: AddonType): Addon {
+
+		return {
+
+			type: addonType,
+			addon: this.resolveAddonFromType(addonType),
+			loaded: false,
+		};
+	}
+
+	/**
+	 * Resolve an addon from its type.
+	 *
+	 * @see ITerminalAddon
+	 * @param addonType - The type of the addon to resolve
+	 */
+	private resolveAddonFromType(addonType: AddonType): ITerminalAddon {
+
+		switch(addonType) {
+
+			case AddonType.FIT:
+				return new FitAddon();
+			case AddonType.UNICODE:
+				return new Unicode11Addon();
+			case AddonType.LIGATURES:
+				return new LigaturesAddon();
+			case AddonType.WEBGL:
+				return new WebglAddon();
+			case AddonType.WEBLINKS:
+				return new WebLinksAddon((event, uri) => {
+
+					shell.openExternal(uri);
+				});
+		}
 	}
 }
