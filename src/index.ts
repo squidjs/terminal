@@ -1,3 +1,4 @@
+import 'v8-compile-cache';
 import App from './app/App';
 
 // Start hot reloading in dev
