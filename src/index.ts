@@ -8,4 +8,4 @@ if(module.hot)
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Instantiate a new app
-new App(isDevelopment);
+new App(process.argv, isDevelopment);

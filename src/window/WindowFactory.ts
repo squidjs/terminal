@@ -47,6 +47,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 			maximizable: true,
 			title: 'Squid',
 			titleBarStyle: 'hiddenInset',
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			icon: path.join(__static, 'logo.png'),
 			show: false,
@@ -85,6 +86,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 	private setVibrancy(vibrancy: IVibrancy) {
 
 		if(vibrancy.enabled) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			this.getFactoryObject().setVibrancy({
 
@@ -97,6 +99,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 
 		} else {
 
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			this.getFactoryObject().setVibrancy();
 		}

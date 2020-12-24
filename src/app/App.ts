@@ -1,15 +1,19 @@
 import { UndefinedObject } from '../../common/types/types';
 import WindowFactory from '../window/WindowFactory';
+import NativeContextMenu from '../window/NativeContextMenu';
 import { app } from 'electron';
 
 export default class App {
 
 	private readonly isDev: boolean;
 	private window: UndefinedObject<WindowFactory>;
+	private nativeContextMenu: NativeContextMenu;
 
-	constructor(isDev: boolean) {
+	constructor(args: string[], isDev: boolean) {
 
 		this.isDev = isDev;
+		this.nativeContextMenu = new NativeContextMenu();
+		this.nativeContextMenu.check(args);
 
 		this.listenAppEvents();
 	}

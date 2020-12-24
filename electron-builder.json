@@ -10,10 +10,5 @@
       "provider": "generic",
       "url": "https://anydummyurl.com"
     }
-  },
-  "win": {
-    "target": [
-      "squirrel"
-    ]
   }
 }
