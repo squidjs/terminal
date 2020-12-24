@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "chokidar": "^3.4.3",
-    "electron-acrylic-window": "0.4.7",
+    "electron-acrylic-window": "0.5.4",
     "node-pty": "^0.9.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
