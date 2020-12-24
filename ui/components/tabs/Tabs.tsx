@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ITerminal } from '../../../app/Terminal';
 import Tab from './Tab';
 import TabCreateTerminal from './TabCreateTerminal';
-import { IConfig } from '../../../app/config/Config';
+import { IConfig } from '../../../common/config/Config';
 import '../../styles/tabs.scss';
 
 interface Props {

@@ -1,6 +1,6 @@
 import React, { Component, CSSProperties } from 'react';
 import { ITerminal } from '../../../app/Terminal';
-import { IConfig } from '../../../app/config/Config';
+import { IConfig } from '../../../common/config/Config';
 
 interface Props {
 

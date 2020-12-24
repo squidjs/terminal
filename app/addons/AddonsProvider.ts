@@ -6,7 +6,7 @@ import { WebglAddon } from 'xterm-addon-webgl';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
 import { shell } from 'electron';
-import { IConfig } from '../config/Config';
+import { IConfig } from '../../common/config/Config';
 
 export default class AddonsProvider {
 

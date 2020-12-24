@@ -51,7 +51,7 @@ export const defaultConfig: IConfig = {
 		enabled: true,
 		theme: 'appearance-based',
 		effect: 'acrylic',
-		useCustomWindowRefreshMethod: true,
+		useCustomWindowRefreshMethod: false,
 		maximumRefreshRate: 60,
 		disableOnBlur: false,
 	}

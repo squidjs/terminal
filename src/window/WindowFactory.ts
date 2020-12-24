@@ -3,7 +3,7 @@ import { Factory } from '../../common/factories/Factory';
 import { format as formatUrl } from 'url';
 import path from 'path';
 import { UndefinedObject } from '../../common/types/types';
-import Config, { IVibrancy } from '../../app/config/Config';
+import Config, { IVibrancy } from '../../common/config/Config';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 

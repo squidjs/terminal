@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './styles/app.scss';
 import AppTerminal from './components/terminals/AppTerminal';
-import Config, { IConfig } from '../app/config/Config';
+import Config, { IConfig } from '../common/config/Config';
 import Navbar from './components/navbar/Navbar';
-import { defaultConfig } from '../app/config/defaultConfig';
+import { defaultConfig } from '../common/config/defaultConfig';
 import { ITerminal } from '../app/Terminal';
 import { remote } from 'electron';
 

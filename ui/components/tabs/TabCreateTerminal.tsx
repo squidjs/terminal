@@ -1,5 +1,5 @@
 import React, { Component, CSSProperties } from 'react';
-import { IConfig } from '../../../app/config/Config';
+import { IConfig } from '../../../common/config/Config';
 
 interface Props {
 

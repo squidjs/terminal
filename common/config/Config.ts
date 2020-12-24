@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { userDataPath } from '../../common/utils/utils';
+import { userDataPath } from '../utils/utils';
 import { defaultConfig } from './defaultConfig';
 import chokidar from 'chokidar';
 import { VibrancyEffect, VibrancyTheme } from 'electron-acrylic-window';

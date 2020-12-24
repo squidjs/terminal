@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Terminal from '../../../app/Terminal';
-import { IConfig } from '../../../app/config/Config';
+import { IConfig } from '../../../common/config/Config';
 import { UndefinedObject } from '../../../common/types/types';
 import '../../styles/xterm.scss';
 

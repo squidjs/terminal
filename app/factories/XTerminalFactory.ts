@@ -6,7 +6,7 @@ import { clipboard } from 'electron';
 import { FitAddon } from 'xterm-addon-fit';
 import { AddonType } from '../addons/Addons';
 import AddonsProvider from '../addons/AddonsProvider';
-import { IConfig } from '../config/Config';
+import { IConfig } from '../../common/config/Config';
 
 export default class XTerminalFactory implements Factory<XTerminal> {
 

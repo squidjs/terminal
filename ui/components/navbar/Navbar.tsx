@@ -3,7 +3,7 @@ import NavbarButton from './NavbarButton';
 import { remote } from 'electron';
 import { ITerminal } from '../../../app/Terminal';
 import Tabs from '../tabs/Tabs';
-import { IConfig } from '../../../app/config/Config';
+import { IConfig } from '../../../common/config/Config';
 import '../../styles/navbar.scss';
 
 interface Props {
