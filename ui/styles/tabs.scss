@@ -22,6 +22,11 @@
       cursor: pointer;
 
       transition: .3s ease;
+
+      &.selected {
+
+        color: var(--hover);
+      }
     }
 
     .tab-close {

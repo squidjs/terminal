@@ -9,6 +9,7 @@ interface Props {
 
 	config: IConfig
 	terminals: ITerminal[];
+	selected: number;
 	selectTerminal: (terminal: ITerminal) => void;
 	createTerminal: () => void;
 	deleteTerminal: (terminal: ITerminal) => void;
@@ -26,6 +27,7 @@ export default class Tabs extends Component<Props> {
 							config={this.props.config}
 							key={terminal.id}
 							terminal={terminal}
+							selected={this.props.selected === terminal.id}
 							selectTerminal={this.props.selectTerminal}
 							deleteTerminal={this.props.deleteTerminal}/>
 					)

@@ -62,6 +62,7 @@ export default class App extends Component<Props, State> {
                 <Navbar
                     config={this.state.config}
                     terminals={this.state.terminals}
+                    selected={this.state.selected}
                     selectTerminal={(terminal) => this.selectTerminal(terminal)}
                     deleteTerminal={({ id }) => this.deleteTerminal(id)}
                     createTerminal={() => this.createTerminal() }/>

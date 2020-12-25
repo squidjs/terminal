@@ -6,6 +6,7 @@ interface Props {
 
 	config: IConfig;
 	terminal: ITerminal;
+	selected: boolean;
 	selectTerminal: (terminal: ITerminal) => void;
 	deleteTerminal: (terminal: ITerminal) => void;
 }
@@ -14,6 +15,11 @@ export default class Tab extends Component<Props> {
 
 	render() {
 
+		let tabTitleClass = 'tab-title';
+
+		if(this.props.selected)
+			tabTitleClass += ' selected';
+
 		return (
 			<div
 				className="tab"
@@ -21,7 +27,7 @@ export default class Tab extends Component<Props> {
 				style={{ '--border': this.props.config.theme.border } as CSSProperties}>
 				<button
 					type="button"
-					className="tab-title"
+					className={tabTitleClass}
 					style={{ '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>{this.props.terminal.name}</button>
 				<button
 					type="button"

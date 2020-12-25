@@ -10,6 +10,7 @@ interface Props {
 
 	config: IConfig;
 	terminals: ITerminal[];
+	selected: number;
 	selectTerminal: (terminal: ITerminal) => void;
 	deleteTerminal: (terminal: ITerminal) => void;
 	createTerminal: () => void;
@@ -39,6 +40,7 @@ export default class Navbar extends Component<Props, State> {
 				<Tabs
 					config={this.props.config}
 					terminals={this.props.terminals}
+					selected={this.props.selected}
 					selectTerminal={this.props.selectTerminal}
 					deleteTerminal={this.props.deleteTerminal}
 					createTerminal={this.props.createTerminal} />
