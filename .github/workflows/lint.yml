@@ -6,6 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install
-        run: yarn
+        run: yarn remove native-reg
       - name: Run ESLint
         run: yarn lint
