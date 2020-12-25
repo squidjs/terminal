@@ -13,6 +13,7 @@ const wslBasePath = '/mnt/';
  *
  * @param config - The config to use
  * @param path - The path to resolve
+ * @returns The path which work with wsl
  */
 export function resolveToWSLPath(config: IConfig, path: string): string {
 
@@ -26,4 +27,18 @@ export function resolveToWSLPath(config: IConfig, path: string): string {
 	const wslPath = path.slice(2).replace(/\\/g, '/');
 
 	return wslBasePath + drive + wslPath;
+}
+
+/**
+ * Add quotes to a path if there are spaces in it.
+ *
+ * @param path - The path to add quotes to
+ * @returns The quoted path
+ */
+export function addQuotes(path: string): string {
+
+	if(!path.includes(' '))
+		return path;
+
+	return `"${path}"`;
 }

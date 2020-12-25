@@ -3,7 +3,7 @@ import Terminal from '../../../app/Terminal';
 import { IConfig } from '../../../common/config/Config';
 import { UndefinedObject } from '../../../common/types/types';
 import DragDrop from './DragDrop';
-import { resolveToWSLPath } from '../../../common/utils/utils';
+import { addQuotes, resolveToWSLPath } from '../../../common/utils/utils';
 import '../../styles/xterm.scss';
 
 interface Props {
@@ -103,8 +103,12 @@ export default class AppTerminal extends Component<Props, State> {
 
 		const filesPath = [];
 
-		for(let i = 0; i < files.length; i++)
-			filesPath.push(resolveToWSLPath(this.props.config, files[i].path));
+		for(let i = 0; i < files.length; i++) {
+
+			const wslPath = resolveToWSLPath(this.props.config, files[i].path);
+
+			filesPath.push(addQuotes(wslPath));
+		}
 
 		this.state.terminal?.write(filesPath.join(' '));
 	}
