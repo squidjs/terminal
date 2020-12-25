@@ -101,7 +101,7 @@ export default class AppTerminal extends Component<Props, State> {
 		if(!this.props.selected)
 			return;
 
-		let filesPath = [];
+		const filesPath = [];
 
 		for(let i = 0; i < files.length; i++)
 			filesPath.push(resolveToWSLPath(this.props.config, files[i].path));

@@ -13,7 +13,7 @@ interface State {
 export default class DragDrop extends Component<Props, State> {
 
 	private dropRef: RefObject<HTMLDivElement> = React.createRef();
-	private dragCounter: number = 0;
+	private dragCounter = 0;
 
 	constructor(props: Props) {
 
@@ -27,7 +27,7 @@ export default class DragDrop extends Component<Props, State> {
 
 	componentDidMount() {
 
-		let div = this.dropRef.current;
+		const div = this.dropRef.current;
 
 		if(!div)
 			return;
@@ -40,7 +40,7 @@ export default class DragDrop extends Component<Props, State> {
 
 	componentWillUnmount() {
 
-		let div = this.dropRef.current;
+		const div = this.dropRef.current;
 
 		if(!div)
 			return;
