@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Terminal from '../../../app/Terminal';
 import { IConfig } from '../../../common/config/Config';
 import { UndefinedObject } from '../../../common/types/types';
+import DragDrop from './DragDrop';
 import '../../styles/xterm.scss';
 
 interface Props {
@@ -59,7 +60,11 @@ export default class AppTerminal extends Component<Props, State> {
 
 		const className = this.props.selected ? '' : 'hidden';
 
-		return <div className={className} id={`terminal-${this.props.id}`} />
+		return (
+			<DragDrop handleDrop={(files) => this.handleDrop(files)}>
+				<div className={className} id={`terminal-${this.props.id}`} />
+			</DragDrop>
+		)
 	}
 
 	/**
@@ -83,5 +88,23 @@ export default class AppTerminal extends Component<Props, State> {
 
 			this.setState({ terminal });
 		}
+	}
+
+	/**
+	 * Handle files dropping to write the path in the terminal.
+	 *
+	 * @param files - The dropped file list
+	 */
+	private handleDrop(files: FileList) {
+
+		if(!this.props.selected)
+			return;
+
+		let filesPath = [];
+
+		for(let i = 0; i < files.length; i++)
+			filesPath.push(files[i].path);
+
+		this.state.terminal?.write(filesPath.join(' '));
 	}
 }

@@ -41,6 +41,33 @@
     display: none;
 }
 
+.drop {
+
+    border: dashed 2px rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    bottom: 1px;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    animation: breathing 1s ease-in-out infinite normal;
+}
+
+@keyframes breathing {
+
+    0%, 100% {
+
+        border: dashed 2px rgba(255, 255, 255, 0.5);
+    }
+
+    50% {
+
+        border: dashed 2px rgba(255, 255, 255, 0.1);
+    }
+}
+
+
 .xterm {
     font-feature-settings: "liga" 0;
     position: relative;

@@ -60,6 +60,16 @@ export default class Terminal {
 
 		this.xTerminal.loadConfig(config);
 	}
+
+	/**
+	 * Write string data to the pty instance.
+	 *
+	 * @param data - The data to write
+	 */
+	public write(data: string) {
+
+		this.pty.getFactoryObject().write(data);
+	}
 }
 
 export interface ITerminal {
