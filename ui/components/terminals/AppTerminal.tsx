@@ -119,7 +119,7 @@ class AppTerminal extends Component<Props, State> {
 
 		for(let i = 0; i < files.length; i++) {
 
-			const wslPath = resolveToWSLPath(this.props.config, files[i].path);
+			const wslPath = resolveToWSLPath(this.props.terminal, files[i].path);
 
 			filesPath.push(addQuotes(wslPath));
 		}
