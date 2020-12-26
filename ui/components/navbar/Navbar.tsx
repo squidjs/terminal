@@ -1,7 +1,6 @@
 import React, { Component, CSSProperties } from 'react';
 import NavbarButton from './NavbarButton';
 import { remote } from 'electron';
-import { ITerminal } from '../../../app/Terminal';
 import Tabs from '../tabs/Tabs';
 import { IConfig } from '../../../common/config/Config';
 import '../../styles/navbar.scss';
@@ -9,11 +8,6 @@ import '../../styles/navbar.scss';
 interface Props {
 
 	config: IConfig;
-	terminals: ITerminal[];
-	selected: number;
-	selectTerminal: (terminal: ITerminal) => void;
-	deleteTerminal: (terminal: ITerminal) => void;
-	createTerminal: () => void;
 }
 
 interface State {
@@ -37,13 +31,7 @@ export default class Navbar extends Component<Props, State> {
 
 		return (
 			<div className="navbar" style={{ '--border': this.props.config.theme.border } as CSSProperties }>
-				<Tabs
-					config={this.props.config}
-					terminals={this.props.terminals}
-					selected={this.props.selected}
-					selectTerminal={this.props.selectTerminal}
-					deleteTerminal={this.props.deleteTerminal}
-					createTerminal={this.props.createTerminal} />
+				<Tabs config={this.props.config} />
 				<div className="buttons">
 					<NavbarButton
 						config={this.props.config}

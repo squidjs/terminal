@@ -5,17 +5,25 @@ import Config, { IConfig } from '../common/config/Config';
 import Navbar from './components/navbar/Navbar';
 import { defaultConfig } from '../common/config/defaultConfig';
 import { ITerminal } from '../app/Terminal';
-import { remote } from 'electron';
+import { AppState } from '../app/store/types';
+import { connect } from 'react-redux';
 
-interface Props { }
+interface Props {
+
+    terminals: ITerminal[];
+}
+
 interface State {
 
     config: IConfig;
-    terminals: ITerminal[];
-    selected: number;
 }
 
-export default class App extends Component<Props, State> {
+const mapStateToProps = (state: AppState) => ({
+
+    terminals: state.terminals,
+});
+
+class App extends Component<Props, State> {
 
     constructor(props: Props) {
 
@@ -24,8 +32,6 @@ export default class App extends Component<Props, State> {
         this.state = {
 
             config: defaultConfig,
-            terminals: [],
-            selected: -1,
         };
     }
 
@@ -40,15 +46,7 @@ export default class App extends Component<Props, State> {
             this.setState({ config: newConfig });
         });
 
-        // Set first terminal by default
-        this.setState({
-            config,
-            terminals: [{
-                id: 0,
-                name: 'Terminal 1',
-            }],
-            selected: 0,
-        });
+        this.setState({ config });
     }
 
     render() {
@@ -59,100 +57,18 @@ export default class App extends Component<Props, State> {
                     this.state.config.useBackgroundImage &&
                         <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage})`, opacity: this.state.config.backgroundImageOpacity }} />
                 }
-                <Navbar
-                    config={this.state.config}
-                    terminals={this.state.terminals}
-                    selected={this.state.selected}
-                    selectTerminal={(terminal) => this.selectTerminal(terminal)}
-                    deleteTerminal={({ id }) => this.deleteTerminal(id)}
-                    createTerminal={() => this.createTerminal() }/>
+                <Navbar config={this.state.config} />
                 {
-                    this.state.terminals.map((terminal) =>
+                    this.props.terminals.map((terminal) =>
                         <AppTerminal
                             key={terminal.id}
                             config={this.state.config}
-                            id={terminal.id}
-                            selected={terminal.id === this.state.selected}
-                            deleteTerminal={(id) => this.deleteTerminal(id)}
-                            updateTitle={(id, title) => this.updateTitle(id, title) }/>
+                            terminal={terminal} />
                     )
                 }
             </div>
         )
     }
-
-    /**
-     * Select a terminal to be focused.
-     *
-     * @param terminal - The terminal to focus.
-     */
-    private selectTerminal(terminal: ITerminal) {
-
-        const selected = terminal.id;
-
-        this.setState({ selected });
-    }
-
-    /**
-     * Create a new terminal.
-     */
-    private createTerminal() {
-
-        const id = this.state.terminals.length + 1;
-
-        this.setState({
-
-            terminals: [
-                ...this.state.terminals,
-                {
-                    id,
-                    name: `Terminal ${id}`,
-                }
-            ],
-            selected: id,
-        });
-    }
-
-    /**
-     * Delete the terminal with the given id.
-     *
-     * @param id - The id of the terminal to delete
-     */
-    private deleteTerminal(id: number) {
-
-        let terminals = [...this.state.terminals];
-        terminals = terminals.filter((current) => current.id !== id);
-
-        // The next id of the terminal to be selected
-        const selected = terminals.length > 0 ? terminals[0].id : -1;
-
-        if(selected != -1)
-            this.setState({ terminals, selected });
-        else
-            remote.getCurrentWindow().close();
-    }
-
-    /**
-     * Update the title of a tab.
-     *
-     * @param id - The tab id to update its title
-     * @param name - The new title to set
-     */
-    private updateTitle(id: number, name: string) {
-
-        let terminals = [...this.state.terminals];
-
-        terminals = terminals.map((current) => {
-
-            if(current.id === id)
-                return {
-                    id,
-                    name
-                }
-            else
-                return current;
-        });
-
-        this.setState({ terminals });
-    }
 }
+
+export default connect(mapStateToProps)(App);

@@ -4,18 +4,21 @@ import Tab from './Tab';
 import TabCreateTerminal from './TabCreateTerminal';
 import { IConfig } from '../../../common/config/Config';
 import '../../styles/tabs.scss';
+import { connect } from 'react-redux';
+import { AppState } from '../../../app/store/types';
 
 interface Props {
 
-	config: IConfig
+	config: IConfig;
 	terminals: ITerminal[];
-	selected: number;
-	selectTerminal: (terminal: ITerminal) => void;
-	createTerminal: () => void;
-	deleteTerminal: (terminal: ITerminal) => void;
 }
 
-export default class Tabs extends Component<Props> {
+const mapStateToProps = (state: AppState) => ({
+
+	terminals: state.terminals,
+});
+
+class Tabs extends Component<Props> {
 
 	render() {
 
@@ -26,14 +29,13 @@ export default class Tabs extends Component<Props> {
 						<Tab
 							config={this.props.config}
 							key={terminal.id}
-							terminal={terminal}
-							selected={this.props.selected === terminal.id}
-							selectTerminal={this.props.selectTerminal}
-							deleteTerminal={this.props.deleteTerminal}/>
+							terminal={terminal} />
 					)
 				}
-				<TabCreateTerminal config={this.props.config} createTerminal={this.props.createTerminal} />
+				<TabCreateTerminal config={this.props.config} />
 			</div>
 		)
 	}
 }
+
+export default connect(mapStateToProps)(Tabs);

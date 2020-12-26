@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import Terminal from '../../../app/Terminal';
+import { Dispatch } from 'redux';
+import Terminal, { ITerminal } from '../../../app/Terminal';
 import { IConfig } from '../../../common/config/Config';
 import { UndefinedObject } from '../../../common/types/types';
 import DragDrop from './DragDrop';
 import { addQuotes, resolveToWSLPath } from '../../../common/utils/utils';
 import '../../styles/xterm.scss';
+import { AppState, TerminalsAction } from '../../../app/store/types';
+import { connect } from 'react-redux';
+import { deleteTerminal, updateTerminal } from '../../../app/store/terminals/actions';
 
 interface Props {
 
 	config: IConfig;
-	id: number;
-	selected: boolean;
-	deleteTerminal: (id: number) => void;
-	updateTitle: (id: number, title: string) => void;
+	terminal: ITerminal;
+	selected: number;
+	dispatch: (action: TerminalsAction) => void;
 }
 
 interface State {
@@ -20,7 +23,17 @@ interface State {
 	terminal: UndefinedObject<Terminal>;
 }
 
-export default class AppTerminal extends Component<Props, State> {
+const mapStateToProps = (state: AppState) => ({
+
+	selected: state.selected,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+
+	return { dispatch: (action: TerminalsAction) => { dispatch(action) } }
+}
+
+class AppTerminal extends Component<Props, State> {
 
 	constructor(props: Props) {
 
@@ -59,11 +72,11 @@ export default class AppTerminal extends Component<Props, State> {
 
 	render() {
 
-		const className = this.props.selected ? '' : 'hidden';
+		const className = this.props.selected === this.props.terminal.id ? '' : 'hidden';
 
 		return (
 			<DragDrop handleDrop={(files) => this.handleDrop(files)}>
-				<div className={className} id={`terminal-${this.props.id}`} />
+				<div className={className} id={`terminal-${this.props.terminal.id}`} />
 			</DragDrop>
 		)
 	}
@@ -74,17 +87,18 @@ export default class AppTerminal extends Component<Props, State> {
 	 */
 	private trySummonTerminal() {
 
-		if(this.props.selected) {
+		if(this.props.selected === this.props.terminal.id) {
 
-			const { config, id } = this.props;
+			const { config } = this.props;
+			const { id } = this.props.terminal;
 
 			const terminal = new Terminal(config, id, () => {
 
-				this.props.deleteTerminal(id);
+				this.props.dispatch(deleteTerminal(this.props.terminal));
 
-			}, (title: string) => {
+			}, (name: string) => {
 
-				this.props.updateTitle(id, title);
+				this.props.dispatch(updateTerminal({ ...this.props.terminal, name }));
 			});
 
 			this.setState({ terminal });
@@ -98,7 +112,7 @@ export default class AppTerminal extends Component<Props, State> {
 	 */
 	private handleDrop(files: FileList) {
 
-		if(!this.props.selected)
+		if(this.props.selected !== this.props.terminal.id)
 			return;
 
 		const filesPath = [];
@@ -113,3 +127,5 @@ export default class AppTerminal extends Component<Props, State> {
 		this.state.terminal?.write(filesPath.join(' '));
 	}
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppTerminal);
