@@ -31,7 +31,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 */
 	public build({ config }: XTerminalFactoryParams): XTerminal {
 
-		let options = { allowTransparency: true } as any;
+		let options: Record<string, unknown> = { allowTransparency: true };
 
 		if(isWin)
 			options = { ...options, windowsMode: true };
