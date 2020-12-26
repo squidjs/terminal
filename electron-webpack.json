@@ -2,6 +2,7 @@
   "commonSourceDirectory": "common",
   "staticSourceDirectory": "static",
   "title": true,
+  "whiteListedModules": ["react-redux", "react-dom"],
   "main": {
     "sourceDirectory": "src"
   },
