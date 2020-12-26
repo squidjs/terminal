@@ -83,9 +83,13 @@ export default class Config {
 export interface IConfig {
 	theme: ITheme;
 	/**
-	 * The path to the shell to use.
+	 * Default shell to use.
 	 */
-	shell: string;
+	defaultShell: IShell;
+	/**
+	 * List of available shells
+	 */
+	shells: IShell[];
 	/**
 	 * If we should enable webgl rendering.
 	 * Enable it would cause the ligatures
@@ -128,6 +132,17 @@ export interface ITheme {
 	brightMagenta: string;
 	brightCyan: string;
 	brightWhite: string;
+}
+
+export interface IShell {
+	/**
+	 * The name to display of this shell.
+	 */
+	name: string;
+	/**
+	 * The path to this shell.
+	 */
+	path: string;
 }
 
 interface IBell {

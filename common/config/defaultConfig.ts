@@ -27,7 +27,11 @@ export const defaultConfig: IConfig = {
 		brightCyan: '#7fdbca',
 		brightWhite: '#ffffff',
 	},
-	shell: process.platform === 'win32' ? 'cmd.exe' : 'bash',
+	defaultShell: {
+		name: 'Default',
+		path: process.platform === 'win32' ? 'cmd.exe' : 'bash'
+	},
+	shells: [],
 	webGlRendering: true,
 	bell: {
 		enabled: false,

@@ -30,7 +30,7 @@ class TabCreateTerminal extends Component<Props> {
 		return <button
 					type="button"
 					className="tab-create"
-					onClick={() => this.props.dispatch(createTerminal({ name: 'Terminal', id: this.nextId }))}
+					onClick={() => this.props.dispatch(createTerminal({ name: 'Terminal', id: this.nextId, shell: this.props.config.defaultShell }))}
 					style={{ '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>+</button>;
 	}
 

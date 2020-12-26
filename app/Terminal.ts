@@ -1,6 +1,6 @@
 import XTerminalFactory from './factories/XTerminalFactory';
 import PtyFactory from './factories/PtyFactory';
-import { IConfig } from '../common/config/Config';
+import { IConfig, IShell } from '../common/config/Config';
 
 export default class Terminal {
 
@@ -9,7 +9,7 @@ export default class Terminal {
 	private xTerminal: XTerminalFactory;
 	private pty: PtyFactory;
 
-	constructor(config: IConfig, id: number, onClose: () => void, onTitle: (title: string) => void) {
+	constructor(config: IConfig, id: number, shell: IShell, onClose: () => void, onTitle: (title: string) => void) {
 
 		this.config = config;
 
@@ -24,7 +24,7 @@ export default class Terminal {
 		const pty = this.pty.build({
 
 			terminal: terminal,
-			shell: config.shell,
+			shell: shell.path,
 			// eslint-disable-next-line @typescript-eslint/no-var-requires
 			cwd: require('os').homedir(),
 		});
@@ -77,4 +77,5 @@ export interface ITerminal {
 
 	id: number;
 	name: string;
+	shell: IShell;
 }
