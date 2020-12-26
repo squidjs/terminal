@@ -25,28 +25,37 @@ export const defaultConfig: IConfig = {
 		brightBlue: '#82aaff',
 		brightMagenta: '#c792ea',
 		brightCyan: '#7fdbca',
-		brightWhite: '#ffffff'
+		brightWhite: '#ffffff',
 	},
+	shell: process.platform === 'win32' ? 'cmd.exe' : 'bash',
+	webGlRendering: true,
 	bell: {
-		style: 'none',
+		enabled: false,
+		sound: '',
 	},
 	cursor: {
 		style: 'block',
-		blink: true
+		blink: true,
+		width: 1,
 	},
 	font: {
 		size: 14,
-		family:  'monospace'
+		family:  'monospace',
+		weight: 'normal',
+		weightBold: 'bold',
+		letterSpacing: 0,
+		lineHeight: 1.0,
 	},
-	shell: process.platform === 'win32' ? 'cmd.exe' : 'bash',
-	currentTheme: 'default',
-	scrollSensitivity: 1,
-	fastScrollSensitivity: 5,
-	fastScrollModifier: 'shift',
-	webGlRendering: true,
-	useBackgroundImage: false,
-	backgroundImageOpacity: 0.5,
-	backgroundImage: '',
+	scroll: {
+		sensitivity: 1,
+		fastScrollSensitivity: 5,
+		fastScrollModifier: 'shift',
+	},
+	backgroundImage: {
+		enabled: false,
+		opacity: 0.5,
+		image: '',
+	},
 	vibrancy: {
 		enabled: true,
 		theme: 'appearance-based',
@@ -54,5 +63,5 @@ export const defaultConfig: IConfig = {
 		useCustomWindowRefreshMethod: false,
 		maximumRefreshRate: 60,
 		disableOnBlur: false,
-	}
+	},
 }

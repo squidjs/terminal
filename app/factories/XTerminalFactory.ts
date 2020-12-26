@@ -7,6 +7,7 @@ import { FitAddon } from 'xterm-addon-fit';
 import { AddonType } from '../addons/Addons';
 import AddonsProvider from '../addons/AddonsProvider';
 import { IConfig } from '../../common/config/Config';
+import { isWin } from '../../common/utils/utils';
 
 export default class XTerminalFactory implements Factory<XTerminal> {
 
@@ -30,9 +31,12 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 */
 	public build({ config }: XTerminalFactoryParams): XTerminal {
 
-		this.factoryObject = new XTerminal({
-			allowTransparency: true,
-		});
+		let options = { allowTransparency: true } as any;
+
+		if(isWin)
+			options = { ...options, windowsMode: true };
+
+		this.factoryObject = new XTerminal(options);
 		this.loadConfig(config);
 
 		return this.factoryObject;
@@ -47,17 +51,22 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 
 		const terminal = this.getFactoryObject();
 		terminal.setOption('bellSound', config.bell.sound);
-		terminal.setOption('bellStyle', config.bell.style);
+		terminal.setOption('bellStyle', config.bell.enabled ? 'sound' : 'none');
 		terminal.setOption('cursorBlink', config.cursor.blink);
 		terminal.setOption('cursorStyle', config.cursor.style);
+		terminal.setOption('cursorWidth', config.cursor.width);
 		terminal.setOption('fontSize', config.font.size);
 		terminal.setOption('fontFamily', config.font.family);
-		terminal.setOption('scrollSensitivity', config.scrollSensitivity);
-		terminal.setOption('fastScrollSensitivity', config.fastScrollSensitivity);
-		terminal.setOption('fastScrollModifier', config.fastScrollModifier);
+		terminal.setOption('fontWeight', config.font.weight);
+		terminal.setOption('fontWeightBold', config.font.weightBold);
+		terminal.setOption('letterSpacing', config.font.letterSpacing);
+		terminal.setOption('lineHeight', config.font.lineHeight);
+		terminal.setOption('scrollSensitivity', config.scroll.sensitivity);
+		terminal.setOption('fastScrollSensitivity', config.scroll.fastScrollSensitivity);
+		terminal.setOption('fastScrollModifier', config.scroll.fastScrollModifier);
 		terminal.setOption('theme', config.theme);
 
-		if(config.useBackgroundImage)
+		if(config.backgroundImage.enabled)
 			terminal.setOption('theme', {
 				...terminal.getOption('theme'),
 				background: 'transparent',

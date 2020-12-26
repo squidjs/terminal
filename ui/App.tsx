@@ -85,8 +85,8 @@ class App extends Component<Props, State> {
         return (
             <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
                 {
-                    this.state.config.useBackgroundImage &&
-                        <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage})`, opacity: this.state.config.backgroundImageOpacity }} />
+                    this.state.config.backgroundImage.enabled &&
+                        <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
                 }
                 <Navbar config={this.state.config} />
                 {

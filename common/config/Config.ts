@@ -4,6 +4,7 @@ import { userDataPath } from '../utils/utils';
 import { defaultConfig } from './defaultConfig';
 import chokidar from 'chokidar';
 import { VibrancyEffect, VibrancyTheme } from 'electron-acrylic-window';
+import { FontWeight } from 'xterm';
 
 export default class Config {
 
@@ -80,67 +81,26 @@ export default class Config {
 }
 
 export interface IConfig {
-
-	/**
-	 * The theme interface.
-	 */
 	theme: ITheme;
 	/**
-	 * The bell interface.
-	 */
-	bell: IBell;
-	/**
-	 * The cursor interface.
-	 */
-	cursor: ICursor;
-	/**
-	 * The font interface.
-	 */
-	font: IFont;
-	/**
-	 * A path to the shell you which to use.
+	 * The path to the shell to use.
 	 */
 	shell: string;
 	/**
-	 * The name of the current theme.
+	 * If we should enable webgl rendering.
+	 * Enable it would cause the ligatures
+	 * addon to not work properly.
 	 */
-	currentTheme: string;
-	/**
-	 * The sensitivity of the scroll.
-	 */
-	scrollSensitivity: number;
-	/**
-	 * The sensitivity of the fast scroll.
-	 */
-	fastScrollSensitivity: number;
-	/**
-	 * The key to toggle the fast scroll.
-	 */
-	fastScrollModifier: 'alt' | 'ctrl' | 'shift';
-	/**
-	 * WebGL rendering.
-	 */
-	webGlRendering: boolean;
-	/**
-	 * If we should use background image.
-	 */
-	useBackgroundImage: boolean;
-	/**
-	 * Opacity of the background image
-	 */
-	backgroundImageOpacity: number;
-	/**
-	 * Background image url.
-	 */
-	backgroundImage: string;
-	/**
-	 * Vibrancy settings
-	 */
+	webGlRendering: boolean,
+	bell: IBell;
+	cursor: ICursor;
+	font: IFont
+	scroll: IScroll;
+	backgroundImage: IBackgroundImage;
 	vibrancy: IVibrancy;
 }
 
 export interface ITheme {
-
 	/**
 	 * Bellow are the colors of the theme.
 	 */
@@ -171,9 +131,14 @@ export interface ITheme {
 }
 
 interface IBell {
-
-	sound?: string;
-	style: 'none' | 'sound';
+	/**
+	 * IF the bell sound is enabled.
+	 */
+	enabled: boolean;
+	/**
+	 * A link to the sound url.
+	 */
+	sound: string;
 }
 
 interface ICursor {
@@ -185,10 +150,13 @@ interface ICursor {
 	 * Does the cursor should blink or not.
 	 */
 	blink: boolean;
+	/**
+	 * The width in px of the cursor
+	 */
+	width: number;
 }
 
 interface IFont {
-
 	/**
 	 * The size of the font in the terminal.
 	 */
@@ -197,14 +165,77 @@ interface IFont {
 	 * The family of the font in the terminal.
 	 */
 	family: string;
+	/**
+	 * The default text weight.
+	 */
+	weight: FontWeight;
+	/**
+	 * The bold text weight.
+	 */
+	weightBold: FontWeight;
+	/**
+	 * The letter spacing in px.
+	 */
+	letterSpacing: number;
+	/**
+	 * The line height.
+	 */
+	lineHeight: number;
+}
+
+interface IScroll {
+	/**
+	 * The default scroll sensitivity.
+	 */
+	sensitivity: number;
+	/**
+	 * The fast scroll sensitivity.
+	 */
+	fastScrollSensitivity: number;
+	/**
+	 * The key to enable fast scroll.
+	 */
+	fastScrollModifier: string;
+}
+
+interface IBackgroundImage {
+	/**
+	 * If we should enable the background image.
+	 */
+	enabled: boolean;
+	/**
+	 * The opacity of the image/gif.
+	 */
+	opacity: number;
+	/**
+	 * Path or link to the image/gif to use.
+	 */
+	image: string;
 }
 
 export interface IVibrancy {
-
+	/**
+	 * If the vibrancy is enabled.
+	 */
 	enabled: boolean;
+	/**
+	 * The theme to use.
+	 */
 	theme: VibrancyTheme;
+	/**
+	 * The effect to use.
+	 */
 	effect: VibrancyEffect;
+	/**
+	 * If we should use a custom windows refresh method.
+	 */
 	useCustomWindowRefreshMethod: boolean;
+	/**
+	 * Maximum refresh rate. Default to 60.
+	 */
 	maximumRefreshRate: number;
+	/**
+	 * If we should disable when the window is blurred.
+	 */
 	disableOnBlur: boolean;
 }
