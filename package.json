@@ -43,7 +43,7 @@
     "@types/redux": "^3.6.0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
-    "electron": "8.2.0",
+    "electron": "8.5.2",
     "electron-builder": "^22.4.1",
     "electron-rebuild": "^2.3.4",
     "electron-webpack": "^2.8.2",
