@@ -1,4 +1,53 @@
-import { IConfig } from './Config';
+import { IConfig, IShell } from './Config';
+import { isWin } from '../utils/utils';
+
+const bashShell: IShell = {
+
+	name: 'Bash',
+	path: 'bash',
+}
+
+const cmdShell: IShell = {
+
+	name: 'CMD',
+	path: 'cmd.exe',
+}
+
+const powerShell: IShell = {
+
+	name: 'PowerShell',
+	path: 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe',
+}
+
+const gitBashShell: IShell = {
+
+	name: 'Git Bash',
+	path: 'C:\\Program Files\\Git\\bin\\bash.exe',
+}
+
+const wslShell: IShell = {
+
+	name: 'WSL',
+	path: 'C:\\Windows\\System32\\wsl.exe',
+}
+
+const defaultShell: IShell = {
+
+	name: 'Default',
+	path: isWin ? cmdShell.path : bashShell.path,
+}
+
+const shells: IShell[] = [];
+
+if(isWin) {
+
+	shells.push(cmdShell);
+	shells.push(powerShell);
+	shells.push(gitBashShell);
+	shells.push(wslShell);
+
+} else
+	shells.push(bashShell);
 
 export const defaultConfig: IConfig = {
 	theme: {
@@ -27,11 +76,8 @@ export const defaultConfig: IConfig = {
 		brightCyan: '#7fdbca',
 		brightWhite: '#ffffff',
 	},
-	defaultShell: {
-		name: 'Default',
-		path: process.platform === 'win32' ? 'cmd.exe' : 'bash'
-	},
-	shells: [],
+	defaultShell,
+	shells,
 	webGlRendering: true,
 	bell: {
 		enabled: false,

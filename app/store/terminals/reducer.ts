@@ -1,10 +1,12 @@
 import { TerminalsState, TerminalsAction } from '../types';
 import { TERMINALS_ACTION_TYPES } from './actions';
+import Config from '../../../common/config/Config';
 
 // Set initial terminal object with id to 0, as in selected's reducer
 export const initialState: TerminalsState = [{
     id: 0,
     name: 'Terminal',
+    shell: Config.getInstance().loadConfig().defaultShell,
 }];
 
 /**

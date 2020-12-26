@@ -5,12 +5,16 @@ import { defaultConfig } from './defaultConfig';
 import chokidar from 'chokidar';
 import { VibrancyEffect, VibrancyTheme } from 'electron-acrylic-window';
 import { FontWeight } from 'xterm';
+import { UndefinedObject } from '../types/types';
 
 export default class Config {
 
 	// Create a singleton instance of this object
 	private static instance: Config = new Config();
 	private readonly CONFIG: string = path.join(userDataPath, 'squid.json');
+
+	// A cache of the config
+	private config: UndefinedObject<IConfig>;
 
 	/**
 	 * Load the config as a Config. If the config file does not exist, we
@@ -22,6 +26,9 @@ export default class Config {
 	 * @returns The loaded config
 	 */
 	public loadConfig(callback?: (newConfig: IConfig) => void): IConfig {
+
+		if(this.config)
+			return this.config;
 
 		if(callback != undefined) {
 
@@ -53,8 +60,11 @@ export default class Config {
 	private readFile(): IConfig {
 
 		const data = fs.readFileSync(this.CONFIG);
+		const config: IConfig = JSON.parse(data.toString());
 
-		return JSON.parse(data.toString()) as IConfig;
+		this.config = config;
+
+		return config;
 	}
 
 	/**
