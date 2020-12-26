@@ -13,14 +13,12 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 
 		this.factoryObject = this.build();
 
-		Config.getInstance().loadConfig(({ vibrancy }) => {
-
-			this.setVibrancy(vibrancy);
-
-		}).then(({ vibrancy }) => {
+		const { vibrancy } = Config.getInstance().loadConfig(({ vibrancy }) => {
 
 			this.setVibrancy(vibrancy);
 		});
+
+		this.setVibrancy(vibrancy);
 
 		// Open the devtools if we are in dev
 		if(isDev)

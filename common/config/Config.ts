@@ -18,9 +18,9 @@ export default class Config {
 	 * @see Config
 	 *
 	 * @param callback - An optional callback called when the file has changed
-	 * @returns A promise of Config
+	 * @returns The loaded config
 	 */
-	public async loadConfig(callback?: (newConfig: IConfig) => void): Promise<IConfig> {
+	public loadConfig(callback?: (newConfig: IConfig) => void): IConfig {
 
 		if(callback != undefined) {
 
@@ -35,38 +35,25 @@ export default class Config {
 			});
 		}
 
-		return new Promise<IConfig>((resolve) => {
+		if(fs.existsSync(this.CONFIG))
+			return this.readFile();
+		else {
 
-			fs.exists(this.CONFIG, async (exists) => {
-
-				if(exists)
-					return resolve(this.readFile());
-				else {
-
-					this.saveFile(defaultConfig);
-					return defaultConfig;
-				}
-			});
-		});
+			this.saveFile(defaultConfig);
+			return defaultConfig;
+		}
 	}
 
 	/**
-	 * Read the config file asynchronously.
+	 * Read the config file synchronously.
 	 *
-	 * @returns A promise of IConfig
+	 * @returns A IConfig
 	 */
-	private async readFile(): Promise<IConfig> {
+	private readFile(): IConfig {
 
-		return new Promise<IConfig>((resolve, reject) => {
+		const data = fs.readFileSync(this.CONFIG);
 
-			fs.readFile(this.CONFIG, (err, data) => {
-
-				if(err)
-					reject(err);
-
-				resolve(JSON.parse(data.toString()) as IConfig);
-			});
-		});
+		return JSON.parse(data.toString()) as IConfig;
 	}
 
 	/**

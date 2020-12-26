@@ -3,7 +3,6 @@ import './styles/app.scss';
 import AppTerminal from './components/terminals/AppTerminal';
 import Config, { IConfig } from '../common/config/Config';
 import Navbar from './components/navbar/Navbar';
-import { defaultConfig } from '../common/config/defaultConfig';
 import { ITerminal } from '../app/Terminal';
 import { AppState } from '../app/store/types';
 import { connect } from 'react-redux';
@@ -25,28 +24,27 @@ const mapStateToProps = (state: AppState) => ({
 
 class App extends Component<Props, State> {
 
+    private mounted: boolean = true;
+
     constructor(props: Props) {
 
         super(props);
 
+        const config = Config.getInstance().loadConfig((newConfig: IConfig) => {
+
+            if(this.mounted)
+                this.setState({ config: newConfig });
+        });
+
         this.state = {
 
-            config: defaultConfig,
+            config,
         };
     }
 
-    /**
-     * When the component is mounted, load the config file
-     * and set it in the state to load the config.
-     */
-    async componentDidMount() {
+    componentWillUnmount() {
 
-        const config = await Config.getInstance().loadConfig((newConfig: IConfig) => {
-
-            this.setState({ config: newConfig });
-        });
-
-        this.setState({ config });
+        this.mounted = false;
     }
 
     render() {
