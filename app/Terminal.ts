@@ -59,6 +59,7 @@ export default class Terminal {
 		this.config = config;
 
 		this.xTerminal.loadConfig(config);
+		this.xTerminal.fit();
 	}
 
 	/**

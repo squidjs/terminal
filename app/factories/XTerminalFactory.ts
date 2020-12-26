@@ -123,7 +123,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	/**
 	 * Fit the window thanks to the fit addon.
 	 */
-	private fit() {
+	public fit() {
 
 		const fitAddon = this.getAddon<FitAddon>(AddonType.FIT);
 
