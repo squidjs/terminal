@@ -7,8 +7,6 @@ import { WebLinksAddon } from 'xterm-addon-web-links';
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
 import { shell } from 'electron';
 import { IConfig } from '../../common/config/Config';
-import { UndefinedObject } from '../../common/types/types';
-import onIdle from 'on-idle';
 
 export default class AddonsProvider {
 
@@ -21,25 +19,14 @@ export default class AddonsProvider {
 	];
 
 	/**
-	 * Setup all addons to the xterm instance. We setup
-	 * them when the browser is idle to allow faster
-	 * startup and speed.
+	 * Setup all addons to the xterm instance.
 	 *
 	 * @param config - The config to use
 	 * @param terminal - The xterm instance
-	 * @param fit - Callback to fit the terminal
 	 */
-	public setupAddons(config: IConfig, terminal: XTerminal, fit: () => void) {
+	public setupAddons(config: IConfig, terminal: XTerminal) {
 
-		onIdle(() => {
-
-			const addon = this.ADDONS.find((addon) => !addon.loaded);
-
-			this.setupAddon(config, terminal, fit, addon);
-
-			if(this.ADDONS.filter((addon) => !addon.loaded).length >= 1)
-				this.setupAddons(config, terminal, fit);
-		});
+		this.ADDONS.forEach((addon) => this.setupAddon(config, terminal, addon));
 	}
 
 	/**
@@ -47,27 +34,17 @@ export default class AddonsProvider {
 	 *
 	 * @param config - The config to use
 	 * @param terminal - The terminal instance
-	 * @param fit - Callback to fit the terminal
 	 * @param addon - The addon to setup
 	 */
-	private setupAddon(config: IConfig, terminal: XTerminal, fit: () => void, addon: UndefinedObject<Addon>) {
+	private setupAddon(config: IConfig, terminal: XTerminal, addon: Addon) {
 
 		if(addon && (addon.type !== AddonType.WEBGL || config.webGlRendering)) {
 
 			addon.loaded = true;
 			terminal.loadAddon(addon.addon);
 
-			switch(addon.type) {
-
-				case AddonType.FIT:
-					fit();
-					break;
-				case AddonType.UNICODE:
-					terminal.unicode.activeVersion = '11';
-					break;
-				default:
-					break;
-			}
+			if(addon.type === AddonType.UNICODE)
+				terminal.unicode.activeVersion = '11';
 		}
 	}
 

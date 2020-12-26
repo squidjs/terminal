@@ -90,7 +90,8 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 
 		this.listen(pty, onTitle);
 
-		this.addonsProvider.setupAddons(this.config, this.getFactoryObject(), () => this.fit());
+		this.addonsProvider.setupAddons(this.config, this.getFactoryObject());
+		this.fit();
 	}
 
 	/**

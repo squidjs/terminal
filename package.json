@@ -22,7 +22,6 @@
     "electron-acrylic-window": "0.4.7",
     "native-reg": "^0.3.4",
     "node-pty": "^0.9.0",
-    "on-idle": "^3.1.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^6.0.1",
