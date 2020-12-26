@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 class App extends Component<Props, State> {
 
-    private mounted: boolean = true;
+    private mounted = true;
 
     constructor(props: Props) {
 
@@ -64,10 +64,8 @@ class App extends Component<Props, State> {
      * left, we close the window.
      *
      * @param prevProps - The previous props
-     * @param prevState - The previous state
-     * @param snapshot - The snapshot
      */
-    componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
+    componentDidUpdate(prevProps: Readonly<Props>) {
 
         if((prevProps.terminals !== this.props.terminals) && !this.props.terminals.find((current) => current.id === this.props.selected)) {
 
