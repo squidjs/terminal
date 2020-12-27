@@ -1,5 +1,6 @@
 import { IConfig, IShell } from './Config';
-import { isWin } from '../utils/utils';
+import { isMac, isWin } from '../utils/utils';
+import { IShortcut } from './shortcuts';
 
 const bashShell: IShell = {
 
@@ -48,6 +49,20 @@ if(isWin) {
 
 } else
 	shells.push(bashShell);
+
+const leader = isMac ? 'Cmd' : 'Ctrl';
+const shortcuts: IShortcut[] = [
+	{
+		name: 'Create terminal',
+		keybinds: `${leader}+Shift+T`,
+		action: 'terminal:create',
+	},
+	{
+		name: 'Close terminal',
+		keybinds: `${leader}+Shift+W`,
+		action: 'terminal:close',
+	},
+];
 
 export const defaultConfig: IConfig = {
 	theme: {
@@ -114,4 +129,5 @@ export const defaultConfig: IConfig = {
 		maximumRefreshRate: 60,
 		disableOnBlur: false,
 	},
+	shortcuts,
 }

@@ -1,7 +1,6 @@
 import { ITerminal } from '../Terminal';
 
 export type TerminalsState = ITerminal[];
-
 export type TerminalsAction = {
 
 	type: string;
@@ -9,7 +8,6 @@ export type TerminalsAction = {
 }
 
 export type SelectedState = number;
-
 export type SelectedAction = {
 
 	type: string;

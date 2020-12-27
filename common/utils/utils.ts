@@ -3,6 +3,7 @@ import { ITerminal } from '../../app/Terminal';
 
 export const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 export const isWin = process.platform === 'win32';
+export const isMac = process.platform === 'darwin';
 
 const winPathRegex = /^[A-Z]:\\.+/;
 const wslBasePath = '/mnt/';
@@ -41,4 +42,19 @@ export function addQuotes(path: string): string {
 		return path;
 
 	return `"${path}"`;
+}
+
+/**
+ * Find the next terminal id to use.
+ *
+ * @param terminals - The list of current terminals
+ */
+export function nextTerminalId(terminals: ITerminal[]): number {
+
+	let id = 0;
+
+	while(terminals.find((current) => current.id === id))
+		id++;
+
+	return id;
 }

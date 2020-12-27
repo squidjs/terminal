@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './styles/app.scss';
 import AppTerminal from './components/terminals/AppTerminal';
 import Config, { IConfig } from '../common/config/Config';
 import Navbar from './components/navbar/Navbar';
@@ -9,6 +8,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '../app/store/selected/actions';
 import { remote } from 'electron';
+import ShortcutsProvider from './components/ShortcutsProvider';
+import './styles/app.scss';
 
 interface Props {
 
@@ -83,21 +84,23 @@ class App extends Component<Props, State> {
     render() {
 
         return (
-            <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
-                {
-                    this.state.config.backgroundImage.enabled &&
-                        <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
-                }
-                <Navbar config={this.state.config} />
-                {
-                    this.props.terminals.map((terminal) =>
-                        <AppTerminal
-                            key={terminal.id}
-                            config={this.state.config}
-                            terminal={terminal} />
-                    )
-                }
-            </div>
+            <ShortcutsProvider config={this.state.config}>
+                <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
+                    {
+                        this.state.config.backgroundImage.enabled &&
+                            <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
+                    }
+                    <Navbar config={this.state.config} />
+                    {
+                        this.props.terminals.map((terminal) =>
+                            <AppTerminal
+                                key={terminal.id}
+                                config={this.state.config}
+                                terminal={terminal} />
+                        )
+                    }
+                </div>
+            </ShortcutsProvider>
         )
     }
 }

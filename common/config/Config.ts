@@ -6,6 +6,7 @@ import watch from 'node-watch';
 import { VibrancyEffect, VibrancyTheme } from 'electron-acrylic-window';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '../types/types';
+import { IShortcut } from './shortcuts';
 
 export default class Config {
 
@@ -110,6 +111,7 @@ export interface IConfig {
 	scroll: IScroll;
 	backgroundImage: IBackgroundImage;
 	vibrancy: IVibrancy;
+	shortcuts: IShortcut[];
 }
 
 export interface ITheme {

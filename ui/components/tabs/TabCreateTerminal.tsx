@@ -2,11 +2,12 @@ import React, { Component, CSSProperties } from 'react';
 import { IConfig, IShell } from '../../../common/config/Config';
 import { Dispatch } from 'redux';
 import { AppState, TerminalsAction } from '../../../app/store/types';
-import { createTerminal } from '../../../app/store/terminals/actions';
 import { connect } from 'react-redux';
 import { ITerminal } from '../../../app/Terminal';
 import { remote } from 'electron';
 import { UndefinedObject } from '../../../common/types/types';
+import { createTerminal } from '../../../app/store/terminals/actions';
+import { nextTerminalId } from '../../../common/utils/utils';
 const { Menu, MenuItem } = remote;
 
 interface Props {
@@ -72,6 +73,9 @@ class TabCreateTerminal extends Component<Props> {
 		);
 	}
 
+	/**
+	 * Update the shells by settings them in a Menu.
+	 */
 	private updateShells() {
 
 		this.menu = new Menu();
@@ -85,29 +89,26 @@ class TabCreateTerminal extends Component<Props> {
 		});
 	}
 
+	/**
+	 * Create a new terminal with the specified shell.
+	 *
+	 * @param shell - The terminal's shell to open
+	 */
 	private createTerminal(shell: IShell) {
 
 		this.props.dispatch(createTerminal({
-
+			id: nextTerminalId(this.props.terminals),
 			name: 'Terminal',
-			id: this.nextId,
 			shell,
 		}));
 	}
 
+	/**
+	 * Open the shells menu.
+	 */
 	private openShells() {
 
 		this.menu?.popup({ window: remote.getCurrentWindow() });
-	}
-
-	private get nextId(): number {
-
-		let id = 0;
-
-		while(this.props.terminals.find((current) => current.id === id))
-			id++;
-
-		return id;
 	}
 }
 
