@@ -2,7 +2,7 @@
   "commonSourceDirectory": "common",
   "staticSourceDirectory": "static",
   "title": true,
-  "whiteListedModules": ["react-redux", "react-dom"],
+  "whiteListedModules": ["react", "react-redux", "react-dom", "chokidar", "node-pty"],
   "main": {
     "sourceDirectory": "src"
   },
