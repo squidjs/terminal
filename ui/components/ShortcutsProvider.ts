@@ -96,9 +96,10 @@ class ShortcutsProvider extends Component<Props> {
 				break;
 
 			case 'terminal:close':
-				const selected = this.props.terminals.find((current) => current.id === this.props.selected);
+				this.props.dispatch(deleteTerminal(this.props.terminals.find((current) => {
 
-				this.props.dispatch(deleteTerminal(selected!));
+					return current.id === this.props.selected;
+				}) as ITerminal));
 				break;
 
 			default:

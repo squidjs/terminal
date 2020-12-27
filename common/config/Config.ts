@@ -30,7 +30,7 @@ export default class Config {
 
 		if(callback != undefined) {
 
-			const watcher = watch(this.CONFIG, { recursive: false});
+			const watcher = watch(this.CONFIG, { recursive: false });
 
 			watcher.on('change', async () => {
 
