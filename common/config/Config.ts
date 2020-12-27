@@ -27,9 +27,6 @@ export default class Config {
 	 */
 	public loadConfig(callback?: (newConfig: IConfig) => void): IConfig {
 
-		if(this.config)
-			return this.config;
-
 		if(callback != undefined) {
 
 			const watcher = chokidar.watch(this.CONFIG);
@@ -42,6 +39,9 @@ export default class Config {
 					callback(newConfig);
 			});
 		}
+
+		if(this.config)
+			return this.config;
 
 		if(fs.existsSync(this.CONFIG))
 			return this.readFile();
