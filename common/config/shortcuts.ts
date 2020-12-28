@@ -16,7 +16,7 @@ export interface IShortcut {
 /**
  * Terminal shortcuts.
  */
-type TerminalShortcuts = 'terminal:create' | 'terminal:close';
+export type TerminalShortcuts = 'terminal:create' | 'terminal:close' | 'terminal:zoomin' | 'terminal:zoomout';
 
 /**
  * Window shortcuts.

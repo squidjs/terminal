@@ -71,6 +71,24 @@ export default class Terminal {
 
 		this.pty.getFactoryObject().write(data);
 	}
+
+	/**
+	 * Zoom in or out in this terminal.
+	 *
+	 * @param zoomIn - If we should zoom in or out
+	 */
+	public zoom(zoomIn: boolean) {
+
+		let currentZoom = this.xTerminal.getFactoryObject().getOption('fontSize');
+
+		if(zoomIn)
+			currentZoom++;
+		else
+			currentZoom--;
+
+		this.xTerminal.getFactoryObject().setOption('fontSize', currentZoom);
+		this.xTerminal.fit();
+	}
 }
 
 export interface ITerminal {

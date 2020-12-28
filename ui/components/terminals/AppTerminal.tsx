@@ -9,6 +9,8 @@ import '../../styles/xterm.scss';
 import { AppState, TerminalsAction } from '../../../app/store/types';
 import { connect } from 'react-redux';
 import { deleteTerminal, updateTerminal } from '../../../app/store/terminals/actions';
+import { ipcRenderer } from 'electron';
+import { TerminalShortcuts } from '../../../common/config/shortcuts';
 
 interface Props {
 
@@ -46,11 +48,21 @@ class AppTerminal extends Component<Props, State> {
 	}
 
 	/**
-	 * Try summoning a new terminal if possible.
+	 * Try summoning a new terminal if possible, and
+	 * listen for shortcuts. 
 	 */
 	componentDidMount() {
 
 		this.trySummonTerminal();
+		this.listenForShortcuts();
+	}
+
+	/**
+	 * Remove all listeners on shortcuts channel. 
+	 */
+	componentWillUnmount() {
+
+		ipcRenderer.removeAllListeners('shortcuts');
 	}
 
 	/**
@@ -103,6 +115,36 @@ class AppTerminal extends Component<Props, State> {
 
 			this.setState({ terminal });
 		}
+	}
+
+	/**
+	 * Listen for shortcuts events to zoom in/out
+	 * in the terminal instance.
+	 */
+	private listenForShortcuts() {
+
+		ipcRenderer.on('shortcuts', (event, args) => {
+
+			const shortcut: TerminalShortcuts = args;
+			
+			if(shortcut && this.props.selected === this.props.terminal.id) {
+
+				switch(shortcut) {
+
+					case 'terminal:zoomin':
+						this.state.terminal?.zoom(true);
+						break;
+
+					case 'terminal:zoomout':
+						this.state.terminal?.zoom(false);
+						break;
+
+					default:
+						break;
+				}
+			}
+		});
+
 	}
 
 	/**

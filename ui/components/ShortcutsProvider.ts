@@ -102,6 +102,11 @@ class ShortcutsProvider extends Component<Props> {
 				}) as ITerminal));
 				break;
 
+			case 'terminal:zoomin':
+			case 'terminal:zoomout':
+				remote.getCurrentWindow().webContents.send('shortcuts', shortcut.action);
+				break;
+
 			case 'window:devtools':
 				remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
 				break;

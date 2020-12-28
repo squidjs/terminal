@@ -63,15 +63,25 @@ const shortcuts: IShortcut[] = [
 		action: 'terminal:close',
 	},
 	{
+		name: 'Zoom in',
+		keybinds: 'Ctrl+Shift+P',
+		action: 'terminal:zoomin',
+	},
+	{
+		name: 'Zoom out',
+		keybinds: 'Ctrl+Shift+M',
+		action: 'terminal:zoomout',
+	},
+	{
 		name: 'Open DevTools',
 		keybinds: 'Ctrl+Shift+I',
-		action: 'window:devtools'
+		action: 'window:devtools',
 	},
 	{
 		name: 'Reload window',
 		keybinds: 'Ctrl+Shift+R',
-		action: 'window:reload'
-	},
+		action: 'window:reload',
+	},	
 ];
 
 export const defaultConfig: IConfig = {
