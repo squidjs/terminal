@@ -110,6 +110,11 @@ export interface IConfig {
 	 * selected text on copy.
 	 */
 	copyOnSelected: boolean;
+	/**
+	 * If we should restore the window position
+	 * and size when re-launching the app.
+	 */
+	restoreWindowPosition: boolean;
 	bell: IBell;
 	cursor: ICursor;
 	font: IFont

@@ -4,21 +4,29 @@ import { format as formatUrl } from 'url';
 import path from 'path';
 import { UndefinedObject } from '../../common/types/types';
 import Config, { IVibrancy } from '../../common/config/Config';
+import windowStateKeeper, { State } from 'electron-window-state';
+import { IConfig } from '../../common/config/Config';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 
 	public factoryObject: UndefinedObject<BrowserWindow>;
+	private config: UndefinedObject<IConfig>;
+	private readonly DEFAULT_WIDTH = 1200;
+	private readonly DEFAULT_HEIGHT = 800;
 
 	constructor(isDev: boolean) {
+		
+		const config = Config.getInstance().loadConfig((config) => {
 
-		this.factoryObject = this.build();
-
-		const { vibrancy } = Config.getInstance().loadConfig(({ vibrancy }) => {
-
-			this.setVibrancy(vibrancy);
+			this.config = config;
+			this.setVibrancy(config.vibrancy);
 		});
 
-		this.setVibrancy(vibrancy);
+		this.config = config;
+		// Build the window after loading the config
+		this.factoryObject = this.build();
+
+		this.setVibrancy(config.vibrancy);
 
 		// Open the devtools if we are in dev
 		if(isDev)
@@ -34,10 +42,35 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 	 */
 	public build(): BrowserWindow {
 
+		let params: Record<string, unknown> = {
+		
+			width: this.DEFAULT_WIDTH,
+			height: this.DEFAULT_HEIGHT,
+		};
+
+		const shouldRestoreWindow = this.config?.restoreWindowPosition;
+		let state: UndefinedObject<State> = undefined;
+
+		if(shouldRestoreWindow) {
+
+			state = windowStateKeeper({
+
+				defaultWidth: this.DEFAULT_WIDTH,
+				defaultHeight: this.DEFAULT_HEIGHT,
+			});
+
+			params = {
+
+				x: state.x,
+				y: state.y,
+				width: state.width,
+				height: state.height,
+			};
+		}
+
 		const window = new BrowserWindow({
 
-			width: 1200,
-			height: 800,
+			...params,
 			minWidth: 600,
 			minHeight: 500,
 			frame: process.platform === 'darwin',
@@ -61,6 +94,9 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 				webSecurity: false,
 			},
 		});
+
+		if(shouldRestoreWindow)
+			state?.manage(window);
 
 		window.on('closed', () => {
 

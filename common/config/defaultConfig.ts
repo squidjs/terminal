@@ -115,6 +115,7 @@ export const defaultConfig: IConfig = {
 	shells,
 	webGlRendering: true,
 	copyOnSelected: true,
+	restoreWindowPosition: true,
 	bell: {
 		enabled: false,
 		sound: '',
