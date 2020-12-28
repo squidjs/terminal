@@ -49,6 +49,8 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 */
 	public loadConfig(config: IConfig) {
 
+		this.config = config;
+
 		const terminal = this.getFactoryObject();
 		terminal.setOption('bellSound', config.bell.sound);
 		terminal.setOption('bellStyle', config.bell.enabled ? 'sound' : 'none');
@@ -116,7 +118,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 		});
 
 		this.getFactoryObject().onTitleChange((title: string) => onTitle(title));
-		this.getFactoryObject().onSelectionChange(() => clipboard.writeText(this.getFactoryObject().getSelection(), 'selection'));
+		this.getFactoryObject().onSelectionChange(() => this.copySelected());
 
 		window.onresize = () => this.fit();
 	}
@@ -152,6 +154,15 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	public getFactoryObject(): XTerminal {
 
 		return this.factoryObject as XTerminal;
+	}
+
+	/**
+	 * Copy the selected text if the config allow it.
+	 */
+	private copySelected() {
+
+		if(this.config.copyOnSelected)
+			clipboard.writeText(this.getFactoryObject().getSelection(), 'selection');
 	}
 }
 

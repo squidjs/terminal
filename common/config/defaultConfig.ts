@@ -104,6 +104,7 @@ export const defaultConfig: IConfig = {
 	defaultShell,
 	shells,
 	webGlRendering: true,
+	copyOnSelected: true,
 	bell: {
 		enabled: false,
 		sound: '',

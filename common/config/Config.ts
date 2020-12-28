@@ -104,7 +104,12 @@ export interface IConfig {
 	 * Enable it would cause the ligatures
 	 * addon to not work properly.
 	 */
-	webGlRendering: boolean,
+	webGlRendering: boolean;
+	/**
+	 * If we should copy to the clipboard the
+	 * selected text on copy.
+	 */
+	copyOnSelected: boolean;
 	bell: IBell;
 	cursor: ICursor;
 	font: IFont
