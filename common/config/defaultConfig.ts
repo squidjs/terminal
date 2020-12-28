@@ -62,6 +62,16 @@ const shortcuts: IShortcut[] = [
 		keybinds: `${leader}+Shift+W`,
 		action: 'terminal:close',
 	},
+	{
+		name: 'Open DevTools',
+		keybinds: 'Ctrl+Shift+I',
+		action: 'window:devtools'
+	},
+	{
+		name: 'Reload window',
+		keybinds: 'Ctrl+Shift+R',
+		action: 'window:reload'
+	},
 ];
 
 export const defaultConfig: IConfig = {

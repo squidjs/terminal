@@ -19,6 +19,11 @@ export interface IShortcut {
 type TerminalShortcuts = 'terminal:create' | 'terminal:close';
 
 /**
+ * Window shortcuts.
+ */
+type WindowShortcuts = 'window:devtools' | 'window:reload';
+
+/**
  * All available shortcut actions.
  */
-export type IShortcutActions = TerminalShortcuts;
+export type IShortcutActions = TerminalShortcuts | WindowShortcuts;

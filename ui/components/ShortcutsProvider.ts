@@ -102,6 +102,14 @@ class ShortcutsProvider extends Component<Props> {
 				}) as ITerminal));
 				break;
 
+			case 'window:devtools':
+				remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
+				break;
+
+			case 'window:reload':
+				remote.getCurrentWindow().reload();
+				break;
+
 			default:
 				break;
 		}
