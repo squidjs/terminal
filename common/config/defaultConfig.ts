@@ -64,13 +64,23 @@ const shortcuts: IShortcut[] = [
 	},
 	{
 		name: 'Zoom in',
-		keybinds: 'Ctrl+Shift+P',
+		keybinds: `${leader}+Shift+O`, 
 		action: 'terminal:zoomin',
 	},
 	{
 		name: 'Zoom out',
-		keybinds: 'Ctrl+Shift+M',
+		keybinds: `${leader}+Shift+P`,
 		action: 'terminal:zoomout',
+	},
+	{
+		name: 'Focus left terminal',
+		keybinds: `${leader}+Shift+L`,
+		action: 'terminal:left',
+	},
+	{
+		name: 'Focus right terminal',
+		keybinds: `${leader}+Shift+M`, 
+		action: 'terminal:right',
 	},
 	{
 		name: 'Open DevTools',

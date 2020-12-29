@@ -2,12 +2,13 @@ import { Component, ReactElement } from 'react';
 import { IConfig } from '../../common/config/Config';
 import { remote } from 'electron';
 import { IShortcut } from '../../common/config/shortcuts';
-import { AppState, TerminalsAction } from '../../app/store/types';
+import { AppState, SelectedAction, TerminalsAction } from '../../app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ITerminal } from '../../app/Terminal';
 import { createTerminal, deleteTerminal } from '../../app/store/terminals/actions';
 import { nextTerminalId } from '../../common/utils/utils';
+import { setSelected } from '../../app/store/selected/actions';
 const { Menu, MenuItem } = remote;
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 	config: IConfig;
 	terminals: ITerminal[];
 	selected: number;
-	dispatch: (action: TerminalsAction) => void;
+	dispatch: (action: TerminalsAction | SelectedAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -27,7 +28,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-	return { dispatch: (action: TerminalsAction) => { dispatch(action) } }
+	return { dispatch: (action: TerminalsAction | SelectedAction) => { dispatch(action) } }
 }
 
 class ShortcutsProvider extends Component<Props> {
@@ -107,6 +108,11 @@ class ShortcutsProvider extends Component<Props> {
 				remote.getCurrentWindow().webContents.send('shortcuts', shortcut.action);
 				break;
 
+			case 'terminal:left':
+			case 'terminal:right':
+				this.focus(shortcut.action === 'terminal:left');
+				break;
+
 			case 'window:devtools':
 				remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
 				break;
@@ -119,6 +125,31 @@ class ShortcutsProvider extends Component<Props> {
 				break;
 		}
 	}
+
+	/**
+	 * Focus the terminal at the given direction if exist.
+	 *
+	 * @param left - If we should focus the left or right terminal
+	 */
+	private focus(left: boolean) {
+
+		const current = this.props.terminals.find((current) => current.id === this.props.selected);
+	
+		if(current) {
+
+			let currentIndex = this.props.terminals.indexOf(current);
+
+			if(left)
+				currentIndex--;
+			else
+				currentIndex++;
+
+			const toFocus = this.props.terminals[currentIndex];
+
+			if(toFocus)
+				this.props.dispatch(setSelected(toFocus.id));
+		}
+	} 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortcutsProvider);
