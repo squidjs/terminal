@@ -1,10 +1,10 @@
-import { Factory } from '../../common/factories/Factory';
-import { UndefinedObject } from '../../common/types/types';
+import { UndefinedObject } from '../../../common/types/types';
 import { IPty } from 'node-pty';
 import * as pty from 'node-pty';
 import { Terminal as XTerminal } from 'xterm';
+import ProcessFactory from '../ProcessFactory';
 
-export default class PtyFactory implements Factory<IPty> {
+export default class PtyProcessFactory extends ProcessFactory<IPty>{
 
 	public factoryObject: UndefinedObject<IPty>;
 
@@ -43,6 +43,27 @@ export default class PtyFactory implements Factory<IPty> {
 		});
 
 		this.getFactoryObject().onExit(onClose);
+	}
+
+	/**
+	 * Write data to the pty instance.
+	 *
+	 * @param data - The data to write
+	 */
+	public write(data: string) {
+
+		this.getFactoryObject().write(data);
+	}
+
+	/**
+	 * Resize the pty instance.
+	 *
+	 * @param cols - The number of cols
+	 * @param rows - The number of rows
+	 */
+	public resize(cols: number, rows: number) {
+
+		this.getFactoryObject().resize(cols, rows);
 	}
 
 	/**

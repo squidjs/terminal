@@ -1,13 +1,14 @@
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
 import { Factory } from '../../common/factories/Factory';
 import { UndefinedObject } from '../../common/types/types';
-import { IPty } from 'node-pty';
 import { clipboard } from 'electron';
 import { FitAddon } from 'xterm-addon-fit';
 import { AddonType } from '../addons/Addons';
 import AddonsProvider from '../addons/AddonsProvider';
 import { IConfig } from '../../common/config/Config';
 import { isWin } from '../../common/utils/utils';
+import ProcessFactory from './ProcessFactory';
+import { ProcessType } from '../Terminal';
 
 export default class XTerminalFactory implements Factory<XTerminal> {
 
@@ -80,17 +81,17 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	 * setup addons.
 	 *
 	 * @param id - The id of the terminal
-	 * @param pty - The pty instance to write on
+	 * @param process - The process instance to write on
 	 * @param onTitle - Called when the title change
 	 */
-	public spawn(id: number, pty: IPty, onTitle: (title: string) => void) {
+	public spawn(id: number, process: ProcessFactory<ProcessType>, onTitle: (title: string) => void) {
 
 		const terminalElement = document.getElementById(`terminal-${id}`);
 
 		if(terminalElement)
 			this.getFactoryObject().open(terminalElement);
 
-		this.listen(pty, onTitle);
+		this.listen(process, onTitle);
 
 		this.addonsProvider.setupAddons(this.config, this.getFactoryObject());
 		this.fit();
@@ -99,20 +100,20 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	/**
 	 * Listen for events on the xterm instance.
 	 *
-	 * @param pty - The pty instance to write and resize on
+	 * @param process - The process instance to write on
 	 * @param onTitle - Called when the title change
 	 *
 	 */
-	private listen(pty: IPty, onTitle: (title: string) => void) {
+	private listen(process: ProcessFactory<ProcessType>, onTitle: (title: string) => void) {
 
 		this.getFactoryObject().onData((data: string) => {
 
-			pty.write(data);
+			process.write(data);
 		});
 
 		this.getFactoryObject().onResize((data: {cols: number, rows: number}) => {
 
-			pty.resize(
+			process.resize(
 				Math.max(data ? data.cols : this.getFactoryObject().cols, 1),
 				Math.max(data ? data.rows : this.getFactoryObject().rows, 1));
 		});

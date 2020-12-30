@@ -1,27 +1,32 @@
 import XTerminalFactory from './factories/XTerminalFactory';
-import PtyFactory from './factories/PtyFactory';
+import PtyProcessFactory from './factories/process/PtyProcessFactory';
 import { IConfig, IShell } from '../common/config/Config';
+import ProcessFactory from './factories/ProcessFactory';
+import { IPty } from 'node-pty';
+import { Client } from 'ssh2';
+
+export type ProcessType = IPty | Client;
 
 export default class Terminal {
 
 	private config: IConfig;
 
 	private xTerminal: XTerminalFactory;
-	private pty: PtyFactory;
+	private readonly process: ProcessFactory<ProcessType>;
 
 	constructor(config: IConfig, id: number, shell: IShell, onClose: () => void, onTitle: (title: string) => void) {
 
 		this.config = config;
 
 		this.xTerminal = new XTerminalFactory(config);
-		this.pty = new PtyFactory();
+		this.process = new PtyProcessFactory();
 
 		const terminal = this.xTerminal.build({
 
 			config: this.config,
 		});
 
-		const pty = this.pty.build({
+		this.process.build({
 
 			terminal: terminal,
 			shell: shell.path,
@@ -29,12 +34,12 @@ export default class Terminal {
 			cwd: require('os').homedir(),
 		});
 
-		this.xTerminal.spawn(id, pty, (title: string) => {
+		this.xTerminal.spawn(id, this.process, (title: string) => {
 
 			onTitle(title);
 		});
 
-		this.pty.listen(terminal, () => {
+		this.process.listen(terminal, () => {
 
 			this.xTerminal.getFactoryObject().dispose();
 			onClose();
@@ -63,13 +68,13 @@ export default class Terminal {
 	}
 
 	/**
-	 * Write string data to the pty instance.
+	 * Write string data to the process instance.
 	 *
 	 * @param data - The data to write
 	 */
 	public write(data: string) {
 
-		this.pty.getFactoryObject().write(data);
+		this.process.write(data);
 	}
 
 	/**
