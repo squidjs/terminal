@@ -1,9 +1,9 @@
 import React, { Component, CSSProperties } from 'react';
-import { IConfig, IShell } from '../../../common/config/Config';
+import { IConfig } from '../../../common/config/Config';
 import { Dispatch } from 'redux';
 import { AppState, TerminalsAction } from '../../../app/store/types';
 import { connect } from 'react-redux';
-import { ITerminal } from '../../../app/Terminal';
+import { ITerminal, TerminalType } from '../../../app/Terminal';
 import { remote } from 'electron';
 import { UndefinedObject } from '../../../common/types/types';
 import { createTerminal } from '../../../app/store/terminals/actions';
@@ -87,19 +87,33 @@ class TabCreateTerminal extends Component<Props> {
 				click: () => this.createTerminal(shell),
 			}));
 		});
+
+		if(this.props.config.sshHosts && this.props.config.sshHosts.length >= 1) {
+
+			this.menu?.append(new MenuItem({ type: 'separator' }));
+			
+			this.props.config.sshHosts.forEach((sshHost) => {
+
+				this.menu?.append(new MenuItem({
+
+					label: sshHost.name,
+					click: () => this.createTerminal(sshHost),
+				}));
+			});
+		}
 	}
 
 	/**
 	 * Create a new terminal with the specified shell.
 	 *
-	 * @param shell - The terminal's shell to open
+	 * @param terminalType - The terminal type to open
 	 */
-	private createTerminal(shell: IShell) {
+	private createTerminal(terminalType: TerminalType) {
 
 		this.props.dispatch(createTerminal({
 			id: nextTerminalId(this.props.terminals),
 			name: 'Terminal',
-			shell,
+			terminalType,
 		}));
 	}
 

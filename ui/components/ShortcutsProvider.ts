@@ -92,7 +92,7 @@ class ShortcutsProvider extends Component<Props> {
 				this.props.dispatch(createTerminal({
 					id: nextTerminalId(this.props.terminals),
 					name: 'Terminal',
-					shell: this.props.config.defaultShell,
+					terminalType: this.props.config.defaultShell,
 				}));
 				break;
 

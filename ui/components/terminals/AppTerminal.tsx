@@ -102,9 +102,9 @@ class AppTerminal extends Component<Props, State> {
 		if(this.props.selected === this.props.terminal.id) {
 
 			const { config } = this.props;
-			const { shell, id } = this.props.terminal;
+			const { terminalType, id } = this.props.terminal;
 
-			const terminal = new Terminal(config, id, shell, () => {
+			const terminal = new Terminal(config, id, terminalType, () => {
 
 				this.props.dispatch(deleteTerminal(this.props.terminal));
 

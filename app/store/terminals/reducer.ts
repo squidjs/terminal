@@ -6,7 +6,7 @@ import Config from '../../../common/config/Config';
 export const initialState: TerminalsState = [{
     id: 0,
     name: 'Terminal',
-    shell: Config.getInstance().loadConfig().defaultShell,
+    terminalType: Config.getInstance().loadConfig().defaultShell,
 }];
 
 /**

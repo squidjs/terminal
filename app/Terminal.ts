@@ -1,11 +1,14 @@
 import XTerminalFactory from './factories/XTerminalFactory';
 import PtyProcessFactory from './factories/process/PtyProcessFactory';
-import { IConfig, IShell } from '../common/config/Config';
+import { IConfig, IShell, ISSHHost } from '../common/config/Config';
 import ProcessFactory from './factories/ProcessFactory';
 import { IPty } from 'node-pty';
 import { Client } from 'ssh2';
+import SSHProcessFactory from './factories/process/SSHProcessFactory';
+import { Terminal as XTerminal } from 'xterm';
 
 export type ProcessType = IPty | Client;
+export type TerminalType = ISSHHost | IShell;
 
 export default class Terminal {
 
@@ -14,25 +17,25 @@ export default class Terminal {
 	private xTerminal: XTerminalFactory;
 	private readonly process: ProcessFactory<ProcessType>;
 
-	constructor(config: IConfig, id: number, shell: IShell, onClose: () => void, onTitle: (title: string) => void) {
+	constructor(config: IConfig, id: number, terminalType: TerminalType, onClose: () => void, onTitle: (title: string) => void) {
 
 		this.config = config;
-
 		this.xTerminal = new XTerminalFactory(config);
-		this.process = new PtyProcessFactory();
+		
+		// To define the type of terminal to open, we check if
+		// there is a username property. If yes, we assume that
+		// we want to open a ssh terminal.
+		const isSSH = terminalType.hasOwnProperty('username');
+		this.process = !isSSH ? new PtyProcessFactory() : new SSHProcessFactory();
 
 		const terminal = this.xTerminal.build({
 
 			config: this.config,
 		});
 
-		this.process.build({
-
-			terminal: terminal,
-			shell: shell.path,
-			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			cwd: require('os').homedir(),
-		});
+		console.log(isSSH, terminalType);
+		
+		this.buildProcess(isSSH, terminalType, terminal);
 
 		this.xTerminal.spawn(id, this.process, (title: string) => {
 
@@ -44,6 +47,40 @@ export default class Terminal {
 			this.xTerminal.getFactoryObject().dispose();
 			onClose();
 		});
+	}
+
+	/**
+	 * Build the process corresponding to the type of
+	 * terminal we want.
+	 *
+	 * @param isSSH - If we want a ssh terminal
+	 * @param terminalType - The terminal type object
+	 * @param terminal - The xterm instance
+	 */
+	private buildProcess(isSSH: boolean, terminalType: TerminalType, terminal: XTerminal) {
+
+		if(!isSSH) {
+
+			const shell = terminalType as IShell;
+
+			this.process.build({
+
+				terminal,
+				shell: shell.path,
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
+				cwd: require('os').homedir(),
+			});
+
+		} else {
+
+			const ssh = terminalType as ISSHHost;
+
+			this.process.build({
+
+				...ssh,
+				privateKey: ssh.privateKey ? require('fs').readFileSync(ssh.privateKey) : undefined,
+			});
+		}
 	}
 
 	/**
@@ -100,5 +137,5 @@ export interface ITerminal {
 
 	id: number;
 	name: string;
-	shell: IShell;
+	terminalType: TerminalType;
 }

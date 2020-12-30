@@ -1,4 +1,4 @@
-import { IConfig, IShell } from './Config';
+import { IConfig, IShell, ISSHHost } from './Config';
 import { isMac, isWin } from '../utils/utils';
 import { IShortcut } from './shortcuts';
 
@@ -94,6 +94,17 @@ const shortcuts: IShortcut[] = [
 	},	
 ];
 
+const sshHosts: ISSHHost[] = [
+	{
+		name: 'Default host',
+		host: 'hostname',
+		port: 22,
+		username: 'root',
+		password: 'removeIfNotNeeded',
+		privateKey: 'removeIfNotNeeded',
+	}
+];
+
 export const defaultConfig: IConfig = {
 	theme: {
 		background: '#0F0F0F',
@@ -162,4 +173,5 @@ export const defaultConfig: IConfig = {
 		disableOnBlur: false,
 	},
 	shortcuts,
+	sshHosts,
 }

@@ -122,6 +122,7 @@ export interface IConfig {
 	backgroundImage: IBackgroundImage;
 	vibrancy: IVibrancy;
 	shortcuts: IShortcut[];
+	sshHosts: ISSHHost[];
 }
 
 export interface ITheme {
@@ -273,4 +274,35 @@ export interface IVibrancy {
 	 * If we should disable when the window is blurred.
 	 */
 	disableOnBlur: boolean;
+}
+
+export interface ISSHHost {
+	/**
+	 * The name to use for this ssh host.
+	 */
+	name: string;
+	/**
+	 * The hostname to use.
+	 */
+	host: string;
+	/**
+	 * The port to use.
+	 */
+	port: number;
+	/**
+	 * The username to connect with.
+	 */
+	username: string;
+	/**
+	 * The optional password to use. If
+	 * not set, that mean you should use
+	 * a private key.
+	 */
+	password?: string;
+	/**
+	 * The path to the private key to use.
+	 * If not set, that mean you should use
+	 * a password.
+	 */
+	privateKey?: string;
 }

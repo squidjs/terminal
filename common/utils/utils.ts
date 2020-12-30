@@ -1,5 +1,6 @@
 import electron from 'electron';
 import { ITerminal } from '../../app/Terminal';
+import { IShell } from '../config/Config';
 
 export const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 export const isWin = process.platform === 'win32';
@@ -18,7 +19,7 @@ const wslBasePath = '/mnt/';
  */
 export function resolveToWSLPath(terminal: ITerminal, path: string): string {
 
-	if(!terminal.shell.path.includes('wsl.exe'))
+	if(terminal.terminalType.hasOwnProperty('path') && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
 		return path;
 
 	if(!winPathRegex.test(path))
