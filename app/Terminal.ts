@@ -21,11 +21,11 @@ export default class Terminal {
 
 		this.config = config;
 		this.xTerminal = new XTerminalFactory(config);
-		
+
 		// To define the type of terminal to open, we check if
 		// there is a username property. If yes, we assume that
 		// we want to open a ssh terminal.
-		const isSSH = terminalType.hasOwnProperty('username');
+		const isSSH = Object.prototype.hasOwnProperty.call(terminalType, 'username');
 		this.process = !isSSH ? new PtyProcessFactory() : new SSHProcessFactory();
 
 		const terminal = this.xTerminal.build({
@@ -34,7 +34,7 @@ export default class Terminal {
 		});
 
 		console.log(isSSH, terminalType);
-		
+
 		this.buildProcess(isSSH, terminalType, terminal);
 
 		this.xTerminal.spawn(id, this.process, (title: string) => {
@@ -78,6 +78,7 @@ export default class Terminal {
 			this.process.build({
 
 				...ssh,
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				privateKey: ssh.privateKey ? require('fs').readFileSync(ssh.privateKey) : undefined,
 			});
 		}

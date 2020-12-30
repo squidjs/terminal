@@ -19,7 +19,7 @@ const wslBasePath = '/mnt/';
  */
 export function resolveToWSLPath(terminal: ITerminal, path: string): string {
 
-	if(terminal.terminalType.hasOwnProperty('path') && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
+	if(Object.prototype.hasOwnProperty.call(terminal.terminalType, 'path') && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
 		return path;
 
 	if(!winPathRegex.test(path))
