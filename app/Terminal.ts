@@ -6,6 +6,7 @@ import { IPty } from 'node-pty';
 import { Client } from 'ssh2';
 import SSHProcessFactory from './factories/process/SSHProcessFactory';
 import { Terminal as XTerminal } from 'xterm';
+import { isTerminalSSH } from '../common/utils/utils';
 
 export type ProcessType = IPty | Client;
 export type TerminalType = ISSHHost | IShell;
@@ -22,11 +23,8 @@ export default class Terminal {
 		this.config = config;
 		this.xTerminal = new XTerminalFactory(config);
 
-		// To define the type of terminal to open, we check if
-		// there is a username property. If yes, we assume that
-		// we want to open a ssh terminal.
-		const isSSH = Object.prototype.hasOwnProperty.call(terminalType, 'username');
-		this.process = !isSSH ? new PtyProcessFactory() : new SSHProcessFactory();
+		const isSSH = isTerminalSSH(terminalType);
+		this.process = isSSH ? new SSHProcessFactory() : new PtyProcessFactory(); 
 
 		const terminal = this.xTerminal.build({
 

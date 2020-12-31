@@ -1,5 +1,5 @@
 import electron from 'electron';
-import { ITerminal } from '../../app/Terminal';
+import { ITerminal, TerminalType } from '../../app/Terminal';
 import { IShell } from '../config/Config';
 
 export const userDataPath = (electron.app || electron.remote.app).getPath('userData');
@@ -19,7 +19,7 @@ const wslBasePath = '/mnt/';
  */
 export function resolveToWSLPath(terminal: ITerminal, path: string): string {
 
-	if(Object.prototype.hasOwnProperty.call(terminal.terminalType, 'path') && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
+	if(!isTerminalSSH(terminal.terminalType) && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
 		return path;
 
 	if(!winPathRegex.test(path))
@@ -58,4 +58,18 @@ export function nextTerminalId(terminals: ITerminal[]): number {
 		id++;
 
 	return id;
+}
+
+/**
+ * Check if a terminal type is a ssh or a shell terminal.
+ *
+ * @param terminalType - The type of the terminal to check
+ * @returns If the terminal  type is ssh or shell
+ */
+export function isTerminalSSH(terminalType: TerminalType): boolean {
+
+	// To define the type of terminal we check if there
+	// is a username property. If yes, we assume that
+	// the terminal type is a ssh.
+	return Object.prototype.hasOwnProperty.call(terminalType, 'username');
 }
