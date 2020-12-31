@@ -31,8 +31,6 @@ export default class Terminal {
 			config: this.config,
 		});
 
-		console.log(isSSH, terminalType);
-
 		this.buildProcess(isSSH, terminalType, terminal);
 
 		this.xTerminal.spawn(id, this.process, (title: string) => {

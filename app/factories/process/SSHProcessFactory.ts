@@ -1,4 +1,4 @@
-import { Client, ClientChannel } from 'ssh2';
+import { Client, ClientChannel, ClientErrorExtensions } from 'ssh2';
 import { UndefinedObject } from '../../../common/types/types';
 import { Terminal as XTerminal } from 'xterm';
 import ProcessFactory from '../ProcessFactory';
@@ -30,6 +30,11 @@ export default class SSHProcessFactory extends ProcessFactory<Client> {
 	 */
 	public listen(terminal: XTerminal, onClose: () => void) {
 
+		this.getFactoryObject().on('error',  (err: Error & ClientErrorExtensions) => {
+
+			terminal.write(`Could not connect to host: ${err.message}`);
+		});
+
 		this.getFactoryObject().on('ready', () => {
 
 			this.getFactoryObject().shell({
@@ -38,7 +43,7 @@ export default class SSHProcessFactory extends ProcessFactory<Client> {
 				rows: terminal.rows,
 				cols: terminal.cols,
 			}, (err: Error | undefined, channel: ClientChannel) => {
-
+					
 				if(err)
 					onClose();
 
