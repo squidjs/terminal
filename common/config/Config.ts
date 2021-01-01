@@ -28,6 +28,34 @@ export default class Config {
 	 */
 	public loadConfig(callback?: (newConfig: IConfig) => void): IConfig {
 
+		if(this.config) {
+
+			this.watchFile(callback);
+			return this.config;
+		}
+
+		let config;
+
+		if(fs.existsSync(this.CONFIG))
+			config = this.readFile();
+		else {
+
+			this.saveFile(defaultConfig);
+			config = defaultConfig;
+		}
+
+		this.watchFile(callback);
+
+		return config;
+	}
+
+	/**
+	 * Watch the config file for changes.
+	 *
+	 * @param callback - A callback called when the file has changed
+	 */
+	private watchFile(callback?: (newConfig: IConfig) => void) {
+
 		if(callback != undefined) {
 
 			const watcher = watch(this.CONFIG, { recursive: false });
@@ -37,17 +65,6 @@ export default class Config {
 				const newConfig = await this.readFile();
 				callback(newConfig);
 			});
-		}
-
-		if(this.config)
-			return this.config;
-
-		if(fs.existsSync(this.CONFIG))
-			return this.readFile();
-		else {
-
-			this.saveFile(defaultConfig);
-			return defaultConfig;
 		}
 	}
 
