@@ -30,9 +30,9 @@ class Notifications extends Component<Props> {
 		return (
 			<div className="notifications">
 				{
-					this.props.notifications.map((notification) => {
+					this.props.notifications.map((notification, index) => {
 
-						return <Notification config={this.props.config} key={notification.content} notification={notification} />
+						return <Notification config={this.props.config} key={index} notification={notification} />
 					})
 				}
 			</div>
