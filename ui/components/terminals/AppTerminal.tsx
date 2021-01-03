@@ -6,18 +6,20 @@ import { UndefinedObject } from '../../../common/types/types';
 import DragDrop from './DragDrop';
 import { addQuotes, resolveToWSLPath } from '../../../common/utils/utils';
 import '../../styles/xterm.scss';
-import { AppState, TerminalsAction } from '../../../app/store/types';
+import { AppState, NotificationsAction, TerminalsAction } from '../../../app/store/types';
 import { connect } from 'react-redux';
 import { deleteTerminal, updateTerminal } from '../../../app/store/terminals/actions';
 import { ipcRenderer } from 'electron';
 import { TerminalShortcuts } from '../../../common/config/shortcuts';
+import { fontSizeNotification } from '../../../common/notifications/notification';
+import { addNotification } from '../../../app/store/notifications/actions';
 
 interface Props {
 
 	config: IConfig;
 	terminal: ITerminal;
 	selected: number;
-	dispatch: (action: TerminalsAction) => void;
+	dispatch: (action: TerminalsAction | NotificationsAction) => void;
 }
 
 interface State {
@@ -32,7 +34,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-	return { dispatch: (action: TerminalsAction) => { dispatch(action) } }
+	return { dispatch: (action: TerminalsAction | NotificationsAction) => { dispatch(action) } }
 }
 
 class AppTerminal extends Component<Props, State> {
@@ -132,11 +134,11 @@ class AppTerminal extends Component<Props, State> {
 				switch(shortcut) {
 
 					case 'terminal:zoomin':
-						this.state.terminal?.zoom(true);
+						this.zoomAndNotify(true);	
 						break;
 
 					case 'terminal:zoomout':
-						this.state.terminal?.zoom(false);
+						this.zoomAndNotify(false);	
 						break;
 
 					default:
@@ -144,7 +146,14 @@ class AppTerminal extends Component<Props, State> {
 				}
 			}
 		});
+	}
 
+	private zoomAndNotify(zoomIn: boolean) {
+
+		const zoom = this.state.terminal?.zoom(zoomIn);
+		
+		const notification = fontSizeNotification(zoom || 0);
+		this.props.dispatch(addNotification(notification));
 	}
 
 	/**

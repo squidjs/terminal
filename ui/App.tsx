@@ -10,6 +10,7 @@ import { setSelected } from '../app/store/selected/actions';
 import { remote } from 'electron';
 import ShortcutsProvider from './components/ShortcutsProvider';
 import './styles/app.scss';
+import Notifications from './components/notifications/Notifications';
 
 interface Props {
 
@@ -98,7 +99,8 @@ class App extends Component<Props, State> {
                                 config={this.state.config}
                                 terminal={terminal} />
                         )
-                    }
+					}
+					<Notifications config={this.state.config} />
                 </div>
             </ShortcutsProvider>
         )

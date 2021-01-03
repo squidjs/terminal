@@ -115,8 +115,9 @@ export default class Terminal {
 	 * Zoom in or out in this terminal.
 	 *
 	 * @param zoomIn - If we should zoom in or out
+	 * @returns The new zoom value in px
 	 */
-	public zoom(zoomIn: boolean) {
+	public zoom(zoomIn: boolean): number {
 
 		let currentZoom = this.xTerminal.getFactoryObject().getOption('fontSize');
 
@@ -127,6 +128,8 @@ export default class Terminal {
 
 		this.xTerminal.getFactoryObject().setOption('fontSize', currentZoom);
 		this.xTerminal.fit();
+
+		return currentZoom;
 	}
 }
 

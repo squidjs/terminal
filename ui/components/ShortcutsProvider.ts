@@ -1,7 +1,7 @@
 import { Component, ReactElement } from 'react';
 import { IConfig } from '../../common/config/Config';
 import { remote } from 'electron';
-import { IShortcut } from '../../common/config/shortcuts';
+import { IShortcut, IShortcutActions } from '../../common/config/shortcuts';
 import { AppState, SelectedAction, TerminalsAction } from '../../app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -105,7 +105,7 @@ class ShortcutsProvider extends Component<Props> {
 
 			case 'terminal:zoomin':
 			case 'terminal:zoomout':
-				remote.getCurrentWindow().webContents.send('shortcuts', shortcut.action);
+				this.zoom(shortcut.action);
 				break;
 
 			case 'terminal:left':
@@ -124,6 +124,16 @@ class ShortcutsProvider extends Component<Props> {
 			default:
 				break;
 		}
+	}
+
+	/**
+	 * Zoom in or out in the terminal.
+	 *
+	 * @param action - The action to execute
+	 */
+	private zoom(action: IShortcutActions) {
+
+		remote.getCurrentWindow().webContents.send('shortcuts', action);
 	}
 
 	/**

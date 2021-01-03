@@ -1,3 +1,4 @@
+import { INotification } from '../../common/notifications/notification';
 import { ITerminal } from '../Terminal';
 
 export type TerminalsState = ITerminal[];
@@ -14,8 +15,16 @@ export type SelectedAction = {
 	selected: number;
 }
 
+export type NotificationsState = INotification[];
+export type NotificationsAction = {
+
+	type: string;
+	notification: INotification;
+}
+
 export type AppState = {
 
 	terminals: TerminalsState;
 	selected: SelectedState;
+	notifications: NotificationsState;
 }
