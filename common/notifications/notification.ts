@@ -1,3 +1,5 @@
+import { IUpdateStatus } from '../types/types';
+
 export interface INotification {
 
 	/**
@@ -53,4 +55,18 @@ export const configReloadedNotification = (error: boolean): INotification => ({
 	content: error ? 'Could not load configuration.' : 'Configuration reloaded',
 	time: 3,
 	level: error ? INotificationLevel.ERROR : INotificationLevel.SUCCESS,
+});
+
+/**
+ * Build a notification for the updater. 
+ *
+ * @param update - The update status 
+ * @returns The notification to show
+ */
+export const updateNotification = (update: IUpdateStatus): INotification => ({
+
+	title: 'Update',
+	content: update.readyToInstall ? 'Update downloaded. Restart now?' : 'New update available, downloading...',
+	time: 5,
+	level: update.readyToInstall ? INotificationLevel.SUCCESS : INotificationLevel.INFO, 
 });

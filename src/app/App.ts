@@ -2,6 +2,7 @@ import { UndefinedObject } from '../../common/types/types';
 import WindowFactory from '../window/WindowFactory';
 import NativeContextMenu from '../window/NativeContextMenu';
 import { app } from 'electron';
+import Updater from '../updater/Updater';
 
 export default class App {
 
@@ -19,13 +20,20 @@ export default class App {
 	}
 
 	/**
-	 * Create the factory for the window of this app.
+	 * Create the factory for the window of this app, and
+	 * start the auto updater when the window is ready to
+	 * be shown.
 	 *
 	 * @see WindowFactory
 	 */
 	private createWindow() {
 
 		this.window = new WindowFactory(this.isDev);
+
+		this.window.getFactoryObject().on('ready-to-show', () => {
+
+			new Updater();
+		});
 	}
 
 	/**
