@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { NotificationsAction } from '../../../app/store/types';
 import { removeNotification } from '../../../app/store/notifications/actions';
+import NotificationButton from './NotificationButton';
 
 interface Props {
 
@@ -47,16 +48,15 @@ class Notification extends Component<Props> {
 		
 		const notificationStyle: CSSProperties = { backgroundColor: this.getColor(theme) }; 
 		const contentStyle: CSSProperties = { color: theme.black };
-		const buttonStyle: CSSProperties = { backgroundColor: theme.background, color: theme.foreground };
 
 		return (
 			<div className="notification" style={notificationStyle}>
 				<p className="title" style={contentStyle}>{ notification.title }</p>
 				<p className="content" style={contentStyle}>{ notification.content }</p>
 				{
-					notification.button ?
-						<button className="button" style={buttonStyle} onClick={notification.button.onClick} type="button">{ notification.button.title }</button>
-							: null		
+						notification.button ?
+							<NotificationButton theme={theme} button={notification.button} />
+								: null		
 				}
 			</div>
 		);
