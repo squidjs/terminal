@@ -16,10 +16,27 @@ export interface INotification {
 	 */
 	time: number;
 	/**
+	 * Optional button to add to the notification.
+	 */
+	button?: INotificationButton;
+	/**
 	 * The level of this notification, used to find
 	 * the color.
 	 */
 	level: INotificationLevel;
+}
+
+export interface INotificationButton {
+
+	/**
+	 * The title of this button. 
+	 */
+	title: string;
+	/**
+	 * A callback called when the user clicked
+	 * on the button.
+	 */
+	onClick: () => void;
 }
 
 export enum INotificationLevel {
@@ -58,15 +75,23 @@ export const configReloadedNotification = (error: boolean): INotification => ({
 });
 
 /**
- * Build a notification for the updater. 
+ * Build a notification for the updater with a button to restart the app
+ * to apply the downloaded update. 
  *
- * @param update - The update status 
+ * @param update - The update status
+ * @param onClick - Callback when the user clicked on the button
  * @returns The notification to show
  */
-export const updateNotification = (update: IUpdateStatus): INotification => ({
+export const updateNotification = (update: IUpdateStatus, onClick: () => void): INotification => ({
 
 	title: 'Update',
 	content: update.readyToInstall ? 'Update downloaded. Restart now?' : 'New update available, downloading...',
 	time: 5,
+	button: update.readyToInstall ? {
+
+		title: 'Restart',
+		onClick,
+
+	} : undefined,
 	level: update.readyToInstall ? INotificationLevel.SUCCESS : INotificationLevel.INFO, 
 });

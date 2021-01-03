@@ -36,13 +36,21 @@ class Notifications extends Component<Props> {
 
 	/**
 	 * Listen for updates coming from the main process
-	 * to show them as notifications.
+	 * to show them as notifications. We also send back
+	 * to the main process when the user want to restart
+	 * to apply the update.
 	 */
 	componentDidMount() {
 
-		ipcRenderer.on('update', (event, update: IUpdateStatus) => {
+		// The callback executed to restart the app 
+		const restart = () => {
 
-			const notification = updateNotification(update); 
+			ipcRenderer.send('restart');
+		};
+
+		ipcRenderer.on('update', (_, update: IUpdateStatus) => {
+
+			const notification = updateNotification(update, restart); 
 			this.props.dispatch(addNotification(notification));	
 		});
 	}

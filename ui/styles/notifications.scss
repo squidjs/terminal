@@ -3,6 +3,9 @@
 	position: absolute;
 	right: 5px;
 	bottom: 5px;
+	z-index: 999;
+	user-select: none;
+	cursor: default;
 
 	.notification {
 
@@ -32,6 +35,17 @@
 
 			margin-top: 5px;
 			font-size: 14px;
+		}
+
+		.button {
+
+			border: none;
+			background: none;
+			margin-top: 5px;
+			font-size: 14px;
+			padding: 4px;
+			border-radius: 4px;
+			cursor: pointer;
 		}
 	}
 }

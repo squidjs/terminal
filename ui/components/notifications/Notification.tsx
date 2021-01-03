@@ -43,14 +43,21 @@ class Notification extends Component<Props> {
 	render() {
 
 		const { theme } = this.props.config;
-
+		const { notification } = this.props;
+		
 		const notificationStyle: CSSProperties = { backgroundColor: this.getColor(theme) }; 
 		const contentStyle: CSSProperties = { color: theme.black };
+		const buttonStyle: CSSProperties = { backgroundColor: theme.background, color: theme.foreground };
 
 		return (
 			<div className="notification" style={notificationStyle}>
-				<p className="title" style={contentStyle}>{ this.props.notification.title }</p>
-				<p className="content" style={contentStyle}>{ this.props.notification.content }</p>
+				<p className="title" style={contentStyle}>{ notification.title }</p>
+				<p className="content" style={contentStyle}>{ notification.content }</p>
+				{
+					notification.button ?
+						<button className="button" style={buttonStyle} onClick={notification.button.onClick} type="button">{ notification.button.title }</button>
+							: null		
+				}
 			</div>
 		);
 	}
