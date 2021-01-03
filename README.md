@@ -14,18 +14,18 @@
     </a>
 </p>
 
-**Squid** is a terminal emulator, build with web technologies (HTML, CSS, JS).
+**Squid** is a Shell and SSH terminal, build with web technologies (HTML, CSS, JS).
 We use [Electron](https://electronjs.org) and [ReactJS](https://reactjs.org). Everything is written in [TypeScript](https://typescriptlang.org).
 
 ## Table of content
 - [Downloading](#downloading)
 - [App settings](#app-settings)
-- [Screenshot](#screenshot)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Downloading
-**Canary** versions of Squid are available for download in [releases](https://github.com/QuiiBz/squid/releases).
+**Canary** versions of Squid will be soon available for download in [releases](https://github.com/QuiiBz/squid/releases).
 
 Please report any issues or new features you wish to see for Squid.
 
@@ -151,24 +151,30 @@ Here are all the settings explained:
 | shortcuts.keys | The keys to trigger this shortcut | See <a href="https://www.electronjs.org/docs/api/accelerator">Accelerator doc</a> | |
 | shortcuts.action | The action for this shortcut | 'pane:open' / 'pane:close' / 'pane:switchLeft' / 'pane:switchRight' / Plugins actions | |
 -->
-## Screenshot
-<!--<p align="center">
-    <img src="https://i.imgur.com/1pSJyPI.png" />
-</p>-->
+## Screenshots
+<p align="center">
+    <img src="https://i.imgur.com/o9x8wYd.png" />
+</p>
 
 ## Contributing
 Yarn is highly recommended, but you can still use NPM.
 
-First, make sure you have NPM or Yarn installed on your system. Then:
+First, make sure you have NPM or Yarn installed on your system.
+
+You will need `windows-build-tools` to compile the project. Install it globally (as an administrator) with:
+- YARN: `yarn global add windows-build-tools`
+- NPM: `npm i -g windows-build-tools`
+
+Then:
 1) Fork this repository, then clone it to your device
 2) Install JS dependencies with:
-    - NPM: `npm install`
     - Yarn: `yarn`
+    - NPM: `npm install`
 3) Launch the development server and the app:
-    - NPM: `npm run dev`
     - Yarn: `yarn dev`
+    - NPM: `npm run dev`
 
 See [contributing](CONTRIBUTING.md) for more information.
 
 ## License
-Squid is licenced under [MIT](https://choosealicense.com/licenses/mit/) license.
+Squid is licenced under the [MIT](https://choosealicense.com/licenses/mit/) license.
