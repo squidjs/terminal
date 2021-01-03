@@ -3,20 +3,22 @@ import AppTerminal from './components/terminals/AppTerminal';
 import Config, { IConfig } from '../common/config/Config';
 import Navbar from './components/navbar/Navbar';
 import { ITerminal } from '../app/Terminal';
-import { AppState, SelectedAction } from '../app/store/types';
+import { AppState, NotificationsAction, SelectedAction } from '../app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '../app/store/selected/actions';
 import { remote } from 'electron';
 import ShortcutsProvider from './components/ShortcutsProvider';
-import './styles/app.scss';
 import Notifications from './components/notifications/Notifications';
+import { addNotification } from '../app/store/notifications/actions';
+import { configReloadedNotification } from '../common/notifications/notification';
+import './styles/app.scss';
 
 interface Props {
 
     terminals: ITerminal[];
     selected: number;
-    dispatch: (action: SelectedAction) => void;
+    dispatch: (action: SelectedAction | NotificationsAction) => void;
 }
 
 interface State {
@@ -32,7 +34,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: SelectedAction) => { dispatch(action) } }
+    return { dispatch: (action: SelectedAction | NotificationsAction) => { dispatch(action) } }
 }
 
 class App extends Component<Props, State> {
@@ -45,8 +47,13 @@ class App extends Component<Props, State> {
 
         const config = Config.getInstance().loadConfig((newConfig: IConfig) => {
 
-            if(this.mounted)
-                this.setState({ config: newConfig });
+			if(this.mounted) {
+
+				const notification = configReloadedNotification(false);
+				this.props.dispatch(addNotification(notification));
+				
+				this.setState({ config: newConfig });
+			}
         });
 
         this.state = {

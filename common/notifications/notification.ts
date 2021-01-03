@@ -23,6 +23,7 @@ export interface INotification {
 export enum INotificationLevel {
 
 	INFO,
+	SUCCESS,
 	ERROR,
 }
 
@@ -36,6 +37,20 @@ export const fontSizeNotification = (fontSize: number): INotification => ({
 
 	title: 'Font size',
 	content: `Set font size to ${fontSize}px.`,
-	time: 3,
+	time: 2,
 	level: INotificationLevel.INFO,
+});
+
+/**
+ * Build a notification for the config reloading.
+ *
+ * @param error - If there is an error while reloading the config
+ * @returns The notification to show
+ */
+export const configReloadedNotification = (error: boolean): INotification => ({
+
+	title: 'Config',
+	content: error ? 'Could not load configuration.' : 'Configuration reloaded',
+	time: 3,
+	level: error ? INotificationLevel.ERROR : INotificationLevel.SUCCESS,
 });

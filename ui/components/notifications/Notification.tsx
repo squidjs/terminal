@@ -69,6 +69,9 @@ class Notification extends Component<Props> {
 			case INotificationLevel.INFO:
 				return theme.brightBlue;
 
+			case INotificationLevel.SUCCESS:
+				return theme.brightGreen;
+
 			case INotificationLevel.ERROR:
 				return theme.brightRed;
 
