@@ -6,8 +6,15 @@ let Registry: UndefinedObject<any>;
 
 if(isWin) {
 
-	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	Registry = require('native-reg');
+	try {
+
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		Registry = require('native-reg');
+
+	} catch(err) {
+
+		console.warn(err);
+	}
 }
 
 export default class NativeContextMenu {
