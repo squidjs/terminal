@@ -1,7 +1,14 @@
+import { UndefinedObject } from '../../common/types/types';
 import { isWin } from '../../common/utils/utils';
-import { HKEY } from 'native-reg';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Registry = require('native-reg');
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let Registry: UndefinedObject<any>;
+
+if(isWin) {
+
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
+	Registry = require('native-reg');
+}
 
 export default class NativeContextMenu {
 
@@ -29,7 +36,6 @@ export default class NativeContextMenu {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public check(args: string[]) {
 
-		console.log(process.execPath);
 		if(!isWin)
 			return;
 
@@ -89,7 +95,8 @@ export default class NativeContextMenu {
 		});
 	}*/
 
-	private addValues(squidKey: HKEY, commandKey: HKEY) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	private addValues(squidKey: any, commandKey: any) {
 
 		try {
 
