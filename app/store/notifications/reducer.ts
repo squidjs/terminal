@@ -1,7 +1,7 @@
-import { NotificationsState, NotificationsAction } from '../types';
-import { NOTIFICATIONS_ACTION_TYPES } from './actions';
+import { NotificationsState, NotificationsAction } from '@app/store/types';
+import { NOTIFICATIONS_ACTION_TYPES } from '@app/store/notifications/actions';
 
-// Set initial notifications to empty 
+// Set initial notifications to empty
 export const initialState: NotificationsState = [];
 
 /**

@@ -1,4 +1,4 @@
-import { UndefinedObject } from '../types/types';
+import { UndefinedObject } from '@common/types/types';
 
 /**
  * Represent a factory of T, to build and get a T object.

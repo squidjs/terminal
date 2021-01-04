@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import Terminal, { ITerminal } from '../../../app/Terminal';
-import { IConfig } from '../../../common/config/Config';
-import { UndefinedObject } from '../../../common/types/types';
-import DragDrop from './DragDrop';
-import { addQuotes, resolveToWSLPath } from '../../../common/utils/utils';
-import '../../styles/xterm.scss';
-import { AppState, NotificationsAction, TerminalsAction } from '../../../app/store/types';
+import Terminal, { ITerminal } from '@app/Terminal';
+import { IConfig } from '@common/config/Config';
+import { UndefinedObject } from '@common/types/types';
+import DragDrop from '@ui/components/terminals/DragDrop';
+import { addQuotes, resolveToWSLPath } from '@common/utils/utils';
+import '@ui/styles/xterm.scss';
+import { AppState, NotificationsAction, TerminalsAction } from '@app/store/types';
 import { connect } from 'react-redux';
-import { deleteTerminal, updateTerminal } from '../../../app/store/terminals/actions';
+import { deleteTerminal, updateTerminal } from '@app/store/terminals/actions';
 import { ipcRenderer } from 'electron';
-import { TerminalShortcuts } from '../../../common/config/shortcuts';
-import { fontSizeNotification } from '../../../common/notifications/notification';
-import { addNotification } from '../../../app/store/notifications/actions';
+import { TerminalShortcuts } from '@common/config/shortcuts';
+import { fontSizeNotification } from '@common/notifications/notification';
+import { addNotification } from '@app/store/notifications/actions';
 
 interface Props {
 
@@ -51,7 +51,7 @@ class AppTerminal extends Component<Props, State> {
 
 	/**
 	 * Try summoning a new terminal if possible, and
-	 * listen for shortcuts. 
+	 * listen for shortcuts.
 	 */
 	componentDidMount() {
 
@@ -60,7 +60,7 @@ class AppTerminal extends Component<Props, State> {
 	}
 
 	/**
-	 * Remove all listeners on shortcuts channel. 
+	 * Remove all listeners on shortcuts channel.
 	 */
 	componentWillUnmount() {
 
@@ -128,17 +128,17 @@ class AppTerminal extends Component<Props, State> {
 		ipcRenderer.on('shortcuts', (event, args) => {
 
 			const shortcut: TerminalShortcuts = args;
-			
+
 			if(shortcut && this.props.selected === this.props.terminal.id) {
 
 				switch(shortcut) {
 
 					case 'terminal:zoomin':
-						this.zoomAndNotify(true);	
+						this.zoomAndNotify(true);
 						break;
 
 					case 'terminal:zoomout':
-						this.zoomAndNotify(false);	
+						this.zoomAndNotify(false);
 						break;
 
 					default:
@@ -151,7 +151,7 @@ class AppTerminal extends Component<Props, State> {
 	private zoomAndNotify(zoomIn: boolean) {
 
 		const zoom = this.state.terminal?.zoom(zoomIn);
-		
+
 		const notification = fontSizeNotification(zoom || 0);
 		this.props.dispatch(addNotification(notification));
 	}

@@ -1,6 +1,6 @@
 import React, { Component, CSSProperties } from 'react';
-import { ITheme } from '../../../common/config/Config';
-import { INotificationButton } from '../../../common/notifications/notification';
+import { ITheme } from '@common/config/Config';
+import { INotificationButton } from '@common/notifications/notification';
 
 interface Props {
 

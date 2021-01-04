@@ -1,4 +1,4 @@
-import { Addon, AddonType } from './Addons';
+import { Addon, AddonType } from '@app/addons/Addons';
 import { FitAddon } from 'xterm-addon-fit';
 import { Unicode11Addon } from 'xterm-addon-unicode11';
 import { LigaturesAddon } from 'xterm-addon-ligatures';
@@ -6,7 +6,7 @@ import { WebglAddon } from 'xterm-addon-webgl';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
 import { shell } from 'electron';
-import { IConfig } from '../../common/config/Config';
+import { IConfig } from '@common/config/Config';
 
 export default class AddonsProvider {
 

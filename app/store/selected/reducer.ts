@@ -1,5 +1,5 @@
-import { SelectedState, SelectedAction } from '../types';
-import { SELECTED_ACTION_TYPES } from './actions';
+import { SelectedState, SelectedAction } from '@app/store/types';
+import { SELECTED_ACTION_TYPES } from '@app/store/selected/actions';
 
 // Set initial terminal id to 0, as in terminal's reducer
 export const initialState: SelectedState = 0;

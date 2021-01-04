@@ -1,13 +1,13 @@
 import React, { Component, CSSProperties } from 'react';
-import { IConfig } from '../../../common/config/Config';
+import { IConfig } from '@common/config/Config';
 import { Dispatch } from 'redux';
-import { AppState, TerminalsAction } from '../../../app/store/types';
+import { AppState, TerminalsAction } from '@app/store/types';
 import { connect } from 'react-redux';
-import { ITerminal, TerminalType } from '../../../app/Terminal';
+import { ITerminal, TerminalType } from '@app/Terminal';
 import { remote } from 'electron';
-import { UndefinedObject } from '../../../common/types/types';
-import { createTerminal } from '../../../app/store/terminals/actions';
-import { nextTerminalId } from '../../../common/utils/utils';
+import { UndefinedObject } from '@common/types/types';
+import { createTerminal } from '@app/store/terminals/actions';
+import { nextTerminalId } from '@common/utils/utils';
 const { Menu, MenuItem } = remote;
 
 interface Props {
@@ -91,7 +91,7 @@ class TabCreateTerminal extends Component<Props> {
 		if(this.props.config.sshHosts && this.props.config.sshHosts.length >= 1) {
 
 			this.menu?.append(new MenuItem({ type: 'separator' }));
-			
+
 			this.props.config.sshHosts.forEach((sshHost) => {
 
 				this.menu?.append(new MenuItem({

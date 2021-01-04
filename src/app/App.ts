@@ -1,8 +1,8 @@
-import { UndefinedObject } from '../../common/types/types';
-import WindowFactory from '../window/WindowFactory';
-import NativeContextMenu from '../window/NativeContextMenu';
+import { UndefinedObject } from '@common/types/types';
+import WindowFactory from '@src/window/WindowFactory';
+import NativeContextMenu from '@src/window/NativeContextMenu';
 import { app } from 'electron';
-import Updater from '../updater/Updater';
+import Updater from '@src/updater/Updater';
 
 export default class App {
 

@@ -1,4 +1,4 @@
-import { SelectedAction } from '../types';
+import { SelectedAction } from '@app/store/types';
 
 export enum SELECTED_ACTION_TYPES {
 

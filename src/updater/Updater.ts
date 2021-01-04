@@ -1,6 +1,6 @@
 import { autoUpdater } from 'electron-updater';
 import { BrowserWindow, ipcMain } from 'electron';
-import { IUpdateStatus } from '../../common/types/types';
+import { IUpdateStatus } from '@common/types/types';
 
 // 5 seconds (in milliseconds)
 const WAIT_TIME = 5 * 1000;
@@ -9,11 +9,11 @@ export default class Updater {
 
 	constructor() {
 
-		// Listen for updates after the wait time 
+		// Listen for updates after the wait time
 		setTimeout(() => {
 
 			this.listen();
-	
+
 		}, WAIT_TIME);
 	}
 
@@ -24,7 +24,7 @@ export default class Updater {
 	private listen() {
 
 		autoUpdater.checkForUpdatesAndNotify();
-	
+
 		autoUpdater.on('update-available', () => {
 
 			this.sendUpdate({ updateAvailable: true });

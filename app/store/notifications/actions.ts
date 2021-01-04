@@ -1,5 +1,5 @@
-import { INotification } from '../../../common/notifications/notification';
-import { NotificationsAction } from '../types';
+import { INotification } from '@common/notifications/notification';
+import { NotificationsAction } from '@app/store/types';
 
 export enum NOTIFICATIONS_ACTION_TYPES {
 

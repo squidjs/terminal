@@ -1,9 +1,9 @@
 import React, { Component, CSSProperties } from 'react';
-import NavbarButton from './NavbarButton';
+import NavbarButton from '@ui/components/navbar/NavbarButton';
 import { remote } from 'electron';
-import Tabs from '../tabs/Tabs';
-import { IConfig } from '../../../common/config/Config';
-import '../../styles/navbar.scss';
+import Tabs from '@ui/components/tabs/Tabs';
+import { IConfig } from '@common/config/Config';
+import '@ui/styles/navbar.scss';
 
 interface Props {
 

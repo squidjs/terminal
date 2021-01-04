@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { INotification, updateNotification } from '../../../common/notifications/notification';
-import Notification from './Notification';
-import { AppState, NotificationsAction } from '../../../app/store/types';
+import { INotification, updateNotification } from '@common/notifications/notification';
+import Notification from '@ui/components/notifications/Notification';
+import { AppState, NotificationsAction } from '@app/store/types';
 import { connect } from 'react-redux';
-import { IConfig } from '../../../common/config/Config';
+import { IConfig } from '@common/config/Config';
 import { ipcRenderer } from 'electron';
-import { IUpdateStatus } from '../../../common/types/types';
+import { IUpdateStatus } from '@common/types/types';
 import { Dispatch } from 'redux'
-import { addNotification } from '../../../app/store/notifications/actions';
-import '../../styles/notifications.scss';
+import { addNotification } from '@app/store/notifications/actions';
+import '@ui/styles/notifications.scss';
 
 interface Props {
 
@@ -42,7 +42,7 @@ class Notifications extends Component<Props> {
 	 */
 	componentDidMount() {
 
-		// The callback executed to restart the app 
+		// The callback executed to restart the app
 		const restart = () => {
 
 			ipcRenderer.send('restart');
@@ -50,8 +50,8 @@ class Notifications extends Component<Props> {
 
 		ipcRenderer.on('update', (_, update: IUpdateStatus) => {
 
-			const notification = updateNotification(update, restart); 
-			this.props.dispatch(addNotification(notification));	
+			const notification = updateNotification(update, restart);
+			this.props.dispatch(addNotification(notification));
 		});
 	}
 

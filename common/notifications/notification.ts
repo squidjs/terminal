@@ -1,4 +1,4 @@
-import { IUpdateStatus } from '../types/types';
+import { IUpdateStatus } from '@common/types/types';
 
 export interface INotification {
 
@@ -29,7 +29,7 @@ export interface INotification {
 export interface INotificationButton {
 
 	/**
-	 * The title of this button. 
+	 * The title of this button.
 	 */
 	title: string;
 	/**
@@ -76,7 +76,7 @@ export const configReloadedNotification = (error: boolean): INotification => ({
 
 /**
  * Build a notification for the updater with a button to restart the app
- * to apply the downloaded update. 
+ * to apply the downloaded update.
  *
  * @param update - The update status
  * @param onClick - Callback when the user clicked on the button
@@ -93,5 +93,5 @@ export const updateNotification = (update: IUpdateStatus, onClick: () => void): 
 		onClick,
 
 	} : undefined,
-	level: update.readyToInstall ? INotificationLevel.SUCCESS : INotificationLevel.INFO, 
+	level: update.readyToInstall ? INotificationLevel.SUCCESS : INotificationLevel.INFO,
 });

@@ -1,6 +1,6 @@
 import electron from 'electron';
-import { ITerminal, TerminalType } from '../../app/Terminal';
-import { IShell } from '../config/Config';
+import { ITerminal, TerminalType } from '@app/Terminal';
+import { IShell } from '@common/config/Config';
 
 export const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 export const isWin = process.platform === 'win32';

@@ -1,11 +1,11 @@
 import React, { Component, CSSProperties } from 'react';
-import { ITerminal } from '../../../app/Terminal';
-import { IConfig } from '../../../common/config/Config';
-import { AppState, SelectedAction, TerminalsAction } from '../../../app/store/types';
+import { ITerminal } from '@app/Terminal';
+import { IConfig } from '@common/config/Config';
+import { AppState, SelectedAction, TerminalsAction } from '@app/store/types';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { setSelected } from '../../../app/store/selected/actions';
-import { deleteTerminal } from '../../../app/store/terminals/actions';
+import { setSelected } from '@app/store/selected/actions';
+import { deleteTerminal } from '@app/store/terminals/actions';
 
 interface Props {
 

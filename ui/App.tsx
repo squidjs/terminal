@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import AppTerminal from './components/terminals/AppTerminal';
-import Config, { IConfig } from '../common/config/Config';
-import Navbar from './components/navbar/Navbar';
-import { ITerminal } from '../app/Terminal';
-import { AppState, NotificationsAction, SelectedAction } from '../app/store/types';
+import AppTerminal from '@ui/components/terminals/AppTerminal';
+import Config, { IConfig } from '@common/config/Config';
+import Navbar from '@ui/components/navbar/Navbar';
+import { ITerminal } from '@app/Terminal';
+import { AppState, NotificationsAction, SelectedAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { setSelected } from '../app/store/selected/actions';
+import { setSelected } from '@app/store/selected/actions';
 import { remote } from 'electron';
-import ShortcutsProvider from './components/ShortcutsProvider';
-import Notifications from './components/notifications/Notifications';
-import { addNotification } from '../app/store/notifications/actions';
-import { configReloadedNotification } from '../common/notifications/notification';
+import ShortcutsProvider from '@ui/components/ShortcutsProvider';
+import Notifications from '@ui/components/notifications/Notifications';
+import { addNotification } from '@app/store/notifications/actions';
+import { configReloadedNotification } from '@common/notifications/notification';
 import './styles/app.scss';
 
 interface Props {
@@ -51,7 +51,7 @@ class App extends Component<Props, State> {
 
 				const notification = configReloadedNotification(false);
 				this.props.dispatch(addNotification(notification));
-				
+
 				this.setState({ config: newConfig });
 			}
         });

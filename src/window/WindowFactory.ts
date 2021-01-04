@@ -1,11 +1,11 @@
 import { BrowserWindow } from 'electron-acrylic-window';
-import { Factory } from '../../common/factories/Factory';
+import { Factory } from '@common/factories/Factory';
 import { format as formatUrl } from 'url';
 import path from 'path';
-import { UndefinedObject } from '../../common/types/types';
-import Config, { IVibrancy } from '../../common/config/Config';
+import { UndefinedObject } from '@common/types/types';
+import Config, { IVibrancy } from '@common/config/Config';
 import windowStateKeeper, { State } from 'electron-window-state';
-import { IConfig } from '../../common/config/Config';
+import { IConfig } from '@common/config/Config';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 
@@ -15,7 +15,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 	private readonly DEFAULT_HEIGHT = 800;
 
 	constructor(isDev: boolean) {
-		
+
 		const config = Config.getInstance().loadConfig((config) => {
 
 			this.config = config;
@@ -43,7 +43,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 	public build(): BrowserWindow {
 
 		let params: Record<string, unknown> = {
-		
+
 			width: this.DEFAULT_WIDTH,
 			height: this.DEFAULT_HEIGHT,
 		};

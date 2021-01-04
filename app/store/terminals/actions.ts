@@ -1,5 +1,5 @@
-import { TerminalsAction } from '../types';
-import { ITerminal } from '../../Terminal';
+import { TerminalsAction } from '@app/store/types';
+import { ITerminal } from '@app/Terminal';
 
 export enum TERMINALS_ACTION_TYPES {
 

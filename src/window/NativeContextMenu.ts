@@ -1,5 +1,5 @@
-import { UndefinedObject } from '../../common/types/types';
-import { isWin } from '../../common/utils/utils';
+import { UndefinedObject } from '@common/types/types';
+import { isWin } from '@common/utils/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let Registry: UndefinedObject<any>;

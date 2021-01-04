@@ -4,9 +4,11 @@
   "title": true,
   "whiteListedModules": ["react", "react-redux", "react-dom", "node-pty"],
   "main": {
-    "sourceDirectory": "src"
+    "sourceDirectory": "src",
+    "webpackConfig": "webpack.config.js"
   },
   "renderer": {
-    "sourceDirectory": "ui"
+    "sourceDirectory": "ui",
+    "webpackConfig": "webpack.config.js"
   }
 }

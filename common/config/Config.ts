@@ -1,12 +1,12 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { userDataPath } from '../utils/utils';
-import { defaultConfig } from './defaultConfig';
+import { userDataPath } from '@common/utils/utils';
+import { defaultConfig } from '@common/config/defaultConfig';
 import watch from 'node-watch';
 import { VibrancyEffect, VibrancyTheme } from 'electron-acrylic-window';
 import { FontWeight } from 'xterm';
-import { UndefinedObject } from '../types/types';
-import { IShortcut } from './shortcuts';
+import { UndefinedObject } from '@common/types/types';
+import { IShortcut } from '@common/config/shortcuts';
 
 export default class Config {
 

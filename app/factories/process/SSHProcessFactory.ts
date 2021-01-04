@@ -1,7 +1,7 @@
 import { Client, ClientChannel, ClientErrorExtensions } from 'ssh2';
-import { UndefinedObject } from '../../../common/types/types';
+import { UndefinedObject } from '@common/types/types';
 import { Terminal as XTerminal } from 'xterm';
-import ProcessFactory from '../ProcessFactory';
+import ProcessFactory from '@app/factories/ProcessFactory';
 
 export default class SSHProcessFactory extends ProcessFactory<Client> {
 
@@ -43,7 +43,7 @@ export default class SSHProcessFactory extends ProcessFactory<Client> {
 				rows: terminal.rows,
 				cols: terminal.cols,
 			}, (err: Error | undefined, channel: ClientChannel) => {
-					
+
 				if(err)
 					onClose();
 

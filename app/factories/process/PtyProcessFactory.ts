@@ -1,8 +1,8 @@
-import { UndefinedObject } from '../../../common/types/types';
+import { UndefinedObject } from '@common/types/types';
 import { IPty } from 'node-pty';
 import * as pty from 'node-pty';
 import { Terminal as XTerminal } from 'xterm';
-import ProcessFactory from '../ProcessFactory';
+import ProcessFactory from '@app/factories/ProcessFactory';
 
 export default class PtyProcessFactory extends ProcessFactory<IPty>{
 

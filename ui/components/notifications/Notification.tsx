@@ -1,11 +1,11 @@
 import React, { Component, CSSProperties } from 'react';
-import { IConfig, ITheme } from '../../../common/config/Config';
-import { INotification, INotificationLevel } from '../../../common/notifications/notification';
+import { IConfig, ITheme } from '@common/config/Config';
+import { INotification, INotificationLevel } from '@common/notifications/notification';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { NotificationsAction } from '../../../app/store/types';
-import { removeNotification } from '../../../app/store/notifications/actions';
-import NotificationButton from './NotificationButton';
+import { NotificationsAction } from '@app/store/types';
+import { removeNotification } from '@app/store/notifications/actions';
+import NotificationButton from '@ui/components/notifications/NotificationButton';
 
 interface Props {
 
@@ -45,8 +45,8 @@ class Notification extends Component<Props> {
 
 		const { theme } = this.props.config;
 		const { notification } = this.props;
-		
-		const notificationStyle: CSSProperties = { backgroundColor: this.getColor(theme) }; 
+
+		const notificationStyle: CSSProperties = { backgroundColor: this.getColor(theme) };
 		const contentStyle: CSSProperties = { color: theme.black };
 
 		return (
@@ -56,7 +56,7 @@ class Notification extends Component<Props> {
 				{
 						notification.button ?
 							<NotificationButton theme={theme} button={notification.button} />
-								: null		
+								: null
 				}
 			</div>
 		);
@@ -67,7 +67,7 @@ class Notification extends Component<Props> {
 	 * based on the current theme.
 	 *
 	 * @param theme - The theme to use
-	 * @returns The background color 
+	 * @returns The background color
 	 */
 	private getColor(theme: ITheme): string {
 

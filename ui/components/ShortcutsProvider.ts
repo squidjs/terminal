@@ -1,14 +1,14 @@
 import { Component, ReactElement } from 'react';
-import { IConfig } from '../../common/config/Config';
+import { IConfig } from '@common/config/Config';
 import { remote } from 'electron';
-import { IShortcut, IShortcutActions } from '../../common/config/shortcuts';
-import { AppState, SelectedAction, TerminalsAction } from '../../app/store/types';
+import { IShortcut, IShortcutActions } from '@common/config/shortcuts';
+import { AppState, SelectedAction, TerminalsAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { ITerminal } from '../../app/Terminal';
-import { createTerminal, deleteTerminal } from '../../app/store/terminals/actions';
-import { nextTerminalId } from '../../common/utils/utils';
-import { setSelected } from '../../app/store/selected/actions';
+import { ITerminal } from '@app/Terminal';
+import { createTerminal, deleteTerminal } from '@app/store/terminals/actions';
+import { nextTerminalId } from '@common/utils/utils';
+import { setSelected } from '@app/store/selected/actions';
 const { Menu, MenuItem } = remote;
 
 interface Props {
@@ -144,7 +144,7 @@ class ShortcutsProvider extends Component<Props> {
 	private focus(left: boolean) {
 
 		const current = this.props.terminals.find((current) => current.id === this.props.selected);
-	
+
 		if(current) {
 
 			let currentIndex = this.props.terminals.indexOf(current);
@@ -159,7 +159,7 @@ class ShortcutsProvider extends Component<Props> {
 			if(toFocus)
 				this.props.dispatch(setSelected(toFocus.id));
 		}
-	} 
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortcutsProvider);

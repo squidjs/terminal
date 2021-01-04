@@ -1,6 +1,6 @@
-import { IConfig, IShell, ISSHHost } from './Config';
-import { isMac, isWin } from '../utils/utils';
-import { IShortcut } from './shortcuts';
+import { IConfig, IShell, ISSHHost } from '@common/config/Config';
+import { isMac, isWin } from '@common/utils/utils';
+import { IShortcut } from '@common/config/shortcuts';
 
 const bashShell: IShell = {
 
@@ -64,7 +64,7 @@ const shortcuts: IShortcut[] = [
 	},
 	{
 		name: 'Zoom in',
-		keybinds: `${leader}+Shift+O`, 
+		keybinds: `${leader}+Shift+O`,
 		action: 'terminal:zoomin',
 	},
 	{
@@ -79,7 +79,7 @@ const shortcuts: IShortcut[] = [
 	},
 	{
 		name: 'Focus right terminal',
-		keybinds: `${leader}+Shift+M`, 
+		keybinds: `${leader}+Shift+M`,
 		action: 'terminal:right',
 	},
 	{
@@ -91,7 +91,7 @@ const shortcuts: IShortcut[] = [
 		name: 'Reload window',
 		keybinds: 'Ctrl+Shift+R',
 		action: 'window:reload',
-	},	
+	},
 ];
 
 const sshHosts: ISSHHost[] = [

@@ -1,12 +1,12 @@
-import XTerminalFactory from './factories/XTerminalFactory';
-import PtyProcessFactory from './factories/process/PtyProcessFactory';
-import { IConfig, IShell, ISSHHost } from '../common/config/Config';
-import ProcessFactory from './factories/ProcessFactory';
+import XTerminalFactory from '@app/factories/XTerminalFactory';
+import PtyProcessFactory from '@app/factories/process/PtyProcessFactory';
+import { IConfig, IShell, ISSHHost } from '@common/config/Config';
+import ProcessFactory from '@app/factories/ProcessFactory';
 import { IPty } from 'node-pty';
 import { Client } from 'ssh2';
-import SSHProcessFactory from './factories/process/SSHProcessFactory';
+import SSHProcessFactory from '@app/factories/process/SSHProcessFactory';
 import { Terminal as XTerminal } from 'xterm';
-import { isTerminalSSH } from '../common/utils/utils';
+import { isTerminalSSH } from '@common/utils/utils';
 
 export type ProcessType = IPty | Client;
 export type TerminalType = ISSHHost | IShell;
@@ -24,7 +24,7 @@ export default class Terminal {
 		this.xTerminal = new XTerminalFactory(config);
 
 		const isSSH = isTerminalSSH(terminalType);
-		this.process = isSSH ? new SSHProcessFactory() : new PtyProcessFactory(); 
+		this.process = isSSH ? new SSHProcessFactory() : new PtyProcessFactory();
 
 		const terminal = this.xTerminal.build({
 

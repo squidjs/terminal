@@ -1,5 +1,5 @@
-import { INotification } from '../../common/notifications/notification';
-import { ITerminal } from '../Terminal';
+import { INotification } from '@common/notifications/notification';
+import { ITerminal } from '@app/Terminal';
 
 export type TerminalsState = ITerminal[];
 export type TerminalsAction = {

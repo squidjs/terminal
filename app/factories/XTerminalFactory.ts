@@ -1,14 +1,14 @@
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
-import { Factory } from '../../common/factories/Factory';
-import { UndefinedObject } from '../../common/types/types';
+import { Factory } from '@common/factories/Factory';
+import { UndefinedObject } from '@common/types/types';
 import { clipboard } from 'electron';
 import { FitAddon } from 'xterm-addon-fit';
-import { AddonType } from '../addons/Addons';
-import AddonsProvider from '../addons/AddonsProvider';
-import { IConfig } from '../../common/config/Config';
-import { isWin } from '../../common/utils/utils';
-import ProcessFactory from './ProcessFactory';
-import { ProcessType } from '../Terminal';
+import { AddonType } from '@app/addons/Addons';
+import AddonsProvider from '@app/addons/AddonsProvider';
+import { IConfig } from '@common/config/Config';
+import { isWin } from '@common/utils/utils';
+import ProcessFactory from '@app/factories/ProcessFactory';
+import { ProcessType } from '@app/Terminal';
 
 export default class XTerminalFactory implements Factory<XTerminal> {
 

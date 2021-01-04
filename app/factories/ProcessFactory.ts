@@ -1,5 +1,5 @@
-import { Factory, FactoryBuildParams } from '../../common/factories/Factory';
-import { UndefinedObject } from '../../common/types/types';
+import { Factory, FactoryBuildParams } from '@common/factories/Factory';
+import { UndefinedObject } from '@common/types/types';
 import { Terminal as XTerminal } from 'xterm';
 
 export default abstract class ProcessFactory<T> implements Factory<T> {
