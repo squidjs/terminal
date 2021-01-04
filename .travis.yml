@@ -31,7 +31,7 @@ env:
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-    - YARN-GPG=no
+    - YARN_GPG=no
     - CXX=g++
 
 cache:
