@@ -47,6 +47,7 @@ before_install:
 
 install:
   - yarn
+  - yarn rebuild
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then yarn deploy:win; fi
