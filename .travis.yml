@@ -41,8 +41,8 @@ cache:
     - $HOME/.npm/_prebuilds
 
 before_install:
-  - npm install -g node-gyp
+  - yarn global add node-gyp
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install snapcraft --classic; fi
 
 install:
-  - npm install
+  - yarn 
