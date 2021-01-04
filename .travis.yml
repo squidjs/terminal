@@ -25,6 +25,7 @@ addons:
 os:
   - linux
   - osx
+  - windows
 
 env:
   global:
@@ -45,4 +46,9 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install snapcraft --classic; fi
 
 install:
-  - yarn 
+  - yarn
+
+script:
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then yarn deploy:win; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn deploy:mac; fi"
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn deploy:linux; fi"

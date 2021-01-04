@@ -13,8 +13,10 @@
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "rebuild": "electron-rebuild",
+    "deploy:win": "yarn compile && electron-builder -w -p always",
+	"deploy:mac": "yarn compile && electron-builder -m -p always",
+	"deploy:linux": "yarn compile && electron-builder -l -p always",
+	"rebuild": "electron-rebuild",
     "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
