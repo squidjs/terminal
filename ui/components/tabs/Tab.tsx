@@ -47,7 +47,7 @@ class Tab extends Component<Props> {
 				style={{ '--border': this.props.config.theme.border, '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>
 				{
 					this.props.config.tabsIcons &&
-						<TabIcon title={this.props.terminal.name} />
+						<TabIcon terminal={this.props.terminal} />
 				}
 				<button
 					type="button"

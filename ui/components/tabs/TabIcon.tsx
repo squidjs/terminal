@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Tuple, UndefinedObject } from '@common/types/types';
+import { ITerminal } from '@app/Terminal';
 
 interface Props {
 
-	title: string;
+	terminal: ITerminal;
 }
 
 export default class TabIcon extends Component<Props> {
@@ -37,7 +38,8 @@ export default class TabIcon extends Component<Props> {
 
 		let icon: UndefinedObject<Tuple<string, string>>;
 
-		if(this.props.title.startsWith('vim'))
+		// TODO need refactor
+		if(this.props.terminal.name.startsWith('vim'))
 			icon = ['custom-vim', '#019833'];
 
 		return icon;
