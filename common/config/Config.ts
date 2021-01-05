@@ -132,6 +132,10 @@ export interface IConfig {
 	 * and size when re-launching the app.
 	 */
 	restoreWindowPosition: boolean;
+	/**
+	 * If we should render icons next the tabs titles.
+	 */
+	tabsIcons: boolean;
 	bell: IBell;
 	cursor: ICursor;
 	font: IFont
