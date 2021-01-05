@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { setSelected } from '@app/store/selected/actions';
 import { deleteTerminal } from '@app/store/terminals/actions';
+import TabIcon from '@ui/components/tabs/TabIcon';
 
 interface Props {
 
@@ -44,6 +45,10 @@ class Tab extends Component<Props> {
 				className="tab"
 				onClick={() => this.props.dispatch(setSelected(this.props.terminal.id))}
 				style={{ '--border': this.props.config.theme.border } as CSSProperties}>
+				{
+					this.props.config.tabsIcons &&
+						<TabIcon title={this.props.terminal.name} />	
+				}
 				<button
 					type="button"
 					className={tabTitleClass}
