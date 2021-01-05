@@ -3,9 +3,10 @@ import { ITerminal } from '@app/Terminal';
 import Tab from '@ui/components/tabs/Tab';
 import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal';
 import { IConfig } from '@common/config/Config';
-import '@ui/styles/tabs.scss';
 import { connect } from 'react-redux';
 import { AppState } from '@app/store/types';
+import '@ui/styles/tabs.scss';
+import '@ui/styles/nerdfonts.min.css';
 
 interface Props {
 

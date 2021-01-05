@@ -44,20 +44,18 @@ class Tab extends Component<Props> {
 			<div
 				className="tab"
 				onClick={() => this.props.dispatch(setSelected(this.props.terminal.id))}
-				style={{ '--border': this.props.config.theme.border } as CSSProperties}>
+				style={{ '--border': this.props.config.theme.border, '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>
 				{
 					this.props.config.tabsIcons &&
-						<TabIcon title={this.props.terminal.name} />	
+						<TabIcon title={this.props.terminal.name} />
 				}
 				<button
 					type="button"
-					className={tabTitleClass}
-					style={{ '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>{this.props.terminal.name}</button>
+					className={tabTitleClass}>{this.props.terminal.name}</button>
 				<button
 					type="button"
 					className="tab-close"
-					onClick={() => this.props.dispatch(deleteTerminal(this.props.terminal))}
-					style={{ '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>x</button>
+					onClick={() => this.props.dispatch(deleteTerminal(this.props.terminal))}>x</button>
 			</div>
 		);
 	}

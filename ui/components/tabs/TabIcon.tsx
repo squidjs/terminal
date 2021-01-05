@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import path from 'path';
-import { UndefinedObject } from '@common/types/types';
+import { Tuple, UndefinedObject } from '@common/types/types';
 
 interface Props {
 
@@ -16,11 +15,14 @@ export default class TabIcon extends Component<Props> {
 
 	render() {
 
-		const iconPath = this.getIcon();
+		const icon = this.getIcon();
 
 		// Only render the icon if it's actually defined
-		if(iconPath)
-			return <img className="icon" src={iconPath} />;
+		if(icon) {
+
+			const [iconPath, color] = icon;
+			return <i className={`icon nf nf-${iconPath}`} style={{ color }} />;
+		}
 
 		return null;
 	}
@@ -29,30 +31,15 @@ export default class TabIcon extends Component<Props> {
 	 * Resolve the icon to use based on the title
 	 * of the terminal passed in the props.
 	 *
-	 * @returns The path to the icon or undefined if none match
+	 * @returns A tuple of the path to the icon and the color
 	 */
-	private getIcon(): UndefinedObject<string> {
+	private getIcon(): UndefinedObject<Tuple<string, string>> {
 
-		let icon;
+		let icon: UndefinedObject<Tuple<string, string>>;
 
 		if(this.props.title.startsWith('vim'))
-			icon = 'vim';
+			icon = ['custom-vim', '#019833'];
 
-		return icon ? this.toIconPath(icon) : undefined;
-	}
-
-	/**
-	 * Resolve the path to an icon with its name.
-	 * They should be placed in the static root
-	 * directory of the project.
-	 *
-	 * @param icon - The name of the icon
-	 * @returns The path to this icon
-	 */
-	private toIconPath(icon: string): string {
-
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		return path.join(__static, `/icons/${icon}.svg`);
+		return icon;
 	}
 }
