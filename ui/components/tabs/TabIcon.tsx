@@ -39,8 +39,20 @@ export default class TabIcon extends Component<Props> {
 		let icon: UndefinedObject<Tuple<string, string>>;
 
 		// TODO need refactor
+
+		// Based on tab title
 		if(this.props.terminal.name.startsWith('vim'))
 			icon = ['custom-vim', '#019833'];
+
+		// Based on terminal type
+		else if('path' in this.props.terminal.terminalType && this.props.terminal.terminalType.path.includes('wsl.exe'))
+			icon = ['dev-linux', '#F7F7F7']
+		else if('path' in this.props.terminal.terminalType && this.props.terminal.terminalType.path.includes('cmd.exe'))
+			icon = ['custom-windows', '#05A4DF']
+		else if('path' in this.props.terminal.terminalType && this.props.terminal.terminalType.path.includes('powershell.exe'))
+			icon = ['dev-terminal', '#0273B7']
+		else if('path' in this.props.terminal.terminalType && this.props.terminal.terminalType.path.includes('bash.exe'))
+			icon = ['dev-git', '#E84D31']
 
 		return icon;
 	}
