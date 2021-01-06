@@ -3,6 +3,7 @@ import { IPty } from 'node-pty';
 import * as pty from 'node-pty';
 import { Terminal as XTerminal } from 'xterm';
 import ProcessFactory from '@app/factories/ProcessFactory';
+import Terminal, { TerminalType } from '@app/Terminal';
 
 export default class PtyProcessFactory extends ProcessFactory<IPty>{
 
@@ -16,7 +17,9 @@ export default class PtyProcessFactory extends ProcessFactory<IPty>{
 	 * @param params - PtyFactoryParams
 	 * @returns The IPty instance
 	 */
-	public build({ shell, terminal, cwd }: PtyFactoryParams): IPty {
+	public build({ shell, terminal, cwd, terminalType }: PtyFactoryParams): IPty {
+
+		const env = Terminal.buildEnv(terminalType); 
 
 		this.factoryObject = pty.spawn(shell, [], {
 
@@ -24,6 +27,7 @@ export default class PtyProcessFactory extends ProcessFactory<IPty>{
 			cols: terminal.cols,
 			rows: terminal.rows,
 			cwd,
+			env,
 		});
 
 		return this.factoryObject;
@@ -33,9 +37,10 @@ export default class PtyProcessFactory extends ProcessFactory<IPty>{
 	 * Listen for events on the pty instance.
 	 *
 	 * @param terminal - The terminal to write on
+	 * @param terminalType - The type of the terminal
 	 * @param onClose - Called when the pty process is closed
 	 */
-	public listen(terminal: XTerminal, onClose: () => void) {
+	public listen(terminal: XTerminal, _: TerminalType, onClose: () => void) {
 
 		this.getFactoryObject().onData((data: string) => {
 
@@ -85,4 +90,5 @@ export type PtyFactoryParams = {
 	terminal: XTerminal;
 	shell: string;
 	cwd: string;
+	terminalType: TerminalType;
 }

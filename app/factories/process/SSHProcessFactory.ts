@@ -2,6 +2,7 @@ import { Client, ClientChannel, ClientErrorExtensions } from 'ssh2';
 import { UndefinedObject } from '@common/types/types';
 import { Terminal as XTerminal } from 'xterm';
 import ProcessFactory from '@app/factories/ProcessFactory';
+import Terminal, { TerminalType } from '@app/Terminal';
 
 export default class SSHProcessFactory extends ProcessFactory<Client> {
 
@@ -26,14 +27,20 @@ export default class SSHProcessFactory extends ProcessFactory<Client> {
 	 * Listen for events on the client instance.
 	 *
 	 * @param terminal - The terminal to write on
+	 * @param terminalType - The type of the terminal
 	 * @param onClose - Called when the client process is closed
 	 */
-	public listen(terminal: XTerminal, onClose: () => void) {
+	public listen(terminal: XTerminal, terminalType: TerminalType, onClose: () => void) {
 
 		this.getFactoryObject().on('error',  (err: Error & ClientErrorExtensions) => {
 
 			terminal.write(`Could not connect to host: ${err.message}`);
 		});
+
+		const options = {
+
+			env: Terminal.buildEnv(terminalType),
+		};
 
 		this.getFactoryObject().on('ready', () => {
 
@@ -42,7 +49,8 @@ export default class SSHProcessFactory extends ProcessFactory<Client> {
 				term: 'xterm-256color',
 				rows: terminal.rows,
 				cols: terminal.cols,
-			}, (err: Error | undefined, channel: ClientChannel) => {
+
+			}, options, (err: Error | undefined, channel: ClientChannel) => {
 
 				if(err)
 					onClose();

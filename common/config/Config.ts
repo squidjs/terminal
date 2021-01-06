@@ -172,7 +172,7 @@ export interface ITheme {
 	brightWhite: string;
 }
 
-export interface IShell {
+export interface IShell extends HasEnv {
 	/**
 	 * The name to display of this shell.
 	 */
@@ -293,7 +293,7 @@ export interface IVibrancy {
 	disableOnBlur: boolean;
 }
 
-export interface ISSHHost {
+export interface ISSHHost extends HasEnv {
 	/**
 	 * The name to use for this ssh host.
 	 */
@@ -322,4 +322,12 @@ export interface ISSHHost {
 	 * a password.
 	 */
 	privateKey?: string;
+}
+
+export interface HasEnv {
+	/**
+	 * Represent optional env variables to use for specific
+	 * SSH or Shell hosts.
+	 */
+	env?: { [key: string]: string };
 }

@@ -38,7 +38,7 @@ export default class Terminal {
 			onTitle(title);
 		});
 
-		this.process.listen(terminal, () => {
+		this.process.listen(terminal, terminalType, () => {
 
 			this.xTerminal.getFactoryObject().dispose();
 			onClose();
@@ -59,19 +59,22 @@ export default class Terminal {
 
 			const shell = terminalType as IShell;
 
-			this.process.build({
+			// Force cast to get type definitions
+			(this.process as PtyProcessFactory).build({
 
 				terminal,
 				shell: shell.path,
 				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				cwd: require('os').homedir(),
+				terminalType,
 			});
 
 		} else {
 
 			const ssh = terminalType as ISSHHost;
 
-			this.process.build({
+			// Force cast to get type definitions
+			(this.process as SSHProcessFactory).build({
 
 				...ssh,
 				// eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -130,6 +133,18 @@ export default class Terminal {
 		this.xTerminal.fit();
 
 		return currentZoom;
+	}
+
+	/**
+	 * Build the env variables from the env specified in the
+	 * config of the current terminalType, and the process env.
+	 *
+	 * @param terminalType - The terminalType to grab the env values from
+	 * @return The built env variables
+	 */
+	public static buildEnv(terminalType: TerminalType): { [key: string]: string } {
+
+		return Object.assign({ }, terminalType.env, process.env);
 	}
 }
 

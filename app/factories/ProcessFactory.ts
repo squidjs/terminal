@@ -1,3 +1,4 @@
+import { TerminalType } from '@app/Terminal';
 import { Factory, FactoryBuildParams } from '@common/factories/Factory';
 import { UndefinedObject } from '@common/types/types';
 import { Terminal as XTerminal } from 'xterm';
@@ -12,9 +13,10 @@ export default abstract class ProcessFactory<T> implements Factory<T> {
 	 * Listen for events on the process instance.
 	 *
 	 * @param terminal - The terminal to write on
+	 * @param terminalType - The type of the terminal
 	 * @param onClose - Called when the process is closed
 	 */
-	public abstract listen(terminal: XTerminal, onClose: () => void): void;
+	public abstract listen(terminal: XTerminal, terminalType: TerminalType, onClose: () => void): void;
 
 	/**
 	 * Write data to the process instance.
