@@ -15,18 +15,18 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
 	 */
 	public resolve(object: ITerminal): UndefinedObject<IconResolverType> {
 
-		let icon: UndefinedObject<IconResolverType>; 
+		let icon: UndefinedObject<IconResolverType>;
 
 		// Programs
 		if(object.name.includes('vim'))
 			icon = ['custom-vim', '#019833'];
-		
+
 		// Utilities
 		else if(object.name.includes('yarn'))
 			icon = ['dev-javascript', '#E8D44D'];
 		else if(object.name.includes('npm'))
 			icon = ['dev-npm', '#C53635'];
-		
+
 		// Languages
 		else if(object.name.includes('php'))
 			icon = ['dev-php', '#7377AD'];
@@ -42,11 +42,12 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
 	 * Check if we can resolve the ITerminal. We want to use this resolver
 	 * in first so it will always return true.
 	 *
-	 * @param object - The object to resolve
+	 * @param _ - The object to resolve
 	 * @returns True if this resolver can resolve
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public canResolve(_: ITerminal): boolean {
 
 		return true;
 	}
-} 
+}
