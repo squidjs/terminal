@@ -137,6 +137,7 @@ export const defaultConfig: IConfig = {
 	webGlRendering: true,
 	copyOnSelected: true,
 	restoreWindowPosition: true,
+	tabsIcons: true,
 	bell: {
 		enabled: false,
 		sound: '',

@@ -17,3 +17,8 @@ export interface IUpdateStatus {
 	 */
 	readyToInstall?: boolean;
 }
+
+/**
+ * A simple tuple type.
+ */
+export type Tuple<T, K> = [T, K];

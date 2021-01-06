@@ -6,10 +6,20 @@
 
   .tab {
 
+	cursor: pointer;
+
     -webkit-app-region: no-drag;
 
     display: flex;
+	align-items: center;
     border-right: 1px solid var(--border);
+
+	.icon {
+
+	  width: 15px;
+	  height: 15px;
+	  padding-left: 15px;
+	}
 
     .tab-title, .tab-close {
 
