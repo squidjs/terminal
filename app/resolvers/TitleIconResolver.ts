@@ -17,8 +17,23 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
 
 		let icon: UndefinedObject<IconResolverType>; 
 
+		// Programs
 		if(object.name.includes('vim'))
 			icon = ['custom-vim', '#019833'];
+		
+		// Utilities
+		else if(object.name.includes('yarn'))
+			icon = ['dev-javascript', '#E8D44D'];
+		else if(object.name.includes('npm'))
+			icon = ['dev-npm', '#C53635'];
+		
+		// Languages
+		else if(object.name.includes('php'))
+			icon = ['dev-php', '#7377AD'];
+		else if(object.name.includes('node'))
+			icon = ['mdi-nodejs', '#6DA55F'];
+		else if(object.name.includes('python'))
+			icon = ['dev-python', '#FFD040'];
 
 		return icon;
 	}
