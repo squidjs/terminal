@@ -140,7 +140,7 @@ export default class Terminal {
 	 * config of the current terminalType, and the process env.
 	 *
 	 * @param terminalType - The terminalType to grab the env values from
-	 * @return The built env variables
+	 * @returns The built env variables
 	 */
 	public static buildEnv(terminalType: TerminalType): { [key: string]: string } {
 
