@@ -4,6 +4,7 @@ import ResolverProvider from '@common/resolvers/ResolverProvider';
 import { Tuple } from '@common/types/types';
 import ShellIconResolver from '@app/resolvers/ShellIconResolver';
 import TitleIconResolver from '@app/resolvers/TitleIconResolver';
+import SSHIconResolver from '@app/resolvers/SSHIconResolver';
 
 // The type of what to resolve in this resolver
 export type IconResolverType = Tuple<string, string>;  
@@ -24,6 +25,7 @@ export default class IconResolverProvider extends ResolverProvider<ITerminal, Ic
 
 			new TitleIconResolver(),
 			new ShellIconResolver(),
+			new SSHIconResolver(),
 		];
 	}		
 }
