@@ -8,6 +8,9 @@ import TitleIconResolver from '@app/resolvers/TitleIconResolver';
 // The type of what to resolve in this resolver
 export type IconResolverType = Tuple<string, string>;  
 
+// Default ssh icon
+export const SSH_ICON: IconResolverType = ['fa-server', '#0465B6'];
+
 export default class IconResolverProvider extends ResolverProvider<ITerminal, IconResolverType> {
 
 	/**

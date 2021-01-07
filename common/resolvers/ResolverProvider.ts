@@ -22,7 +22,7 @@ export default abstract class ResolverProvider<T, R> {
 
 		this.resolvers.forEach((current) => {
 
-			if(!resolved)
+			if(!resolved && current.canResolve(object))
 				resolved = current.resolve(object);	
 		});
 
