@@ -1,7 +1,7 @@
 import { ITerminal } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
-import { IconResolverType, SSH_ICON } from '@app/resolvers/IconResolverProvider';
+import { IconResolverType, SSH_ICON } from '@app/resolvers/icon/IconResolverProvider';
 
 export default class TitleIconResolver implements Resolver<ITerminal, IconResolverType> {
 
@@ -29,7 +29,7 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
 		else if(name.includes('npm'))
 			icon = ['dev-npm', '#C53635'];
 		else if(this.SSH_REGEX.test(name))
-			icon = SSH_ICON; 
+			icon = SSH_ICON;
 
 		// Languages
 		else if(name.includes('php'))
