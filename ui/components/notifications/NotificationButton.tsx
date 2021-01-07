@@ -8,7 +8,7 @@ interface Props {
 	button: INotificationButton;
 }
 
-const NotificationButton: FC<Props> = ({ theme, button }): ReactElement => {
+const NotificationButton: FC<Props> = ({ theme, button }: Props): ReactElement => {
 	
 	const buttonStyle: CSSProperties = { backgroundColor: theme.background, color: theme.foreground };
 

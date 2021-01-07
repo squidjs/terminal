@@ -8,7 +8,7 @@ interface Props {
 	path: string;
 }
 
-const NavbarButton: FC<Props> = ({ config, onClick, path }): ReactElement => {
+const NavbarButton: FC<Props> = ({ config, onClick, path }: Props): ReactElement => {
 
 	return (
 		<button onClick={onClick} type="button" style={{ '--color': config.theme.text, '--hover': config.theme.textHover } as CSSProperties}>

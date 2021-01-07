@@ -24,7 +24,7 @@ const getIcon = (terminal: ITerminal): UndefinedObject<IconResolverType> => {
 	return resolver.resolve(terminal);
 }
 
-const TabIcon: FC<Props> = ({ terminal }): ReactElement | null => {
+const TabIcon: FC<Props> = ({ terminal }: Props): ReactElement | null => {
 
 	const icon = getIcon(terminal);
 
