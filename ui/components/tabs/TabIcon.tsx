@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { UndefinedObject } from '@common/types/types';
 import { ITerminal } from '@app/Terminal';
 import ResolverProvider from '@common/resolvers/ResolverProvider';
-import IconResolverProvider, { IconResolverType } from '@app/resolvers/IconResolverProvider';
+import IconResolverProvider, { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
 
 interface Props {
 

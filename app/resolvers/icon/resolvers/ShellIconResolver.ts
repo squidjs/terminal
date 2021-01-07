@@ -1,7 +1,7 @@
 import { ITerminal } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
-import { IconResolverType } from '@app/resolvers/IconResolverProvider';
+import { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
 import { isTerminalSSH } from '@common/utils/utils';
 import { IShell } from '@common/config/Config';
 
@@ -17,9 +17,9 @@ export default class ShellIconResolver implements Resolver<ITerminal, IconResolv
 	 */
 	public resolve(object: ITerminal): UndefinedObject<IconResolverType> {
 
-		let icon: UndefinedObject<IconResolverType>; 
+		let icon: UndefinedObject<IconResolverType>;
 		const path = (object.terminalType as IShell).path;
-		
+
 		if(path.includes('wsl.exe'))
 			icon = ['dev-linux', '#F7F7F7']
 		else if(path.includes('cmd.exe'))
@@ -43,4 +43,4 @@ export default class ShellIconResolver implements Resolver<ITerminal, IconResolv
 
 		return !isTerminalSSH(object.terminalType);
 	}
-} 
+}

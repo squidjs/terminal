@@ -1,7 +1,7 @@
 import { ITerminal } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
-import { IconResolverType, SSH_ICON } from '@app/resolvers/IconResolverProvider';
+import { IconResolverType, SSH_ICON } from '@app/resolvers/icon/IconResolverProvider';
 import { isTerminalSSH } from '@common/utils/utils';
 
 export default class SSHIconResolver implements Resolver<ITerminal, IconResolverType> {
@@ -29,4 +29,4 @@ export default class SSHIconResolver implements Resolver<ITerminal, IconResolver
 
 		return isTerminalSSH(object.terminalType);
 	}
-} 
+}
