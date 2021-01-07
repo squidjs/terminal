@@ -1,9 +1,11 @@
 import { ITerminal } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
-import { IconResolverType } from '@app/resolvers/IconResolverProvider';
+import { IconResolverType, SSH_ICON } from '@app/resolvers/IconResolverProvider';
 
 export default class TitleIconResolver implements Resolver<ITerminal, IconResolverType> {
+
+	private readonly SSH_REGEX = /^[a-z]+@([a-z]|[A-Z]|[0-9])+:/;
 
 	/**
 	 * Resolve the icon based on the name of the ITerminal instance.
@@ -13,26 +15,28 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
 	 * @param object - The object to resolve
 	 * @returns The resolved object
 	 */
-	public resolve(object: ITerminal): UndefinedObject<IconResolverType> {
+	public resolve({ name }: ITerminal): UndefinedObject<IconResolverType> {
 
 		let icon: UndefinedObject<IconResolverType>;
 
 		// Programs
-		if(object.name.includes('vim'))
+		if(name.includes('vim'))
 			icon = ['custom-vim', '#019833'];
 
 		// Utilities
-		else if(object.name.includes('yarn'))
+		else if(name.includes('yarn'))
 			icon = ['dev-javascript', '#E8D44D'];
-		else if(object.name.includes('npm'))
+		else if(name.includes('npm'))
 			icon = ['dev-npm', '#C53635'];
+		else if(this.SSH_REGEX.test(name))
+			icon = SSH_ICON; 
 
 		// Languages
-		else if(object.name.includes('php'))
+		else if(name.includes('php'))
 			icon = ['dev-php', '#7377AD'];
-		else if(object.name.includes('node'))
+		else if(name.includes('node'))
 			icon = ['mdi-nodejs', '#6DA55F'];
-		else if(object.name.includes('python'))
+		else if(name.includes('python'))
 			icon = ['dev-python', '#FFD040'];
 
 		return icon;
