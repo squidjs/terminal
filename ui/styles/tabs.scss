@@ -3,6 +3,33 @@
   display: flex;
   justify-content: flex-start;
   width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  &::-webkit-scrollbar {
+
+	height: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+
+    background: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  &:hover {
+
+    overflow-x: overlay;
+  }
 
   .tab {
 
