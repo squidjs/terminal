@@ -32,17 +32,23 @@ export default class SSHProcessFactory extends ProcessFactory<Client> {
 	 */
 	public listen(terminal: XTerminal, terminalType: TerminalType, onClose: () => void) {
 
-		this.getFactoryObject().on('error',  (err: Error & ClientErrorExtensions) => {
-
-			terminal.write(`Could not connect to host: ${err.message}`);
-		});
-
 		const options = {
 
 			env: Terminal.buildEnv(terminalType),
 		};
 
+		terminal.write('Connecting...\n\r');
+
+		this.getFactoryObject().on('error',  (err: Error & ClientErrorExtensions) => {
+
+			terminal.write(`Could not connect to host: ${err.message}`);
+		});
+		
+		this.getFactoryObject().on('connect', () => terminal.write('Successfully connected, authenticating...\n\r')); 
+
 		this.getFactoryObject().on('ready', () => {
+
+			terminal.write('Successfully authenticated!\n\r');
 
 			this.getFactoryObject().shell({
 
