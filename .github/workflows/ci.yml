@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install
         run: yarn
+      - name: Install node-gyp
+        run: yarn global add node-gyp
       - name: Rebuild dep
         run: yarn rebuild
       - name: Build
