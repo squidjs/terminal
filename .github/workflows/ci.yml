@@ -9,7 +9,8 @@ jobs:
   ci_linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Install
         run: yarn
       - name: Install node-gyp
@@ -17,6 +18,14 @@ jobs:
       - name: Rebuild dep
         run: yarn rebuild
       - name: Build
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: yarn deploy:linux
+        run: yarn dist:linux
+      - name: Get Linux files names
+        id: getlinuxfilename
+        run: |
+          echo "::set-output name=AppImageName::$(ls dist/*.AppImage | cut -d'/' -f2)"
+          echo "::set-output name=AppImagePath::$(ls dist/*.AppImage)"
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.getlinuxfilename.outputs.AppImageName }}
+          path: ${{ steps.getlinuxfilename.outputs.AppImagePath }}
