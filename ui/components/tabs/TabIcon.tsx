@@ -6,7 +6,7 @@ import IconResolverProvider, { IconResolverType } from '@app/resolvers/icon/Icon
 
 interface Props {
 
-	terminal: ITerminal;
+    terminal: ITerminal;
 }
 
 // The resolver to use
@@ -21,24 +21,24 @@ const resolver: ResolverProvider<ITerminal, IconResolverType> = new IconResolver
  */
 const getIcon = (terminal: ITerminal): UndefinedObject<IconResolverType> => {
 
-	return resolver.resolve(terminal);
+    return resolver.resolve(terminal);
 }
 
 const TabIcon: FC<Props> = ({ terminal }: Props): ReactElement | null => {
 
-	const icon = getIcon(terminal);
+    const icon = getIcon(terminal);
 
-	// Only render the icon if it's actually defined
-	if(icon) {
+    // Only render the icon if it's actually defined
+    if(icon) {
 
-		const [iconPath, color] = icon;
-		
-		return (
-			<i className={`icon nf nf-${iconPath}`} style={{ color }} />
-		);
-	}
+        const [iconPath, color] = icon;
 
-	return null;
+        return (
+            <i className={`icon nf nf-${iconPath}`} style={{ color }} />
+        );
+    }
+
+    return null;
 }
 
 export default TabIcon;

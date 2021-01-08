@@ -9,9 +9,9 @@ import { ITerminalAddon } from 'xterm';
  */
 export interface Addon {
 
-	type: AddonType;
-	addon: ITerminalAddon;
-	loaded: boolean;
+    type: AddonType;
+    addon: ITerminalAddon;
+    loaded: boolean;
 }
 
 /**
@@ -19,9 +19,9 @@ export interface Addon {
  */
 export enum AddonType {
 
-	FIT,
-	UNICODE,
-	LIGATURES,
-	WEBGL,
-	WEBLINKS,
+    FIT,
+    UNICODE,
+    LIGATURES,
+    WEBGL,
+    WEBLINKS,
 }

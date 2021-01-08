@@ -3,36 +3,36 @@ import { UndefinedObject } from '@common/types/types';
 
 export default abstract class ResolverProvider<T, R> {
 
-	// The list of resolvers to use for this ResolverProvider
-	private resolvers: Resolver<T, R>[];
+    // The list of resolvers to use for this ResolverProvider
+    private resolvers: Resolver<T, R>[];
 
-	constructor() {
-		
-		this.resolvers = this.getResolvers();
-	}
+    constructor() {
 
-	/**
-	 * Resolve a R object based on a T object by looping through all the
-	 * availables resolvers. Can return undefined if no resolver has been
-	 * able to resolve the T object to a R object.
-	 */
-	public resolve(object: T): UndefinedObject<R> {
+        this.resolvers = this.getResolvers();
+    }
 
-		let resolved: UndefinedObject<R>;
+    /**
+     * Resolve a R object based on a T object by looping through all the
+     * availables resolvers. Can return undefined if no resolver has been
+     * able to resolve the T object to a R object.
+     */
+    public resolve(object: T): UndefinedObject<R> {
 
-		this.resolvers.forEach((current) => {
+        let resolved: UndefinedObject<R>;
 
-			if(!resolved && current.canResolve(object))
-				resolved = current.resolve(object);	
-		});
+        this.resolvers.forEach((current) => {
 
-		return resolved; 
-	}
+            if(!resolved && current.canResolve(object))
+                resolved = current.resolve(object);
+        });
 
-	/**
-	 * Get all the resolvers to use in this ResolverProvider.
-	 *
-	 * @returns An array of the resolvers to use
-	 */
-	protected abstract getResolvers(): Resolver<T, R>[];
+        return resolved;
+    }
+
+    /**
+     * Get all the resolvers to use in this ResolverProvider.
+     *
+     * @returns An array of the resolvers to use
+     */
+    protected abstract getResolvers(): Resolver<T, R>[];
 }

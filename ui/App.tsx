@@ -47,13 +47,13 @@ class App extends Component<Props, State> {
 
         const config = Config.getInstance().loadConfig((newConfig: IConfig) => {
 
-			if(this.mounted) {
+            if(this.mounted) {
 
-				const notification = configReloadedNotification(false);
-				this.props.dispatch(addNotification(notification));
+                const notification = configReloadedNotification(false);
+                this.props.dispatch(addNotification(notification));
 
-				this.setState({ config: newConfig });
-			}
+                this.setState({ config: newConfig });
+            }
         });
 
         this.state = {
@@ -91,14 +91,14 @@ class App extends Component<Props, State> {
 
     render() {
 
-		const borderStyle: CSSProperties = { boxShadow: `0 0 0 1px inset ${this.state.config.theme.border}` };
+        const borderStyle: CSSProperties = { boxShadow: `0 0 0 1px inset ${this.state.config.theme.border}` };
 
         return (
             <ShortcutsProvider config={this.state.config}>
                 <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
                     {
                         this.state.config.backgroundImage.enabled &&
-							<div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
+                            <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
                     }
                     <Navbar config={this.state.config} />
                     {
@@ -108,9 +108,9 @@ class App extends Component<Props, State> {
                                 config={this.state.config}
                                 terminal={terminal} />
                         )
-					}
-					<div className="border" style={borderStyle} />
-					<Notifications config={this.state.config} />
+                    }
+                    <div className="border" style={borderStyle} />
+                    <Notifications config={this.state.config} />
                 </div>
             </ShortcutsProvider>
         )

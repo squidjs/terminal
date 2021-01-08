@@ -3,7 +3,7 @@ import App from '@src/app/App';
 
 // Start hot reloading in dev
 if(module.hot)
-	module.hot.accept();
+    module.hot.accept();
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 

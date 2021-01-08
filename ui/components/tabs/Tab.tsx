@@ -10,60 +10,60 @@ import TabIcon from '@ui/components/tabs/TabIcon';
 
 interface Props {
 
-	config: IConfig;
-	terminal: ITerminal;
-	selected: number;
-	dispatch: (action: TerminalsAction | SelectedAction) => void;
+    config: IConfig;
+    terminal: ITerminal;
+    selected: number;
+    dispatch: (action: TerminalsAction | SelectedAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-	selected: state.selected,
+    selected: state.selected,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-	return { dispatch: (action: TerminalsAction | SelectedAction) => { dispatch(action) } }
+    return { dispatch: (action: TerminalsAction | SelectedAction) => { dispatch(action) } }
 }
 
 class Tab extends Component<Props> {
 
-	componentDidMount() {
+    componentDidMount() {
 
-		this.props.dispatch(setSelected(this.props.terminal.id));
-	}
+        this.props.dispatch(setSelected(this.props.terminal.id));
+    }
 
-	render() {
+    render() {
 
-		let tabTitleClass = 'tab-title';
+        let tabTitleClass = 'tab-title';
 
-		if(this.selected)
-			tabTitleClass += ' selected';
+        if(this.selected)
+            tabTitleClass += ' selected';
 
-		return (
-			<div
-				className="tab"
-				onClick={() => this.props.dispatch(setSelected(this.props.terminal.id))}
-				style={{ '--border': this.props.config.theme.border, '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>
-				{
-					this.props.config.tabsIcons &&
-						<TabIcon terminal={this.props.terminal} />
-				}
-				<button
-					type="button"
-					className={tabTitleClass}>{this.props.terminal.name}</button>
-				<button
-					type="button"
-					className="tab-close"
-					onClick={() => this.props.dispatch(deleteTerminal(this.props.terminal))}>x</button>
-			</div>
-		);
-	}
+        return (
+            <div
+                className="tab"
+                onClick={() => this.props.dispatch(setSelected(this.props.terminal.id))}
+                style={{ '--border': this.props.config.theme.border, '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>
+                {
+                    this.props.config.tabsIcons &&
+                        <TabIcon terminal={this.props.terminal} />
+                }
+                <button
+                    type="button"
+                    className={tabTitleClass}>{this.props.terminal.name}</button>
+                <button
+                    type="button"
+                    className="tab-close"
+                    onClick={() => this.props.dispatch(deleteTerminal(this.props.terminal))}>x</button>
+            </div>
+        );
+    }
 
-	private get selected(): boolean {
+    private get selected(): boolean {
 
-		return this.props.selected === this.props.terminal.id;
-	}
+        return this.props.selected === this.props.terminal.id;
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tab);

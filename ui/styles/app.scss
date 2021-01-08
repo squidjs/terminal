@@ -2,7 +2,7 @@ body {
 
     margin: 0;
     overflow: hidden;
-	font-family: Arial;
+    font-family: Arial;
 }
 
 *:focus {
@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: column;
 
-	.background, .border {
+    .background, .border {
 
         position: absolute;
         left: 0;
@@ -30,11 +30,11 @@ body {
         background-size: cover;
     }
 
-	.border {
+    .border {
 
-		pointer-events: none;
-		z-index: 1;
-	}
+        pointer-events: none;
+        z-index: 1;
+    }
 
     .terminal {
 

@@ -19,16 +19,16 @@ const wslBasePath = '/mnt/';
  */
 export function resolveToWSLPath(terminal: ITerminal, path: string): string {
 
-	if(!isTerminalSSH(terminal.terminalType) && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
-		return path;
+    if(!isTerminalSSH(terminal.terminalType) && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
+        return path;
 
-	if(!winPathRegex.test(path))
-		return path;
+    if(!winPathRegex.test(path))
+        return path;
 
-	const drive = path.charAt(0).toLowerCase();
-	const wslPath = path.slice(2).replace(/\\/g, '/');
+    const drive = path.charAt(0).toLowerCase();
+    const wslPath = path.slice(2).replace(/\\/g, '/');
 
-	return wslBasePath + drive + wslPath;
+    return wslBasePath + drive + wslPath;
 }
 
 /**
@@ -39,10 +39,10 @@ export function resolveToWSLPath(terminal: ITerminal, path: string): string {
  */
 export function addQuotes(path: string): string {
 
-	if(!path.includes(' '))
-		return path;
+    if(!path.includes(' '))
+        return path;
 
-	return `"${path}"`;
+    return `"${path}"`;
 }
 
 /**
@@ -52,12 +52,12 @@ export function addQuotes(path: string): string {
  */
 export function nextTerminalId(terminals: ITerminal[]): number {
 
-	let id = 0;
+    let id = 0;
 
-	while(terminals.find((current) => current.id === id))
-		id++;
+    while(terminals.find((current) => current.id === id))
+        id++;
 
-	return id;
+    return id;
 }
 
 /**
@@ -68,8 +68,8 @@ export function nextTerminalId(terminals: ITerminal[]): number {
  */
 export function isTerminalSSH(terminalType: TerminalType): boolean {
 
-	// To define the type of terminal we check if there
-	// is a username property. If yes, we assume that
-	// the terminal type is a ssh.
-	return Object.prototype.hasOwnProperty.call(terminalType, 'username');
+    // To define the type of terminal we check if there
+    // is a username property. If yes, we assume that
+    // the terminal type is a ssh.
+    return Object.prototype.hasOwnProperty.call(terminalType, 'username');
 }

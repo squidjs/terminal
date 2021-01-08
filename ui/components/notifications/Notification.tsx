@@ -9,83 +9,83 @@ import NotificationButton from '@ui/components/notifications/NotificationButton'
 
 interface Props {
 
-	config: IConfig;
-	notification: INotification;
-	dispatch: (action: NotificationsAction) => void;
+    config: IConfig;
+    notification: INotification;
+    dispatch: (action: NotificationsAction) => void;
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-	return { dispatch: (action: NotificationsAction) => { dispatch(action) } }
+    return { dispatch: (action: NotificationsAction) => { dispatch(action) } }
 }
 
 class Notification extends Component<Props> {
 
-	constructor(props: Props) {
+    constructor(props: Props) {
 
-		super(props);
-	}
+        super(props);
+    }
 
-	/**
-	 * Remove the notification when the configurated time has passed.
-	 */
-	componentDidMount() {
+    /**
+     * Remove the notification when the configurated time has passed.
+     */
+    componentDidMount() {
 
-		// The timeout of this notification in milliseconds
-		const timeout = this.props.notification.time * 1000;
+        // The timeout of this notification in milliseconds
+        const timeout = this.props.notification.time * 1000;
 
-		setTimeout(() => {
+        setTimeout(() => {
 
-			this.props.dispatch(removeNotification(this.props.notification));
+            this.props.dispatch(removeNotification(this.props.notification));
 
-		}, timeout);
-	}
+        }, timeout);
+    }
 
-	render() {
+    render() {
 
-		const { theme } = this.props.config;
-		const { notification } = this.props;
+        const { theme } = this.props.config;
+        const { notification } = this.props;
 
-		const notificationStyle: CSSProperties = { backgroundColor: this.getColor(theme) };
-		const contentStyle: CSSProperties = { color: theme.black };
+        const notificationStyle: CSSProperties = { backgroundColor: this.getColor(theme) };
+        const contentStyle: CSSProperties = { color: theme.black };
 
-		return (
-			<div className="notification" style={notificationStyle}>
-				<p className="title" style={contentStyle}>{ notification.title }</p>
-				<p className="content" style={contentStyle}>{ notification.content }</p>
-				{
-						notification.button ?
-							<NotificationButton theme={theme} button={notification.button} />
-								: null
-				}
-			</div>
-		);
-	}
+        return (
+            <div className="notification" style={notificationStyle}>
+                <p className="title" style={contentStyle}>{ notification.title }</p>
+                <p className="content" style={contentStyle}>{ notification.content }</p>
+                {
+                        notification.button ?
+                            <NotificationButton theme={theme} button={notification.button} />
+                                : null
+                }
+            </div>
+        );
+    }
 
-	/**
-	 * Get the backgorund color for this notification
-	 * based on the current theme.
-	 *
-	 * @param theme - The theme to use
-	 * @returns The background color
-	 */
-	private getColor(theme: ITheme): string {
+    /**
+     * Get the backgorund color for this notification
+     * based on the current theme.
+     *
+     * @param theme - The theme to use
+     * @returns The background color
+     */
+    private getColor(theme: ITheme): string {
 
-		switch(this.props.notification.level) {
+        switch(this.props.notification.level) {
 
-			case INotificationLevel.INFO:
-				return theme.brightBlue;
+            case INotificationLevel.INFO:
+                return theme.brightBlue;
 
-			case INotificationLevel.SUCCESS:
-				return theme.brightGreen;
+            case INotificationLevel.SUCCESS:
+                return theme.brightGreen;
 
-			case INotificationLevel.ERROR:
-				return theme.brightRed;
+            case INotificationLevel.ERROR:
+                return theme.brightRed;
 
-			default:
-				return '';
-		}
-	}
+            default:
+                return '';
+        }
+    }
 }
 
 export default connect(mapDispatchToProps)(Notification);

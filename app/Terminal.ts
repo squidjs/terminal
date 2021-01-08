@@ -13,145 +13,145 @@ export type TerminalType = ISSHHost | IShell;
 
 export default class Terminal {
 
-	private config: IConfig;
+    private config: IConfig;
 
-	private xTerminal: XTerminalFactory;
-	private readonly process: ProcessFactory<ProcessType>;
+    private xTerminal: XTerminalFactory;
+    private readonly process: ProcessFactory<ProcessType>;
 
-	constructor(config: IConfig, id: number, terminalType: TerminalType, onClose: () => void, onTitle: (title: string) => void) {
+    constructor(config: IConfig, id: number, terminalType: TerminalType, onClose: () => void, onTitle: (title: string) => void) {
 
-		this.config = config;
-		this.xTerminal = new XTerminalFactory(config);
+        this.config = config;
+        this.xTerminal = new XTerminalFactory(config);
 
-		const isSSH = isTerminalSSH(terminalType);
-		this.process = isSSH ? new SSHProcessFactory() : new PtyProcessFactory();
+        const isSSH = isTerminalSSH(terminalType);
+        this.process = isSSH ? new SSHProcessFactory() : new PtyProcessFactory();
 
-		const terminal = this.xTerminal.build({
+        const terminal = this.xTerminal.build({
 
-			config: this.config,
-		});
+            config: this.config,
+        });
 
-		this.buildProcess(isSSH, terminalType, terminal);
+        this.buildProcess(isSSH, terminalType, terminal);
 
-		this.xTerminal.spawn(id, this.process, (title: string) => {
+        this.xTerminal.spawn(id, this.process, (title: string) => {
 
-			onTitle(title);
-		});
+            onTitle(title);
+        });
 
-		this.process.listen(terminal, terminalType, () => {
+        this.process.listen(terminal, terminalType, () => {
 
-			this.xTerminal.getFactoryObject().dispose();
-			onClose();
-		});
-	}
+            this.xTerminal.getFactoryObject().dispose();
+            onClose();
+        });
+    }
 
-	/**
-	 * Build the process corresponding to the type of
-	 * terminal we want.
-	 *
-	 * @param isSSH - If we want a ssh terminal
-	 * @param terminalType - The terminal type object
-	 * @param terminal - The xterm instance
-	 */
-	private buildProcess(isSSH: boolean, terminalType: TerminalType, terminal: XTerminal) {
+    /**
+     * Build the process corresponding to the type of
+     * terminal we want.
+     *
+     * @param isSSH - If we want a ssh terminal
+     * @param terminalType - The terminal type object
+     * @param terminal - The xterm instance
+     */
+    private buildProcess(isSSH: boolean, terminalType: TerminalType, terminal: XTerminal) {
 
-		if(!isSSH) {
+        if(!isSSH) {
 
-			const shell = terminalType as IShell;
+            const shell = terminalType as IShell;
 
-			// Force cast to get type definitions
-			(this.process as PtyProcessFactory).build({
+            // Force cast to get type definitions
+            (this.process as PtyProcessFactory).build({
 
-				terminal,
-				shell: shell.path,
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
-				cwd: require('os').homedir(),
-				terminalType,
-			});
+                terminal,
+                shell: shell.path,
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                cwd: require('os').homedir(),
+                terminalType,
+            });
 
-		} else {
+        } else {
 
-			const ssh = terminalType as ISSHHost;
+            const ssh = terminalType as ISSHHost;
 
-			// Force cast to get type definitions
-			(this.process as SSHProcessFactory).build({
+            // Force cast to get type definitions
+            (this.process as SSHProcessFactory).build({
 
-				...ssh,
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
-				privateKey: ssh.privateKey ? require('fs').readFileSync(ssh.privateKey) : undefined,
-			});
-		}
-	}
+                ...ssh,
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                privateKey: ssh.privateKey ? require('fs').readFileSync(ssh.privateKey) : undefined,
+            });
+        }
+    }
 
-	/**
-	 * Focus the xterm instance.
-	 */
-	public focus() {
+    /**
+     * Focus the xterm instance.
+     */
+    public focus() {
 
-		this.xTerminal.getFactoryObject().focus();
-		this.xTerminal.fit();
-	}
+        this.xTerminal.getFactoryObject().focus();
+        this.xTerminal.fit();
+    }
 
-	/**
-	 * Update the config for this terminal.
-	 *
-	 * @param config - The new config to use
-	 */
-	public updateConfig(config: IConfig) {
+    /**
+     * Update the config for this terminal.
+     *
+     * @param config - The new config to use
+     */
+    public updateConfig(config: IConfig) {
 
-		this.config = config;
+        this.config = config;
 
-		this.xTerminal.loadConfig(config);
-		this.xTerminal.fit();
-	}
+        this.xTerminal.loadConfig(config);
+        this.xTerminal.fit();
+    }
 
-	/**
-	 * Write string data to the process instance.
-	 *
-	 * @param data - The data to write
-	 */
-	public write(data: string) {
+    /**
+     * Write string data to the process instance.
+     *
+     * @param data - The data to write
+     */
+    public write(data: string) {
 
-		this.process.write(data);
-	}
+        this.process.write(data);
+    }
 
-	/**
-	 * Zoom in or out in this terminal.
-	 *
-	 * @param zoomIn - If we should zoom in or out
-	 * @returns The new zoom value in px
-	 */
-	public zoom(zoomIn: boolean): number {
+    /**
+     * Zoom in or out in this terminal.
+     *
+     * @param zoomIn - If we should zoom in or out
+     * @returns The new zoom value in px
+     */
+    public zoom(zoomIn: boolean): number {
 
-		let currentZoom = this.xTerminal.getFactoryObject().getOption('fontSize');
+        let currentZoom = this.xTerminal.getFactoryObject().getOption('fontSize');
 
-		if(zoomIn)
-			currentZoom++;
-		else
-			currentZoom--;
+        if(zoomIn)
+            currentZoom++;
+        else
+            currentZoom--;
 
-		this.xTerminal.getFactoryObject().setOption('fontSize', currentZoom);
-		this.xTerminal.fit();
+        this.xTerminal.getFactoryObject().setOption('fontSize', currentZoom);
+        this.xTerminal.fit();
 
-		return currentZoom;
-	}
+        return currentZoom;
+    }
 
-	/**
-	 * Build the env variables from the env specified in the
-	 * config of the current terminalType, and the process env.
-	 *
-	 * @param terminalType - The terminalType to grab the env values from
-	 * @returns The built env variables
-	 */
-	public static buildEnv(terminalType: TerminalType): { [key: string]: string } {
+    /**
+     * Build the env variables from the env specified in the
+     * config of the current terminalType, and the process env.
+     *
+     * @param terminalType - The terminalType to grab the env values from
+     * @returns The built env variables
+     */
+    public static buildEnv(terminalType: TerminalType): { [key: string]: string } {
 
-		return Object.assign({ }, terminalType.env, process.env);
-	}
+        return Object.assign({ }, terminalType.env, process.env);
+    }
 }
 
 export interface ITerminal {
 
-	id: number;
-	name: string;
-	terminalType: TerminalType;
+    id: number;
+    name: string;
+    terminalType: TerminalType;
 }

@@ -7,47 +7,47 @@ const WAIT_TIME = 5 * 1000;
 
 export default class Updater {
 
-	constructor() {
+    constructor() {
 
-		// Listen for updates after the wait time
-		setTimeout(() => {
+        // Listen for updates after the wait time
+        setTimeout(() => {
 
-			this.listen();
+            this.listen();
 
-		}, WAIT_TIME);
-	}
+        }, WAIT_TIME);
+    }
 
-	/**
-	 * Check for update and listen for updates status change,
-	 * and restart request from the renderer process.
-	 */
-	private listen() {
+    /**
+     * Check for update and listen for updates status change,
+     * and restart request from the renderer process.
+     */
+    private listen() {
 
-		autoUpdater.checkForUpdatesAndNotify();
+        autoUpdater.checkForUpdatesAndNotify();
 
-		autoUpdater.on('update-available', () => {
+        autoUpdater.on('update-available', () => {
 
-			this.sendUpdate({ updateAvailable: true });
-		});
+            this.sendUpdate({ updateAvailable: true });
+        });
 
-		autoUpdater.on('update-downloaded', () => {
+        autoUpdater.on('update-downloaded', () => {
 
-			this.sendUpdate({ readyToInstall: true });
-		});
+            this.sendUpdate({ readyToInstall: true });
+        });
 
-		ipcMain.on('restart', () => {
+        ipcMain.on('restart', () => {
 
-			autoUpdater.quitAndInstall();
-		});
-	}
+            autoUpdater.quitAndInstall();
+        });
+    }
 
-	/**
-	 * Send an update status to the renderer process.
-	 *
-	 * @param update - The update status to send
-	 */
-	private sendUpdate(update: IUpdateStatus) {
+    /**
+     * Send an update status to the renderer process.
+     *
+     * @param update - The update status to send
+     */
+    private sendUpdate(update: IUpdateStatus) {
 
-		BrowserWindow.getFocusedWindow()?.webContents.send('update', update);
-	}
+        BrowserWindow.getFocusedWindow()?.webContents.send('update', update);
+    }
 }

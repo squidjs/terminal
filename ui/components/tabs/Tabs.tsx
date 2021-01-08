@@ -10,33 +10,33 @@ import '@ui/styles/nerdfonts.min.css';
 
 interface Props {
 
-	config: IConfig;
-	terminals: ITerminal[];
+    config: IConfig;
+    terminals: ITerminal[];
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-	terminals: state.terminals,
+    terminals: state.terminals,
 });
 
 class Tabs extends Component<Props> {
 
-	render() {
+    render() {
 
-		return (
-			<div className="tabs">
-				{
-					this.props.terminals.map((terminal) =>
-						<Tab
-							config={this.props.config}
-							key={terminal.id}
-							terminal={terminal} />
-					)
-				}
-				<TabCreateTerminal config={this.props.config} />
-			</div>
-		)
-	}
+        return (
+            <div className="tabs">
+                {
+                    this.props.terminals.map((terminal) =>
+                        <Tab
+                            config={this.props.config}
+                            key={terminal.id}
+                            terminal={terminal} />
+                    )
+                }
+                <TabCreateTerminal config={this.props.config} />
+            </div>
+        )
+    }
 }
 
 export default connect(mapStateToProps)(Tabs);

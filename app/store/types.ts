@@ -4,27 +4,27 @@ import { ITerminal } from '@app/Terminal';
 export type TerminalsState = ITerminal[];
 export type TerminalsAction = {
 
-	type: string;
-	terminal: ITerminal;
+    type: string;
+    terminal: ITerminal;
 }
 
 export type SelectedState = number;
 export type SelectedAction = {
 
-	type: string;
-	selected: number;
+    type: string;
+    selected: number;
 }
 
 export type NotificationsState = INotification[];
 export type NotificationsAction = {
 
-	type: string;
-	notification: INotification;
+    type: string;
+    notification: INotification;
 }
 
 export type AppState = {
 
-	terminals: TerminalsState;
-	selected: SelectedState;
-	notifications: NotificationsState;
+    terminals: TerminalsState;
+    selected: SelectedState;
+    notifications: NotificationsState;
 }

@@ -14,18 +14,18 @@ export const SSH_ICON: IconResolverType = ['fa-server', '#0465B6'];
 
 export default class IconResolverProvider extends ResolverProvider<ITerminal, IconResolverType> {
 
-	/**
-	 * Get all the resolvers to use in this IconResolverProvider.
-	 *
-	 * @returns An array of the resolvers to use
-	 */
-	public getResolvers(): Resolver<ITerminal, IconResolverType>[] {
+    /**
+     * Get all the resolvers to use in this IconResolverProvider.
+     *
+     * @returns An array of the resolvers to use
+     */
+    public getResolvers(): Resolver<ITerminal, IconResolverType>[] {
 
-		return [
+        return [
 
-			new TitleIconResolver(),
-			new ShellIconResolver(),
-			new SSHIconResolver(),
-		];
-	}
+            new TitleIconResolver(),
+            new ShellIconResolver(),
+            new SSHIconResolver(),
+        ];
+    }
 }

@@ -17,12 +17,12 @@ export const notifications = (state: NotificationsState = initialState, action: 
 
         case NOTIFICATIONS_ACTION_TYPES.ADD:
             return [
-				...state,
-				action.notification,
-			];
+                ...state,
+                action.notification,
+            ];
 
-		case NOTIFICATIONS_ACTION_TYPES.REMOVE:
-			return [...state].filter((current) => current.content !== action.notification.content);
+        case NOTIFICATIONS_ACTION_TYPES.REMOVE:
+            return [...state].filter((current) => current.content !== action.notification.content);
 
         default:
             return state;

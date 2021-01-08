@@ -16,167 +16,167 @@ import { addNotification } from '@app/store/notifications/actions';
 
 interface Props {
 
-	config: IConfig;
-	terminal: ITerminal;
-	selected: number;
-	dispatch: (action: TerminalsAction | NotificationsAction) => void;
+    config: IConfig;
+    terminal: ITerminal;
+    selected: number;
+    dispatch: (action: TerminalsAction | NotificationsAction) => void;
 }
 
 interface State {
 
-	terminal: UndefinedObject<Terminal>;
+    terminal: UndefinedObject<Terminal>;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-	selected: state.selected,
+    selected: state.selected,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-	return { dispatch: (action: TerminalsAction | NotificationsAction) => { dispatch(action) } }
+    return { dispatch: (action: TerminalsAction | NotificationsAction) => { dispatch(action) } }
 }
 
 class AppTerminal extends Component<Props, State> {
 
-	constructor(props: Props) {
+    constructor(props: Props) {
 
-		super(props);
+        super(props);
 
-		this.state = {
+        this.state = {
 
-			terminal: undefined,
-		};
-	}
+            terminal: undefined,
+        };
+    }
 
-	/**
-	 * Try summoning a new terminal if possible, and
-	 * listen for shortcuts.
-	 */
-	componentDidMount() {
+    /**
+     * Try summoning a new terminal if possible, and
+     * listen for shortcuts.
+     */
+    componentDidMount() {
 
-		this.trySummonTerminal();
-		this.listenForShortcuts();
-	}
+        this.trySummonTerminal();
+        this.listenForShortcuts();
+    }
 
-	/**
-	 * Remove all listeners on shortcuts channel.
-	 */
-	componentWillUnmount() {
+    /**
+     * Remove all listeners on shortcuts channel.
+     */
+    componentWillUnmount() {
 
-		ipcRenderer.removeAllListeners('shortcuts');
-	}
+        ipcRenderer.removeAllListeners('shortcuts');
+    }
 
-	/**
-	 * When the component update, we check if the props changed, and if so
-	 * we update the config of the state terminal instance.
-	 *
-	 * @param prevProps - The previous props
-	 */
-	componentDidUpdate(prevProps: Readonly<Props>) {
+    /**
+     * When the component update, we check if the props changed, and if so
+     * we update the config of the state terminal instance.
+     *
+     * @param prevProps - The previous props
+     */
+    componentDidUpdate(prevProps: Readonly<Props>) {
 
-		this.state.terminal?.focus();
+        this.state.terminal?.focus();
 
-		if(prevProps.config != this.props.config)
-			this.state.terminal?.updateConfig(this.props.config);
+        if(prevProps.config != this.props.config)
+            this.state.terminal?.updateConfig(this.props.config);
 
-		if(!this.state.terminal)
-			this.trySummonTerminal();
-	}
+        if(!this.state.terminal)
+            this.trySummonTerminal();
+    }
 
-	render() {
+    render() {
 
-		const className = this.props.selected === this.props.terminal.id ? '' : 'hidden';
+        const className = this.props.selected === this.props.terminal.id ? '' : 'hidden';
 
-		return (
-			<DragDrop handleDrop={(files) => this.handleDrop(files)}>
-				<div className={className} id={`terminal-${this.props.terminal.id}`} />
-			</DragDrop>
-		)
-	}
+        return (
+            <DragDrop handleDrop={(files) => this.handleDrop(files)}>
+                <div className={className} id={`terminal-${this.props.terminal.id}`} />
+            </DragDrop>
+        )
+    }
 
-	/**
-	 * Summon a terminal, if selected. We also handle the closing of this
-	 * terminal.
-	 */
-	private trySummonTerminal() {
+    /**
+     * Summon a terminal, if selected. We also handle the closing of this
+     * terminal.
+     */
+    private trySummonTerminal() {
 
-		if(this.props.selected === this.props.terminal.id) {
+        if(this.props.selected === this.props.terminal.id) {
 
-			const { config } = this.props;
-			const { terminalType, id } = this.props.terminal;
+            const { config } = this.props;
+            const { terminalType, id } = this.props.terminal;
 
-			const terminal = new Terminal(config, id, terminalType, () => {
+            const terminal = new Terminal(config, id, terminalType, () => {
 
-				this.props.dispatch(deleteTerminal(this.props.terminal));
+                this.props.dispatch(deleteTerminal(this.props.terminal));
 
-			}, (name: string) => {
+            }, (name: string) => {
 
-				this.props.dispatch(updateTerminal({ ...this.props.terminal, name }));
-			});
+                this.props.dispatch(updateTerminal({ ...this.props.terminal, name }));
+            });
 
-			this.setState({ terminal });
-		}
-	}
+            this.setState({ terminal });
+        }
+    }
 
-	/**
-	 * Listen for shortcuts events to zoom in/out
-	 * in the terminal instance.
-	 */
-	private listenForShortcuts() {
+    /**
+     * Listen for shortcuts events to zoom in/out
+     * in the terminal instance.
+     */
+    private listenForShortcuts() {
 
-		ipcRenderer.on('shortcuts', (event, args) => {
+        ipcRenderer.on('shortcuts', (event, args) => {
 
-			const shortcut: TerminalShortcuts = args;
+            const shortcut: TerminalShortcuts = args;
 
-			if(shortcut && this.props.selected === this.props.terminal.id) {
+            if(shortcut && this.props.selected === this.props.terminal.id) {
 
-				switch(shortcut) {
+                switch(shortcut) {
 
-					case 'terminal:zoomin':
-						this.zoomAndNotify(true);
-						break;
+                    case 'terminal:zoomin':
+                        this.zoomAndNotify(true);
+                        break;
 
-					case 'terminal:zoomout':
-						this.zoomAndNotify(false);
-						break;
+                    case 'terminal:zoomout':
+                        this.zoomAndNotify(false);
+                        break;
 
-					default:
-						break;
-				}
-			}
-		});
-	}
+                    default:
+                        break;
+                }
+            }
+        });
+    }
 
-	private zoomAndNotify(zoomIn: boolean) {
+    private zoomAndNotify(zoomIn: boolean) {
 
-		const zoom = this.state.terminal?.zoom(zoomIn);
+        const zoom = this.state.terminal?.zoom(zoomIn);
 
-		const notification = fontSizeNotification(zoom || 0);
-		this.props.dispatch(addNotification(notification));
-	}
+        const notification = fontSizeNotification(zoom || 0);
+        this.props.dispatch(addNotification(notification));
+    }
 
-	/**
-	 * Handle files dropping to write the path in the terminal.
-	 *
-	 * @param files - The dropped file list
-	 */
-	private handleDrop(files: FileList) {
+    /**
+     * Handle files dropping to write the path in the terminal.
+     *
+     * @param files - The dropped file list
+     */
+    private handleDrop(files: FileList) {
 
-		if(this.props.selected !== this.props.terminal.id)
-			return;
+        if(this.props.selected !== this.props.terminal.id)
+            return;
 
-		const filesPath = [];
+        const filesPath = [];
 
-		for(let i = 0; i < files.length; i++) {
+        for(let i = 0; i < files.length; i++) {
 
-			const wslPath = resolveToWSLPath(this.props.terminal, files[i].path);
+            const wslPath = resolveToWSLPath(this.props.terminal, files[i].path);
 
-			filesPath.push(addQuotes(wslPath));
-		}
+            filesPath.push(addQuotes(wslPath));
+        }
 
-		this.state.terminal?.write(filesPath.join(' '));
-	}
+        this.state.terminal?.write(filesPath.join(' '));
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppTerminal);

@@ -6,9 +6,9 @@
   "copyright": "Copyright © 2020 Squid",
   "productName": "Squid",
   "nsis": {
-  	"oneClick": false,
-  	"installerIcon": "./build/icon.ico",
- 	"allowToChangeInstallationDirectory": true 
+    "oneClick": false,
+    "installerIcon": "./build/icon.ico",
+ 	"allowToChangeInstallationDirectory": true
   },
   "snap": {
     "publish": {

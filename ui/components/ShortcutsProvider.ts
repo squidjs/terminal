@@ -13,153 +13,153 @@ const { Menu, MenuItem } = remote;
 
 interface Props {
 
-	children: ReactElement,
-	config: IConfig;
-	terminals: ITerminal[];
-	selected: number;
-	dispatch: (action: TerminalsAction | SelectedAction) => void;
+    children: ReactElement,
+    config: IConfig;
+    terminals: ITerminal[];
+    selected: number;
+    dispatch: (action: TerminalsAction | SelectedAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-	terminals: state.terminals,
-	selected: state.selected,
+    terminals: state.terminals,
+    selected: state.selected,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-	return { dispatch: (action: TerminalsAction | SelectedAction) => { dispatch(action) } }
+    return { dispatch: (action: TerminalsAction | SelectedAction) => { dispatch(action) } }
 }
 
 class ShortcutsProvider extends Component<Props> {
 
-	/**
-	 * Setup the shortcuts when the component is mounted.
-	 */
-	componentDidMount() {
+    /**
+     * Setup the shortcuts when the component is mounted.
+     */
+    componentDidMount() {
 
-		this.setupShortcuts();
-	}
+        this.setupShortcuts();
+    }
 
-	/**
-	 * Re-setup the shortcuts if they have changed.
-	 *
-	 * @param prevProps - The previous props.
-	 */
-	componentDidUpdate(prevProps: Readonly<Props>) {
+    /**
+     * Re-setup the shortcuts if they have changed.
+     *
+     * @param prevProps - The previous props.
+     */
+    componentDidUpdate(prevProps: Readonly<Props>) {
 
-		if(prevProps.config.shortcuts != this.props.config.shortcuts)
-			this.setupShortcuts();
-	}
+        if(prevProps.config.shortcuts != this.props.config.shortcuts)
+            this.setupShortcuts();
+    }
 
-	render() {
+    render() {
 
-		return this.props.children;
-	}
+        return this.props.children;
+    }
 
-	/**
-	 * Setup all the shortcuts to a Menu, with a accelerator
-	 * configured in the IShortcut interface.
-	 *
-	 * @see IShortcut
-	 */
-	private setupShortcuts() {
+    /**
+     * Setup all the shortcuts to a Menu, with a accelerator
+     * configured in the IShortcut interface.
+     *
+     * @see IShortcut
+     */
+    private setupShortcuts() {
 
-		const menu = new Menu();
-		this.props.config.shortcuts.forEach((shortcut) => {
+        const menu = new Menu();
+        this.props.config.shortcuts.forEach((shortcut) => {
 
-			menu.append(new MenuItem({
+            menu.append(new MenuItem({
 
-				label: shortcut.name,
-				accelerator: shortcut.keybinds,
-				click: () => this.executeShortcut(shortcut),
-			}));
-		});
+                label: shortcut.name,
+                accelerator: shortcut.keybinds,
+                click: () => this.executeShortcut(shortcut),
+            }));
+        });
 
-		Menu.setApplicationMenu(menu);
-	}
+        Menu.setApplicationMenu(menu);
+    }
 
-	/**
-	 * Execute a specific shortcut.
-	 *
-	 * @param shortcut - The shortcut to execute
-	 */
-	private executeShortcut(shortcut: IShortcut) {
+    /**
+     * Execute a specific shortcut.
+     *
+     * @param shortcut - The shortcut to execute
+     */
+    private executeShortcut(shortcut: IShortcut) {
 
-		switch(shortcut.action) {
+        switch(shortcut.action) {
 
-			case 'terminal:create':
-				this.props.dispatch(createTerminal({
-					id: nextTerminalId(this.props.terminals),
-					name: 'Terminal',
-					terminalType: this.props.config.defaultShell,
-				}));
-				break;
+            case 'terminal:create':
+                this.props.dispatch(createTerminal({
+                    id: nextTerminalId(this.props.terminals),
+                    name: 'Terminal',
+                    terminalType: this.props.config.defaultShell,
+                }));
+                break;
 
-			case 'terminal:close':
-				this.props.dispatch(deleteTerminal(this.props.terminals.find((current) => {
+            case 'terminal:close':
+                this.props.dispatch(deleteTerminal(this.props.terminals.find((current) => {
 
-					return current.id === this.props.selected;
-				}) as ITerminal));
-				break;
+                    return current.id === this.props.selected;
+                }) as ITerminal));
+                break;
 
-			case 'terminal:zoomin':
-			case 'terminal:zoomout':
-				this.zoom(shortcut.action);
-				break;
+            case 'terminal:zoomin':
+            case 'terminal:zoomout':
+                this.zoom(shortcut.action);
+                break;
 
-			case 'terminal:left':
-			case 'terminal:right':
-				this.focus(shortcut.action === 'terminal:left');
-				break;
+            case 'terminal:left':
+            case 'terminal:right':
+                this.focus(shortcut.action === 'terminal:left');
+                break;
 
-			case 'window:devtools':
-				remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
-				break;
+            case 'window:devtools':
+                remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
+                break;
 
-			case 'window:reload':
-				remote.getCurrentWindow().reload();
-				break;
+            case 'window:reload':
+                remote.getCurrentWindow().reload();
+                break;
 
-			default:
-				break;
-		}
-	}
+            default:
+                break;
+        }
+    }
 
-	/**
-	 * Zoom in or out in the terminal.
-	 *
-	 * @param action - The action to execute
-	 */
-	private zoom(action: IShortcutActions) {
+    /**
+     * Zoom in or out in the terminal.
+     *
+     * @param action - The action to execute
+     */
+    private zoom(action: IShortcutActions) {
 
-		remote.getCurrentWindow().webContents.send('shortcuts', action);
-	}
+        remote.getCurrentWindow().webContents.send('shortcuts', action);
+    }
 
-	/**
-	 * Focus the terminal at the given direction if exist.
-	 *
-	 * @param left - If we should focus the left or right terminal
-	 */
-	private focus(left: boolean) {
+    /**
+     * Focus the terminal at the given direction if exist.
+     *
+     * @param left - If we should focus the left or right terminal
+     */
+    private focus(left: boolean) {
 
-		const current = this.props.terminals.find((current) => current.id === this.props.selected);
+        const current = this.props.terminals.find((current) => current.id === this.props.selected);
 
-		if(current) {
+        if(current) {
 
-			let currentIndex = this.props.terminals.indexOf(current);
+            let currentIndex = this.props.terminals.indexOf(current);
 
-			if(left)
-				currentIndex--;
-			else
-				currentIndex++;
+            if(left)
+                currentIndex--;
+            else
+                currentIndex++;
 
-			const toFocus = this.props.terminals[currentIndex];
+            const toFocus = this.props.terminals[currentIndex];
 
-			if(toFocus)
-				this.props.dispatch(setSelected(toFocus.id));
-		}
-	}
+            if(toFocus)
+                this.props.dispatch(setSelected(toFocus.id));
+        }
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortcutsProvider);

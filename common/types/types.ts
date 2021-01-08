@@ -8,14 +8,14 @@ export type UndefinedObject<T> = T  | undefined;
  */
 export interface IUpdateStatus {
 
-	/**
-	 * If a update is available.
-	 */
-	updateAvailable?: boolean;
-	/**
-	 * If the update is ready to be installed.
-	 */
-	readyToInstall?: boolean;
+    /**
+     * If a update is available.
+     */
+    updateAvailable?: boolean;
+    /**
+     * If the update is ready to be installed.
+     */
+    readyToInstall?: boolean;
 }
 
 /**
