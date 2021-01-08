@@ -24,8 +24,54 @@ jobs:
         run: |
           echo "::set-output name=AppImageName::$(ls dist/*.AppImage | cut -d'/' -f2)"
           echo "::set-output name=AppImagePath::$(ls dist/*.AppImage)"
-      - name: Upload Build Artifacts
+      - name: Upload files
         uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.getlinuxfilename.outputs.AppImageName }}
           path: ${{ steps.getlinuxfilename.outputs.AppImagePath }}
+  ci_macos:
+    runs-on: macos-11.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        run: yarn
+      - name: Install node-gyp
+        run: yarn global add node-gyp
+      - name: Rebuild dep
+        run: yarn rebuild
+      - name: Build
+        run: yarn dist:mac
+      - name: Get macOS files names
+        id: getmacosfilename
+        run: |
+          echo "::set-output name=dmgName::$(ls dist/*-mac.dmg | cut -d'/' -f2)"
+          echo "::set-output name=dmgPath::$(ls dist/*-mac.dmg)"
+      - name: Upload files
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.getmacosfilename.outputs.dmgName }}
+          path: ${{ steps.getmacosfilename.outputs.dmgName }}
+  ci_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        run: yarn
+      - name: Install node-gyp
+        run: yarn global add node-gyp
+      - name: Rebuild dep
+        run: yarn rebuild
+      - name: Build
+        run: yarn dist:win
+      - name: Get Windows files names
+        id: getwindowsfilename
+        run: |
+          Write-Host "::set-output name=exeName::$(Get-ChildItem -Name .\dist\ | Select-String exe)"
+          Write-Host "::set-output name=exePath::dist/$(Get-ChildItem -Name .\dist\ | Select-String exe)"
+      - name: Upload files
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.getwindowsfilename.outputs.exeName }}
+          path: ${{ steps.getwindowsfilename.outputs.exeName }}
