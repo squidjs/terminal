@@ -15,6 +15,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	public factoryObject: UndefinedObject<XTerminal>;
 	private addonsProvider: AddonsProvider;
 	private config: IConfig;
+	private terminalElement: HTMLElement | null;
 
 	constructor(config: IConfig) {
 
@@ -87,7 +88,8 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 	public spawn(id: number, process: ProcessFactory<ProcessType>, onTitle: (title: string) => void) {
 
 		const terminalElement = document.getElementById(`terminal-${id}`);
-
+		this.terminalElement = terminalElement;
+		
 		if(terminalElement)
 			this.getFactoryObject().open(terminalElement);
 
@@ -121,13 +123,17 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 		this.getFactoryObject().onTitleChange((title: string) => onTitle(title));
 		this.getFactoryObject().onSelectionChange(() => this.copySelected());
 
-		window.onresize = () => this.fit();
+		window.addEventListener('resize', () => this.fit());
 	}
 
 	/**
-	 * Fit the window thanks to the fit addon.
+	 * Fit the window thanks to the fit addon. We only fit
+	 * the terminal if the DOM element is not hidden.
 	 */
 	public fit() {
+
+		if(this.terminalElement?.classList.contains('hidden'))
+			return;
 
 		const fitAddon = this.getAddon<FitAddon>(AddonType.FIT);
 

@@ -89,6 +89,7 @@ export default class Terminal {
 	public focus() {
 
 		this.xTerminal.getFactoryObject().focus();
+		this.xTerminal.fit();
 	}
 
 	/**
