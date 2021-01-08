@@ -18,5 +18,5 @@ jobs:
         run: yarn rebuild
       - name: Build
         env:
-          GH_TOKEn: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: yarn deploy:linux
