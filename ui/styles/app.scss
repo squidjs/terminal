@@ -15,16 +15,26 @@ body {
     display: flex;
     flex-direction: column;
 
-    .background {
+	.background, .border {
 
         position: absolute;
         left: 0;
         right: 0;
         width: 100vw;
         height: 100vh;
+    }
+
+    .background {
+
         background-position: center;
         background-size: cover;
     }
+
+	.border {
+
+		pointer-events: none;
+		z-index: 1;
+	}
 
     .terminal {
 

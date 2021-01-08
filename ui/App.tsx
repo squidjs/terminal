@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import AppTerminal from '@ui/components/terminals/AppTerminal';
 import Config, { IConfig } from '@common/config/Config';
 import Navbar from '@ui/components/navbar/Navbar';
@@ -91,12 +91,14 @@ class App extends Component<Props, State> {
 
     render() {
 
+		const borderStyle: CSSProperties = { boxShadow: `0 0 0 1px inset ${this.state.config.theme.border}` };
+
         return (
             <ShortcutsProvider config={this.state.config}>
                 <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
                     {
                         this.state.config.backgroundImage.enabled &&
-                            <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
+							<div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
                     }
                     <Navbar config={this.state.config} />
                     {
@@ -107,6 +109,7 @@ class App extends Component<Props, State> {
                                 terminal={terminal} />
                         )
 					}
+					<div className="border" style={borderStyle} />
 					<Notifications config={this.state.config} />
                 </div>
             </ShortcutsProvider>
