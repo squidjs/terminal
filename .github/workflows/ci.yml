@@ -45,8 +45,8 @@ jobs:
       - name: Get macOS files names
         id: getmacosfilename
         run: |
-          echo "::set-output name=dmgName::$(ls dist/*-mac.dmg | cut -d'/' -f2)"
-          echo "::set-output name=dmgPath::$(ls dist/*-mac.dmg)"
+          echo "::set-output name=dmgName::$(ls dist/*.dmg | cut -d'/' -f2)"
+          echo "::set-output name=dmgPath::$(ls dist/*.dmg)"
       - name: Upload files
         uses: actions/upload-artifact@v2
         with:
@@ -68,8 +68,8 @@ jobs:
       - name: Get Windows files names
         id: getwindowsfilename
         run: |
-          Write-Host "::set-output name=exeName::$(Get-ChildItem -Name .\dist\ | Select-String exe)"
-          Write-Host "::set-output name=exePath::dist/$(Get-ChildItem -Name .\dist\ | Select-String exe)"
+          Write-Host "::set-output name=exeName::$(Get-ChildItem -Name .\dist\ | Select-String exe$)"
+          Write-Host "::set-output name=exePath::dist/$(Get-ChildItem -Name .\dist\ | Select-String exe$)"
       - name: Upload files
         uses: actions/upload-artifact@v2
         with:
