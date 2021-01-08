@@ -7,7 +7,7 @@
         <img src="https://github.com/QuiiBz/squid/workflows/Lint/badge.svg" />
     </a>
     <a href="https://travis-ci.com/QuiiBz/squid">
-        <img src="https://travis-ci.com/QuiiBz/squid.svg?branch=canary" />
+        <img src="https://github.com/QuiiBz/squid/workflows/CI/badge.svg?branch=canary" />
     </a>
     <a href="https://github.com/QuiiBz/squid/issues">
         <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" />
