@@ -1,4 +1,4 @@
-import React, { Component, CSSProperties, FC, ReactElement, useState } from 'react';
+import React, { CSSProperties, FC, ReactElement, useState } from 'react';
 import NavbarButton from '@ui/components/navbar/NavbarButton';
 import { remote } from 'electron';
 import Tabs from '@ui/components/tabs/Tabs';
