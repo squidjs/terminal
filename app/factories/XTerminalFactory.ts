@@ -15,7 +15,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
     public factoryObject: UndefinedObject<XTerminal>;
     private addonsProvider: AddonsProvider;
     private config: IConfig;
-    private terminalElement: HTMLElement | null;
+    private terminalElement: HTMLElement | null = null;
 
     constructor(config: IConfig) {
 
