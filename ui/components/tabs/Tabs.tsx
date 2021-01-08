@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { ITerminal } from '@app/Terminal';
 import Tab from '@ui/components/tabs/Tab';
 import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal';
@@ -19,24 +19,21 @@ const mapStateToProps = (state: AppState) => ({
     terminals: state.terminals,
 });
 
-class Tabs extends Component<Props> {
+const Tabs: FC<Props> = ({ config, terminals }: Props): ReactElement => {
 
-    render() {
-
-        return (
-            <div className="tabs">
-                {
-                    this.props.terminals.map((terminal) =>
-                        <Tab
-                            config={this.props.config}
-                            key={terminal.id}
-                            terminal={terminal} />
-                    )
-                }
-                <TabCreateTerminal config={this.props.config} />
-            </div>
-        )
-    }
+    return (
+        <div className="tabs">
+            {
+                terminals.map((terminal) =>
+                    <Tab
+                        config={config}
+                        key={terminal.id}
+                        terminal={terminal} />
+                )
+            }
+            <TabCreateTerminal config={config} />
+        </div>
+    );
 }
 
 export default connect(mapStateToProps)(Tabs);

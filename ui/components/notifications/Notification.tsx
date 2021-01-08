@@ -54,9 +54,8 @@ class Notification extends Component<Props> {
                 <p className="title" style={contentStyle}>{ notification.title }</p>
                 <p className="content" style={contentStyle}>{ notification.content }</p>
                 {
-                        notification.button ?
-                            <NotificationButton theme={theme} button={notification.button} />
-                                : null
+                    notification.button &&
+                        <NotificationButton theme={theme} button={notification.button} />
                 }
             </div>
         );
