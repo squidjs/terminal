@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.getmacosfilename.outputs.dmgName }}
-          path: ${{ steps.getmacosfilename.outputs.dmgName }}
+          path: ${{ steps.getmacosfilename.outputs.dmgPath }}
   ci_windows:
     runs-on: windows-latest
     steps:
