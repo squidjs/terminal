@@ -1,4 +1,4 @@
-import React, { Component, CSSProperties } from 'react';
+import React, { Component, CSSProperties, FC, ReactElement, useState } from 'react';
 import NavbarButton from '@ui/components/navbar/NavbarButton';
 import { remote } from 'electron';
 import Tabs from '@ui/components/tabs/Tabs';
@@ -10,72 +10,59 @@ interface Props {
 	config: IConfig;
 }
 
-interface State {
+/**
+ * Minimize the current window.
+ */
+const minimize = () => {
 
-	maximized: boolean;
+	remote.getCurrentWindow().minimize();
 }
 
-export default class Navbar extends Component<Props, State> {
+/**
+ * Close the current window.
+ */
+const close = () => {
 
-	constructor(props: Props) {
+	remote.getCurrentWindow().close();
+}
 
-		super(props);
+const Navbar: FC<Props> = ({ config }: Props): ReactElement => {
 
-		this.state = {
-
-			maximized: false,
-		};
-	}
-
-	render() {
-
-		return (
-			<div className="navbar" style={{ '--border': this.props.config.theme.border } as CSSProperties }>
-				<Tabs config={this.props.config} />
-				<div className="buttons">
-					<NavbarButton
-						config={this.props.config}
-						onClick={() => this.minimize()}
-						path="M 0,5 10,5 10,6 0,6 Z" />
-					<NavbarButton
-						config={this.props.config}
-						onClick={() => this.maximize()}
-						path="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z" />
-					<NavbarButton
-						config={this.props.config}
-						onClick={() => this.close()}
-						path="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z" />
-				</div>
-			</div>
-		)
-	}
-
-	/**
-	 * Minimize the current window.
-	 */
-	private minimize() {
-
-		remote.getCurrentWindow().minimize();
-	}
-
+	const [maximized, setMaximized] = useState<boolean>(false);
+	
 	/**
 	 * Maximize or restore the current window.
 	 */
-	private maximize() {
+	const maximize = () => {
 
-		this.setState({ maximized: !this.state.maximized });
+		setMaximized(!maximized);
 
-		if(this.state.maximized)
+		if(maximized)
 			remote.getCurrentWindow().unmaximize();
 		else
 			remote.getCurrentWindow().maximize();
 	}
-
-	/**
-	 * Close the current window.
-	 */
-	private close() {
-
-		remote.getCurrentWindow().close();
-	}
+	
+	return (
+		<div className="navbar" style={{ '--border': config.theme.border } as CSSProperties }>
+			<Tabs config={config} />
+			<div className="buttons">
+				<NavbarButton
+					config={config}
+					onClick={minimize}
+					path="M 0,5 10,5 10,6 0,6 Z" />
+				<NavbarButton
+					config={config}
+					onClick={maximize}
+					path="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z" />
+				<NavbarButton
+					config={config}
+					onClick={close}
+					path="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z" />
+			</div>
+		</div>
+	);
 }
+
+export default Navbar;
+
