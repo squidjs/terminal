@@ -30,7 +30,7 @@ jobs:
           name: ${{ steps.getlinuxfilename.outputs.AppImageName }}
           path: ${{ steps.getlinuxfilename.outputs.AppImagePath }}
   ci_macos:
-    runs-on: macos-11.0
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
