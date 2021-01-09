@@ -1,5 +1,5 @@
 import React, { Component, CSSProperties } from 'react';
-import { IConfig } from '@common/config/Config';
+import { IConfig, ISSHHost } from '@common/config/Config';
 import { Dispatch } from 'redux';
 import { AppState, TerminalsAction } from '@app/store/types';
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import { remote } from 'electron';
 import { UndefinedObject } from '@common/types/types';
 import { createTerminal } from '@app/store/terminals/actions';
 import { nextTerminalId } from '@common/utils/utils';
+import electron from 'electron';
 const { Menu, MenuItem } = remote;
 
 interface Props {
@@ -88,19 +89,43 @@ class TabCreateTerminal extends Component<Props> {
             }));
         });
 
-        if(this.props.config.localSSHHosts && this.props.config.localSSHHosts.length >= 1) {
+        const { localSSHHosts } = this.props.config;
+        // TODO fetch cloud hosts
+        const cloudSSHHosts: ISSHHost[] = [];
 
+        if(localSSHHosts  && localSSHHosts.length >= 1 || cloudSSHHosts && cloudSSHHosts.length >= 1)
             this.menu?.append(new MenuItem({ type: 'separator' }));
 
-            this.props.config.localSSHHosts.forEach((sshHost) => {
+        this.buildSubmenu(this.menu, 'Local SSH Hosts', localSSHHosts);
+        this.buildSubmenu(this.menu, 'Cloud SSH Hosts', cloudSSHHosts);
+    }
 
-                this.menu?.append(new MenuItem({
+    /**
+     * Build a submenu for the ssh hosts in the base menu.
+     *
+     * @param baseMenu - The base menu to append the submenu to
+     * @param label - The label of the sybmenu
+     * @param hosts - The hosts to use
+     */
+    private buildSubmenu(baseMenu: electron.Menu, label: string, hosts: ISSHHost[]) {
 
-                    label: sshHost.name,
-                    click: () => this.createTerminal(sshHost),
-                }));
-            });
-        }
+        if(!hosts || hosts.length < 1)
+            return;
+
+        const submenu = new Menu();
+
+        hosts.forEach((sshHost) => {
+
+            submenu.append(new MenuItem({
+
+                label: sshHost.name,
+                click: () => this.createTerminal(sshHost),
+            }));
+        });
+
+        const subMenuItem = new MenuItem({ label, type: 'submenu', submenu });
+
+        baseMenu.append(subMenuItem);
     }
 
     /**
