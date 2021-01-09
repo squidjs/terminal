@@ -8,8 +8,8 @@ export default class TitleIconResolver implements Resolver<IWindow, IconResolver
     private readonly SSH_REGEX = /^[a-z]+@([a-z]|[A-Z]|[0-9])+:/;
 
     /**
-     * Resolve the icon based on the name of the ITerminal instance.
-     * This is useful to resolve the icon based on the current terminal
+     * Resolve the icon based on the name of the IWindow instance.
+     * This is useful to resolve the icon based on the current window
      * title.
      *
      * @param object - The object to resolve
@@ -43,7 +43,7 @@ export default class TitleIconResolver implements Resolver<IWindow, IconResolver
     }
 
     /**
-     * Check if we can resolve the ITerminal. We want to use this resolver
+     * Check if we can resolve the IWindow. We want to use this resolver
      * in first so it will always return true.
      *
      * @param _ - The object to resolve

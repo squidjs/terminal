@@ -33,8 +33,8 @@ export default class ShellIconResolver implements Resolver<IWindow, IconResolver
     }
 
     /**
-     * Check if we can resolve the ITerminal. We can only use this resolver
-     * if the ITerminal object is a shell terminal, not a ssh terminal.
+     * Check if we can resolve the IWindow. We can only use this resolver
+     * if the IWindow object is a shell terminal, not a ssh terminal.
      *
      * @param object - The object to resolve
      * @returns True if this resolver can resolve
