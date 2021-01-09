@@ -13,6 +13,7 @@ import Notifications from '@ui/components/notifications/Notifications';
 import { addNotification } from '@app/store/notifications/actions';
 import { configReloadedNotification } from '@common/notifications/notification';
 import './styles/app.scss';
+import AuthProvider from '@ui/components/AuthProvider';
 
 interface Props {
 
@@ -95,23 +96,25 @@ class App extends Component<Props, State> {
 
         return (
             <ShortcutsProvider config={this.state.config}>
-                <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
-                    {
-                        this.state.config.backgroundImage.enabled &&
-                            <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
-                    }
-                    <Navbar config={this.state.config} />
-                    {
-                        this.props.windows.map((window) =>
-                            <Window
-                                key={window.id}
-                                config={this.state.config}
-                                window={window} />
-                        )
-                    }
-                    <div className="border" style={borderStyle} />
-                    <Notifications config={this.state.config} />
-                </div>
+                <AuthProvider>
+                    <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
+                        {
+                            this.state.config.backgroundImage.enabled &&
+                                <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
+                        }
+                        <Navbar config={this.state.config} />
+                        {
+                            this.props.windows.map((window) =>
+                                <Window
+                                    key={window.id}
+                                    config={this.state.config}
+                                    window={window} />
+                            )
+                        }
+                        <div className="border" style={borderStyle} />
+                        <Notifications config={this.state.config} />
+                    </div>
+                </AuthProvider>
             </ShortcutsProvider>
         )
     }

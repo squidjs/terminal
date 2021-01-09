@@ -1,21 +1,18 @@
-import React, { CSSProperties, FC, ReactElement, useEffect } from 'react';
+import React, { CSSProperties, FC, ReactElement } from 'react';
 import { connect } from 'react-redux';
-import { AppState, HostsAction, LoggedAction, WindowsAction } from '@app/store/types';
+import { AppState, WindowsAction } from '@app/store/types';
 import { Dispatch } from 'redux';
-import { initializeCloud } from '@app/cloud/cloud';
-import { setHosts } from '@app/store/hosts/actions';
 import { IConfig } from '@common/config/Config';
 import { createWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
 import { IWindow } from '@app/Terminal';
-import { setLogged } from '@app/store/logged/actions';
 
 interface Props {
 
     config: IConfig;
     windows: IWindow[];
     logged: boolean;
-    dispatch: (action: HostsAction | WindowsAction | LoggedAction) => void;
+    dispatch: (action: WindowsAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -26,11 +23,12 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: HostsAction | WindowsAction | LoggedAction) => { dispatch(action) } }
+    return { dispatch: (action: WindowsAction) => { dispatch(action) } }
 }
 
 const AuthButton: FC<Props> = ({ config, windows, logged, dispatch }: Props): ReactElement | null => {
 
+    // Open the settings window on click
     const onClick = () => dispatch(createWindow({
 
         id: nextWindowId(windows),
@@ -38,21 +36,6 @@ const AuthButton: FC<Props> = ({ config, windows, logged, dispatch }: Props): Re
         // @ts-ignore
         terminalType: null,
     }));
-
-    useEffect(() => {
-
-        // Initialize cloud when mounted
-        initializeCloud().then(({ shouldLogin, hosts }) => {
-
-            const logged = !shouldLogin;
-
-            dispatch(setLogged(logged));
-
-            if(logged)
-                dispatch(setHosts(hosts));
-        });
-
-    }, []);
 
     if(!logged)
         return (
