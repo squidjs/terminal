@@ -53,6 +53,19 @@ export default class Vault {
     }
 
     /**
+     * Delete a password from the system keychain.
+     *
+     * @param account - The account to set the password on
+     */
+    public deletePassword(account: AccountType) {
+
+        keytar.deletePassword(SERVICE_NAME, account);
+
+        // Update the local data cache
+        this.data = undefined;
+    }
+
+    /**
      * Get the password for the given account type.
      *
      * @param account - The type of the account

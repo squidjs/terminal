@@ -60,6 +60,17 @@ export const login = async(email: string, password: string): Promise<ISSHHost[]>
 }
 
 /**
+ * Logout from the cloud by removing the tokens from the system keychain.
+ * You then need to update the store to logout completely.
+ */
+export const logout = () => {
+
+    const vault = Vault.getInstance();
+    vault.deletePassword('apiToken');
+    vault.deletePassword('encryptToken');
+}
+
+/**
  * Get the API token by logging in into the cloud.
  *
  * @param email - The email to login with
