@@ -12,6 +12,7 @@ import { ipcRenderer } from 'electron';
 import { TerminalShortcuts } from '@common/config/shortcuts';
 import { fontSizeNotification } from '@common/notifications/notification';
 import { addNotification } from '@app/store/notifications/actions';
+import Login from '@ui/components/settings/Login';
 import '@ui/styles/xterm.scss';
 
 interface Props {
@@ -90,9 +91,8 @@ class Window extends Component<Props, State> {
 
         if(isSettingsWindow(this.props.window)) {
 
-            return (
-                <h1>Hello world</h1>
-            );
+            // TODO change to settings window
+            return <Login />;
         }
 
         return (
