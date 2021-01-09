@@ -88,11 +88,11 @@ class TabCreateTerminal extends Component<Props> {
             }));
         });
 
-        if(this.props.config.sshHosts && this.props.config.sshHosts.length >= 1) {
+        if(this.props.config.localSSHHosts && this.props.config.localSSHHosts.length >= 1) {
 
             this.menu?.append(new MenuItem({ type: 'separator' }));
 
-            this.props.config.sshHosts.forEach((sshHost) => {
+            this.props.config.localSSHHosts.forEach((sshHost) => {
 
                 this.menu?.append(new MenuItem({
 

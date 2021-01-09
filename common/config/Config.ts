@@ -143,7 +143,7 @@ export interface IConfig {
     backgroundImage: IBackgroundImage;
     vibrancy: IVibrancy;
     shortcuts: IShortcut[];
-    sshHosts: ISSHHost[];
+    localSSHHosts: ISSHHost[];
 }
 
 export interface ITheme {
