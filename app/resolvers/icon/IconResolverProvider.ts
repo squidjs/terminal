@@ -1,4 +1,4 @@
-import { ITerminal } from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import ResolverProvider from '@common/resolvers/ResolverProvider';
 import { Tuple } from '@common/types/types';
@@ -12,14 +12,14 @@ export type IconResolverType = Tuple<string, string>;
 // Default ssh icon
 export const SSH_ICON: IconResolverType = ['fa-server', '#0465B6'];
 
-export default class IconResolverProvider extends ResolverProvider<ITerminal, IconResolverType> {
+export default class IconResolverProvider extends ResolverProvider<IWindow, IconResolverType> {
 
     /**
      * Get all the resolvers to use in this IconResolverProvider.
      *
      * @returns An array of the resolvers to use
      */
-    public getResolvers(): Resolver<ITerminal, IconResolverType>[] {
+    public getResolvers(): Resolver<IWindow, IconResolverType>[] {
 
         return [
 

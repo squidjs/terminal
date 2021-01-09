@@ -3,27 +3,12 @@ import NavbarButton from '@ui/components/navbar/NavbarButton';
 import { remote } from 'electron';
 import Tabs from '@ui/components/tabs/Tabs';
 import { IConfig } from '@common/config/Config';
+import AuthButton from '@ui/components/navbar/AuthButton';
 import '@ui/styles/navbar.scss';
 
 interface Props {
 
     config: IConfig;
-}
-
-/**
- * Minimize the current window.
- */
-const minimize = () => {
-
-    remote.getCurrentWindow().minimize();
-}
-
-/**
- * Close the current window.
- */
-const close = () => {
-
-    remote.getCurrentWindow().close();
 }
 
 const Navbar: FC<Props> = ({ config }: Props): ReactElement => {
@@ -36,17 +21,25 @@ const Navbar: FC<Props> = ({ config }: Props): ReactElement => {
     const maximize = () => {
 
         setMaximized(!maximized);
-
-        if(maximized)
-            remote.getCurrentWindow().unmaximize();
-        else
-            remote.getCurrentWindow().maximize();
+        maximized ? remote.getCurrentWindow().unmaximize() : remote.getCurrentWindow().maximize();
     }
+
+    /**
+     * Minimize the current window.
+     */
+    const minimize = () => remote.getCurrentWindow().minimize();
+
+    /**
+     * Close the current window.
+     */
+    const close = () => remote.getCurrentWindow().close();
 
     return (
         <div className="navbar" style={{ '--border': config.theme.border } as CSSProperties }>
             <Tabs config={config} />
             <div className="buttons">
+                <AuthButton
+                    config={config} />
                 <NavbarButton
                     config={config}
                     onClick={minimize}

@@ -27,9 +27,22 @@
             cursor: pointer;
             transition: .3s ease;
 
+            &.auth i {
+
+                width: 15px;
+                height: 15px;
+                color: var(--color);
+                transition: .3s ease;
+            }
+
             &:hover {
 
                 fill: var(--hover);
+
+                &.auth i {
+
+                    color: var(--hover);
+                }
             }
         }
     }

@@ -1,10 +1,10 @@
-import { ITerminal } from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
 import { IconResolverType, SSH_ICON } from '@app/resolvers/icon/IconResolverProvider';
-import { isTerminalSSH } from '@common/utils/utils';
+import { isSettingsWindow, isTerminalSSH } from '@common/utils/utils';
 
-export default class SSHIconResolver implements Resolver<ITerminal, IconResolverType> {
+export default class SSHIconResolver implements Resolver<IWindow, IconResolverType> {
 
     /**
      * Resolve the icon if no other resolver could resolve the icon. This
@@ -13,7 +13,7 @@ export default class SSHIconResolver implements Resolver<ITerminal, IconResolver
      * @param object - The object to resolve
      * @returns The resolved object
      */
-    public resolve(object: ITerminal): UndefinedObject<IconResolverType> {
+    public resolve(object: IWindow): UndefinedObject<IconResolverType> {
 
         return SSH_ICON;
     }
@@ -25,8 +25,8 @@ export default class SSHIconResolver implements Resolver<ITerminal, IconResolver
      * @param object - The object to resolve
      * @returns True if this resolver can resolve
      */
-    public canResolve(object: ITerminal): boolean {
+    public canResolve(object: IWindow): boolean {
 
-        return isTerminalSSH(object.terminalType);
+        return !isSettingsWindow(object) && isTerminalSSH(object.terminalType);
     }
 }

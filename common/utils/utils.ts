@@ -1,5 +1,5 @@
 import electron from 'electron';
-import { ITerminal, TerminalType } from '@app/Terminal';
+import { IWindow, TerminalType } from '@app/Terminal';
 import { IShell } from '@common/config/Config';
 import crypto from 'crypto';
 
@@ -14,13 +14,13 @@ const wslBasePath = '/mnt/';
  * Resolve a windows path to a wsl compatible path, only if
  * the current shell is wsl.
  *
- * @param terminal - The ITerminal object
+ * @param window - The IWindow object
  * @param path - The path to resolve
  * @returns The path which work with wsl
  */
-export function resolveToWSLPath(terminal: ITerminal, path: string): string {
+export function resolveToWSLPath(window: IWindow, path: string): string {
 
-    if(!isTerminalSSH(terminal.terminalType) && !(terminal.terminalType as IShell).path.includes('wsl.exe'))
+    if(!isTerminalSSH(window.terminalType) && !(window.terminalType as IShell).path.includes('wsl.exe'))
         return path;
 
     if(!winPathRegex.test(path))
@@ -47,15 +47,15 @@ export function addQuotes(path: string): string {
 }
 
 /**
- * Find the next terminal id to use.
+ * Find the next windows id to use.
  *
- * @param terminals - The list of current terminals
+ * @param windows - The list of current windows
  */
-export function nextTerminalId(terminals: ITerminal[]): number {
+export function nextWindowId(windows: IWindow[]): number {
 
     let id = 0;
 
-    while(terminals.find((current) => current.id === id))
+    while(windows.find((current) => current.id === id))
         id++;
 
     return id;
@@ -73,6 +73,19 @@ export function isTerminalSSH(terminalType: TerminalType): boolean {
     // is a username property. If yes, we assume that
     // the terminal type is a ssh.
     return Object.prototype.hasOwnProperty.call(terminalType, 'username');
+}
+
+/**
+ * Check if a window is a settings window or a terminal
+ * (ssh or shell) window by checking if the terminalType
+ * is null.
+ *
+ * @param window - The window to check
+ * @returns True if window is a settings window
+ */
+export function isSettingsWindow(window: IWindow): boolean {
+
+    return window.terminalType === null;
 }
 
 /**

@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import { ITerminal } from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
 import Tab from '@ui/components/tabs/Tab';
 import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal';
 import { IConfig } from '@common/config/Config';
@@ -11,24 +11,24 @@ import '@ui/styles/nerdfonts.min.css';
 interface Props {
 
     config: IConfig;
-    terminals: ITerminal[];
+    windows: IWindow[];
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-    terminals: state.terminals,
+    windows: state.windows,
 });
 
-const Tabs: FC<Props> = ({ config, terminals }: Props): ReactElement => {
+const Tabs: FC<Props> = ({ config, windows }: Props): ReactElement => {
 
     return (
         <div className="tabs">
             {
-                terminals.map((terminal) =>
+                windows.map((window) =>
                     <Tab
                         config={config}
-                        key={terminal.id}
-                        terminal={terminal} />
+                        key={window.id}
+                        window={window} />
                 )
             }
             <TabCreateTerminal config={config} />

@@ -1,9 +1,9 @@
 import React, { Component, CSSProperties } from 'react';
-import AppTerminal from '@ui/components/terminals/AppTerminal';
+import Window from '@ui/components/window/Window';
 import Config, { IConfig } from '@common/config/Config';
 import Navbar from '@ui/components/navbar/Navbar';
-import { ITerminal } from '@app/Terminal';
-import { AppState, HostsAction, NotificationsAction, SelectedAction } from '@app/store/types';
+import { IWindow } from '@app/Terminal';
+import { AppState, NotificationsAction, SelectedAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '@app/store/selected/actions';
@@ -12,15 +12,13 @@ import ShortcutsProvider from '@ui/components/ShortcutsProvider';
 import Notifications from '@ui/components/notifications/Notifications';
 import { addNotification } from '@app/store/notifications/actions';
 import { configReloadedNotification } from '@common/notifications/notification';
-import { initializeCloud, login } from '@app/cloud/cloud';
-import { setHosts } from '@app/store/hosts/actions';
 import './styles/app.scss';
 
 interface Props {
 
-    terminals: ITerminal[];
+    windows: IWindow[];
     selected: number;
-    dispatch: (action: SelectedAction | NotificationsAction | HostsAction) => void;
+    dispatch: (action: SelectedAction | NotificationsAction) => void;
 }
 
 interface State {
@@ -30,13 +28,13 @@ interface State {
 
 const mapStateToProps = (state: AppState) => ({
 
-    terminals: state.terminals,
+    windows: state.windows,
     selected: state.selected,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: SelectedAction | NotificationsAction | HostsAction) => { dispatch(action) } }
+    return { dispatch: (action: SelectedAction | NotificationsAction) => { dispatch(action) } }
 }
 
 class App extends Component<Props, State> {
@@ -58,24 +56,6 @@ class App extends Component<Props, State> {
             }
         });
 
-        initializeCloud().then(({ shouldLogin, hosts }) => {
-
-            if(shouldLogin) {
-
-                // TODO move in component
-                login('email', 'password').then((hosts) => {
-
-                    console.log(hosts);
-
-                }).catch((error) => {
-
-                    console.log(error);
-                });
-
-            } else
-                this.props.dispatch(setHosts(hosts));
-        });
-
         this.state = {
 
             config,
@@ -89,18 +69,18 @@ class App extends Component<Props, State> {
 
     /**
      * Find if the current selected terminal has been destroyed. If so,
-     * focus the terminal with the smallest id. If there are now terminals
+     * focus the terminal with the smallest id. If there are now windows
      * left, we close the window.
      *
      * @param prevProps - The previous props
      */
     componentDidUpdate(prevProps: Readonly<Props>) {
 
-        if((prevProps.terminals !== this.props.terminals) && !this.props.terminals.find((current) => current.id === this.props.selected)) {
+        if((prevProps.windows !== this.props.windows) && !this.props.windows.find((current) => current.id === this.props.selected)) {
 
-            if(this.props.terminals.length >= 1) {
+            if(this.props.windows.length >= 1) {
 
-                const { id } = this.props.terminals[0];
+                const { id } = this.props.windows[0];
 
                 this.props.dispatch(setSelected(id));
 
@@ -122,11 +102,11 @@ class App extends Component<Props, State> {
                     }
                     <Navbar config={this.state.config} />
                     {
-                        this.props.terminals.map((terminal) =>
-                            <AppTerminal
-                                key={terminal.id}
+                        this.props.windows.map((window) =>
+                            <Window
+                                key={window.id}
                                 config={this.state.config}
-                                terminal={terminal} />
+                                window={window} />
                         )
                     }
                     <div className="border" style={borderStyle} />

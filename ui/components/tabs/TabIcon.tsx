@@ -1,19 +1,19 @@
 import React, { ReactElement, FC } from 'react';
-import { ITerminal } from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
 import ResolverProvider from '@common/resolvers/ResolverProvider';
 import IconResolverProvider, { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
 
 interface Props {
 
-    terminal: ITerminal;
+    window: IWindow;
 }
 
 // The resolver to use
-const resolver: ResolverProvider<ITerminal, IconResolverType> = new IconResolverProvider();
+const resolver: ResolverProvider<IWindow, IconResolverType> = new IconResolverProvider();
 
-const TabIcon: FC<Props> = ({ terminal }: Props): ReactElement | null => {
+const TabIcon: FC<Props> = ({ window }: Props): ReactElement | null => {
 
-    const icon = resolver.resolve(terminal); 
+    const icon = resolver.resolve(window);
 
     // Only render the icon if it's actually defined
     if(icon) {

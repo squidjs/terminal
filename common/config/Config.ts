@@ -335,3 +335,10 @@ export interface HasEnv {
      */
     env?: { [key: string]: string };
 }
+
+export interface IProfile {
+    /**
+     * Represent a profile tab.
+     */
+    profile: true;
+}

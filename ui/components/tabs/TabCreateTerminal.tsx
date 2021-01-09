@@ -1,33 +1,33 @@
 import React, { Component, CSSProperties } from 'react';
 import { IConfig, ISSHHost } from '@common/config/Config';
 import { Dispatch } from 'redux';
-import { AppState, TerminalsAction } from '@app/store/types';
+import { AppState, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
-import { ITerminal, TerminalType } from '@app/Terminal';
+import { IWindow, TerminalType } from '@app/Terminal';
 import { remote } from 'electron';
 import { UndefinedObject } from '@common/types/types';
-import { createTerminal } from '@app/store/terminals/actions';
-import { nextTerminalId } from '@common/utils/utils';
+import { createWindow } from '@app/store/windows/actions';
+import { nextWindowId } from '@common/utils/utils';
 import electron from 'electron';
 const { Menu, MenuItem } = remote;
 
 interface Props {
 
     config: IConfig;
-    terminals: ITerminal[];
+    windows: IWindow[];
     hosts: ISSHHost[];
-    dispatch: (action: TerminalsAction) => void;
+    dispatch: (action: WindowsAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-    terminals: state.terminals,
+    windows: state.windows,
     hosts: state.hosts,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: TerminalsAction) => { dispatch(action) } }
+    return { dispatch: (action: WindowsAction) => { dispatch(action) } }
 }
 
 class TabCreateTerminal extends Component<Props> {
@@ -137,8 +137,8 @@ class TabCreateTerminal extends Component<Props> {
      */
     private createTerminal(terminalType: TerminalType) {
 
-        this.props.dispatch(createTerminal({
-            id: nextTerminalId(this.props.terminals),
+        this.props.dispatch(createWindow({
+            id: nextWindowId(this.props.windows),
             name: 'Terminal',
             terminalType,
         }));

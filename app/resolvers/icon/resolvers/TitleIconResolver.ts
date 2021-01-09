@@ -1,9 +1,9 @@
-import { ITerminal } from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
 import { IconResolverType, SSH_ICON } from '@app/resolvers/icon/IconResolverProvider';
 
-export default class TitleIconResolver implements Resolver<ITerminal, IconResolverType> {
+export default class TitleIconResolver implements Resolver<IWindow, IconResolverType> {
 
     private readonly SSH_REGEX = /^[a-z]+@([a-z]|[A-Z]|[0-9])+:/;
 
@@ -15,7 +15,7 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
      * @param object - The object to resolve
      * @returns The resolved object
      */
-    public resolve({ name }: ITerminal): UndefinedObject<IconResolverType> {
+    public resolve({ name }: IWindow): UndefinedObject<IconResolverType> {
 
         let icon: UndefinedObject<IconResolverType>;
 
@@ -50,7 +50,7 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
      * @returns True if this resolver can resolve
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public canResolve(_: ITerminal): boolean {
+    public canResolve(_: IWindow): boolean {
 
         return true;
     }
