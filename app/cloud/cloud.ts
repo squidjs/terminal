@@ -2,7 +2,7 @@ import Vault, { IVaultData } from '@app/cloud/Vault';
 import { ISSHHost } from '@common/config/Config';
 import { UndefinedObject } from '@common/types/types';
 import { makeAuthRequest, makeRequest } from '@common/utils/request';
-import { decrypt, encrypt, hash, IEncrypted } from '@common/utils/utils';
+import { decrypt, hash, IEncrypted } from '@common/utils/utils';
 
 /**
  * Initialize the cloud by loading the tokens in the Vault
