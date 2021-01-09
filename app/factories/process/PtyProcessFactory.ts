@@ -40,7 +40,8 @@ export default class PtyProcessFactory extends ProcessFactory<IPty>{
      * @param terminalType - The type of the terminal
      * @param onClose - Called when the pty process is closed
      */
-    public listen(terminal: XTerminal, _: TerminalType, onClose: () => void) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public listen(terminal: XTerminal, terminalType: TerminalType, onClose: () => void) {
 
         this.getFactoryObject().onData((data: string) => {
 

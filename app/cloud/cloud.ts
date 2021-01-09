@@ -51,7 +51,7 @@ export const login = async(email: string, password: string): Promise<ISSHHost[]>
                 vault.setPassword('apiToken', token);
                 vault.setPassword('encryptToken', encryptToken);
 
-                resolve(await getCloudHosts(vault.getData()!));
+                resolve(await getCloudHosts(vault.getData()));
             });
 
         } else
@@ -99,7 +99,7 @@ const getCloudHosts = async(data: IVaultData): Promise<ISSHHost[]> => {
 
     return new Promise<ISSHHost[]>((resolve) => {
 
-        let hosts: ISSHHost[] = [];
+        const hosts: ISSHHost[] = [];
         const { apiToken, encryptToken } = data;
 
         makeAuthRequest('hosts', 'GET', apiToken).then((json) => {
@@ -128,10 +128,11 @@ const getCloudHosts = async(data: IVaultData): Promise<ISSHHost[]> => {
  * @param encryptToken - The token to use to encrypt
  * @returns The encrypted host
  */
-const encryptHost = (host: ISSHHost, encryptToken: string): IEncrypted => {
+// TODO uncomment when used
+/*const encryptHost = (host: ISSHHost, encryptToken: string): IEncrypted => {
 
     return encrypt(JSON.stringify(host), encryptToken);
-}
+}*/
 
 /**
  * Decrypt a IEncrypted to a ISSHHost with the given encryptToken.

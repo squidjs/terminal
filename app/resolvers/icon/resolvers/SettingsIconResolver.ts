@@ -12,6 +12,7 @@ export default class SettingsIconResolver implements Resolver<IWindow, IconResol
      * @param object - The object to resolve
      * @returns The resolved object
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public resolve(object: IWindow): UndefinedObject<IconResolverType> {
 
         return ['fa-user', '#5D0FAA'];

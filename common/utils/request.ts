@@ -13,7 +13,8 @@ export type MethodType = 'GET' | 'POST';
  * @param body - Optional body to use
  * @returns A promise of the json response
  */
-export const makeRequest = async(url: string, method: MethodType, body?: Record<string, string>): Promise<any> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const makeRequest = async(url: string, method: MethodType, body?: any): Promise<any> => {
 
     // We only make json requests and responses
     const headers = new Headers();
@@ -41,6 +42,7 @@ export const makeRequest = async(url: string, method: MethodType, body?: Record<
  * @param body - Optional body to use
  * @returns A promise of the json response
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const makeAuthRequest = async(url: string, method: MethodType, token: string, body?: any): Promise<any> => {
 
     // We only make json requests and responses

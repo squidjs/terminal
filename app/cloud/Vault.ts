@@ -13,7 +13,7 @@ export default class Vault {
     /**
      * Load the IVaultData stored in the system keychain.
      *
-     * @return A promise of the data
+     * @returns A promise of the data
      */
     public async load(): Promise<UndefinedObject<IVaultData>> {
 
@@ -24,7 +24,7 @@ export default class Vault {
         const apiPwd = this.getPassword('apiToken');
         const encryptPwd = this.getPassword('encryptToken');
 
-        let [apiToken, encryptToken] = await Promise.all([apiPwd, encryptPwd]);
+        const [apiToken, encryptToken] = await Promise.all([apiPwd, encryptPwd]);
 
         this.data = {
 
@@ -81,11 +81,11 @@ export default class Vault {
     /**
      * Get the cached vault data.
      *
-     * @returns The vault data or undefined if not set
+     * @returns The vault data
      */
-    public getData(): UndefinedObject<IVaultData> {
+    public getData(): IVaultData {
 
-        return this.data;
+        return this.data as IVaultData;
     }
 
     /**

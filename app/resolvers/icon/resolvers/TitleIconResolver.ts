@@ -46,11 +46,11 @@ export default class TitleIconResolver implements Resolver<IWindow, IconResolver
      * Check if we can resolve the IWindow. We want to use this resolver
      * in first so it will always return true.
      *
-     * @param _ - The object to resolve
+     * @param object - The object to resolve
      * @returns True if this resolver can resolve
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public canResolve(_: IWindow): boolean {
+    public canResolve(object: IWindow): boolean {
 
         return true;
     }

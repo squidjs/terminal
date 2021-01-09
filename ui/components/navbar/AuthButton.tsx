@@ -33,6 +33,7 @@ const AuthButton: FC<Props> = ({ config, windows, logged, dispatch }: Props): Re
 
         id: nextWindowId(windows),
         name: 'Settings',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         terminalType: null,
     }));

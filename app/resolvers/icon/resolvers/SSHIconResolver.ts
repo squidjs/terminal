@@ -13,6 +13,7 @@ export default class SSHIconResolver implements Resolver<IWindow, IconResolverTy
      * @param object - The object to resolve
      * @returns The resolved object
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public resolve(object: IWindow): UndefinedObject<IconResolverType> {
 
         return SSH_ICON;

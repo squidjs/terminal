@@ -62,7 +62,7 @@ const Login: FC<Props> = ({ logged, dispatch }: Props): ReactElement => {
 
         return (
             <div style={{ userSelect: 'none', zIndex: 1 }}>
-                <h1>You're logged in</h1>
+                <h1>You are logged in</h1>
                 <button onClick={logout} type="button">Logout</button>
             </div>
         );
