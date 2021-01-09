@@ -1,6 +1,7 @@
 import electron from 'electron';
 import { ITerminal, TerminalType } from '@app/Terminal';
 import { IShell } from '@common/config/Config';
+import crypto from 'crypto';
 
 export const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 export const isWin = process.platform === 'win32';
@@ -72,4 +73,45 @@ export function isTerminalSSH(terminalType: TerminalType): boolean {
     // is a username property. If yes, we assume that
     // the terminal type is a ssh.
     return Object.prototype.hasOwnProperty.call(terminalType, 'username');
+}
+
+/**
+ * Hash a password with SCrypt. We don't need to verify the hash later,
+ * so we don't save the salt.
+ *
+ * @param password - The password to hash
+ * @returns A promise of the hashed password
+ */
+export async function hash(password: string): Promise<string> {
+
+    return crypto.createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
+}
+
+const algorithm = 'aes-256-ctr';
+const iv = crypto.randomBytes(16);
+
+export interface IEncrypted {
+
+    iv: string;
+    content: string;
+}
+
+export function encrypt(text: string, encryptToken: string): IEncrypted {
+
+    const cipher = crypto.createCipheriv(algorithm, encryptToken, iv);
+    const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+
+    return {
+
+        iv: iv.toString('hex'),
+        content: encrypted.toString('hex')
+    }
+}
+
+export function decrypt(hash: IEncrypted, encryptToken: string): string {
+
+    const decipher = crypto.createDecipheriv(algorithm, encryptToken, Buffer.from(hash.iv, 'hex'));
+    const decrypted = Buffer.concat([decipher.update(Buffer.from(hash.content, 'hex')), decipher.final()]);
+
+    return decrypted.toString();
 }

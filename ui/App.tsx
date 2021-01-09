@@ -12,6 +12,7 @@ import ShortcutsProvider from '@ui/components/ShortcutsProvider';
 import Notifications from '@ui/components/notifications/Notifications';
 import { addNotification } from '@app/store/notifications/actions';
 import { configReloadedNotification } from '@common/notifications/notification';
+import { initializeCloud, login } from '@app/cloud/cloud';
 import './styles/app.scss';
 
 interface Props {
@@ -53,6 +54,27 @@ class App extends Component<Props, State> {
                 this.props.dispatch(addNotification(notification));
 
                 this.setState({ config: newConfig });
+            }
+        });
+
+        initializeCloud().then(({ shouldLogin, hosts }) => {
+
+            if(shouldLogin) {
+
+                // TODO move in component
+                login('email', 'password').then((hosts) => {
+
+                    console.log(hosts);
+
+                }).catch((error) => {
+
+                    console.log(error);
+                });
+
+            } else {
+
+
+                console.log(hosts);
             }
         });
 
