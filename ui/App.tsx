@@ -3,7 +3,7 @@ import AppTerminal from '@ui/components/terminals/AppTerminal';
 import Config, { IConfig } from '@common/config/Config';
 import Navbar from '@ui/components/navbar/Navbar';
 import { ITerminal } from '@app/Terminal';
-import { AppState, NotificationsAction, SelectedAction } from '@app/store/types';
+import { AppState, HostsAction, NotificationsAction, SelectedAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '@app/store/selected/actions';
@@ -13,13 +13,14 @@ import Notifications from '@ui/components/notifications/Notifications';
 import { addNotification } from '@app/store/notifications/actions';
 import { configReloadedNotification } from '@common/notifications/notification';
 import { initializeCloud, login } from '@app/cloud/cloud';
+import { setHosts } from '@app/store/hosts/actions';
 import './styles/app.scss';
 
 interface Props {
 
     terminals: ITerminal[];
     selected: number;
-    dispatch: (action: SelectedAction | NotificationsAction) => void;
+    dispatch: (action: SelectedAction | NotificationsAction | HostsAction) => void;
 }
 
 interface State {
@@ -35,7 +36,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: SelectedAction | NotificationsAction) => { dispatch(action) } }
+    return { dispatch: (action: SelectedAction | NotificationsAction | HostsAction) => { dispatch(action) } }
 }
 
 class App extends Component<Props, State> {
@@ -71,11 +72,8 @@ class App extends Component<Props, State> {
                     console.log(error);
                 });
 
-            } else {
-
-
-                console.log(hosts);
-            }
+            } else
+                this.props.dispatch(setHosts(hosts));
         });
 
         this.state = {

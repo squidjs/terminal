@@ -11,7 +11,7 @@ import { decrypt, encrypt, hash, IEncrypted } from '@common/utils/utils';
  *
  * @returns A promise of if we should login and the hosts
  */
-export const initializeCloud = async(): Promise<{ shouldLogin: boolean, hosts?: ISSHHost[] }> => {
+export const initializeCloud = async(): Promise<{ shouldLogin: boolean, hosts: ISSHHost[] }> => {
 
     const vault = Vault.getInstance();
     const vaultData = await vault.load();
@@ -19,7 +19,7 @@ export const initializeCloud = async(): Promise<{ shouldLogin: boolean, hosts?: 
     // If the data is not set or if the api/encrypt tokens are not present,
     // that means we should login
     if(!vaultData || !vaultData.apiToken || !vaultData.encryptToken)
-        return { shouldLogin: true };
+        return { shouldLogin: true, hosts: [] };
 
     const hosts = await getCloudHosts(vaultData);
 
@@ -104,9 +104,9 @@ const getCloudHosts = async(data: IVaultData): Promise<ISSHHost[]> => {
                 const host = decryptHost(hash, encryptToken);
                 hosts.push(host);
             });
-        });
 
-        resolve(hosts);
+            resolve(hosts);
+        });
     });
 }
 

@@ -1,5 +1,6 @@
 import { INotification } from '@common/notifications/notification';
 import { ITerminal } from '@app/Terminal';
+import { ISSHHost } from '@common/config/Config';
 
 export type TerminalsState = ITerminal[];
 export type TerminalsAction = {
@@ -22,9 +23,17 @@ export type NotificationsAction = {
     notification: INotification;
 }
 
+export type HostsState = ISSHHost[];
+export type HostsAction = {
+
+    type: string;
+    hosts: ISSHHost[];
+}
+
 export type AppState = {
 
     terminals: TerminalsState;
     selected: SelectedState;
     notifications: NotificationsState;
+    hosts: HostsState;
 }

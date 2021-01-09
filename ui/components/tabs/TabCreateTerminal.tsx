@@ -15,12 +15,14 @@ interface Props {
 
     config: IConfig;
     terminals: ITerminal[];
+    hosts: ISSHHost[];
     dispatch: (action: TerminalsAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
     terminals: state.terminals,
+    hosts: state.hosts,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -46,13 +48,14 @@ class TabCreateTerminal extends Component<Props> {
     }
 
     /**
-     * Update the shells menu if the config changed.
+     * Update the shells menu if the config or
+     * the cloud hosts changed.
      *
      * @param prevProps - The previous props
      */
     componentDidUpdate(prevProps: Readonly<Props>) {
 
-        if(prevProps.config != this.props.config)
+        if(prevProps.config != this.props.config || prevProps.hosts != this.props.hosts)
             this.updateShells();
     }
 
@@ -90,10 +93,9 @@ class TabCreateTerminal extends Component<Props> {
         });
 
         const { localSSHHosts } = this.props.config;
-        // TODO fetch cloud hosts
-        const cloudSSHHosts: ISSHHost[] = [];
+        const cloudSSHHosts = this.props.hosts;
 
-        if(localSSHHosts  && localSSHHosts.length >= 1 || cloudSSHHosts && cloudSSHHosts.length >= 1)
+        if(localSSHHosts && localSSHHosts.length >= 1 || cloudSSHHosts && cloudSSHHosts.length >= 1)
             this.menu?.append(new MenuItem({ type: 'separator' }));
 
         this.buildSubmenu(this.menu, 'Local SSH Hosts', localSSHHosts);
