@@ -3,7 +3,7 @@ import NavbarButton from '@ui/components/navbar/NavbarButton';
 import { remote } from 'electron';
 import Tabs from '@ui/components/tabs/Tabs';
 import { IConfig } from '@common/config/Config';
-import AuthButton from '@ui/components/navbar/AuthButton';
+import AuthButton from '@ui/components/navbar/buttons/SettingsButton';
 import '@ui/styles/navbar.scss';
 
 interface Props {
@@ -16,7 +16,7 @@ const Navbar: FC<Props> = ({ config }: Props): ReactElement => {
     const [maximized, setMaximized] = useState<boolean>(false);
 
     /**
-     * Maximize or restore the current window.
+     * Maximize or restore the current windows.
      */
     const maximize = () => {
 
@@ -25,12 +25,12 @@ const Navbar: FC<Props> = ({ config }: Props): ReactElement => {
     }
 
     /**
-     * Minimize the current window.
+     * Minimize the current windows.
      */
     const minimize = () => remote.getCurrentWindow().minimize();
 
     /**
-     * Close the current window.
+     * Close the current windows.
      */
     const close = () => remote.getCurrentWindow().close();
 

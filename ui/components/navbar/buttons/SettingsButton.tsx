@@ -26,9 +26,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: WindowsAction) => { dispatch(action) } }
 }
 
-const AuthButton: FC<Props> = ({ config, windows, logged, dispatch }: Props): ReactElement | null => {
+const SettingsButton: FC<Props> = ({ config, windows, logged, dispatch }: Props): ReactElement | null => {
 
-    // Open the settings window on click
+    // Open the settings windows on click
     const onClick = () => dispatch(createWindow({
 
         id: nextWindowId(windows),
@@ -52,4 +52,4 @@ const AuthButton: FC<Props> = ({ config, windows, logged, dispatch }: Props): Re
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthButton);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsButton);

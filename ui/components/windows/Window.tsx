@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import Terminal, { IWindow } from '@app/Terminal';
 import { IConfig } from '@common/config/Config';
 import { UndefinedObject } from '@common/types/types';
-import DragDrop from '@ui/components/window/DragDrop';
+import DragDrop from '@ui/components/utils/DragDrop';
 import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
 import { AppState, NotificationsAction, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
@@ -12,7 +12,7 @@ import { ipcRenderer } from 'electron';
 import { TerminalShortcuts } from '@common/config/shortcuts';
 import { fontSizeNotification } from '@common/notifications/notification';
 import { addNotification } from '@app/store/notifications/actions';
-import Login from '@ui/components/settings/Login';
+import Settings from '@ui/components/windows/Settings';
 import '@ui/styles/xterm.scss';
 
 interface Props {
@@ -89,11 +89,8 @@ class Window extends Component<Props, State> {
 
         const className = this.props.selected === this.props.window.id ? '' : 'hidden';
 
-        if(isSettingsWindow(this.props.window)) {
-
-            // TODO change to settings window
-            return <Login />;
-        }
+        if(isSettingsWindow(this.props.window))
+            return <Settings />;
 
         return (
             <DragDrop handleDrop={(files) => this.handleDrop(files)}>

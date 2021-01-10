@@ -1,19 +1,19 @@
 import React, { Component, CSSProperties } from 'react';
-import Window from '@ui/components/window/Window';
+import Window from '@ui/components/windows/Window';
 import Config, { IConfig } from '@common/config/Config';
-import Navbar from '@ui/components/navbar/Navbar';
+import Navbar from '@ui/components/navbar/buttons/Navbar';
 import { IWindow } from '@app/Terminal';
 import { AppState, NotificationsAction, SelectedAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '@app/store/selected/actions';
 import { remote } from 'electron';
-import ShortcutsProvider from '@ui/components/ShortcutsProvider';
+import ShortcutsProvider from '@ui/components/utils/ShortcutsProvider';
 import Notifications from '@ui/components/notifications/Notifications';
 import { addNotification } from '@app/store/notifications/actions';
 import { configReloadedNotification } from '@common/notifications/notification';
 import './styles/app.scss';
-import AuthProvider from '@ui/components/AuthProvider';
+import AuthProvider from '@ui/components/utils/AuthProvider';
 
 interface Props {
 
