@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 import { IWindow } from '@app/Terminal';
-import Tab from '@ui/components/tabs/Tab';
+import Tab from '@ui/components/tabs/tab/Tab';
 import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal';
 import { IConfig } from '@common/config/Config';
 import { connect } from 'react-redux';

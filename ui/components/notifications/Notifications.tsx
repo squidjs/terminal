@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { FC, ReactElement, useEffect } from 'react';
 import { INotification, updateNotification } from '@common/notifications/notification';
 import Notification from '@ui/components/notifications/Notification';
 import { AppState, NotificationsAction } from '@app/store/types';
@@ -27,12 +27,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: NotificationsAction) => { dispatch(action) } }
 }
 
-class Notifications extends Component<Props> {
-
-    constructor(props: Props) {
-
-        super(props);
-    }
+const Notifications: FC<Props> = ({ config, notifications, dispatch }: Props): ReactElement => {
 
     /**
      * Listen for updates coming from the main process
@@ -40,34 +35,29 @@ class Notifications extends Component<Props> {
      * to the main process when the user want to restart
      * to apply the update.
      */
-    componentDidMount() {
+    useEffect(() => {
 
         // The callback executed to restart the app
-        const restart = () => {
-
-            ipcRenderer.send('restart');
-        };
+        const restart = () => ipcRenderer.send('restart');
 
         ipcRenderer.on('update', (_, update: IUpdateStatus) => {
 
             const notification = updateNotification(update, restart);
-            this.props.dispatch(addNotification(notification));
+            dispatch(addNotification(notification));
         });
-    }
 
-    render() {
+    }, []);
 
-        return (
-            <div className="notifications">
-                {
-                    this.props.notifications.map((notification, index) => {
+    return (
+        <div className="notifications">
+            {
+                notifications.map((notification, index) => {
 
-                        return <Notification config={this.props.config} key={index} notification={notification} />
-                    })
-                }
-            </div>
-        );
-    }
+                    return <Notification config={config} key={index} notification={notification} />
+                })
+            }
+        </div>
+    );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
