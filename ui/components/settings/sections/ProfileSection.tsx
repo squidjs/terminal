@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: HostsAction | LoggedAction) => { dispatch(action) } }
 }
 
-const Login: FC<Props> = ({ logged, dispatch }: Props): ReactElement => {
+const ProfileSection: FC<Props> = ({ logged, dispatch }: Props): ReactElement => {
 
     const [email, setEmail] = useState<string>()
     const [password, setPassword] = useState<string>();
@@ -85,4 +85,4 @@ const Login: FC<Props> = ({ logged, dispatch }: Props): ReactElement => {
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);

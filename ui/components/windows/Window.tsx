@@ -90,7 +90,7 @@ class Window extends Component<Props, State> {
         const className = this.props.selected === this.props.window.id ? '' : 'hidden';
 
         if(isSettingsWindow(this.props.window))
-            return <Settings />;
+            return <Settings className={className} />;
 
         return (
             <DragDrop handleDrop={(files) => this.handleDrop(files)}>

@@ -1,10 +1,24 @@
-import React, { FC, ReactElement } from 'react';
-import Login from '@ui/components/settings/Login';
+import React, { FC, ReactElement, useState } from 'react';
+import Sidebar from '@ui/components/settings/Sidebar';
+import SectionRenderer from '@ui/components/settings/SectionRenderer';
+import '@ui/styles/settings.scss';
 
-const Settings: FC = (): ReactElement => {
+interface Props {
+
+    className: string;
+}
+
+export type SectionType = 'profile' | 'about';
+
+const Settings: FC<Props> = ({ className }: Props): ReactElement => {
+
+    const [section, setSection] = useState<SectionType>('profile');
 
     return (
-        <Login />
+        <div className={`settings ${className}`}>
+            <Sidebar setSection={setSection} />
+            <SectionRenderer section={section} />
+        </div>
     );
 }
 
