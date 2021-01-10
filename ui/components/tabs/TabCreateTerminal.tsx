@@ -1,30 +1,33 @@
 import React, { Component, CSSProperties } from 'react';
-import { IConfig } from '@common/config/Config';
+import { IConfig, ISSHHost } from '@common/config/Config';
 import { Dispatch } from 'redux';
-import { AppState, TerminalsAction } from '@app/store/types';
+import { AppState, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
-import { ITerminal, TerminalType } from '@app/Terminal';
+import { IWindow, TerminalType } from '@app/Terminal';
 import { remote } from 'electron';
 import { UndefinedObject } from '@common/types/types';
-import { createTerminal } from '@app/store/terminals/actions';
-import { nextTerminalId } from '@common/utils/utils';
+import { createWindow } from '@app/store/windows/actions';
+import { nextWindowId } from '@common/utils/utils';
+import electron from 'electron';
 const { Menu, MenuItem } = remote;
 
 interface Props {
 
     config: IConfig;
-    terminals: ITerminal[];
-    dispatch: (action: TerminalsAction) => void;
+    windows: IWindow[];
+    hosts: ISSHHost[];
+    dispatch: (action: WindowsAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-    terminals: state.terminals,
+    windows: state.windows,
+    hosts: state.hosts,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: TerminalsAction) => { dispatch(action) } }
+    return { dispatch: (action: WindowsAction) => { dispatch(action) } }
 }
 
 class TabCreateTerminal extends Component<Props> {
@@ -45,13 +48,14 @@ class TabCreateTerminal extends Component<Props> {
     }
 
     /**
-     * Update the shells menu if the config changed.
+     * Update the shells menu if the config or
+     * the cloud hosts changed.
      *
      * @param prevProps - The previous props
      */
     componentDidUpdate(prevProps: Readonly<Props>) {
 
-        if(prevProps.config != this.props.config)
+        if(prevProps.config != this.props.config || prevProps.hosts != this.props.hosts)
             this.updateShells();
     }
 
@@ -88,19 +92,42 @@ class TabCreateTerminal extends Component<Props> {
             }));
         });
 
-        if(this.props.config.sshHosts && this.props.config.sshHosts.length >= 1) {
+        const { localSSHHosts } = this.props.config;
+        const cloudSSHHosts = this.props.hosts;
 
+        if(localSSHHosts && localSSHHosts.length >= 1 || cloudSSHHosts && cloudSSHHosts.length >= 1)
             this.menu?.append(new MenuItem({ type: 'separator' }));
 
-            this.props.config.sshHosts.forEach((sshHost) => {
+        this.buildSubmenu(this.menu, 'Local SSH Hosts', localSSHHosts);
+        this.buildSubmenu(this.menu, 'Cloud SSH Hosts', cloudSSHHosts);
+    }
 
-                this.menu?.append(new MenuItem({
+    /**
+     * Build a submenu for the ssh hosts in the base menu.
+     *
+     * @param baseMenu - The base menu to append the submenu to
+     * @param label - The label of the sybmenu
+     * @param hosts - The hosts to use
+     */
+    private buildSubmenu(baseMenu: electron.Menu, label: string, hosts: ISSHHost[]) {
 
-                    label: sshHost.name,
-                    click: () => this.createTerminal(sshHost),
-                }));
-            });
-        }
+        if(!hosts || hosts.length < 1)
+            return;
+
+        const submenu = new Menu();
+
+        hosts.forEach((sshHost) => {
+
+            submenu.append(new MenuItem({
+
+                label: sshHost.name,
+                click: () => this.createTerminal(sshHost),
+            }));
+        });
+
+        const subMenuItem = new MenuItem({ label, type: 'submenu', submenu });
+
+        baseMenu.append(subMenuItem);
     }
 
     /**
@@ -110,8 +137,8 @@ class TabCreateTerminal extends Component<Props> {
      */
     private createTerminal(terminalType: TerminalType) {
 
-        this.props.dispatch(createTerminal({
-            id: nextTerminalId(this.props.terminals),
+        this.props.dispatch(createWindow({
+            id: nextWindowId(this.props.windows),
             name: 'Terminal',
             terminalType,
         }));

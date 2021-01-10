@@ -94,7 +94,7 @@ const shortcuts: IShortcut[] = [
     },
 ];
 
-const sshHosts: ISSHHost[] = [
+const localSSHHosts: ISSHHost[] = [
     {
         name: 'Default host',
         host: 'hostname',
@@ -174,5 +174,5 @@ export const defaultConfig: IConfig = {
         disableOnBlur: false,
     },
     shortcuts,
-    sshHosts,
+    localSSHHosts,
 }

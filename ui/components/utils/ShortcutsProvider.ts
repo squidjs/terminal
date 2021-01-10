@@ -2,12 +2,12 @@ import { Component, ReactElement } from 'react';
 import { IConfig } from '@common/config/Config';
 import { remote } from 'electron';
 import { IShortcut, IShortcutActions } from '@common/config/shortcuts';
-import { AppState, SelectedAction, TerminalsAction } from '@app/store/types';
+import { AppState, SelectedAction, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { ITerminal } from '@app/Terminal';
-import { createTerminal, deleteTerminal } from '@app/store/terminals/actions';
-import { nextTerminalId } from '@common/utils/utils';
+import { IWindow } from '@app/Terminal';
+import { createWindow, deleteWindow } from '@app/store/windows/actions';
+import { nextWindowId } from '@common/utils/utils';
 import { setSelected } from '@app/store/selected/actions';
 const { Menu, MenuItem } = remote;
 
@@ -15,20 +15,20 @@ interface Props {
 
     children: ReactElement,
     config: IConfig;
-    terminals: ITerminal[];
+    windows: IWindow[];
     selected: number;
-    dispatch: (action: TerminalsAction | SelectedAction) => void;
+    dispatch: (action: WindowsAction | SelectedAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-    terminals: state.terminals,
+    windows: state.windows,
     selected: state.selected,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: TerminalsAction | SelectedAction) => { dispatch(action) } }
+    return { dispatch: (action: WindowsAction | SelectedAction) => { dispatch(action) } }
 }
 
 class ShortcutsProvider extends Component<Props> {
@@ -89,18 +89,18 @@ class ShortcutsProvider extends Component<Props> {
         switch(shortcut.action) {
 
             case 'terminal:create':
-                this.props.dispatch(createTerminal({
-                    id: nextTerminalId(this.props.terminals),
+                this.props.dispatch(createWindow({
+                    id: nextWindowId(this.props.windows),
                     name: 'Terminal',
                     terminalType: this.props.config.defaultShell,
                 }));
                 break;
 
             case 'terminal:close':
-                this.props.dispatch(deleteTerminal(this.props.terminals.find((current) => {
+                this.props.dispatch(deleteWindow(this.props.windows.find((current) => {
 
                     return current.id === this.props.selected;
-                }) as ITerminal));
+                }) as IWindow));
                 break;
 
             case 'terminal:zoomin':
@@ -143,18 +143,18 @@ class ShortcutsProvider extends Component<Props> {
      */
     private focus(left: boolean) {
 
-        const current = this.props.terminals.find((current) => current.id === this.props.selected);
+        const current = this.props.windows.find((current) => current.id === this.props.selected);
 
         if(current) {
 
-            let currentIndex = this.props.terminals.indexOf(current);
+            let currentIndex = this.props.windows.indexOf(current);
 
             if(left)
                 currentIndex--;
             else
                 currentIndex++;
 
-            const toFocus = this.props.terminals[currentIndex];
+            const toFocus = this.props.windows[currentIndex];
 
             if(toFocus)
                 this.props.dispatch(setSelected(toFocus.id));

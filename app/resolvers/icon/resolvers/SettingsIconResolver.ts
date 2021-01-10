@@ -1,14 +1,13 @@
 import { IWindow } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
-import { IconResolverType, SSH_ICON } from '@app/resolvers/icon/IconResolverProvider';
-import { isSettingsWindow, isTerminalSSH } from '@common/utils/utils';
+import { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
+import { isSettingsWindow } from '@common/utils/utils';
 
-export default class SSHIconResolver implements Resolver<IWindow, IconResolverType> {
+export default class SettingsIconResolver implements Resolver<IWindow, IconResolverType> {
 
     /**
-     * Resolve the icon if no other resolver could resolve the icon. This
-     * resolver will always return the SSH icon.
+     * We always return the same icon for the settings window.
      *
      * @param object - The object to resolve
      * @returns The resolved object
@@ -16,18 +15,18 @@ export default class SSHIconResolver implements Resolver<IWindow, IconResolverTy
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public resolve(object: IWindow): UndefinedObject<IconResolverType> {
 
-        return SSH_ICON;
+        return ['fa-user', '#5D0FAA'];
     }
 
     /**
      * Check if we can resolve the IWindow. We can only use this resolver
-     * if the IWindow object is a ssh terminal, not a shell terminal.
+     * if the IWindow object is a settings window.
      *
      * @param object - The object to resolve
      * @returns True if this resolver can resolve
      */
     public canResolve(object: IWindow): boolean {
 
-        return !isSettingsWindow(object) && isTerminalSSH(object.terminalType);
+        return isSettingsWindow(object);
     }
 }

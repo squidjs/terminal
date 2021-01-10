@@ -1,11 +1,12 @@
 import { INotification } from '@common/notifications/notification';
-import { ITerminal } from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
+import { ISSHHost } from '@common/config/Config';
 
-export type TerminalsState = ITerminal[];
-export type TerminalsAction = {
+export type WindowsState = IWindow[];
+export type WindowsAction = {
 
     type: string;
-    terminal: ITerminal;
+    window: IWindow;
 }
 
 export type SelectedState = number;
@@ -22,9 +23,25 @@ export type NotificationsAction = {
     notification: INotification;
 }
 
+export type HostsState = ISSHHost[];
+export type HostsAction = {
+
+    type: string;
+    hosts: ISSHHost[];
+}
+
+export type LoggedState = boolean;
+export type LoggedAction = {
+
+    type: string;
+    logged: boolean;
+}
+
 export type AppState = {
 
-    terminals: TerminalsState;
+    windows: WindowsState;
     selected: SelectedState;
     notifications: NotificationsState;
+    hosts: HostsState;
+    logged: LoggedState;
 }

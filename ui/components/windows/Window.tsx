@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import Terminal, { ITerminal } from '@app/Terminal';
+import Terminal, { IWindow } from '@app/Terminal';
 import { IConfig } from '@common/config/Config';
 import { UndefinedObject } from '@common/types/types';
-import DragDrop from '@ui/components/terminals/DragDrop';
-import { addQuotes, resolveToWSLPath } from '@common/utils/utils';
-import '@ui/styles/xterm.scss';
-import { AppState, NotificationsAction, TerminalsAction } from '@app/store/types';
+import DragDrop from '@ui/components/utils/DragDrop';
+import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
+import { AppState, NotificationsAction, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
-import { deleteTerminal, updateTerminal } from '@app/store/terminals/actions';
+import { deleteWindow, updateWindow } from '@app/store/windows/actions';
 import { ipcRenderer } from 'electron';
 import { TerminalShortcuts } from '@common/config/shortcuts';
 import { fontSizeNotification } from '@common/notifications/notification';
 import { addNotification } from '@app/store/notifications/actions';
+import Settings from '@ui/components/windows/Settings';
+import '@ui/styles/xterm.scss';
 
 interface Props {
 
     config: IConfig;
-    terminal: ITerminal;
+    window: IWindow;
     selected: number;
-    dispatch: (action: TerminalsAction | NotificationsAction) => void;
+    dispatch: (action: WindowsAction | NotificationsAction) => void;
 }
 
 interface State {
@@ -34,10 +35,10 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: TerminalsAction | NotificationsAction) => { dispatch(action) } }
+    return { dispatch: (action: WindowsAction | NotificationsAction) => { dispatch(action) } }
 }
 
-class AppTerminal extends Component<Props, State> {
+class Window extends Component<Props, State> {
 
     constructor(props: Props) {
 
@@ -86,33 +87,39 @@ class AppTerminal extends Component<Props, State> {
 
     render() {
 
-        const className = this.props.selected === this.props.terminal.id ? '' : 'hidden';
+        const className = this.props.selected === this.props.window.id ? '' : 'hidden';
+
+        if(isSettingsWindow(this.props.window))
+            return <Settings className={className} />;
 
         return (
             <DragDrop handleDrop={(files) => this.handleDrop(files)}>
-                <div className={className} id={`terminal-${this.props.terminal.id}`} />
+                <div className={className} id={`window-${this.props.window.id}`} />
             </DragDrop>
         )
     }
 
     /**
      * Summon a terminal, if selected. We also handle the closing of this
-     * terminal.
+     * terminal. Don't do anything if this is a settings window.
      */
     private trySummonTerminal() {
 
-        if(this.props.selected === this.props.terminal.id) {
+        if(isSettingsWindow(this.props.window))
+            return;
+
+        if(this.props.selected === this.props.window.id) {
 
             const { config } = this.props;
-            const { terminalType, id } = this.props.terminal;
+            const { terminalType, id } = this.props.window;
 
             const terminal = new Terminal(config, id, terminalType, () => {
 
-                this.props.dispatch(deleteTerminal(this.props.terminal));
+                this.props.dispatch(deleteWindow(this.props.window));
 
             }, (name: string) => {
 
-                this.props.dispatch(updateTerminal({ ...this.props.terminal, name }));
+                this.props.dispatch(updateWindow({ ...this.props.window, name }));
             });
 
             this.setState({ terminal });
@@ -120,16 +127,19 @@ class AppTerminal extends Component<Props, State> {
     }
 
     /**
-     * Listen for shortcuts events to zoom in/out
-     * in the terminal instance.
+     * Listen for shortcuts events to zoom in/out in the terminal
+     * instance. Don't do anything if this is a settings window.
      */
     private listenForShortcuts() {
+
+        if(isSettingsWindow(this.props.window))
+            return;
 
         ipcRenderer.on('shortcuts', (event, args) => {
 
             const shortcut: TerminalShortcuts = args;
 
-            if(shortcut && this.props.selected === this.props.terminal.id) {
+            if(shortcut && this.props.selected === this.props.window.id) {
 
                 switch(shortcut) {
 
@@ -148,6 +158,11 @@ class AppTerminal extends Component<Props, State> {
         });
     }
 
+    /**
+     * Zoom in or out in the current window.
+     *
+     * @param zoomIn - If we should zoom in or out
+     */
     private zoomAndNotify(zoomIn: boolean) {
 
         const zoom = this.state.terminal?.zoom(zoomIn);
@@ -163,14 +178,14 @@ class AppTerminal extends Component<Props, State> {
      */
     private handleDrop(files: FileList) {
 
-        if(this.props.selected !== this.props.terminal.id)
+        if(this.props.selected !== this.props.window.id)
             return;
 
         const filesPath = [];
 
         for(let i = 0; i < files.length; i++) {
 
-            const wslPath = resolveToWSLPath(this.props.terminal, files[i].path);
+            const wslPath = resolveToWSLPath(this.props.window, files[i].path);
 
             filesPath.push(addQuotes(wslPath));
         }
@@ -179,4 +194,4 @@ class AppTerminal extends Component<Props, State> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppTerminal);
+export default connect(mapStateToProps, mapDispatchToProps)(Window);

@@ -149,7 +149,7 @@ export default class Terminal {
     }
 }
 
-export interface ITerminal {
+export interface IWindow {
 
     id: number;
     name: string;

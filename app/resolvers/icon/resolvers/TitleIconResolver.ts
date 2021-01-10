@@ -1,21 +1,21 @@
-import { ITerminal } from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
 import { Resolver } from '@common/resolvers/Resolver';
 import { UndefinedObject } from '@common/types/types';
 import { IconResolverType, SSH_ICON } from '@app/resolvers/icon/IconResolverProvider';
 
-export default class TitleIconResolver implements Resolver<ITerminal, IconResolverType> {
+export default class TitleIconResolver implements Resolver<IWindow, IconResolverType> {
 
     private readonly SSH_REGEX = /^[a-z]+@([a-z]|[A-Z]|[0-9])+:/;
 
     /**
-     * Resolve the icon based on the name of the ITerminal instance.
-     * This is useful to resolve the icon based on the current terminal
+     * Resolve the icon based on the name of the IWindow instance.
+     * This is useful to resolve the icon based on the current window
      * title.
      *
      * @param object - The object to resolve
      * @returns The resolved object
      */
-    public resolve({ name }: ITerminal): UndefinedObject<IconResolverType> {
+    public resolve({ name }: IWindow): UndefinedObject<IconResolverType> {
 
         let icon: UndefinedObject<IconResolverType>;
 
@@ -43,14 +43,14 @@ export default class TitleIconResolver implements Resolver<ITerminal, IconResolv
     }
 
     /**
-     * Check if we can resolve the ITerminal. We want to use this resolver
+     * Check if we can resolve the IWindow. We want to use this resolver
      * in first so it will always return true.
      *
-     * @param _ - The object to resolve
+     * @param object - The object to resolve
      * @returns True if this resolver can resolve
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public canResolve(_: ITerminal): boolean {
+    public canResolve(object: IWindow): boolean {
 
         return true;
     }

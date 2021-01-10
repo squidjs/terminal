@@ -87,7 +87,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
      */
     public spawn(id: number, process: ProcessFactory<ProcessType>, onTitle: (title: string) => void) {
 
-        const terminalElement = document.getElementById(`terminal-${id}`);
+        const terminalElement = document.getElementById(`window-${id}`);
         this.terminalElement = terminalElement;
 
         if(terminalElement)

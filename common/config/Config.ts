@@ -143,7 +143,7 @@ export interface IConfig {
     backgroundImage: IBackgroundImage;
     vibrancy: IVibrancy;
     shortcuts: IShortcut[];
-    sshHosts: ISSHHost[];
+    localSSHHosts: ISSHHost[];
 }
 
 export interface ITheme {
@@ -334,4 +334,11 @@ export interface HasEnv {
      * SSH or Shell hosts.
      */
     env?: { [key: string]: string };
+}
+
+export interface IProfile {
+    /**
+     * Represent a profile tab.
+     */
+    profile: true;
 }
