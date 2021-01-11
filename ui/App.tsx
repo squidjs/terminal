@@ -9,7 +9,6 @@ import { setSelected } from '@app/store/selected/actions';
 import { remote } from 'electron';
 import ShortcutsListener from '@ui/components/utils/ShortcutsListener';
 import Notifications from '@ui/components/notifications/Notifications';
-import AuthProvider from '@ui/components/utils/AuthProvider';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import './styles/app.scss';
 
@@ -57,25 +56,23 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
         <ConfigContext.Consumer>
             { config => (
                 <ShortcutsListener config={config}>
-                    <AuthProvider>
-                        <div className="main" style={{ backgroundColor: config.theme.background }}>
-                            {
-                                config.backgroundImage.enabled &&
-                                <div className="background" style={{ backgroundImage: `url(${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
-                            }
-                            <Navbar />
-                            {
-                                windows.map((window) =>
-                                    <Window
-                                        key={window.id}
-                                        config={config}
-                                        window={window} />
-                                )
-                            }
-                            <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} />
-                            <Notifications />
-                        </div>
-                    </AuthProvider>
+                    <div className="main" style={{ backgroundColor: config.theme.background }}>
+                        {
+                            config.backgroundImage.enabled &&
+                            <div className="background" style={{ backgroundImage: `url(${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
+                        }
+                        <Navbar />
+                       {
+                            windows.map((window) =>
+                                <Window
+                                    key={window.id}
+                                    config={config}
+                                    window={window} />
+                            )
+                        }
+                        <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} />
+                        <Notifications />
+                    </div>
                 </ShortcutsListener>
             )}
         </ConfigContext.Consumer>

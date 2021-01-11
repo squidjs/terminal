@@ -30,18 +30,10 @@ export type HostsAction = {
     hosts: ISSHHost[];
 }
 
-export type LoggedState = boolean;
-export type LoggedAction = {
-
-    type: string;
-    logged: boolean;
-}
-
 export type AppState = {
 
     windows: WindowsState;
     selected: SelectedState;
     notifications: NotificationsState;
     hosts: HostsState;
-    logged: LoggedState;
 }
