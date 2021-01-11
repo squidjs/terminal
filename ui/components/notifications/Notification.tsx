@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: NotificationsAction) => { dispatch(action) } }
 }
 
-const Notification: FC<Props> = ({ notification, dispatch }): ReactElement => {
+const Notification: FC<Props> = ({ notification, dispatch }: Props): ReactElement => {
 
     /**
      * Remove the notification when the configurated time has passed.
