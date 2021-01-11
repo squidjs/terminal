@@ -43,7 +43,6 @@ const Notifications: FC<Props> = ({ notifications, dispatch }: Props): ReactElem
             const notification = updateNotification(update, restart);
             dispatch(addNotification(notification));
         });
-
     }, []);
 
     return (

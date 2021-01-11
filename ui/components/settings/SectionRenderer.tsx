@@ -8,18 +8,28 @@ interface Props {
     section: SectionType;
 }
 
+const SECTIONS: { [key: string]: ReactElement } = {
+
+    profile: <ProfileSection />,
+    about: <AboutSection />,
+};
+
 const SectionRenderer: FC<Props> = ({ section }: Props): ReactElement => {
+
+    const getSection = (): ReactElement | null => {
+
+        for(const [key, element] of Object.entries(SECTIONS)) {
+
+            if(key == section)
+                return element;
+        }
+
+        return null;
+    }
 
     return (
         <div className="section">
-            {
-                section === 'profile' &&
-                    <ProfileSection />
-            }
-            {
-                section === 'about' &&
-                    <AboutSection />
-            }
+            { getSection() }    
         </div>
     );
 }
