@@ -36,14 +36,14 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
     /**
      * Setup the shortcuts when the component is mounted.
      */
-    useEffect(() => setupShortcuts);
+    useEffect(() => setupShortcuts(), []);
 
     /**
      * Re-setup the shortcuts if they have changed.
      *
      * @param prevProps - The previous props.
      */
-    useEffect(() => setupShortcuts, [config.shortcuts])
+    useEffect(() => setupShortcuts(), [config])
 
     /**
      * Setup all the shortcuts to a Menu, with a accelerator
