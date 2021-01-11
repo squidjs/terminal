@@ -1,15 +1,15 @@
-import React, { Component, CSSProperties } from 'react';
-import { IConfig, ITheme } from '@common/config/Config';
+import React, { CSSProperties, FC, ReactElement, useEffect } from 'react';
+import { ITheme } from '@common/config/Config';
 import { INotification, INotificationLevel } from '@common/notifications/notification';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { NotificationsAction } from '@app/store/types';
 import { removeNotification } from '@app/store/notifications/actions';
 import NotificationButton from '@ui/components/notifications/NotificationButton';
+import { ConfigContext } from '@ui/contexts/ConfigContext';
 
 interface Props {
 
-    config: IConfig;
     notification: INotification;
     dispatch: (action: NotificationsAction) => void;
 }
@@ -19,71 +19,69 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: NotificationsAction) => { dispatch(action) } }
 }
 
-class Notification extends Component<Props> {
-
-    constructor(props: Props) {
-
-        super(props);
-    }
+const Notification: FC<Props> = ({ notification, dispatch }): ReactElement => {
 
     /**
      * Remove the notification when the configurated time has passed.
      */
-    componentDidMount() {
+    useEffect(() => {
 
         // The timeout of this notification in milliseconds
-        const timeout = this.props.notification.time * 1000;
+        const timeout = notification.time * 1000;
 
-        setTimeout(() => {
+        setTimeout(() => dispatch(removeNotification(notification)), timeout);
 
-            this.props.dispatch(removeNotification(this.props.notification));
+    }, []);
 
-        }, timeout);
+    const notificationStyle = ({ level }: INotification, theme: ITheme): CSSProperties => {
+
+        return { backgroundColor: getColor(level, theme) };
     }
 
-    render() {
+    const contentStyle = ({ black: color }: ITheme): CSSProperties => {
 
-        const { theme } = this.props.config;
-        const { notification } = this.props;
+        return { color };
+    }
 
-        const notificationStyle: CSSProperties = { backgroundColor: this.getColor(theme) };
-        const contentStyle: CSSProperties = { color: theme.black };
-
-        return (
-            <div className="notification" style={notificationStyle}>
-                <p className="title" style={contentStyle}>{ notification.title }</p>
-                <p className="content" style={contentStyle}>{ notification.content }</p>
-                {
-                    notification.button &&
+    return (
+        <ConfigContext.Consumer>
+            { ({ theme }) => (
+                <div className="notification" style={notificationStyle(notification, theme)}>
+                    <p className="title" style={contentStyle(theme)}>{ notification.title }</p>
+                    <p className="content" style={contentStyle(theme)}>{ notification.content }</p>
+                    {
+                        notification.button &&
                         <NotificationButton theme={theme} button={notification.button} />
-                }
-            </div>
-        );
-    }
+                    }
+                </div>
+            )}
+        </ConfigContext.Consumer>
+    );
+}
 
-    /**
-     * Get the backgorund color for this notification
-     * based on the current theme.
-     *
-     * @param theme - The theme to use
-     * @returns The background color
-     */
-    private getColor(theme: ITheme): string {
+/**
+ * Get the background color for this notification
+ * based on the current theme.
+ *
+ * @param level - The notification leve
+ * @param theme - The theme to use
+ * @returns The background color
+ */
+const getColor = (level: INotificationLevel, theme: ITheme): string => {
 
-        switch(this.props.notification.level) {
+    switch(level) {
 
-            case INotificationLevel.INFO:
-                return theme.brightBlue;
+        case INotificationLevel.INFO:
+            return theme.brightBlue;
 
-            case INotificationLevel.SUCCESS:
-                return theme.brightGreen;
+        case INotificationLevel.SUCCESS:
+            return theme.brightGreen;
 
-            case INotificationLevel.ERROR:
-                return theme.brightRed;
+        case INotificationLevel.ERROR:
+            return theme.brightRed;
 
-            default:
-                return '';
-        }
+        default:
+            return '';
     }
 }
 

@@ -3,7 +3,6 @@ import { INotification, updateNotification } from '@common/notifications/notific
 import Notification from '@ui/components/notifications/Notification';
 import { AppState, NotificationsAction } from '@app/store/types';
 import { connect } from 'react-redux';
-import { IConfig } from '@common/config/Config';
 import { ipcRenderer } from 'electron';
 import { IUpdateStatus } from '@common/types/types';
 import { Dispatch } from 'redux'
@@ -12,7 +11,6 @@ import '@ui/styles/notifications.scss';
 
 interface Props {
 
-    config: IConfig;
     notifications: INotification[];
     dispatch: (action: NotificationsAction) => void;
 }
@@ -27,7 +25,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: NotificationsAction) => { dispatch(action) } }
 }
 
-const Notifications: FC<Props> = ({ config, notifications, dispatch }: Props): ReactElement => {
+const Notifications: FC<Props> = ({ notifications, dispatch }: Props): ReactElement => {
 
     /**
      * Listen for updates coming from the main process
@@ -53,7 +51,7 @@ const Notifications: FC<Props> = ({ config, notifications, dispatch }: Props): R
             {
                 notifications.map((notification, index) => {
 
-                    return <Notification config={config} key={index} notification={notification} />
+                    return <Notification key={index} notification={notification} />
                 })
             }
         </div>

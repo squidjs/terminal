@@ -1,30 +1,23 @@
-import React, { Component, CSSProperties } from 'react';
+import React, { FC, ReactElement, useEffect } from 'react';
 import Window from '@ui/components/windows/Window';
-import Config, { IConfig } from '@common/config/Config';
 import Navbar from '@ui/components/navbar/buttons/Navbar';
 import { IWindow } from '@app/Terminal';
-import { AppState, NotificationsAction, SelectedAction } from '@app/store/types';
+import { AppState, SelectedAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '@app/store/selected/actions';
 import { remote } from 'electron';
 import ShortcutsProvider from '@ui/components/utils/ShortcutsProvider';
 import Notifications from '@ui/components/notifications/Notifications';
-import { addNotification } from '@app/store/notifications/actions';
-import { configReloadedNotification } from '@common/notifications/notification';
-import './styles/app.scss';
 import AuthProvider from '@ui/components/utils/AuthProvider';
+import { ConfigContext } from '@ui/contexts/ConfigContext';
+import './styles/app.scss';
 
 interface Props {
 
     windows: IWindow[];
     selected: number;
-    dispatch: (action: SelectedAction | NotificationsAction) => void;
-}
-
-interface State {
-
-    config: IConfig;
+    dispatch: (action: SelectedAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -35,89 +28,58 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: SelectedAction | NotificationsAction) => { dispatch(action) } }
+    return { dispatch: (action: SelectedAction) => { dispatch(action) } }
 }
 
-class App extends Component<Props, State> {
-
-    private mounted = true;
-
-    constructor(props: Props) {
-
-        super(props);
-
-        const config = Config.getInstance().loadConfig((newConfig: IConfig) => {
-
-            if(this.mounted) {
-
-                const notification = configReloadedNotification(false);
-                this.props.dispatch(addNotification(notification));
-
-                this.setState({ config: newConfig });
-            }
-        });
-
-        this.state = {
-
-            config,
-        };
-    }
-
-    componentWillUnmount() {
-
-        this.mounted = false;
-    }
+const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement => {
 
     /**
      * Find if the current selected terminal has been destroyed. If so,
      * focus the terminal with the smallest id. If there are now windows
      * left, we close the window.
-     *
-     * @param prevProps - The previous props
      */
-    componentDidUpdate(prevProps: Readonly<Props>) {
+    useEffect(() => {
 
-        if((prevProps.windows !== this.props.windows) && !this.props.windows.find((current) => current.id === this.props.selected)) {
+        if(windows.find((current) => current.id === selected))
+            return;
 
-            if(this.props.windows.length >= 1) {
+        if(windows.length >= 1) {
 
-                const { id } = this.props.windows[0];
+            const { id } = windows[0];
+            dispatch(setSelected(id));
 
-                this.props.dispatch(setSelected(id));
+        } else
+            remote.getCurrentWindow().close();
 
-            } else
-                remote.getCurrentWindow().close();
-        }
-    }
+    }, [windows]);
 
-    render() {
-
-        const borderStyle: CSSProperties = { boxShadow: `0 0 0 1px inset ${this.state.config.theme.border}` };
-
-        return (
-            <ShortcutsProvider config={this.state.config}>
-                <AuthProvider>
-                    <div className="main" style={{ backgroundColor: this.state.config.theme.background }}>
-                        {
-                            this.state.config.backgroundImage.enabled &&
-                                <div className="background" style={{ backgroundImage: `url(${this.state.config.backgroundImage.image})`, opacity: this.state.config.backgroundImage.opacity }} />
-                        }
-                        <Navbar config={this.state.config} />
-                        {
-                            this.props.windows.map((window) =>
-                                <Window
-                                    key={window.id}
-                                    config={this.state.config}
-                                    window={window} />
-                            )
-                        }
-                        <div className="border" style={borderStyle} />
-                        <Notifications config={this.state.config} />
-                    </div>
-                </AuthProvider>
-            </ShortcutsProvider>
-        )
-    }
+    return (
+        <ConfigContext.Consumer>
+            { config => (
+                <ShortcutsProvider config={config}>
+                    <AuthProvider>
+                        <div className="main" style={{ backgroundColor: config.theme.background }}>
+                            {
+                                config.backgroundImage.enabled &&
+                                <div className="background" style={{ backgroundImage: `url(${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
+                            }
+                            <Navbar />
+                            {
+                                windows.map((window) =>
+                                    <Window
+                                        key={window.id}
+                                        config={config}
+                                        window={window} />
+                                )
+                            }
+                            <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} />
+                            <Notifications />
+                        </div>
+                    </AuthProvider>
+                </ShortcutsProvider>
+            )}
+        </ConfigContext.Consumer>
+    );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
