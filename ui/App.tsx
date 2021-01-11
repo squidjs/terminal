@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '@app/store/selected/actions';
 import { remote } from 'electron';
-import ShortcutsProvider from '@ui/components/utils/ShortcutsProvider';
+import ShortcutsListener from '@ui/components/utils/ShortcutsListener';
 import Notifications from '@ui/components/notifications/Notifications';
 import AuthProvider from '@ui/components/utils/AuthProvider';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
@@ -56,7 +56,7 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
     return (
         <ConfigContext.Consumer>
             { config => (
-                <ShortcutsProvider config={config}>
+                <ShortcutsListener config={config}>
                     <AuthProvider>
                         <div className="main" style={{ backgroundColor: config.theme.background }}>
                             {
@@ -76,7 +76,7 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
                             <Notifications />
                         </div>
                     </AuthProvider>
-                </ShortcutsProvider>
+                </ShortcutsListener>
             )}
         </ConfigContext.Consumer>
     );

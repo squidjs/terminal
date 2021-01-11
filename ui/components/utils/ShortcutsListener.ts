@@ -1,4 +1,4 @@
-import { Component, ReactElement } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { IConfig } from '@common/config/Config';
 import { remote } from 'electron';
 import { IShortcut, IShortcutActions } from '@common/config/shortcuts';
@@ -13,7 +13,7 @@ const { Menu, MenuItem } = remote;
 
 interface Props {
 
-    children: ReactElement,
+    children: ReactElement;
     config: IConfig;
     windows: IWindow[];
     selected: number;
@@ -31,48 +31,34 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: WindowsAction | SelectedAction) => { dispatch(action) } }
 }
 
-class ShortcutsProvider extends Component<Props> {
+const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dispatch }: Props): ReactElement => {
 
     /**
      * Setup the shortcuts when the component is mounted.
      */
-    componentDidMount() {
-
-        this.setupShortcuts();
-    }
+    useEffect(() => setupShortcuts);
 
     /**
      * Re-setup the shortcuts if they have changed.
      *
      * @param prevProps - The previous props.
      */
-    componentDidUpdate(prevProps: Readonly<Props>) {
-
-        if(prevProps.config.shortcuts != this.props.config.shortcuts)
-            this.setupShortcuts();
-    }
-
-    render() {
-
-        return this.props.children;
-    }
+    useEffect(() => setupShortcuts, [config.shortcuts])
 
     /**
      * Setup all the shortcuts to a Menu, with a accelerator
      * configured in the IShortcut interface.
-     *
-     * @see IShortcut
      */
-    private setupShortcuts() {
+    const setupShortcuts = () => {
 
         const menu = new Menu();
-        this.props.config.shortcuts.forEach((shortcut) => {
+        config.shortcuts.forEach((shortcut) => {
 
             menu.append(new MenuItem({
 
                 label: shortcut.name,
                 accelerator: shortcut.keybinds,
-                click: () => this.executeShortcut(shortcut),
+                click: () => executeShortcut(shortcut),
             }));
         });
 
@@ -84,33 +70,33 @@ class ShortcutsProvider extends Component<Props> {
      *
      * @param shortcut - The shortcut to execute
      */
-    private executeShortcut(shortcut: IShortcut) {
+    const executeShortcut = (shortcut: IShortcut) => {
 
         switch(shortcut.action) {
 
             case 'terminal:create':
-                this.props.dispatch(createWindow({
-                    id: nextWindowId(this.props.windows),
+                dispatch(createWindow({
+                    id: nextWindowId(windows),
                     name: 'Terminal',
-                    terminalType: this.props.config.defaultShell,
+                    terminalType: config.defaultShell,
                 }));
                 break;
 
             case 'terminal:close':
-                this.props.dispatch(deleteWindow(this.props.windows.find((current) => {
+                dispatch(deleteWindow(windows.find((current) => {
 
-                    return current.id === this.props.selected;
+                    return current.id === selected;
                 }) as IWindow));
                 break;
 
             case 'terminal:zoomin':
             case 'terminal:zoomout':
-                this.zoom(shortcut.action);
+                zoom(shortcut.action);
                 break;
 
             case 'terminal:left':
             case 'terminal:right':
-                this.focus(shortcut.action === 'terminal:left');
+                focus(shortcut.action === 'terminal:left');
                 break;
 
             case 'window:devtools':
@@ -131,7 +117,7 @@ class ShortcutsProvider extends Component<Props> {
      *
      * @param action - The action to execute
      */
-    private zoom(action: IShortcutActions) {
+    const zoom = (action: IShortcutActions) => {
 
         remote.getCurrentWindow().webContents.send('shortcuts', action);
     }
@@ -141,25 +127,27 @@ class ShortcutsProvider extends Component<Props> {
      *
      * @param left - If we should focus the left or right terminal
      */
-    private focus(left: boolean) {
+    const focus = (left: boolean) => {
 
-        const current = this.props.windows.find((current) => current.id === this.props.selected);
+        const current = windows.find((current) => current.id === selected);
 
         if(current) {
 
-            let currentIndex = this.props.windows.indexOf(current);
+            let currentIndex = windows.indexOf(current);
 
             if(left)
                 currentIndex--;
             else
                 currentIndex++;
 
-            const toFocus = this.props.windows[currentIndex];
+            const toFocus = windows[currentIndex];
 
             if(toFocus)
-                this.props.dispatch(setSelected(toFocus.id));
+                dispatch(setSelected(toFocus.id));
         }
     }
+
+    return children;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShortcutsProvider);
+export default connect(mapStateToProps, mapDispatchToProps)(ShortcutsListener);
