@@ -11,7 +11,6 @@ import { AuthContext } from '@ui/contexts/AuthContext';
 interface Props {
 
     windows: IWindow[];
-    logged: boolean;
     dispatch: (action: WindowsAction) => void;
 }
 

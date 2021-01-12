@@ -20,6 +20,7 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
 
     const [email, setEmail] = useState<string>()
     const [password, setPassword] = useState<string>();
+    const [error, setError] = useState<string>();
     const { auth, setAuth } = useContext(AuthContext);
 
     /**
@@ -32,14 +33,25 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
 
         event.preventDefault();
 
-        // TODO show error
-        if(!email || !password)
+        setError('');
+
+        if(!email || !password) {
+
+            setError('Please enter your email and password.');
             return;
+        }
 
-        const hosts = await cloudLogin(email, password);
+        try {
 
-        dispatch(setHosts(hosts));
-        setAuth({ type: 'SET', state: true });
+            const hosts = await cloudLogin(email, password);
+
+            dispatch(setHosts(hosts));
+            setAuth({ type: 'SET', state: true });
+
+        } catch(err) {
+
+            setError(err.message);
+        }
     }
 
     /**
@@ -63,6 +75,7 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
 
     return (
         <form onSubmit={login} style={{ userSelect: 'none', zIndex: 1 }}>
+            { error }
             <input
                 onChange={({ target }) => setEmail(target.value)}
                 type="email"

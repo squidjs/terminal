@@ -38,25 +38,18 @@ export const login = async(email: string, password: string): Promise<ISSHHost[]>
 
     const token = await getAPIToken(email, password);
 
-    return new Promise<ISSHHost[]>((resolve, reject) => {
+    if(!token)
+        throw new Error('Invalid credentials, please retry.');
 
-        // If the token is set, we are successfully authenticated
-        if(token) {
+    // Hash the password to generate the encryptToken
+    const encryptToken = await hash(password);
 
-            // Hash the password to generate the encryptToken and set both the
-            // generated token and the api token in the system keychain
-            hash(password).then(async(encryptToken) => {
+    // Set both generated token and api token in the system keychain
+    const vault = Vault.getInstance();
+    vault.setPassword('apiToken', token);
+    vault.setPassword('encryptToken', encryptToken);
 
-                const vault = Vault.getInstance();
-                vault.setPassword('apiToken', token);
-                vault.setPassword('encryptToken', encryptToken);
-
-                resolve(await getCloudHosts(vault.getData()));
-            });
-
-        } else
-            reject('Bad credentials');
-    });
+    return await getCloudHosts(vault.getData());
 }
 
 /**
