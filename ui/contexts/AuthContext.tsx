@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState, createContext } from 'react';
+import React, { FC, ReactElement, useEffect, createContext, useReducer, Reducer } from 'react';
 import { HostsAction } from '@app/store/types';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -16,29 +16,34 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: HostsAction) => { dispatch(action) } }
 }
 
-export const AuthContext = createContext<boolean>(false);
+type Action = { type: 'SET', state: boolean };
+type AuthContextType = { auth: boolean, setAuth: (action: Action) => void };
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const defaultState: AuthContextType = { auth: false, setAuth: (_: Action) => {} }; // eslint-disable-line @typescript-eslint/no-unused-vars
+
+export const AuthContext = createContext<AuthContextType>(defaultState);
 
 const AuthProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement => {
 
-    const [auth, setAuth] = useState<boolean>(false);
+    const [auth, setAuth] = useReducer<Reducer<boolean, Action>>((state: boolean, action: Action) => action.state, false);
 
-    // Initialize cloud when mounted 
+    // Initialize cloud when mounted
     useEffect(() => {
 
         initializeCloud().then(({ shouldLogin, hosts }) => {
 
             const logged = !shouldLogin;
 
-            setAuth(logged);
+            setAuth({ type: 'SET', state: logged });
 
             if(logged)
                 dispatch(setHosts(hosts));
         });
-    
+
     }, []);
 
     return (
-        <AuthContext.Provider value={auth}>
+        <AuthContext.Provider value={{ auth, setAuth }}>
             {children}
         </AuthContext.Provider>
     );

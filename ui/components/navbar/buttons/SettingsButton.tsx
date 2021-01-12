@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactElement } from 'react';
+import React, { CSSProperties, FC, ReactElement, useContext } from 'react';
 import { connect } from 'react-redux';
 import { AppState, WindowsAction } from '@app/store/types';
 import { Dispatch } from 'redux';
@@ -6,6 +6,7 @@ import { createWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
 import { IWindow } from '@app/Terminal';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
+import { AuthContext } from '@ui/contexts/AuthContext';
 
 interface Props {
 
@@ -17,7 +18,6 @@ interface Props {
 const mapStateToProps = (state: AppState) => ({
 
     windows: state.windows,
-    logged: state.logged,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -25,7 +25,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: WindowsAction) => { dispatch(action) } }
 }
 
-const SettingsButton: FC<Props> = ({ windows, logged, dispatch }: Props): ReactElement | null => {
+const SettingsButton: FC<Props> = ({ windows, dispatch }: Props): ReactElement | null => {
+
+    const { auth } = useContext(AuthContext);
 
     // Open the settings windows on click
     const onClick = () => dispatch(createWindow({
@@ -40,7 +42,7 @@ const SettingsButton: FC<Props> = ({ windows, logged, dispatch }: Props): ReactE
     return (
         <ConfigContext.Consumer>
             { ({ theme }) => (
-                logged ?
+                auth ?
                     <button onClick={onClick} className="auth" type="button" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties}>
                         <i className="nf nf-fa-user" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties} />
                     </button>

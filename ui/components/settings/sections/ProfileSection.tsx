@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, ReactElement, useState } from 'react';
+import React, { FC, FormEvent, ReactElement, useContext, useState } from 'react';
 import { login as cloudLogin, logout as cloudLogout } from '@app/cloud/cloud';
 import { setHosts } from '@app/store/hosts/actions';
 import { Dispatch } from 'redux';
@@ -20,6 +20,7 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
 
     const [email, setEmail] = useState<string>()
     const [password, setPassword] = useState<string>();
+    const { setAuth } = useContext(AuthContext);
 
     /**
      * Login to the cloud, and if successful dispatch
@@ -38,9 +39,7 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
         const hosts = await cloudLogin(email, password);
 
         dispatch(setHosts(hosts));
-
-        // TODO dispatch in context
-        //dispatch(setLogged(true));
+        setAuth({ type: 'SET', state: true });
     }
 
     /**
@@ -51,14 +50,13 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
         cloudLogout();
 
         dispatch(setHosts([]));
-        // TODO dispatch in context
-        //dispatch(setLogged(false));
+        setAuth({ type: 'SET', state: false });
     }
 
     return (
         <AuthContext.Consumer>
-            { logged => (
-                logged ?
+            { ({ auth }) => (
+                auth ?
                     <div style={{ userSelect: 'none', zIndex: 1 }}>
                         <h1>You are logged in</h1>
                         <button onClick={logout} type="button">Logout</button>
