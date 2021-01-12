@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactElement, useEffect } from 'react';
+import React, { CSSProperties, FC, ReactElement, useContext, useEffect } from 'react';
 import { ITheme } from '@common/config/Config';
 import { INotification, INotificationLevel } from '@common/notifications/notification';
 import { Dispatch } from 'redux';
@@ -20,6 +20,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 }
 
 const Notification: FC<Props> = ({ notification, dispatch }: Props): ReactElement => {
+
+    const { theme } = useContext(ConfigContext);
 
     /**
      * Remove the notification when the configurated time has passed.
@@ -44,18 +46,14 @@ const Notification: FC<Props> = ({ notification, dispatch }: Props): ReactElemen
     }
 
     return (
-        <ConfigContext.Consumer>
-            { ({ theme }) => (
-                <div className="notification" style={notificationStyle(notification, theme)}>
-                    <p className="title" style={contentStyle(theme)}>{ notification.title }</p>
-                    <p className="content" style={contentStyle(theme)}>{ notification.content }</p>
-                    {
-                        notification.button &&
-                        <NotificationButton theme={theme} button={notification.button} />
-                    }
-                </div>
-            )}
-        </ConfigContext.Consumer>
+        <div className="notification" style={notificationStyle(notification, theme)}>
+            <p className="title" style={contentStyle(theme)}>{ notification.title }</p>
+            <p className="content" style={contentStyle(theme)}>{ notification.content }</p>
+            {
+                notification.button &&
+                <NotificationButton theme={theme} button={notification.button} />
+            }
+        </div>
     );
 }
 

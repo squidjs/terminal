@@ -1,5 +1,5 @@
-import React, { CSSProperties, FC, ReactElement, useEffect } from 'react';
-import { IConfig, ISSHHost } from '@common/config/Config';
+import React, { CSSProperties, FC, ReactElement, useContext, useEffect } from 'react';
+import { ISSHHost } from '@common/config/Config';
 import { Dispatch } from 'redux';
 import { AppState, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
@@ -9,11 +9,11 @@ import { UndefinedObject } from '@common/types/types';
 import { createWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
 import electron from 'electron';
+import { ConfigContext } from '@ui/contexts/ConfigContext';
 const { Menu, MenuItem } = remote;
 
 interface Props {
 
-    config: IConfig;
     windows: IWindow[];
     hosts: ISSHHost[];
     dispatch: (action: WindowsAction) => void;
@@ -32,7 +32,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 let menu: UndefinedObject<Electron.Menu>;
 
-const TabCreateTerminal: FC<Props> = ({ config, windows, hosts: cloudSSHHosts, dispatch }: Props): ReactElement => {
+const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch }: Props): ReactElement => {
+
+    const config = useContext(ConfigContext);
 
     /**
      * Update the shells menu if the config or

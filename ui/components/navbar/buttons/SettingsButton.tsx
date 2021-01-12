@@ -26,6 +26,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const SettingsButton: FC<Props> = ({ windows, dispatch }: Props): ReactElement | null => {
 
+    const { theme } = useContext(ConfigContext);
     const { auth } = useContext(AuthContext);
 
     // Open the settings windows on click
@@ -39,18 +40,14 @@ const SettingsButton: FC<Props> = ({ windows, dispatch }: Props): ReactElement |
     }));
 
     return (
-        <ConfigContext.Consumer>
-            { ({ theme }) => (
-                auth ?
-                    <button onClick={onClick} className="auth" type="button" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties}>
-                        <i className="nf nf-fa-user" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties} />
-                    </button>
-                    :
-                    <button onClick={onClick} className="auth" type="button">
-                        <i className="nf nf-fa-user_times" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties} />
-                    </button>
-            )}
-        </ConfigContext.Consumer>
+        auth ?
+            <button onClick={onClick} className="auth" type="button" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties}>
+                <i className="nf nf-fa-user" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties} />
+            </button>
+            :
+            <button onClick={onClick} className="auth" type="button">
+                <i className="nf nf-fa-user_times" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties} />
+            </button>
     )
 }
 

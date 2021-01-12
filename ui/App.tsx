@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect } from 'react';
+import React, { FC, ReactElement, useEffect, useContext } from 'react';
 import Window from '@ui/windows/Window';
 import Navbar from '@ui/components/navbar/buttons/Navbar';
 import { IWindow } from '@app/Terminal';
@@ -32,6 +32,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement => {
 
+    const config = useContext(ConfigContext);
+
     /**
      * Find if the current selected terminal has been destroyed. If so,
      * focus the terminal with the smallest id. If there are now windows
@@ -53,29 +55,25 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
     }, [windows]);
 
     return (
-        <ConfigContext.Consumer>
-            { config => (
-                <ShortcutsListener config={config}>
-                    <div className="main" style={{ backgroundColor: config.theme.background }}>
-                        {
-                            config.backgroundImage.enabled &&
-                            <div className="background" style={{ backgroundImage: `url(${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
-                        }
-                        <Navbar />
-                       {
-                            windows.map((window) =>
-                                <Window
-                                    key={window.id}
-                                    config={config}
-                                    window={window} />
-                            )
-                        }
-                        <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} />
-                        <Notifications />
-                    </div>
-                </ShortcutsListener>
-            )}
-        </ConfigContext.Consumer>
+        <ShortcutsListener config={config}>
+            <div className="main" style={{ backgroundColor: config.theme.background }}>
+                {
+                    config.backgroundImage.enabled &&
+                    <div className="background" style={{ backgroundImage: `url(${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
+                }
+                <Navbar />
+                {
+                    windows.map((window) =>
+                        <Window
+                            key={window.id}
+                            config={config}
+                            window={window} />
+                    )
+                }
+                <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} />
+                <Notifications />
+            </div>
+        </ShortcutsListener>
     );
 }
 

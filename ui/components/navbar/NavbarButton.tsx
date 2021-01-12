@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, ReactElement } from 'react';
+import React, { FC, CSSProperties, ReactElement, useContext } from 'react';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 
 interface Props {
@@ -9,16 +9,14 @@ interface Props {
 
 const NavbarButton: FC<Props> = ({ onClick, path }: Props): ReactElement => {
 
+    const { theme } = useContext(ConfigContext);
+
     return (
-        <ConfigContext.Consumer>
-            { ({ theme }) => (
-                <button onClick={onClick} type="button" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties}>
-                    <svg height="10" width="10">
-                        <path d={path} />
-                    </svg>
-                </button>
-            )}
-        </ConfigContext.Consumer>
+        <button onClick={onClick} type="button" style={{ '--color': theme.text, '--hover': theme.textHover } as CSSProperties}>
+            <svg height="10" width="10">
+                <path d={path} />
+            </svg>
+        </button>
     );
 }
 

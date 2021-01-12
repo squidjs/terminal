@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { AppState } from '@app/store/types';
 import '@ui/styles/tabs.scss';
 import '@ui/styles/nerdfonts.min.css';
-import { ConfigContext } from '@ui/contexts/ConfigContext';
 
 interface Props {
 
@@ -21,20 +20,16 @@ const mapStateToProps = (state: AppState) => ({
 const Tabs: FC<Props> = ({ windows }: Props): ReactElement => {
 
     return (
-        <ConfigContext.Consumer>
-            { config => (
-                <div className="tabs">
-                    {
-                        windows.map((window) =>
-                            <Tab
-                                key={window.id}
-                                window={window} />
-                        )
-                    }
-                    <TabCreateTerminal config={config} />
-                </div>
-            )}
-        </ConfigContext.Consumer>
+        <div className="tabs">
+            {
+                windows.map((window) =>
+                    <Tab
+                        key={window.id}
+                        window={window} />
+                )
+            }
+            <TabCreateTerminal />
+        </div>
     );
 }
 

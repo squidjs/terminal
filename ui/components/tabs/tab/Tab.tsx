@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactElement, useEffect } from 'react';
+import React, { CSSProperties, FC, ReactElement, useContext, useEffect } from 'react';
 import { IWindow } from '@app/Terminal';
 import { AppState, SelectedAction, WindowsAction } from '@app/store/types';
 import { Dispatch } from 'redux';
@@ -27,6 +27,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const Tab: FC<Props> = ({ window, selected, dispatch }: Props): ReactElement => {
 
+    const config = useContext(ConfigContext)
+
     // Set the selected window when mounted
     useEffect(() => {
 
@@ -38,26 +40,22 @@ const Tab: FC<Props> = ({ window, selected, dispatch }: Props): ReactElement => 
     const tabTitleClass = `tab-title${isSelected ? ' selected' : ''}`;
 
     return (
-        <ConfigContext.Consumer>
-            { config => (
-                <div
-                    className="tab"
-                    onClick={() => dispatch(setSelected(window.id))}
-                    style={{ '--border': config.theme.border, '--color': config.theme.text, '--hover': config.theme.textHover } as CSSProperties}>
-                    {
-                        config.tabsIcons &&
-                        <TabIcon window={window} />
-                    }
-                    <button
-                        type="button"
-                        className={tabTitleClass}>{window.name}</button>
-                    <button
-                        type="button"
-                        className="tab-close"
-                        onClick={() => dispatch(deleteWindow(window))}>x</button>
-                </div>
-            )}
-        </ConfigContext.Consumer>
+        <div
+            className="tab"
+            onClick={() => dispatch(setSelected(window.id))}
+            style={{ '--border': config.theme.border, '--color': config.theme.text, '--hover': config.theme.textHover } as CSSProperties}>
+            {
+                config.tabsIcons &&
+                <TabIcon window={window} />
+            }
+            <button
+                type="button"
+                className={tabTitleClass}>{window.name}</button>
+            <button
+                type="button"
+                className="tab-close"
+                onClick={() => dispatch(deleteWindow(window))}>x</button>
+        </div>
     );
 }
 
