@@ -34,16 +34,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dispatch }: Props): ReactElement => {
 
     /**
-     * Setup the shortcuts when the component is mounted.
+     * Setup the shortcuts if they have changed.
      */
-    useEffect(() => setupShortcuts(), []);
-
-    /**
-     * Re-setup the shortcuts if they have changed.
-     *
-     * @param prevProps - The previous props.
-     */
-    useEffect(() => setupShortcuts(), [config])
+    useEffect(() => setupShortcuts(), [config, selected])
 
     /**
      * Setup all the shortcuts to a Menu, with a accelerator
