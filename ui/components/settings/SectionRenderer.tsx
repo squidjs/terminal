@@ -29,7 +29,10 @@ const SectionRenderer: FC<Props> = ({ section }: Props): ReactElement => {
 
     return (
         <div className="section">
-            { getSection() }    
+            <section className="content">
+                <h1 className="title">{ section }</h1>
+                { getSection() }
+            </section>
         </div>
     );
 }

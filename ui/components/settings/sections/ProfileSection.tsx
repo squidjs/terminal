@@ -67,15 +67,27 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
 
     if(auth)
         return (
-            <div style={{ userSelect: 'none', zIndex: 1 }}>
-                <h1>You are logged in</h1>
-                <button onClick={logout} type="button">Logout</button>
-            </div>
+            <>
+                <h2>Informations</h2>
+                <p>Email: </p>
+                <form onSubmit={logout}>
+                    <h2>Log out</h2>
+                    <p className="alert error">You will no longer be able to connect to cloud saved SSH Hosts.</p>
+                    <input
+                        type="submit"
+                        value="Log out" />
+                </form>
+            </>
         );
 
     return (
-        <form onSubmit={login} style={{ userSelect: 'none', zIndex: 1 }}>
-            { error }
+        <form onSubmit={login}>
+            <h2>Sign in</h2>
+            <p>You must sign in in order to connect to cloud saved SSH Hosts.</p>
+            {
+                error && error != '' &&
+                    <p className="alert error">{ error }</p>
+            }
             <input
                 onChange={({ target }) => setEmail(target.value)}
                 type="email"

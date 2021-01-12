@@ -16,7 +16,7 @@ const Settings: FC<Props> = ({ className }: Props): ReactElement => {
 
     return (
         <div className={`settings ${className}`}>
-            <Sidebar setSection={setSection} />
+            <Sidebar section={section} setSection={setSection} />
             <SectionRenderer section={section} />
         </div>
     );

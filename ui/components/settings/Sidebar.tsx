@@ -3,15 +3,16 @@ import { SectionType } from '@ui/components/windows/Settings';
 
 interface Props {
 
+    section: SectionType;
     setSection: (section: SectionType) => void;
 }
 
-const Sidebar: FC<Props> = ({ setSection }: Props): ReactElement => {
+const Sidebar: FC<Props> = ({ section, setSection }: Props): ReactElement => {
 
     return (
         <div className="sidebar">
-            <button onClick={() => setSection('profile')} type="button">Profile</button>
-            <button onClick={() => setSection('about')} type="button">About</button>
+            <button className={section === 'profile' ? 'selected' : ''} onClick={() => setSection('profile')} type="button">Profile</button>
+            <button className={section === 'about' ? 'selected' : ''} onClick={() => setSection('about')} type="button">About</button>
         </div>
     );
 }
