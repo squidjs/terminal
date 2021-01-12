@@ -1,4 +1,4 @@
-import React, { Component, CSSProperties } from 'react';
+import React, { CSSProperties, FC, ReactElement, useEffect } from 'react';
 import { IConfig, ISSHHost } from '@common/config/Config';
 import { Dispatch } from 'redux';
 import { AppState, WindowsAction } from '@app/store/types';
@@ -30,76 +30,38 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return { dispatch: (action: WindowsAction) => { dispatch(action) } }
 }
 
-class TabCreateTerminal extends Component<Props> {
+let menu: UndefinedObject<Electron.Menu>;
 
-    private menu: UndefinedObject<Electron.Menu>;
-
-    constructor(props: Props) {
-
-        super(props);
-    }
-
-    /**
-     * Set the shells of the menu.
-     */
-    componentDidMount() {
-
-        this.updateShells();
-    }
+const TabCreateTerminal: FC<Props> = ({ config, windows, hosts: cloudSSHHosts, dispatch }: Props): ReactElement => {
 
     /**
      * Update the shells menu if the config or
      * the cloud hosts changed.
-     *
-     * @param prevProps - The previous props
      */
-    componentDidUpdate(prevProps: Readonly<Props>) {
-
-        if(prevProps.config != this.props.config || prevProps.hosts != this.props.hosts)
-            this.updateShells();
-    }
-
-    render() {
-
-        return (
-            <>
-                <button
-                    type="button"
-                    className="tab-create"
-                    onClick={() => this.createTerminal(this.props.config.defaultShell)}
-                    style={{ '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>+</button>
-                <button
-                    type="button"
-                    className="tab-create"
-                    onClick={() => this.openShells()}
-                    style={{ '--color': this.props.config.theme.text, '--hover': this.props.config.theme.textHover } as CSSProperties}>...</button>
-            </>
-        );
-    }
+    useEffect(() => updateShells(), [config, windows, cloudSSHHosts]);
 
     /**
      * Update the shells by settings them in a Menu.
      */
-    private updateShells() {
+    const updateShells = () => {
 
-        this.menu = new Menu();
-        this.props.config.shells.forEach((shell) => {
+        menu = new Menu();
+        config.shells.forEach((shell) => {
 
-            this.menu?.append(new MenuItem({
+            menu?.append(new MenuItem({
 
                 label: shell.name,
-                click: () => this.createTerminal(shell),
+                click: () => createTerminal(shell),
             }));
         });
 
-        const { localSSHHosts } = this.props.config;
-        const cloudSSHHosts = this.props.hosts;
+        const { localSSHHosts } = config;
 
         if(localSSHHosts && localSSHHosts.length >= 1 || cloudSSHHosts && cloudSSHHosts.length >= 1)
-            this.menu?.append(new MenuItem({ type: 'separator' }));
+            menu?.append(new MenuItem({ type: 'separator' }));
 
-        this.buildSubmenu(this.menu, 'Local SSH Hosts', localSSHHosts);
-        this.buildSubmenu(this.menu, 'Cloud SSH Hosts', cloudSSHHosts);
+        buildSubmenu(menu, 'Local SSH Hosts', localSSHHosts);
+        buildSubmenu(menu, 'Cloud SSH Hosts', cloudSSHHosts);
     }
 
     /**
@@ -109,7 +71,7 @@ class TabCreateTerminal extends Component<Props> {
      * @param label - The label of the sybmenu
      * @param hosts - The hosts to use
      */
-    private buildSubmenu(baseMenu: electron.Menu, label: string, hosts: ISSHHost[]) {
+    const buildSubmenu = (baseMenu: electron.Menu, label: string, hosts: ISSHHost[]) => {
 
         if(!hosts || hosts.length < 1)
             return;
@@ -121,7 +83,7 @@ class TabCreateTerminal extends Component<Props> {
             submenu.append(new MenuItem({
 
                 label: sshHost.name,
-                click: () => this.createTerminal(sshHost),
+                click: () => createTerminal(sshHost),
             }));
         });
 
@@ -135,10 +97,10 @@ class TabCreateTerminal extends Component<Props> {
      *
      * @param terminalType - The terminal type to open
      */
-    private createTerminal(terminalType: TerminalType) {
+    const createTerminal = (terminalType: TerminalType) => {
 
-        this.props.dispatch(createWindow({
-            id: nextWindowId(this.props.windows),
+        dispatch(createWindow({
+            id: nextWindowId(windows),
             name: 'Terminal',
             terminalType,
         }));
@@ -147,10 +109,22 @@ class TabCreateTerminal extends Component<Props> {
     /**
      * Open the shells menu.
      */
-    private openShells() {
+    const openShells = () => menu?.popup({ window: remote.getCurrentWindow() });
 
-        this.menu?.popup({ window: remote.getCurrentWindow() });
-    }
+    return (
+        <>
+            <button
+                type="button"
+                className="tab-create"
+                onClick={() => createTerminal(config.defaultShell)}
+                style={{ '--color': config.theme.text, '--hover': config.theme.textHover } as CSSProperties}>+</button>
+            <button
+                type="button"
+                className="tab-create"
+                onClick={() => openShells()}
+                style={{ '--color': config.theme.text, '--hover': config.theme.textHover } as CSSProperties}>...</button>
+        </>
+    );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabCreateTerminal);

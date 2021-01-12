@@ -76,10 +76,7 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
                 break;
 
             case 'terminal:close':
-                dispatch(deleteWindow(windows.find((current) => {
-
-                    return current.id === selected;
-                }) as IWindow));
+                dispatch(deleteWindow(windows.find((current) => current.id === selected)!));
                 break;
 
             case 'terminal:zoomin':
@@ -110,10 +107,7 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
      *
      * @param action - The action to execute
      */
-    const zoom = (action: IShortcutActions) => {
-
-        remote.getCurrentWindow().webContents.send('shortcuts', action);
-    }
+    const zoom = (action: IShortcutActions) => remote.getCurrentWindow().webContents.send('shortcuts', action);
 
     /**
      * Focus the terminal at the given direction if exist.
@@ -124,20 +118,15 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
 
         const current = windows.find((current) => current.id === selected);
 
-        if(current) {
+        if(!current)
+            return;
 
-            let currentIndex = windows.indexOf(current);
+        let currentIndex = windows.indexOf(current);
 
-            if(left)
-                currentIndex--;
-            else
-                currentIndex++;
+        left ? currentIndex-- : currentIndex++;
 
-            const toFocus = windows[currentIndex];
-
-            if(toFocus)
-                dispatch(setSelected(toFocus.id));
-        }
+        const toFocus = windows[currentIndex];
+        dispatch(setSelected(toFocus.id));
     }
 
     return children;

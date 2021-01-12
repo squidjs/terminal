@@ -35,10 +35,7 @@ const Tab: FC<Props> = ({ window, selected, dispatch }: Props): ReactElement => 
     }, []);
 
     const isSelected = selected === window.id;
-    let tabTitleClass = 'tab-title';
-
-    if(isSelected)
-        tabTitleClass += ' selected';
+    const tabTitleClass = `tab-title${isSelected ? ' selected' : ''}`;
 
     return (
         <ConfigContext.Consumer>

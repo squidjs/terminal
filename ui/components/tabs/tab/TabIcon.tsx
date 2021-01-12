@@ -16,16 +16,14 @@ const TabIcon: FC<Props> = ({ window }: Props): ReactElement | null => {
     const icon = resolver.resolve(window);
 
     // Only render the icon if it's actually defined
-    if(icon) {
+    if(!icon)
+        return null;
 
-        const [iconPath, color] = icon;
+    const [iconPath, color] = icon;
 
-        return (
-            <i className={`icon nf nf-${iconPath}`} style={{ color }} />
-        );
-    }
-
-    return null;
+    return (
+        <i className={`icon nf nf-${iconPath}`} style={{ color }} />
+    );
 }
 
 export default TabIcon;
