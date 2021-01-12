@@ -95,3 +95,16 @@ export const updateNotification = (update: IUpdateStatus, onClick: () => void): 
     } : undefined,
     level: update.readyToInstall ? INotificationLevel.SUCCESS : INotificationLevel.INFO,
 });
+
+/**
+ * Build a notification when the cloud is unreachable.
+ *
+ * @returns The notification to show
+ */
+export const cloudUnreachable = (): INotification => ({
+
+    title: 'Cloud',
+    content: 'Cloud is unreachable, see console for the error.',
+    time: 5,
+    level: INotificationLevel.ERROR,
+});

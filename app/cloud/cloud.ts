@@ -97,28 +97,24 @@ const getAPIToken = async(email: string, password: string): Promise<UndefinedObj
  */
 const getCloudHosts = async(data: IVaultData): Promise<ISSHHost[]> => {
 
-    return new Promise<ISSHHost[]>((resolve) => {
+    const hosts: ISSHHost[] = [];
+    const { apiToken, encryptToken } = data;
 
-        const hosts: ISSHHost[] = [];
-        const { apiToken, encryptToken } = data;
+    const json = await makeAuthRequest('hosts', 'GET', apiToken);
 
-        makeAuthRequest('hosts', 'GET', apiToken).then((json) => {
+    json.forEach(({ iv, content }: { iv: string, content: string }) => {
 
-            json.forEach(({ iv, content }: { iv: string, content: string }) => {
+        const hash: IEncrypted = {
 
-                const hash: IEncrypted = {
+            iv,
+            content
+        };
 
-                    iv,
-                    content
-                };
-
-                const host = decryptHost(hash, encryptToken);
-                hosts.push(host);
-            });
-
-            resolve(hosts);
-        });
+        const host = decryptHost(hash, encryptToken);
+        hosts.push(host);
     });
+
+    return hosts;
 }
 
 /**

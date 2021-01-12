@@ -1,19 +1,21 @@
 import React, { FC, ReactElement, useEffect, createContext, useReducer, Reducer } from 'react';
-import { HostsAction } from '@app/store/types';
+import { HostsAction, NotificationsAction } from '@app/store/types';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { initializeCloud } from '@app/cloud/cloud';
 import { setHosts } from '@app/store/hosts/actions';
+import { addNotification } from '@app/store/notifications/actions';
+import { cloudUnreachable } from '@common/notifications/notification';
 
 interface Props {
 
     children: ReactElement;
-    dispatch: (action: HostsAction) => void;
+    dispatch: (action: HostsAction | NotificationsAction) => void;
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: HostsAction) => { dispatch(action) } }
+    return { dispatch: (action: HostsAction | NotificationsAction) => { dispatch(action) } }
 }
 
 type Action = { type: 'SET', state: boolean };
@@ -38,6 +40,11 @@ const AuthProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement =>
 
             if(logged)
                 dispatch(setHosts(hosts));
+
+        }).catch((err) => {
+
+            console.error(err);
+            dispatch(addNotification(cloudUnreachable()));
         });
 
     }, []);
