@@ -76,7 +76,7 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
                 break;
 
             case 'terminal:close':
-                dispatch(deleteWindow(windows.find((current) => current.id === selected)!));
+                dispatch(deleteWindow(windows.find((current) => current.id === selected) as IWindow));
                 break;
 
             case 'terminal:zoomin':

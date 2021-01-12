@@ -1,58 +1,35 @@
-import React, { FC, FormEvent, ReactElement, useContext, useState } from 'react';
-import { login as cloudLogin, logout as cloudLogout } from '@app/cloud/cloud';
+import React, { FC, ReactElement, useContext } from 'react';
+import { logout as cloudLogout } from '@app/cloud/cloud';
 import { setHosts } from '@app/store/hosts/actions';
 import { Dispatch } from 'redux';
-import { HostsAction } from '@app/store/types';
+import { AppState, HostsAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { AuthContext } from '@ui/contexts/AuthContext';
+import Subtitle from '@ui/components/settings/elements/Subtitle';
+import Text from '@ui/components/settings/elements/Text';
+import Alert from '@ui/components/settings/elements/Alert';
+import { ISSHHost } from '@common/config/Config';
+import Login from '@ui/components/settings/elements/Login';
 
 interface Props {
 
+    hosts: ISSHHost[];
     dispatch: (action: HostsAction) => void;
 }
+
+const mapStateToProps = (state: AppState) => ({
+
+    hosts: state.hosts,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
     return { dispatch: (action: HostsAction) => { dispatch(action) } }
 }
 
-const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
+const ProfileSection: FC<Props> = ({ hosts, dispatch }: Props): ReactElement => {
 
-    const [email, setEmail] = useState<string>()
-    const [password, setPassword] = useState<string>();
-    const [error, setError] = useState<string>();
     const { auth, setAuth } = useContext(AuthContext);
-
-    /**
-     * Login to the cloud, and if successful dispatch
-     * the hosts and logged state.
-     *
-     * @param event - The form event to prevent
-     */
-    const login = async(event: FormEvent) => {
-
-        event.preventDefault();
-
-        setError('');
-
-        if(!email || !password) {
-
-            setError('Please enter your email and password.');
-            return;
-        }
-
-        try {
-
-            const hosts = await cloudLogin(email, password);
-
-            dispatch(setHosts(hosts));
-            setAuth({ type: 'SET', state: true });
-
-        } catch(err) {
-
-            setError(err.message);
-        }
-    }
 
     /**
      * Logout of the cloud and dispatch the actions.
@@ -68,11 +45,12 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
     if(auth)
         return (
             <>
-                <h2>Informations</h2>
-                <p>Email: </p>
+                <Subtitle title="Informations" />
+                <Text text="Email: " />
+                <Text text={`SSH Hosts in the cloud: ${hosts.length}`} />
                 <form onSubmit={logout}>
-                    <h2>Log out</h2>
-                    <p className="alert error">You will no longer be able to connect to cloud saved SSH Hosts.</p>
+                    <Subtitle title="Logout" />
+                    <Alert type="error" text="You will no longer be able to connect to cloud saved SSH Hosts." />
                     <input
                         type="submit"
                         value="Log out" />
@@ -80,27 +58,7 @@ const ProfileSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
             </>
         );
 
-    return (
-        <form onSubmit={login}>
-            <h2>Sign in</h2>
-            <p>You must sign in in order to connect to cloud saved SSH Hosts.</p>
-            {
-                error && error != '' &&
-                    <p className="alert error">{ error }</p>
-            }
-            <input
-                onChange={({ target }) => setEmail(target.value)}
-                type="email"
-                placeholder="Enter your email" />
-            <input
-                onChange={({ target }) => setPassword(target.value)}
-                type="password"
-                placeholder="Enter your password" />
-            <input
-                type="submit"
-                value="Sign in" />
-        </form>
-    );
+    return <Login />;
 }
 
-export default connect(mapDispatchToProps)(ProfileSection);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);

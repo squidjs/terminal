@@ -1,15 +1,17 @@
 import React, { FC, ReactElement } from 'react';
 import { remote } from 'electron';
+import Subtitle from '@ui/components/settings/elements/Subtitle';
+import Text from '@ui/components/settings/elements/Text';
 
 const AboutSection: FC = (): ReactElement => {
 
     return (
         <>
-            <h2>Open source</h2>
-            <p>Squid is a free and open source software licensed under the MIT license.</p>
-            <p>You can check and contribute to the source code at https://github.com/QuiiBz/squid</p>
-            <h2>Application version</h2>
-            <p>You are using Squid version { remote.app.getVersion() }.</p>
+            <Subtitle title="Open source" />
+            <Text text="Squid is a free and open source software licensed under the MIT license." />
+            <Text text="You can check and contribute to the source code at https://github.com/QuiiBz/squid" />
+            <Subtitle title="Application version" />
+            <Text text={`You are using Squid version ${remote.app.getVersion()}.`} />
         </>
     );
 }

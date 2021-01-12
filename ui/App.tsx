@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useEffect } from 'react';
-import Window from '@ui/components/windows/Window';
+import Window from '@ui/windows/Window';
 import Navbar from '@ui/components/navbar/buttons/Navbar';
 import { IWindow } from '@app/Terminal';
 import { AppState, SelectedAction } from '@app/store/types';
@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setSelected } from '@app/store/selected/actions';
 import { remote } from 'electron';
-import ShortcutsListener from '@ui/components/utils/ShortcutsListener';
+import ShortcutsListener from '@ui/utils/ShortcutsListener';
 import Notifications from '@ui/components/notifications/Notifications';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import './styles/app.scss';

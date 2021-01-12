@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import Terminal, { IWindow } from '@app/Terminal';
 import { IConfig } from '@common/config/Config';
 import { UndefinedObject } from '@common/types/types';
-import DragDrop from '@ui/components/utils/DragDrop';
+import DragDrop from '@ui/utils/DragDrop';
 import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
 import { AppState, NotificationsAction, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
@@ -12,7 +12,7 @@ import { ipcRenderer } from 'electron';
 import { TerminalShortcuts } from '@common/config/shortcuts';
 import { fontSizeNotification } from '@common/notifications/notification';
 import { addNotification } from '@app/store/notifications/actions';
-import Settings from '@ui/components/windows/Settings';
+import Settings from '@ui/windows/Settings';
 import '@ui/styles/xterm.scss';
 
 interface Props {

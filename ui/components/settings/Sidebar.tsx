@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import { SectionType } from '@ui/components/windows/Settings';
+import { SectionType } from '@ui/windows/Settings';
 
 interface Props {
 

@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import { SectionType } from '@ui/components/windows/Settings';
+import { SectionType } from '@ui/windows/Settings';
 import ProfileSection from '@ui/components/settings/sections/ProfileSection';
 import AboutSection from '@ui/components/settings/sections/AboutSection';
 
