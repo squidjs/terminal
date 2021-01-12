@@ -1,5 +1,6 @@
 const path = require('path');
 module.exports = {
+    externals: ['node-pty'],
     resolve: {
         alias: {
             '@app': path.resolve(__dirname, 'app'),
