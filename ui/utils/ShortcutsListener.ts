@@ -126,7 +126,9 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
         left ? currentIndex-- : currentIndex++;
 
         const toFocus = windows[currentIndex];
-        dispatch(setSelected(toFocus.id));
+
+        if(toFocus)
+            dispatch(setSelected(toFocus.id));
     }
 
     return children;
