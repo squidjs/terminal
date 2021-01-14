@@ -6,6 +6,8 @@ import { isSettingsWindow, isTerminalSSH } from '@common/utils/utils';
 
 export default class SSHIconResolver implements Resolver<IWindow, IconResolverType> {
 
+    private readonly SSH_REGEX = /^[a-z]+@([a-z]|[A-Z]|[0-9])+:/;
+    
     /**
      * Resolve the icon if no other resolver could resolve the icon. This
      * resolver will always return the SSH icon.
@@ -28,6 +30,6 @@ export default class SSHIconResolver implements Resolver<IWindow, IconResolverTy
      */
     public canResolve(object: IWindow): boolean {
 
-        return !isSettingsWindow(object) && isTerminalSSH(object.terminalType);
+        return !isSettingsWindow(object) && (isTerminalSSH(object.terminalType) || SSH_REGEX.test(object.name));
     }
 }
