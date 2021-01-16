@@ -22,13 +22,21 @@ jobs:
       - name: Get Linux files names
         id: getlinuxfilename
         run: |
+          echo "::set-output name=debName::$(ls dist/*.deb | cut -d'/' -f2)"
+          echo "::set-output name=debPath::$(ls dist/*.deb)"
           echo "::set-output name=AppImageName::$(ls dist/*.AppImage | cut -d'/' -f2)"
           echo "::set-output name=AppImagePath::$(ls dist/*.AppImage)"
-      - name: Upload files
+      - name: Upload deb files
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.getlinuxfilename.outputs.debName }}
+          path: ${{ steps.getlinuxfilename.outputs.debPath }}
+      - name: Upload AppImage files
         uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.getlinuxfilename.outputs.AppImageName }}
           path: ${{ steps.getlinuxfilename.outputs.AppImagePath }}
+
   ci_macos:
     runs-on: macos-latest
     steps:

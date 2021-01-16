@@ -10,6 +10,19 @@
     "installerIcon": "./build/icon.ico",
  	"allowToChangeInstallationDirectory": true
   },
+  "linux": {
+    "category": "TerminalEmulator",
+    "target": [
+      {
+        "target": "deb",
+        "arch": ["x64"]
+      },
+      {
+        "target": "AppImage",
+        "arch": ["x64"]
+      }
+    ]
+  },
   "snap": {
     "publish": {
       "provider": "generic",
