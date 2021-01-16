@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useEffect, useContext } from 'react';
 import Window from '@ui/windows/Window';
-import Navbar from '@ui/components/navbar/buttons/Navbar';
+import Navbar from '@ui/components/navbar/Navbar';
 import { IWindow } from '@app/Terminal';
 import { AppState, SelectedAction } from '@app/store/types';
 import { connect } from 'react-redux';
