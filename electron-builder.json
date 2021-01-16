@@ -11,6 +11,7 @@
  	"allowToChangeInstallationDirectory": true
   },
   "linux": {
+    "icon": "./build/icon.icns",
     "category": "TerminalEmulator",
     "target": [
       {
