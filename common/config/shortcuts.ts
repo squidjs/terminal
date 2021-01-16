@@ -1,9 +1,5 @@
 export interface IShortcut {
     /**
-     * The name of this shortcut.
-     */
-    name: string;
-    /**
      * The keybindings to execute this shortcut.
      */
     keybinds: string;
@@ -19,11 +15,6 @@ export interface IShortcut {
 export type TerminalShortcuts = 'terminal:create' | 'terminal:close' | 'terminal:zoomin' | 'terminal:zoomout' | 'terminal:left' | 'terminal:right';
 
 /**
- * Window shortcuts.
- */
-type WindowShortcuts = 'window:devtools' | 'window:reload';
-
-/**
  * All available shortcut actions.
  */
-export type IShortcutActions = TerminalShortcuts | WindowShortcuts;
+export type IShortcutActions = TerminalShortcuts;

@@ -9,7 +9,8 @@ import { IWindow } from '@app/Terminal';
 import { createWindow, deleteWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
 import { setSelected } from '@app/store/selected/actions';
-const { Menu, MenuItem } = remote;
+import { buildMenu } from '@app/menu/menu';
+const { Menu } = remote;
 
 interface Props {
 
@@ -44,20 +45,11 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
      */
     const setupShortcuts = () => {
 
-        const menu = new Menu();
-        config.shortcuts.forEach((shortcut) => {
-
-            menu.append(new MenuItem({
-
-                label: shortcut.name,
-                accelerator: shortcut.keybinds,
-                click: () => executeShortcut(shortcut),
-            }));
-        });
-
+        const menu = buildMenu(config, executeShortcut); 
         Menu.setApplicationMenu(menu);
     }
 
+    
     /**
      * Execute a specific shortcut.
      *
@@ -87,14 +79,6 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
             case 'terminal:left':
             case 'terminal:right':
                 focus(shortcut.action === 'terminal:left');
-                break;
-
-            case 'window:devtools':
-                remote.getCurrentWindow().webContents.openDevTools({ mode: 'detach' });
-                break;
-
-            case 'window:reload':
-                remote.getCurrentWindow().reload();
                 break;
 
             default:

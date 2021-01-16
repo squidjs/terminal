@@ -53,44 +53,28 @@ if(isWin) {
 const leader = isMac ? 'Cmd' : 'Ctrl';
 const shortcuts: IShortcut[] = [
     {
-        name: 'Create terminal',
         keybinds: `${leader}+Shift+T`,
         action: 'terminal:create',
     },
     {
-        name: 'Close terminal',
         keybinds: `${leader}+Shift+W`,
         action: 'terminal:close',
     },
     {
-        name: 'Zoom in',
         keybinds: `${leader}+Shift+O`,
         action: 'terminal:zoomin',
     },
     {
-        name: 'Zoom out',
         keybinds: `${leader}+Shift+P`,
         action: 'terminal:zoomout',
     },
     {
-        name: 'Focus left terminal',
         keybinds: `${leader}+Shift+L`,
         action: 'terminal:left',
     },
     {
-        name: 'Focus right terminal',
         keybinds: `${leader}+Shift+M`,
         action: 'terminal:right',
-    },
-    {
-        name: 'Open DevTools',
-        keybinds: 'Ctrl+Shift+I',
-        action: 'window:devtools',
-    },
-    {
-        name: 'Reload window',
-        keybinds: 'Ctrl+Shift+R',
-        action: 'window:reload',
     },
 ];
 
