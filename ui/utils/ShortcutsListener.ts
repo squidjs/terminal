@@ -1,6 +1,6 @@
 import { FC, ReactElement, useEffect } from 'react';
 import { IConfig } from '@common/config/Config';
-import { remote } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import { IShortcut, IShortcutActions } from '@common/config/shortcuts';
 import { AppState, SelectedAction, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
@@ -35,6 +35,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dispatch }: Props): ReactElement => {
 
     /**
+     * Listen for menu ipc message to show app menu
+     */
+    useEffect(() => {
+
+        ipcRenderer.on('menu', () => Menu.getApplicationMenu()?.popup());
+
+    }, []);
+
+    /**
      * Setup the shortcuts if they have changed.
      */
     useEffect(() => setupShortcuts(), [config, selected])
@@ -45,11 +54,11 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
      */
     const setupShortcuts = () => {
 
-        const menu = buildMenu(config, executeShortcut); 
+        const menu = buildMenu(config, executeShortcut);
         Menu.setApplicationMenu(menu);
     }
 
-    
+
     /**
      * Execute a specific shortcut.
      *

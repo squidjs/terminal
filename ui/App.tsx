@@ -70,7 +70,8 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
                             window={window} />
                     )
                 }
-                <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} />
+                {/* TODO set border ? */}
+                {/* <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} /> */}
                 <Notifications />
             </div>
         </ShortcutsListener>

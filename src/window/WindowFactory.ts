@@ -73,11 +73,10 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             ...params,
             minWidth: 600,
             minHeight: 500,
-            frame: process.platform === 'darwin',
             transparent: true,
             maximizable: true,
+            resizable: true,
             title: 'Squid',
-            titleBarStyle: 'hiddenInset',
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             icon: path.join(__static, 'logo.png'),
@@ -94,6 +93,8 @@ export default class WindowFactory implements Factory<BrowserWindow> {
                 webSecurity: false,
             },
         });
+
+        window.setMenuBarVisibility(false);
 
         if(shouldRestoreWindow)
             state?.manage(window);
