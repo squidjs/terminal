@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron-acrylic-window';
+import { BrowserWindow } from 'electron';
 import { Factory } from '@common/factories/Factory';
 import { format as formatUrl } from 'url';
 import path from 'path';
@@ -73,7 +73,10 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             ...params,
             minWidth: 600,
             minHeight: 500,
-            transparent: true,
+            // TODO
+            // fix electron bug which make the window un-resizable when
+            // transparent is set to true
+            // transparent: true,
             maximizable: true,
             resizable: true,
             title: 'Squid',
@@ -81,13 +84,15 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             // @ts-ignore
             icon: path.join(__static, 'logo.png'),
             show: false,
-            vibrancy: {
+            // TODO
+            // fix padding around window caused be electron-acrylic-window
+            /*vibrancy: {
                 theme: 'appearance-based',
                 effect: 'acrylic',
                 useCustomWindowRefreshMethod: true,
                 maximumRefreshRate: 60,
                 disableOnBlur: false,
-            },
+            },*/
             webPreferences: {
                 nodeIntegration: true,
                 webSecurity: false,
