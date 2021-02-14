@@ -4105,7 +4105,7 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.0.0"
 
-font-finder@^1.0.3, font-finder@^1.0.4:
+font-finder@^1.0.3, font-finder@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/font-finder/-/font-finder-1.1.0.tgz#2bff2b2762acba720239c8bec898a96daae90858"
   integrity sha512-wpCL2uIbi6GurJbU7ZlQ3nGd61Ho+dSU6U83/xJT5UPFfN35EeCW/rOtS+5k+IuEZu2SYmHzDIPL9eA5tSYRAw==
@@ -4113,7 +4113,7 @@ font-finder@^1.0.3, font-finder@^1.0.4:
     get-system-fonts "^2.0.0"
     promise-stream-reader "^1.0.1"
 
-font-ligatures@^1.3.2:
+font-ligatures@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/font-ligatures/-/font-ligatures-1.3.3.tgz#63fff18dc8adb3a11fe5eec1f4e8d7edfa8075b9"
   integrity sha512-NSGpHgVNX81M7AWS1XylK1UZbN3QllfUIDAAuPv6TUcl5O2b781JcKS5L2RopAU0AqlTyX3ZuX/04eaMpbVrHA==
@@ -9400,18 +9400,18 @@ xtend@^4.0.0, xtend@~4.0.1:
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
 
-xterm-addon-fit@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/xterm-addon-fit/-/xterm-addon-fit-0.4.0.tgz#06e0c5d0a6aaacfb009ef565efa1c81e93d90193"
-  integrity sha512-p4BESuV/g2L6pZzFHpeNLLnep9mp/DkF3qrPglMiucSFtD8iJxtMufEoEJbN8LZwB4i+8PFpFvVuFrGOSpW05w==
+xterm-addon-fit@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/xterm-addon-fit/-/xterm-addon-fit-0.5.0.tgz#2d51b983b786a97dcd6cde805e700c7f913bc596"
+  integrity sha512-DsS9fqhXHacEmsPxBJZvfj2la30Iz9xk+UKjhQgnYNkrUIN5CYLbw7WEfz117c7+S86S/tpHPfvNxJsF5/G8wQ==
 
-xterm-addon-ligatures@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/xterm-addon-ligatures/-/xterm-addon-ligatures-0.3.0.tgz#c7e67bf7ac669b0b6a06ad99fff0003890efe0a3"
-  integrity sha512-fNq+qYF1jiTUqzYAEqR7RruOfDwWMiLCJxlT/U8L6ttCvNRhbMQpHVcXEM5YCcxsB+Nj+GDv4Vap4KrfWEUmfA==
+xterm-addon-ligatures@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/xterm-addon-ligatures/-/xterm-addon-ligatures-0.4.0.tgz#23235d831988c5780ca1e28002b750ec0b1a78ca"
+  integrity sha512-on+2TgzioEL5Mz60WchsTiuR2SvYzG3xVro39HIpYFM641lpMuPM83Pdm3W/ogkaGrpGm29Ysq2S2LCl/h7rhw==
   dependencies:
-    font-finder "^1.0.4"
-    font-ligatures "^1.3.2"
+    font-finder "^1.1.0"
+    font-ligatures "^1.3.3"
 
 xterm-addon-unicode11@^0.2.0:
   version "0.2.0"
@@ -9428,10 +9428,10 @@ xterm-addon-webgl@^0.9.0:
   resolved "https://registry.yarnpkg.com/xterm-addon-webgl/-/xterm-addon-webgl-0.9.0.tgz#947ca94f9fd72462155c300dfb82bc471402d60a"
   integrity sha512-JSRoe/MgPEKCpr7LbiC+sQUq0c9l/ZhsBXYugKx5BJsJEPsY+5EFcqAexuhsJVe/qV+CP3hsbYDe/411rw3ASA==
 
-xterm@^4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/xterm/-/xterm-4.9.0.tgz#7a4c097a433d565339b5533b468bbc60c6c87969"
-  integrity sha512-wGfqufmioctKr8VkbRuZbVDfjlXWGZZ1PWHy1yqqpGT3Nm6yaJx8lxDbSEBANtgaiVPTcKSp97sxOy5IlpqYfw==
+xterm@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/xterm/-/xterm-4.10.0.tgz#fc4f554e3e718aff9b83622e858e64b0953067bb"
+  integrity sha512-Wn66I8YpSVkgP3R95GjABC6Eb21pFfnCSnyIqKIIoUI13ohvwd0KGVzUDfyEFfSAzKbPJfrT2+vt7SfUXBZQKQ==
 
 "y18n@^3.2.1 || ^4.0.0", y18n@^4.0.0:
   version "4.0.0"
