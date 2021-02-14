@@ -15,6 +15,7 @@ export default class App {
         this.isDev = isDev;
         this.nativeContextMenu = new NativeContextMenu();
         this.nativeContextMenu.check(args);
+        app.allowRendererProcessReuse = false;
 
         this.listenAppEvents();
     }

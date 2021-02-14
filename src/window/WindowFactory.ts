@@ -96,6 +96,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             webPreferences: {
                 nodeIntegration: true,
                 webSecurity: false,
+                enableRemoteModule: true,
             },
         });
 
