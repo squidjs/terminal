@@ -43,11 +43,7 @@ export default class App {
      */
     private listenAppEvents() {
 
-        app.on('window-all-closed', () => {
-
-            if(process.platform !== 'darwin')
-                app.quit();
-        });
+        app.on('window-all-closed', () => app.quit());
 
         app.on('activate', () => {
 
@@ -55,9 +51,6 @@ export default class App {
                 this.createWindow();
         });
 
-        app.on('ready', () => {
-
-            this.createWindow();
-        });
+        app.on('ready', () => this.createWindow());
     }
 }
