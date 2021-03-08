@@ -24,6 +24,15 @@
       }
     ]
   },
+  "mac": {
+    "category": "public.app-category.developer-tools",
+    "target": [
+      {
+        "target": "default",
+        "arch": ["arm64", "x64"]
+      }
+    ]
+  },
   "snap": {
     "publish": {
       "provider": "generic",
