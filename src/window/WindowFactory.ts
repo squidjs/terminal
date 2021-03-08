@@ -6,6 +6,7 @@ import { UndefinedObject } from '@common/types/types';
 import Config  from '@common/config/Config';
 import windowStateKeeper, { State } from 'electron-window-state';
 import { IConfig } from '@common/config/Config';
+import { isDev } from '@common/utils/utils';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 
@@ -14,7 +15,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
     private readonly DEFAULT_WIDTH = 1200;
     private readonly DEFAULT_HEIGHT = 800;
 
-    constructor(isDev: boolean) {
+    constructor() {
 
         const config = Config.getInstance().loadConfig((config) => {
 
@@ -32,7 +33,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
         if(isDev)
             this.factoryObject.webContents.openDevTools();
 
-        this.loadWindow(isDev);
+        this.loadWindow();
     }
 
     /**
@@ -117,11 +118,9 @@ export default class WindowFactory implements Factory<BrowserWindow> {
     }
 
     /**
-     * Load the index.html in the window.
-     *
-     * @param isDev - If we are in dev
+     * Load the content of the window.
      */
-    private loadWindow(isDev: boolean) {
+    private loadWindow() {
 
         if(!this.factoryObject)
             return;

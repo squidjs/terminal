@@ -1,8 +1,9 @@
 import Config from '@common/config/Config';
+import { isDev } from '@common/utils/utils';
+
 const { cloudUrl } = Config.getInstance().loadConfig();
 
-const isDev = process.env.NODE_ENV !== 'production'; 
-const baseUrl = isDev ? 
+const baseUrl = isDev ?
     'http://localhost:3333' :
     cloudUrl;
 

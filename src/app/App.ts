@@ -6,13 +6,11 @@ import Updater from '@src/updater/Updater';
 
 export default class App {
 
-    private readonly isDev: boolean;
     private window: UndefinedObject<WindowFactory>;
     private nativeContextMenu: NativeContextMenu;
 
-    constructor(args: string[], isDev: boolean) {
+    constructor(args: string[]) {
 
-        this.isDev = isDev;
         this.nativeContextMenu = new NativeContextMenu();
         this.nativeContextMenu.check(args);
         app.allowRendererProcessReuse = false;
@@ -29,7 +27,7 @@ export default class App {
      */
     private createWindow() {
 
-        this.window = new WindowFactory(this.isDev);
+        this.window = new WindowFactory();
 
         this.window.getFactoryObject().on('ready-to-show', () => {
 

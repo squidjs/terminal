@@ -5,7 +5,5 @@ import App from '@src/app/App';
 if(module.hot)
     module.hot.accept();
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
-
 // Instantiate a new app
-new App(process.argv, isDevelopment);
+new App(process.argv);
