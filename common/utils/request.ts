@@ -1,5 +1,10 @@
-// TODO dynamic between dev and prod
-const baseUrl = 'http://localhost:3333';
+import Config from '@common/config/Config';
+const { cloudUrl } = Config.getInstance().loadConfig();
+
+const isDev = process.env.NODE_ENV !== 'production'; 
+const baseUrl = isDev ? 
+    'http://localhost:3333' :
+    cloudUrl;
 
 export type MethodType = 'GET' | 'POST';
 

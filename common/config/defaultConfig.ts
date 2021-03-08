@@ -159,4 +159,6 @@ export const defaultConfig: IConfig = {
     },
     shortcuts,
     localSSHHosts,
+    // TODO
+    cloudUrl: '',
 }

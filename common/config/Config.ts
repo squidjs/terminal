@@ -144,6 +144,10 @@ export interface IConfig {
     vibrancy: IVibrancy;
     shortcuts: IShortcut[];
     localSSHHosts: ISSHHost[];
+    /**
+     * The url to use for the cloud.
+     */
+    cloudUrl: string;
 }
 
 export interface ITheme {
