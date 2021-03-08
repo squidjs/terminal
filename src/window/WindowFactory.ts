@@ -3,7 +3,7 @@ import { Factory } from '@common/factories/Factory';
 import { format as formatUrl } from 'url';
 import path from 'path';
 import { UndefinedObject } from '@common/types/types';
-import Config, { IVibrancy } from '@common/config/Config';
+import Config  from '@common/config/Config';
 import windowStateKeeper, { State } from 'electron-window-state';
 import { IConfig } from '@common/config/Config';
 
@@ -73,10 +73,6 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             ...params,
             minWidth: 600,
             minHeight: 500,
-            // TODO
-            // fix electron bug which make the window un-resizable when
-            // transparent is set to true
-            // transparent: true,
             maximizable: true,
             resizable: true,
             title: 'Squid',
@@ -84,15 +80,6 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             // @ts-ignore
             icon: path.join(__static, 'logo.png'),
             show: false,
-            // TODO
-            // fix padding around window caused be electron-acrylic-window
-            /*vibrancy: {
-                theme: 'appearance-based',
-                effect: 'acrylic',
-                useCustomWindowRefreshMethod: true,
-                maximumRefreshRate: 60,
-                disableOnBlur: false,
-            },*/
             webPreferences: {
                 nodeIntegration: true,
                 webSecurity: false,
@@ -122,28 +109,11 @@ export default class WindowFactory implements Factory<BrowserWindow> {
     /**
      * Set the vibrancy settings for this window.
      *
-     * @param vibrancy - The vibrancy settings
+     * @param enabled - If the vibrancy is enabled
      */
-    private setVibrancy(vibrancy: IVibrancy) {
+    private setVibrancy(enabled: boolean) {
 
-        if(vibrancy.enabled) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            this.getFactoryObject().setVibrancy({
-
-                theme: vibrancy.theme,
-                effect: vibrancy.effect,
-                useCustomWindowRefreshMethod: vibrancy.useCustomWindowRefreshMethod,
-                maximumRefreshRate: vibrancy.maximumRefreshRate,
-                disableOnBlur: vibrancy.disableOnBlur,
-            });
-
-        } else {
-
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            this.getFactoryObject().setVibrancy();
-        }
+        this.getFactoryObject().setVibrancy(enabled ? 'appearance-based' : null);
     }
 
     /**

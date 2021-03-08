@@ -21,7 +21,6 @@
     "postinstall": "husky install"
   },
   "dependencies": {
-    "electron-acrylic-window": "0.4.7",
     "electron-updater": "^4.3.5",
     "electron-window-state": "^5.0.3",
     "keytar": "^7.2.0",
@@ -54,7 +53,7 @@
     "@typescript-eslint/parser": "^4.11.0",
     "electron": "^11.2.3",
     "electron-builder": "^22.4.1",
-    "electron-rebuild": "^2.3.4",
+    "electron-rebuild": "^2.3.5",
     "electron-webpack": "^2.8.2",
     "electron-webpack-ts": "^4.0.1",
     "eslint": "^7.16.0",

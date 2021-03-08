@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import { userDataPath } from '@common/utils/utils';
 import { defaultConfig } from '@common/config/defaultConfig';
 import watch from 'node-watch';
-import { VibrancyEffect, VibrancyTheme } from 'electron-acrylic-window';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
 import { IShortcut } from '@common/config/shortcuts';
@@ -141,7 +140,10 @@ export interface IConfig {
     font: IFont
     scroll: IScroll;
     backgroundImage: IBackgroundImage;
-    vibrancy: IVibrancy;
+    /**
+     * If the vibrancy is enabled.
+     */
+    vibrancy: boolean;
     shortcuts: IShortcut[];
     localSSHHosts: ISSHHost[];
     /**
@@ -272,33 +274,6 @@ interface IBackgroundImage {
      * Path or link to the image/gif to use.
      */
     image: string;
-}
-
-export interface IVibrancy {
-    /**
-     * If the vibrancy is enabled.
-     */
-    enabled: boolean;
-    /**
-     * The theme to use.
-     */
-    theme: VibrancyTheme;
-    /**
-     * The effect to use.
-     */
-    effect: VibrancyEffect;
-    /**
-     * If we should use a custom windows refresh method.
-     */
-    useCustomWindowRefreshMethod: boolean;
-    /**
-     * Maximum refresh rate. Default to 60.
-     */
-    maximumRefreshRate: number;
-    /**
-     * If we should disable when the window is blurred.
-     */
-    disableOnBlur: boolean;
 }
 
 export interface ISSHHost extends HasEnv {

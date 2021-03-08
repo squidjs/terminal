@@ -149,14 +149,7 @@ export const defaultConfig: IConfig = {
         opacity: 0.5,
         image: '',
     },
-    vibrancy: {
-        enabled: true,
-        theme: 'appearance-based',
-        effect: 'acrylic',
-        useCustomWindowRefreshMethod: false,
-        maximumRefreshRate: 60,
-        disableOnBlur: false,
-    },
+    vibrancy: false,
     shortcuts,
     localSSHHosts,
     // TODO
