@@ -2,8 +2,8 @@
   "publish": [
     "github"
   ],
-  "appId": "com.squidjs.squid",
-  "copyright": "Copyright © 2020 Squidjs",
+  "appId": "com.squids.squid",
+  "copyright": "Copyright © 2020 Squid",
   "productName": "Squid",
   "nsis": {
     "oneClick": false,
