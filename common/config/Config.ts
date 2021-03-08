@@ -27,7 +27,9 @@ export default class Config {
      */
     public loadConfig(callback?: (newConfig: IConfig) => void): IConfig {
 
-        if(this.config) {
+        const exist = fs.existsSync(this.CONFIG);
+
+        if(this.config && exist) {
 
             this.watchFile(callback);
             return this.config;
@@ -35,15 +37,16 @@ export default class Config {
 
         let config;
 
-        if(fs.existsSync(this.CONFIG))
-            config = this.readFile();
-        else {
+        if(exist) {
 
-            this.saveFile(defaultConfig);
+            config = this.readFile();
+            this.watchFile(callback);
+
+        } else {
+
+            this.saveFile(defaultConfig, () => this.watchFile(callback));
             config = defaultConfig;
         }
-
-        this.watchFile(callback);
 
         return config;
     }
@@ -86,13 +89,19 @@ export default class Config {
      * Save the desired Config object to a file.
      *
      * @param config - The config to save
+     * @param done - A callback executed when the file is saved
      */
-    private saveFile(config: IConfig) {
+    private saveFile(config: IConfig, done: () => void) {
 
         fs.writeFile(this.CONFIG, JSON.stringify(config, null, 2), (err) => {
 
-            if(err)
+            if(err) {
+
                 console.log(err);
+                return;
+            }
+
+            done();
         });
     }
 
