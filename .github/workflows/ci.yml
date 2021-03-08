@@ -6,80 +6,40 @@ on:
       - canary
     pull_request:
 jobs:
-  ci_linux:
-    runs-on: ubuntu-latest
+  ci:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        node-version: [15.x]
+        os: [ubuntu-latest, macos-11.0, windows-latest]
+      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
       - name: Install
         run: yarn
       - name: Install node-gyp
         run: yarn global add node-gyp
       - name: Rebuild dep
         run: yarn rebuild
-      - name: Build
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-latest'
         run: yarn dist:linux
-      - name: Get Linux files names
-        id: getlinuxfilename
-        run: |
-          echo "::set-output name=debName::$(ls dist/*.deb | cut -d'/' -f2)"
-          echo "::set-output name=debPath::$(ls dist/*.deb)"
-          echo "::set-output name=AppImageName::$(ls dist/*.AppImage | cut -d'/' -f2)"
-          echo "::set-output name=AppImagePath::$(ls dist/*.AppImage)"
-      - name: Upload deb files
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.getlinuxfilename.outputs.debName }}
-          path: ${{ steps.getlinuxfilename.outputs.debPath }}
-      - name: Upload AppImage files
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.getlinuxfilename.outputs.AppImageName }}
-          path: ${{ steps.getlinuxfilename.outputs.AppImagePath }}
-
-  ci_macos:
-    runs-on: macos-11.0
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install
-        run: yarn
-      - name: Install node-gyp
-        run: yarn global add node-gyp
-      - name: Rebuild dep
-        run: yarn rebuild
-      - name: Build
+      - name: Build MacOS
+        if: runner.os == 'macos-11.0'
         run: yarn dist:mac
-      - name: Get macOS files names
-        id: getmacosfilename
-        run: |
-          echo "::set-output name=dmgName::$(ls dist/*.dmg | cut -d'/' -f2)"
-          echo "::set-output name=dmgPath::$(ls dist/*.dmg)"
-      - name: Upload files
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.getmacosfilename.outputs.dmgName }}
-          path: ${{ steps.getmacosfilename.outputs.dmgPath }}
-  ci_windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install
-        run: yarn
-      - name: Install node-gyp
-        run: yarn global add node-gyp
-      - name: Rebuild dep
-        run: yarn rebuild
-      - name: Build
+      - name: Build Windows
+        if: runner.os == 'windows-latest'
         run: yarn dist:win
-      - name: Get Windows files names
-        id: getwindowsfilename
-        run: |
-          Write-Host "::set-output name=exeName::$(Get-ChildItem -Name .\dist\ | Select-String exe$)"
-          Write-Host "::set-output name=exePath::dist/$(Get-ChildItem -Name .\dist\ | Select-String exe$)"
       - name: Upload files
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.getwindowsfilename.outputs.exeName }}
-          path: ${{ steps.getwindowsfilename.outputs.exePath }}
+          path: |
+            dist/*.deb
+            dist/*.AppImage
+            dist/*.dmg
+            dist/*.exe
