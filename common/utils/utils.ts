@@ -100,15 +100,27 @@ export async function hash(password: string): Promise<string> {
     return crypto.createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
 }
 
+// The algorithm to use to create the cipher
 const algorithm = 'aes-256-ctr';
 const iv = crypto.randomBytes(16);
 
+/**
+ * Represent an encrypted object with a specific iv and json-encoded content.
+ */
 export interface IEncrypted {
 
     iv: string;
     content: string;
 }
 
+/**
+ * Encrypt a text with the given encrypted token. We create a cipher with an
+ * algorithm above, and use the encryped token to secure it.
+ *
+ * @param text - The text to encrypt
+ * @param encryptToken - The token used to encrypt
+ * @returns The IEncrypted object
+ */
 export function encrypt(text: string, encryptToken: string): IEncrypted {
 
     const cipher = crypto.createCipheriv(algorithm, encryptToken, iv);
@@ -121,10 +133,19 @@ export function encrypt(text: string, encryptToken: string): IEncrypted {
     }
 }
 
-export function decrypt(hash: IEncrypted, encryptToken: string): string {
+/**
+ * Decrypt an IEncrypted object thanks to the given encrypt token. We create a
+ * cipher with an algorithm above, and use the encryped token to verify it.
+ *
+ * @param encrypted - The encrypted object to decrypt
+ * @param encryptToken - The token used to encrypt
+ * @returns The decrypted object
+ */
 
-    const decipher = crypto.createDecipheriv(algorithm, encryptToken, Buffer.from(hash.iv, 'hex'));
-    const decrypted = Buffer.concat([decipher.update(Buffer.from(hash.content, 'hex')), decipher.final()]);
+export function decrypt(encrypted: IEncrypted, encryptToken: string): string {
+
+    const decipher = crypto.createDecipheriv(algorithm, encryptToken, Buffer.from(encrypted.iv, 'hex'));
+    const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted.content, 'hex')), decipher.final()]);
 
     return decrypted.toString();
 }
