@@ -4,14 +4,19 @@ import AuthButton from '@ui/components/navbar/buttons/SettingsButton';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import NavbarButton from '@ui/components/navbar/buttons/NavbarButton';
 import { remote } from 'electron';
+import { isMac } from '@common/utils/utils';
 import '@ui/styles/navbar.scss';
 
 const Navbar: FC = (): ReactElement => {
 
     const { theme } = useContext(ConfigContext);
+    let className = 'navbar';
+
+    if(isMac)
+        className += ' mac';
 
     return (
-        <div className="navbar" style={{ '--border': theme.border } as CSSProperties }>
+        <div className={className} style={{ '--border': theme.border } as CSSProperties }>
             <Tabs />
             <div className="buttons">
                 <NavbarButton

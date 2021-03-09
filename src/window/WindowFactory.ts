@@ -34,7 +34,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 
         // Open the devtools if we are in dev
         if(isDev)
-            this.factoryObject.webContents.openDevTools();
+            this.factoryObject.webContents.openDevTools({ mode: 'detach' });
 
         this.loadWindow();
     }
@@ -79,14 +79,15 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             minHeight: 500,
             maximizable: true,
             resizable: true,
+            transparent: true,
             title: 'Squid',
+            titleBarStyle: 'hidden',
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             icon: path.join(__static, 'logo.png'),
             show: false,
             webPreferences: {
                 nodeIntegration: true,
-                webSecurity: false,
                 enableRemoteModule: true,
             },
         });

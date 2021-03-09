@@ -59,7 +59,7 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
             <div className="main" style={{ backgroundColor: config.theme.background }}>
                 {
                     config.backgroundImage.enabled &&
-                        <div className="background" style={{ backgroundImage: `url(file://${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
+                        <div className="background" style={{ backgroundImage: `url(squid://${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
                 }
                 <Navbar />
                 {

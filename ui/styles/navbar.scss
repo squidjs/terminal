@@ -1,6 +1,6 @@
 .navbar {
 
-    width: 100vw;
+    width: calc(100vw - 60px);
     height: 30px;
 
     display: flex;
@@ -9,6 +9,11 @@
 
     -webkit-app-region: drag;
     border-bottom: 1px solid var(--border);
+
+    &.mac {
+
+        padding-left: 60px;
+    }
 
     .buttons {
 

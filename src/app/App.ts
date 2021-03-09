@@ -1,7 +1,7 @@
 import { UndefinedObject } from '@common/types/types';
 import WindowFactory from '@src/window/WindowFactory';
 import NativeContextMenu from '@src/window/NativeContextMenu';
-import { app } from 'electron';
+import { app, protocol } from 'electron';
 import Updater from '@src/updater/Updater';
 
 export default class App {
@@ -49,6 +49,16 @@ export default class App {
                 this.createWindow();
         });
 
-        app.on('ready', () => this.createWindow());
+        app.on('ready', () => {
+
+            protocol.registerFileProtocol('squid', (request, callback) => {
+
+                console.log(request.url);
+                const url = request.url.substr(8);
+                callback({ path: url });
+            });
+
+            this.createWindow()
+        });
     }
 }
