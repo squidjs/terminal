@@ -8,10 +8,13 @@
   "nsis": {
     "oneClick": false,
     "installerIcon": "./build/icon.ico",
- 	"allowToChangeInstallationDirectory": true
+ 	  "allowToChangeInstallationDirectory": true
+  },
+  "win": {
+    "icon": "build/icon.ico"
   },
   "linux": {
-    "icon": "./build/icon.icns",
+    "icon": "./build/icon.png",
     "category": "TerminalEmulator",
     "target": [
       {
@@ -25,6 +28,7 @@
     ]
   },
   "mac": {
+    "icon": "./build/icon.icns",
     "category": "public.app-category.developer-tools",
     "target": [
       {
