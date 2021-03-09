@@ -15,6 +15,11 @@ export interface IShortcut {
 export type TerminalShortcuts = 'terminal:create' | 'terminal:close' | 'terminal:zoomin' | 'terminal:zoomout' | 'terminal:left' | 'terminal:right';
 
 /**
+ * Default shortcuts.
+ */
+export type DefaultShortcuts = 'default:copy' | 'default:paste';
+
+/**
  * All available shortcut actions.
  */
-export type IShortcutActions = TerminalShortcuts;
+export type IShortcutActions = TerminalShortcuts | DefaultShortcuts;

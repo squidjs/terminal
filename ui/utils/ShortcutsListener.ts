@@ -82,7 +82,9 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
 
             case 'terminal:zoomin':
             case 'terminal:zoomout':
-                zoom(shortcut.action);
+            case 'default:copy':
+            case 'default:paste':
+                sendToWindow(shortcut.action);
                 break;
 
             case 'terminal:left':
@@ -96,11 +98,11 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
     }
 
     /**
-     * Zoom in or out in the terminal.
+     * Send a shortcut to the window.
      *
      * @param action - The action to execute
      */
-    const zoom = (action: IShortcutActions) => remote.getCurrentWindow().webContents.send('shortcuts', action);
+    const sendToWindow = (action: IShortcutActions) => remote.getCurrentWindow().webContents.send('shortcuts', action);
 
     /**
      * Focus the terminal at the given direction if exist.

@@ -15,27 +15,34 @@ const { Menu } = remote;
 export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut) => void): any => {
 
     const template: Array<MenuItemConstructorOptions> = [
-      {
-        label: 'View',
-        submenu: [
-          { role: 'reload' },
-          { role: 'forceReload' },
-          { role: 'toggleDevTools' },
-          { type: 'separator' },
-          { role: 'zoomIn', ...getShortcut(config, executeShortcut, 'terminal:zoomin') }, 
-          { role: 'zoomOut', ...getShortcut(config, executeShortcut, 'terminal:zoomout') },
-          { type: 'separator' },
-          { label: 'Focus left terminal', ...getShortcut(config, executeShortcut, 'terminal:left') },
-          { label: 'Focus right terminal', ...getShortcut(config, executeShortcut, 'terminal:right') }
-        ]
-      },
-      {
-        label: 'Window',
-        submenu: [
-          { label: 'New terminal', ...getShortcut(config, executeShortcut, 'terminal:create') },
-          { label: 'Close terminal', ...getShortcut(config, executeShortcut, 'terminal:close') },
-        ]
-      },
+        {
+            label: 'View',
+            submenu: [
+                { role: 'reload' },
+                { role: 'forceReload' },
+                { role: 'toggleDevTools' },
+                { type: 'separator' },
+                { role: 'zoomIn', ...getShortcut(config, executeShortcut, 'terminal:zoomin') },
+                { role: 'zoomOut', ...getShortcut(config, executeShortcut, 'terminal:zoomout') },
+                { type: 'separator' },
+                { label: 'Focus left terminal', ...getShortcut(config, executeShortcut, 'terminal:left') },
+                { label: 'Focus right terminal', ...getShortcut(config, executeShortcut, 'terminal:right') }
+            ]
+        },
+        {
+            label: 'Edit',
+            submenu: [
+                { label: 'Copy', accelerator: 'CmdOrCtrl+C', click: () => executeShortcut({ action:  'default:copy', keybinds: '' }) },
+                { label: 'Paste', accelerator: 'CmdOrCtrl+V', click: () => executeShortcut({ action:  'default:paste', keybinds: '' }) },
+            ]
+        },
+        {
+            label: 'Window',
+            submenu: [
+                { label: 'New terminal', ...getShortcut(config, executeShortcut, 'terminal:create') },
+                { label: 'Close terminal', ...getShortcut(config, executeShortcut, 'terminal:close') },
+            ]
+        },
     ];
 
     return Menu.buildFromTemplate(template);

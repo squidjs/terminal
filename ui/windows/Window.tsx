@@ -9,7 +9,7 @@ import { AppState, NotificationsAction, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { deleteWindow, updateWindow } from '@app/store/windows/actions';
 import { ipcRenderer } from 'electron';
-import { TerminalShortcuts } from '@common/config/shortcuts';
+import { IShortcutActions } from '@common/config/shortcuts';
 import { fontSizeNotification } from '@common/notifications/notification';
 import { addNotification } from '@app/store/notifications/actions';
 import Settings from '@ui/windows/Settings';
@@ -137,18 +137,23 @@ class Window extends Component<Props, State> {
 
         ipcRenderer.on('shortcuts', (event, args) => {
 
-            const shortcut: TerminalShortcuts = args;
+            const shortcut: IShortcutActions = args;
 
             if(shortcut && this.props.selected === this.props.window.id) {
 
                 switch(shortcut) {
 
                     case 'terminal:zoomin':
-                        this.zoomAndNotify(true);
+                    case 'terminal:zoomout':
+                        this.zoomAndNotify(shortcut === 'terminal:zoomin');
                         break;
 
-                    case 'terminal:zoomout':
-                        this.zoomAndNotify(false);
+                    case 'default:copy':
+                        this.state.terminal?.copySelected();
+                        break;
+
+                    case 'default:paste':
+                        this.state.terminal?.paste();
                         break;
 
                     default:

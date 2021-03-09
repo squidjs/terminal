@@ -6,6 +6,7 @@ import { IPty } from 'node-pty';
 import { Client } from 'ssh2';
 import SSHProcessFactory from '@app/factories/process/SSHProcessFactory';
 import { Terminal as XTerminal } from 'xterm';
+import { clipboard } from 'electron';
 import { isTerminalSSH } from '@common/utils/utils';
 
 export type ProcessType = IPty | Client;
@@ -134,6 +135,22 @@ export default class Terminal {
         this.xTerminal.fit();
 
         return currentZoom;
+    }
+
+    /**
+     * Copy the current selection to the clipboard.
+     */
+    public copySelected() {
+
+        this.xTerminal.copySelected(true);
+    }
+
+    /**
+     * Paste the content of the clipboard in the terminal.
+     */
+    public paste() {
+
+        this.write(clipboard.readText('selection'));
     }
 
     /**

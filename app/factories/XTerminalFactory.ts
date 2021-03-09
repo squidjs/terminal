@@ -121,7 +121,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
         });
 
         this.getFactoryObject().onTitleChange((title: string) => onTitle(title));
-        this.getFactoryObject().onSelectionChange(() => this.copySelected());
+        this.getFactoryObject().onSelectionChange(() => this.copySelected(false));
 
         window.addEventListener('resize', () => this.fit());
     }
@@ -164,11 +164,13 @@ export default class XTerminalFactory implements Factory<XTerminal> {
     }
 
     /**
-     * Copy the selected text if the config allow it.
+     * Copy the selected text if the config allow it or if we force it.
+     *
+     * @param force - If we should force the copy
      */
-    private copySelected() {
+    public copySelected(force: boolean) {
 
-        if(this.config.copyOnSelected)
+        if(force || this.config.copyOnSelected)
             clipboard.writeText(this.getFactoryObject().getSelection(), 'selection');
     }
 }
