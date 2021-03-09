@@ -25,7 +25,7 @@ export default class Config {
      * @param callback - An optional callback called when the file has changed
      * @returns The loaded config
      */
-    public loadConfig(callback?: (newConfig: IConfig) => void): IConfig {
+    public loadConfig(callback?: (newConfig: UndefinedObject<IConfig>) => void): IConfig {
 
         const exist = fs.existsSync(this.CONFIG);
 
@@ -56,7 +56,7 @@ export default class Config {
      *
      * @param callback - A callback called when the file has changed
      */
-    private watchFile(callback?: (newConfig: IConfig) => void) {
+    private watchFile(callback?: (newConfig: UndefinedObject<IConfig>) => void) {
 
         if(callback != undefined) {
 
@@ -64,8 +64,15 @@ export default class Config {
 
             watcher.on('change', async () => {
 
-                const newConfig = await this.readFile();
-                callback(newConfig);
+                try {
+
+                    const newConfig = await this.readFile();
+                    callback(newConfig);
+
+                } catch (err) {
+
+                    callback(undefined);
+                }
             });
         }
     }

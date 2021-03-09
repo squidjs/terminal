@@ -30,10 +30,11 @@ const ConfigProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement 
         const config = Config.getInstance().loadConfig((config) => {
 
             // Add a notification when config is reloaded
-            const notification = configReloadedNotification(false);
+            const notification = configReloadedNotification(config === undefined);
             dispatch(addNotification(notification));
 
-            setConfig(config);
+            if(config)
+                setConfig(config);
         });
 
         setConfig(config);

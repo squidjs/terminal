@@ -19,6 +19,9 @@ export default class WindowFactory implements Factory<BrowserWindow> {
 
         const config = Config.getInstance().loadConfig((config) => {
 
+            if(!config)
+                return;
+
             this.config = config;
             this.setVibrancy(config.vibrancy);
         });
