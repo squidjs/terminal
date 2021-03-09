@@ -68,13 +68,10 @@ export default class XTerminalFactory implements Factory<XTerminal> {
         terminal.setOption('scrollSensitivity', config.scroll.sensitivity);
         terminal.setOption('fastScrollSensitivity', config.scroll.fastScrollSensitivity);
         terminal.setOption('fastScrollModifier', config.scroll.fastScrollModifier);
-        terminal.setOption('theme', config.theme);
-
-        if(config.backgroundImage.enabled)
-            terminal.setOption('theme', {
-                ...terminal.getOption('theme'),
-                background: 'transparent',
-            });
+        terminal.setOption('theme', {
+            ...config.theme,
+            background: 'transparent',
+        });
     }
 
     /**
