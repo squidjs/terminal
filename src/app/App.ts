@@ -53,7 +53,6 @@ export default class App {
 
             protocol.registerFileProtocol('squid', (request, callback) => {
 
-                console.log(request.url);
                 const url = request.url.substr(8);
                 callback({ path: url });
             });
