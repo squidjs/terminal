@@ -22,8 +22,8 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
                 { role: 'forceReload' },
                 { role: 'toggleDevTools' },
                 { type: 'separator' },
-                { role: 'zoomIn', ...getShortcut(config, executeShortcut, 'terminal:zoomin') },
-                { role: 'zoomOut', ...getShortcut(config, executeShortcut, 'terminal:zoomout') },
+                { label: 'Zoom In', ...getShortcut(config, executeShortcut, 'terminal:zoomin') },
+                { label: 'Zoom Out', ...getShortcut(config, executeShortcut, 'terminal:zoomout') },
                 { type: 'separator' },
                 { label: 'Focus left terminal', ...getShortcut(config, executeShortcut, 'terminal:left') },
                 { label: 'Focus right terminal', ...getShortcut(config, executeShortcut, 'terminal:right') }
