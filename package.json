@@ -18,6 +18,9 @@
     "dist:linux": "yarn compile && electron-builder -l -p never",
     "rebuild": "electron-rebuild",
     "lint": "eslint . --ext .ts,.tsx",
+    "colortest": "yarn colortest:256 && yarn colortest:true",
+    "colortest:256": "sh scripts/colortest/256.sh",
+    "colortest:true": "sh scripts/colortest/truecolor.sh",
     "postinstall": "husky install"
   },
   "dependencies": {
