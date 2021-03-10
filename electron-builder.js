@@ -11,6 +11,7 @@ module.exports = {
     appId: `com.squidjs.${productName.toLowerCase()}`,
     copyright: `Copyright © 2020-${year} Squid`,
     productName,
+    generateUpdatesFilesForAllChannels: true,
     nsis: {
         oneClick: false,
         installerIcon:`./build/${iconName}.ico`,
