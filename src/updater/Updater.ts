@@ -1,8 +1,8 @@
 import { autoUpdater } from 'electron-updater';
 import { BrowserWindow, ipcMain } from 'electron';
 import { IUpdateStatus } from '@common/types/types';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const isCanary = require('../../package.json').version.includes('canary');
-
 
 // 5 seconds (in milliseconds)
 const WAIT_TIME = 5 * 1000;
