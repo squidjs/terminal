@@ -122,6 +122,8 @@ export const defaultConfig: IConfig = {
     copyOnSelected: true,
     restoreWindowPosition: true,
     tabsIcons: true,
+    altClickMoveCursor: true,
+    vibrancy: true,
     bell: {
         enabled: false,
         sound: '',
@@ -149,7 +151,6 @@ export const defaultConfig: IConfig = {
         opacity: 0.5,
         image: '',
     },
-    vibrancy: false,
     shortcuts,
     localSSHHosts,
     // TODO

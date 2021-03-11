@@ -1,4 +1,4 @@
-import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
+import { ITerminalAddon, ITerminalOptions, Terminal as XTerminal } from 'xterm';
 import { Factory } from '@common/factories/Factory';
 import { UndefinedObject } from '@common/types/types';
 import { clipboard } from 'electron';
@@ -33,10 +33,10 @@ export default class XTerminalFactory implements Factory<XTerminal> {
      */
     public build({ config }: XTerminalFactoryParams): XTerminal {
 
-        let options: Record<string, unknown> = { allowTransparency: true };
-
-        if(isWin)
-            options = { ...options, windowsMode: true };
+        const options: ITerminalOptions = {
+            allowTransparency: true,
+            windowsMode: isWin,
+        };
 
         this.factoryObject = new XTerminal(options);
         this.loadConfig(config);
@@ -68,6 +68,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
         terminal.setOption('scrollSensitivity', config.scroll.sensitivity);
         terminal.setOption('fastScrollSensitivity', config.scroll.fastScrollSensitivity);
         terminal.setOption('fastScrollModifier', config.scroll.fastScrollModifier);
+        terminal.setOption('altClickMovesCursor', config.altClickMoveCursor);
         terminal.setOption('theme', {
             ...config.theme,
             background: 'transparent',
@@ -168,7 +169,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
     public copySelected(force: boolean) {
 
         if(force || this.config.copyOnSelected)
-            clipboard.writeText(this.getFactoryObject().getSelection(), 'selection');
+            clipboard.writeText(this.getFactoryObject().getSelection());
     }
 }
 

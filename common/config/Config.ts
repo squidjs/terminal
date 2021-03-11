@@ -151,15 +151,19 @@ export interface IConfig {
      * If we should render icons next the tabs titles.
      */
     tabsIcons: boolean;
+    /**
+     * If we should move the cursor with alt+click
+     */
+    altClickMoveCursor: boolean;
+    /**
+     * If the vibrancy is enabled.
+     */
+    vibrancy: boolean;
     bell: IBell;
     cursor: ICursor;
     font: IFont
     scroll: IScroll;
     backgroundImage: IBackgroundImage;
-    /**
-     * If the vibrancy is enabled.
-     */
-    vibrancy: boolean;
     shortcuts: IShortcut[];
     localSSHHosts: ISSHHost[];
     /**

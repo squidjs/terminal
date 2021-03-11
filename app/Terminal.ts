@@ -150,7 +150,7 @@ export default class Terminal {
      */
     public paste() {
 
-        this.write(clipboard.readText('selection'));
+        this.write(clipboard.readText());
     }
 
     /**
