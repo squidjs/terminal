@@ -2,7 +2,7 @@ import React, { FC, FormEvent, ReactElement, useState } from 'react';
 import { createHost } from '@app/cloud/cloud';
 import { addHosts } from '@app/store/hosts/actions';
 import { Dispatch } from 'redux';
-import { HostsAction } from '@app/store/types';
+import { AppState, HostsAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import Subtitle from '@ui/components/settings/elements/Subtitle';
 import { ISSHHost } from '@common/config/Config';
@@ -15,6 +15,11 @@ interface Props {
     hosts: ISSHHost[];
     dispatch: (action: HostsAction) => void;
 }
+
+const mapStateToProps = (state: AppState) => ({
+
+    hosts: state.hosts,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
@@ -107,4 +112,4 @@ const HostsSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
     );
 }
 
-export default connect(mapDispatchToProps)(HostsSection);
+export default connect(mapStateToProps, mapDispatchToProps)(HostsSection);
