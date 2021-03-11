@@ -52,20 +52,21 @@ class Window extends Component<Props, State> {
 
     /**
      * Try summoning a new terminal if possible, and
-     * listen for shortcuts.
+     * listen for events.
      */
     componentDidMount() {
 
         this.trySummonTerminal();
-        this.listenForShortcuts();
+        this.listen();
     }
 
     /**
-     * Remove all listeners on shortcuts channel.
+     * Remove all listeners on channels.
      */
     componentWillUnmount() {
 
         ipcRenderer.removeAllListeners('shortcuts');
+        ipcRenderer.removeAllListeners('focus');
     }
 
     /**
@@ -127,10 +128,10 @@ class Window extends Component<Props, State> {
     }
 
     /**
-     * Listen for shortcuts events to zoom in/out in the terminal
-     * instance. Don't do anything if this is a settings window.
+     * Listen for events from the main ipc. Don't do anything if this
+     * is a settings window.
      */
-    private listenForShortcuts() {
+    private listen() {
 
         if(isSettingsWindow(this.props.window))
             return;
@@ -161,6 +162,8 @@ class Window extends Component<Props, State> {
                 }
             }
         });
+
+        ipcRenderer.on('focus', () => this.state.terminal?.focus());
     }
 
     /**

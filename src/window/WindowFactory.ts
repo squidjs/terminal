@@ -108,6 +108,8 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             window.focus();
         });
 
+        window.on('moved', () => window.webContents.send('focus'));
+
         return window;
     }
 

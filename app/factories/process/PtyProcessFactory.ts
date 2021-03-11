@@ -4,6 +4,7 @@ import * as pty from 'node-pty';
 import { Terminal as XTerminal } from 'xterm';
 import ProcessFactory from '@app/factories/ProcessFactory';
 import Terminal, { TerminalType } from '@app/Terminal';
+import { isWin } from '@common/utils/utils';
 
 export default class PtyProcessFactory extends ProcessFactory<IPty>{
 
@@ -21,7 +22,8 @@ export default class PtyProcessFactory extends ProcessFactory<IPty>{
 
         const env = Terminal.buildEnv(terminalType);
 
-        this.factoryObject = pty.spawn(shell, [], {
+        // TODO configurable
+        this.factoryObject = pty.spawn(shell, [!isWin ? '--login' : ''], {
 
             name: 'xterm-256color',
             cols: terminal.cols,
