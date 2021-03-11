@@ -17,15 +17,45 @@ export default class TitleIconResolver implements Resolver<IWindow, IconResolver
 
         let icon: UndefinedObject<IconResolverType>;
 
-        // Programs
+        // Tools and CLIs
         if(name.includes('vim'))
             icon = ['custom-vim', '#019833'];
+        else if(name.includes('docker'))
+            icon = ['linux-docker', '#247ECF'];
+        else if(name.includes('brew'))
+            icon = ['fa-beer', '#F3AB3E'];
+        else if(name.includes('git'))
+            icon = ['dev-git', '#E94E31'];
+        else if(name.includes('heroku'))
+            icon = ['dev-heroku', '#411094'];
+        else if(name.includes('electron'))
+            icon = ['custom-electron', '#FFFFFF'];
+        else if(name.includes('vercel'))
+            icon = ['▲', '#FFFFFF', true];
 
-        // Utilities
+        // Databases
+        else if(name.includes('mysql') || name.includes('mariadb'))
+            icon = ['dev-mysql', '#31889C'];
+        else if(name.includes('msql'))
+            icon = ['dev-msql_server', '#B11C1C'];
+        else if(name.includes('sqlite'))
+            icon = ['dev-sqllite', '#53A6DC'];
+        else if(name.includes('postgresql'))
+            icon = ['dev-postgresql', '#31648D'];
+        else if(name.includes('redis'))
+            icon = ['dev-redis', '#D82F27'];
+        else if(name.includes('mongo'))
+            icon = ['dev-mongodb', '#419432'];
+
+        // Packages manager
         else if(name.includes('yarn'))
             icon = ['dev-javascript', '#E8D44D'];
         else if(name.includes('npm'))
             icon = ['dev-npm', '#C53635'];
+        else if(name.includes('cargo'))
+            icon = ['dev-rust', '#F84C00'];
+        else if(name.includes('composer'))
+            icon = ['dev-composer', '#204599'];
 
         // Languages
         else if(name.includes('php'))
@@ -34,6 +64,10 @@ export default class TitleIconResolver implements Resolver<IWindow, IconResolver
             icon = ['mdi-nodejs', '#6DA55F'];
         else if(name.includes('python'))
             icon = ['dev-python', '#FFD040'];
+        else if(name.includes('rust'))
+            icon = ['dev-rust', '#F84C00'];
+        else if(name.includes('go'))
+            icon = ['mdi-language_go', '#2EA8D0'];
 
         return icon;
     }

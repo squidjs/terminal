@@ -21,7 +21,7 @@ export default class ShellIconResolver implements Resolver<IWindow, IconResolver
         const path = (object.terminalType as IShell).path;
 
         if(path.includes('bash') || path.includes('zsh'))
-            icon = ['fa-terminal', '#293036']
+            icon = ['fa-terminal', '#969696']
         else if(path.includes('wsl.exe'))
             icon = ['dev-linux', '#F7F7F7']
         else if(path.includes('cmd.exe'))
@@ -30,7 +30,7 @@ export default class ShellIconResolver implements Resolver<IWindow, IconResolver
             icon = ['dev-terminal', '#0273B7']
         else if(path.includes('bash.exe'))
             icon = ['dev-git', '#E84D31']
- 
+
         return icon;
     }
 

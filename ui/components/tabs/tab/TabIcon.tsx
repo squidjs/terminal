@@ -19,7 +19,12 @@ const TabIcon: FC<Props> = ({ window }: Props): ReactElement | null => {
     if(!icon)
         return null;
 
-    const [iconPath, color] = icon;
+    const [iconPath, color, customIcon] = icon;
+
+    if(customIcon)
+        return (
+            <i className='icon nf' style={{ color }}>{ iconPath }</i>
+        );
 
     return (
         <i className={`icon nf nf-${iconPath}`} style={{ color }} />
