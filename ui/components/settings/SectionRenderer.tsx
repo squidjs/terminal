@@ -2,6 +2,7 @@ import React, { FC, ReactElement } from 'react';
 import { SectionType } from '@ui/windows/Settings';
 import ProfileSection from '@ui/components/settings/sections/ProfileSection';
 import AboutSection from '@ui/components/settings/sections/AboutSection';
+import HostsSection from '@ui/components/settings/sections/HostsSection';
 
 interface Props {
 
@@ -11,6 +12,7 @@ interface Props {
 const SECTIONS: { [key: string]: ReactElement } = {
 
     profile: <ProfileSection />,
+    hosts: <HostsSection />,
     about: <AboutSection />,
 };
 

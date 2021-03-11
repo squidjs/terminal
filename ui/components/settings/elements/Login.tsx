@@ -8,6 +8,7 @@ import { AuthContext } from '@ui/contexts/AuthContext';
 import Subtitle from '@ui/components/settings/elements/Subtitle';
 import Text from '@ui/components/settings/elements/Text';
 import Alert from '@ui/components/settings/elements/Alert';
+import Input from '@ui/components/settings/elements/Input';
 
 interface Props {
 
@@ -21,10 +22,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const Login: FC<Props> = ({ dispatch }: Props): ReactElement => {
 
-    const [email, setEmail] = useState<string>()
-    const [password, setPassword] = useState<string>();
-    const [error, setError] = useState<string>();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { setAuth } = useContext(AuthContext);
 
     /**
@@ -68,14 +69,16 @@ const Login: FC<Props> = ({ dispatch }: Props): ReactElement => {
             <Text text="You must sign in in order to connect to cloud saved SSH Hosts." />
             <Alert type="info" text={loading ? 'Loading...' : ''} />
             <Alert type="error" text={error} />
-            <input
-                onChange={({ target }) => setEmail(target.value)}
+            <Input
+                placeholder="Enter your email"
                 type="email"
-                placeholder="Enter your email" />
-            <input
-                onChange={({ target }) => setPassword(target.value)}
+                value={email}
+                setValue={setEmail} />
+            <Input
+                placeholder="Enter your password"
                 type="password"
-                placeholder="Enter your password" />
+                value={password}
+                setValue={setPassword} />
             <input
                 type="submit"
                 value="Sign in" />

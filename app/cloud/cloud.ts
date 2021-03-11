@@ -2,7 +2,13 @@ import Vault, { IVaultData } from '@app/cloud/Vault';
 import { ISSHHost } from '@common/config/Config';
 import { UndefinedObject } from '@common/types/types';
 import { makeAuthRequest, makeRequest } from '@common/utils/request';
-import { decrypt, hash, IEncrypted } from '@common/utils/utils';
+import { decrypt, encrypt, hash, IEncrypted } from '@common/utils/utils';
+
+type CloudResult = {
+
+    shouldLogin: boolean;
+    hosts: ISSHHost[];
+}
 
 /**
  * Initialize the cloud by loading the tokens in the Vault
@@ -11,7 +17,7 @@ import { decrypt, hash, IEncrypted } from '@common/utils/utils';
  *
  * @returns A promise of if we should login and the hosts
  */
-export const initializeCloud = async(): Promise<{ shouldLogin: boolean, hosts: ISSHHost[] }> => {
+export const initializeCloud = async(): Promise<CloudResult> => {
 
     const vault = Vault.getInstance();
     const vaultData = await vault.load();
@@ -61,6 +67,28 @@ export const logout = () => {
     const vault = Vault.getInstance();
     vault.deletePassword('apiToken');
     vault.deletePassword('encryptToken');
+}
+
+/**
+ * Create a new host in the cloud.
+ *
+ * @param data - The vault data
+ * @param host - The host to create
+ * @returns A promise of the created host
+ */
+export const createHost = async(data: IVaultData, host: ISSHHost): Promise<ISSHHost> => {
+
+    const { apiToken, encryptToken } = data;
+
+    const body = encryptHost(host, encryptToken);
+    const { iv, content } = await makeAuthRequest('hosts', 'POST', apiToken, body);
+
+    const hash: IEncrypted = {
+        iv,
+        content,
+    };
+
+    return decryptHost(hash, encryptToken);
 }
 
 /**
@@ -117,11 +145,10 @@ const getCloudHosts = async(data: IVaultData): Promise<ISSHHost[]> => {
  * @param encryptToken - The token to use to encrypt
  * @returns The encrypted host
  */
-// TODO uncomment when used
-/*const encryptHost = (host: ISSHHost, encryptToken: string): IEncrypted => {
+const encryptHost = (host: ISSHHost, encryptToken: string): IEncrypted => {
 
     return encrypt(JSON.stringify(host), encryptToken);
-}*/
+}
 
 /**
  * Decrypt a IEncrypted to a ISSHHost with the given encryptToken.

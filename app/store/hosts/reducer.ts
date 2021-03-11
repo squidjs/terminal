@@ -18,6 +18,9 @@ export const hosts = (state: HostsState = initialState, action: HostsAction) => 
         case HOSTS_ACTION_TYPES.SET:
             return action.hosts;
 
+        case HOSTS_ACTION_TYPES.ADD:
+            return [...state, ...action.hosts];
+
         default:
             return state;
     }

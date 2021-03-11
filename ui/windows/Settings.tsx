@@ -8,7 +8,7 @@ interface Props {
     className: string;
 }
 
-export type SectionType = 'profile' | 'about';
+export type SectionType = 'profile' | 'hosts' | 'about';
 
 const Settings: FC<Props> = ({ className }: Props): ReactElement => {
 
