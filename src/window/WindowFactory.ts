@@ -118,9 +118,11 @@ export default class WindowFactory implements Factory<BrowserWindow> {
      *
      * @param enabled - If the vibrancy is enabled
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     private setVibrancy(enabled: boolean) {
 
-        this.getFactoryObject().setVibrancy(enabled ? 'appearance-based' : null);
+        // TODO fix vibrancy
+        //this.getFactoryObject().setVibrancy(enabled ? 'appearance-based' : null);
     }
 
     /**
