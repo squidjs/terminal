@@ -1,6 +1,6 @@
 {
   "name": "squid",
-  "version": "0.2.0-canary",
+  "version": "0.1.0-canary",
   "description": "The Shell and SSH terminal for everyone",
   "author": {
     "email": "quiibzdev@gmail.com",
@@ -13,9 +13,9 @@
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
-    "dist:win": "yarn compile && electron-builder -w -p never",
-    "dist:mac": "yarn compile && electron-builder -m -p never",
-    "dist:linux": "yarn compile && electron-builder -l -p never",
+    "dist:win": "yarn compile && electron-builder -w -p onTagOrDraft",
+    "dist:mac": "yarn compile && electron-builder -m -p onTagOrDraft",
+    "dist:linux": "yarn compile && electron-builder -l -p onTagOrDraft",
     "rebuild": "electron-rebuild",
     "lint": "eslint . --ext .ts,.tsx",
     "colortest": "yarn colortest:256 && yarn colortest:true",
