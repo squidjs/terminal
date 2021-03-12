@@ -110,7 +110,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             window.show();
             window.focus();
 
-            callHook('onWindowShow');
+            callHook('onWindowShow', window);
         });
 
         window.on('moved', () => window.webContents.send('focus'));

@@ -1,4 +1,4 @@
-import { BrowserWindowConstructorOptions } from 'electron';
+import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron';
 import { IConfig } from '@common/config/Config';
 import { isMainProcess } from '@common/utils/utils';
 
@@ -12,7 +12,8 @@ export type ProcessHookParam<P> = {
 
 export type HookParams =
     BrowserWindowConstructorOptions |
-    ProcessHookParam<IConfig>;
+    ProcessHookParam<IConfig> |
+    BrowserWindow;
 
 export const processHook = <P>(param: P): ProcessHookParam<P> => ({
 
@@ -24,7 +25,7 @@ export interface Plugin {
 
     onAppLoaded?: () => void;
     onAppClosed?: () => void;
-    onWindowShow?: () => void;
+    onWindowShow?: (options: BrowserWindow) => void;
 
     hookWindowOptions?: (options: BrowserWindowConstructorOptions) => BrowserWindowConstructorOptions;
     hookConfig?: (options: ProcessHookParam<IConfig>) => ProcessHookParam<IConfig>;
