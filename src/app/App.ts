@@ -3,6 +3,7 @@ import WindowFactory from '@src/window/WindowFactory';
 import NativeContextMenu from '@src/window/NativeContextMenu';
 import { app, protocol } from 'electron';
 import Updater from '@src/updater/Updater';
+import { callHook } from '@common/plugins/PluginManager';
 
 export default class App {
 
@@ -41,7 +42,11 @@ export default class App {
      */
     private listenAppEvents() {
 
-        app.on('window-all-closed', () => app.quit());
+        app.on('window-all-closed', () => {
+
+            callHook('onAppClosed');
+            app.quit();
+        });
 
         app.on('activate', () => {
 
@@ -57,7 +62,7 @@ export default class App {
                 callback({ path: url });
             });
 
-            this.createWindow()
+            this.createWindow();
         });
     }
 }
