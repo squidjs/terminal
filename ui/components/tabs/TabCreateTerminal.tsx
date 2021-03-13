@@ -1,46 +1,28 @@
 import React, { CSSProperties, FC, ReactElement, useContext, useEffect } from 'react';
 import { ISSHHost } from '@common/config/Config';
-import { Dispatch } from 'redux';
-import { AppState, WindowsAction } from '@app/store/types';
-import { connect } from 'react-redux';
-import { IWindow, TerminalType } from '@app/Terminal';
+import { TerminalType } from '@app/Terminal';
 import { remote } from 'electron';
 import { UndefinedObject } from '@common/types/types';
-import { createWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
 import electron from 'electron';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
+import { HostsContext } from '@ui/contexts/HostsContext';
 const { Menu, MenuItem } = remote;
-
-interface Props {
-
-    windows: IWindow[];
-    hosts: ISSHHost[];
-    dispatch: (action: WindowsAction) => void;
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    windows: state.windows,
-    hosts: state.hosts,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: WindowsAction) => { dispatch(action) } }
-}
 
 let menu: UndefinedObject<Electron.Menu>;
 
-const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch }: Props): ReactElement => {
+const TabCreateTerminal: FC = (): ReactElement => {
 
+    const { hosts } = useContext(HostsContext);
+    const { windows, dispatch } = useContext(WindowsContext);
     const config = useContext(ConfigContext);
 
     /**
      * Update the shells menu if the config or
      * the cloud hosts changed.
      */
-    useEffect(() => updateShells(), [config, windows, cloudSSHHosts]);
+    useEffect(() => updateShells(), [config, windows, hosts]);
 
     /**
      * Update the shells by settings them in a Menu.
@@ -59,11 +41,11 @@ const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch 
 
         const { localSSHHosts } = config;
 
-        if(localSSHHosts && localSSHHosts.length >= 1 || cloudSSHHosts && cloudSSHHosts.length >= 1)
+        if(localSSHHosts && localSSHHosts.length >= 1 || hosts && hosts.length >= 1)
             menu?.append(new MenuItem({ type: 'separator' }));
 
         buildSubmenu(menu, 'Local SSH Hosts', localSSHHosts);
-        buildSubmenu(menu, 'Cloud SSH Hosts', cloudSSHHosts);
+        buildSubmenu(menu, 'Cloud SSH Hosts', hosts);
     }
 
     /**
@@ -101,11 +83,15 @@ const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch 
      */
     const createTerminal = (terminalType: TerminalType) => {
 
-        dispatch(createWindow({
-            id: nextWindowId(windows),
-            name: 'Terminal',
-            terminalType,
-        }));
+        dispatch({
+            type: 'CREATE',
+            window: {
+                id: nextWindowId(windows),
+                name: 'Terminal',
+                terminalType,
+                selected: true,
+            },
+        });
     }
 
     /**
@@ -129,4 +115,4 @@ const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch 
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabCreateTerminal);
+export default TabCreateTerminal;

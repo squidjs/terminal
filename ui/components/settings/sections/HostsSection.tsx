@@ -1,32 +1,15 @@
-import React, { FC, FormEvent, ReactElement, useState } from 'react';
+import React, { FC, FormEvent, ReactElement, useContext, useState } from 'react';
 import { createHost } from '@app/cloud/cloud';
-import { addHosts } from '@app/store/hosts/actions';
-import { Dispatch } from 'redux';
-import { AppState, HostsAction } from '@app/store/types';
-import { connect } from 'react-redux';
 import Subtitle from '@ui/components/settings/elements/Subtitle';
 import { ISSHHost } from '@common/config/Config';
 import Input from '@ui/components/settings/elements/Input';
 import Vault from '@app/cloud/Vault';
 import Alert from '@ui/components/settings/elements/Alert';
+import { HostsContext } from '@ui/contexts/HostsContext';
 
-interface Props {
+const HostsSection: FC = (): ReactElement => {
 
-    hosts: ISSHHost[];
-    dispatch: (action: HostsAction) => void;
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    hosts: state.hosts,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: HostsAction) => { dispatch(action) } }
-}
-
-const HostsSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
+    const { dispatch } = useContext(HostsContext);
 
     const [name, setName] = useState('');
     const [host, setHost] = useState('');
@@ -63,7 +46,7 @@ const HostsSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
         };
 
         const createdHost = await createHost(vaultData, sshHost);
-        dispatch(addHosts([createdHost]));
+        dispatch({ type: 'ADD', host: createdHost });
 
         setName('');
         setHost('');
@@ -112,4 +95,4 @@ const HostsSection: FC<Props> = ({ dispatch }: Props): ReactElement => {
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HostsSection);
+export default HostsSection;

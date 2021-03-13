@@ -1,27 +1,19 @@
-import React, { FC, ReactElement, useEffect, useState, createContext } from 'react';
+import React, { FC, ReactElement, useEffect, useState, createContext, useContext } from 'react';
 import Config, { IConfig } from '@common/config/Config';
 import { defaultConfig } from '@common/config/defaultConfig';
-import { configReloadedNotification } from '@common/notifications/notification';
-import { addNotification } from '@app/store/notifications/actions';
-import { NotificationsAction, SelectedAction } from '@app/store/types';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
+import { configReloadedNotification } from '@app/notifications/notification';
+import { NotificationsContext } from '@ui/contexts/NotificationsContext';
 
 interface Props {
 
     children: ReactElement;
-    dispatch: (action: NotificationsAction) => void;
-}
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: SelectedAction) => { dispatch(action) } }
 }
 
 export const ConfigContext = createContext<IConfig>(defaultConfig);
 
-const ConfigProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement => {
+const ConfigProvider: FC<Props> = ({ children }: Props): ReactElement => {
 
+    const { dispatch } = useContext(NotificationsContext);
     const [config, setConfig] = useState<IConfig>(defaultConfig);
 
     // Load the config on mount
@@ -31,7 +23,7 @@ const ConfigProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement 
 
             // Add a notification when config is reloaded
             const notification = configReloadedNotification(config === undefined);
-            dispatch(addNotification(notification));
+            dispatch({ type: 'ADD', notification });
 
             if(config)
                 setConfig(config);
@@ -48,4 +40,4 @@ const ConfigProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement 
     );
 }
 
-export default connect(mapDispatchToProps)(ConfigProvider);
+export default ConfigProvider;

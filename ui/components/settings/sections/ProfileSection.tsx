@@ -1,34 +1,15 @@
 import React, { FC, ReactElement, useContext } from 'react';
 import { logout as cloudLogout } from '@app/cloud/cloud';
-import { setHosts } from '@app/store/hosts/actions';
-import { Dispatch } from 'redux';
-import { AppState, HostsAction } from '@app/store/types';
-import { connect } from 'react-redux';
 import { AuthContext } from '@ui/contexts/AuthContext';
 import Subtitle from '@ui/components/settings/elements/Subtitle';
 import Text from '@ui/components/settings/elements/Text';
 import Alert from '@ui/components/settings/elements/Alert';
-import { ISSHHost } from '@common/config/Config';
 import Login from '@ui/components/settings/elements/Login';
+import { HostsContext } from '@ui/contexts/HostsContext';
 
-interface Props {
+const ProfileSection: FC = (): ReactElement => {
 
-    hosts: ISSHHost[];
-    dispatch: (action: HostsAction) => void;
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    hosts: state.hosts,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: HostsAction) => { dispatch(action) } }
-}
-
-const ProfileSection: FC<Props> = ({ hosts, dispatch }: Props): ReactElement => {
-
+    const { hosts, dispatch } = useContext(HostsContext);
     const { auth, setAuth } = useContext(AuthContext);
 
     /**
@@ -38,7 +19,7 @@ const ProfileSection: FC<Props> = ({ hosts, dispatch }: Props): ReactElement => 
 
         cloudLogout();
 
-        dispatch(setHosts([]));
+        dispatch({ type: 'SET', hosts: [] });
         setAuth({ type: 'SET', state: false });
     }
 
@@ -61,4 +42,4 @@ const ProfileSection: FC<Props> = ({ hosts, dispatch }: Props): ReactElement => 
     return <Login />;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);
+export default ProfileSection;

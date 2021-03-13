@@ -171,4 +171,5 @@ export interface IWindow {
     id: number;
     name: string;
     terminalType: TerminalType;
+    selected: boolean;
 }

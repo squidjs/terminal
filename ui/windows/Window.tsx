@@ -1,129 +1,87 @@
-import React, { Component } from 'react';
-import { Dispatch } from 'redux';
+import React, { FC, ReactElement, useContext, useEffect, useRef } from 'react';
 import Terminal, { IWindow } from '@app/Terminal';
 import { IConfig } from '@common/config/Config';
-import { UndefinedObject } from '@common/types/types';
 import DragDrop from '@ui/utils/DragDrop';
 import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
-import { AppState, NotificationsAction, WindowsAction } from '@app/store/types';
-import { connect } from 'react-redux';
-import { deleteWindow, updateWindow } from '@app/store/windows/actions';
 import { ipcRenderer } from 'electron';
 import { IShortcutActions } from '@common/config/shortcuts';
-import { fontSizeNotification } from '@common/notifications/notification';
-import { addNotification } from '@app/store/notifications/actions';
+import { fontSizeNotification } from '@app/notifications/notification';
 import Settings from '@ui/windows/Settings';
+import { NotificationsContext } from '@ui/contexts/NotificationsContext';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
 import '@ui/styles/xterm.scss';
 
 interface Props {
 
     config: IConfig;
     window: IWindow;
-    selected: number;
-    dispatch: (action: WindowsAction | NotificationsAction) => void;
 }
 
-interface State {
+const Window: FC<Props> = ({ config, window }: Props): ReactElement => {
 
-    terminal: UndefinedObject<Terminal>;
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    selected: state.selected,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: WindowsAction | NotificationsAction) => { dispatch(action) } }
-}
-
-class Window extends Component<Props, State> {
-
-    constructor(props: Props) {
-
-        super(props);
-
-        this.state = {
-
-            terminal: undefined,
-        };
-    }
+    const { dispatch: dispatchNotification } = useContext(NotificationsContext);
+    const { windows, dispatch } = useContext(WindowsContext);
+    const selected = windows.find((current) => current.selected);
+    const terminal = useRef<Terminal>();
 
     /**
-     * Try summoning a new terminal if possible, and
-     * listen for events.
+     * Focus the terminal when anything update, and try summoning
+     * it if not exist.
      */
-    componentDidMount() {
+    useEffect(() => {
 
-        this.trySummonTerminal();
-        this.listen();
-    }
+        terminal.current?.focus();
+
+        trySummonTerminal();
+    });
 
     /**
-     * Remove all listeners on channels.
+     * Listen for event on mounted and remove all listeners
+     * when unmounted.
      */
-    componentWillUnmount() {
+    useEffect(() => {
 
-        ipcRenderer.removeAllListeners('shortcuts');
-        ipcRenderer.removeAllListeners('focus');
-    }
+        listen();
+
+        return () => {
+
+            ipcRenderer.removeAllListeners('shortcuts');
+            ipcRenderer.removeAllListeners('focus');
+        }
+
+    }, []);
 
     /**
      * When the component update, we check if the props changed, and if so
      * we update the config of the state terminal instance.
-     *
-     * @param prevProps - The previous props
      */
-    componentDidUpdate(prevProps: Readonly<Props>) {
+    useEffect(() => {
 
-        this.state.terminal?.focus();
+        terminal.current?.updateConfig(config);
 
-        if(prevProps.config != this.props.config)
-            this.state.terminal?.updateConfig(this.props.config);
-
-        if(!this.state.terminal)
-            this.trySummonTerminal();
-    }
-
-    render() {
-
-        const className = this.props.selected === this.props.window.id ? '' : 'hidden';
-
-        if(isSettingsWindow(this.props.window))
-            return <Settings className={className} />;
-
-        return (
-            <DragDrop handleDrop={(files) => this.handleDrop(files)}>
-                <div className={className} id={`window-${this.props.window.id}`} />
-            </DragDrop>
-        )
-    }
+    }, [config]);
 
     /**
      * Summon a terminal, if selected. We also handle the closing of this
      * terminal. Don't do anything if this is a settings window.
      */
-    private trySummonTerminal() {
+    const trySummonTerminal = () => {
 
-        if(isSettingsWindow(this.props.window))
+        if(isSettingsWindow(window) || terminal.current)
             return;
 
-        if(this.props.selected === this.props.window.id) {
+        if(selected?.id === window.id) {
 
-            const { config } = this.props;
-            const { terminalType, id } = this.props.window;
+            const { terminalType, id } = window;
 
-            const terminal = new Terminal(config, id, terminalType, () => {
+            terminal.current = new Terminal(config, id, terminalType, () => {
 
-                this.props.dispatch(deleteWindow(this.props.window));
+                dispatch({ type: 'DELETE', window });
 
             }, (name: string) => {
 
-                this.props.dispatch(updateWindow({ ...this.props.window, name }));
+                dispatch({ type: 'UPDATE', window: { ...window, name } });
             });
-
-            this.setState({ terminal });
         }
     }
 
@@ -131,30 +89,30 @@ class Window extends Component<Props, State> {
      * Listen for events from the main ipc. Don't do anything if this
      * is a settings window.
      */
-    private listen() {
+    const listen = () => {
 
-        if(isSettingsWindow(this.props.window))
+        if(isSettingsWindow(window))
             return;
 
         ipcRenderer.on('shortcuts', (event, args) => {
 
             const shortcut: IShortcutActions = args;
 
-            if(shortcut && this.props.selected === this.props.window.id) {
+            if(shortcut && selected?.id === window.id) {
 
                 switch(shortcut) {
 
                     case 'terminal:zoomin':
                     case 'terminal:zoomout':
-                        this.zoomAndNotify(shortcut === 'terminal:zoomin');
+                        zoomAndNotify(shortcut === 'terminal:zoomin');
                         break;
 
                     case 'default:copy':
-                        this.state.terminal?.copySelected();
+                        terminal.current?.copySelected();
                         break;
 
                     case 'default:paste':
-                        this.state.terminal?.paste();
+                        terminal.current?.paste();
                         break;
 
                     default:
@@ -163,7 +121,10 @@ class Window extends Component<Props, State> {
             }
         });
 
-        ipcRenderer.on('focus', () => this.state.terminal?.focus());
+        ipcRenderer.on('focus', () => {
+
+            terminal.current?.focus();
+        });
     }
 
     /**
@@ -171,12 +132,12 @@ class Window extends Component<Props, State> {
      *
      * @param zoomIn - If we should zoom in or out
      */
-    private zoomAndNotify(zoomIn: boolean) {
+    const zoomAndNotify = (zoomIn: boolean) => {
 
-        const zoom = this.state.terminal?.zoom(zoomIn);
+        const zoom = terminal.current?.zoom(zoomIn);
 
         const notification = fontSizeNotification(zoom || 0);
-        this.props.dispatch(addNotification(notification));
+        dispatchNotification({ type: 'ADD', notification });
     }
 
     /**
@@ -184,22 +145,32 @@ class Window extends Component<Props, State> {
      *
      * @param files - The dropped file list
      */
-    private handleDrop(files: FileList) {
+    const handleDrop = (files: FileList) => {
 
-        if(this.props.selected !== this.props.window.id)
+        if(selected?.id !== window.id)
             return;
 
         const filesPath = [];
 
         for(let i = 0; i < files.length; i++) {
 
-            const wslPath = resolveToWSLPath(this.props.window, files[i].path);
-
+            const wslPath = resolveToWSLPath(window, files[i].path);
             filesPath.push(addQuotes(wslPath));
         }
 
-        this.state.terminal?.write(filesPath.join(' '));
+        terminal.current?.write(filesPath.join(' '));
     }
+
+    const className = selected?.id === window.id ? '' : 'hidden';
+
+    if(isSettingsWindow(window))
+        return <Settings className={className} />;
+
+    return (
+        <DragDrop handleDrop={handleDrop}>
+            <div className={className} id={`window-${window.id}`} />
+        </DragDrop>
+    )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Window);
+export default Window;
