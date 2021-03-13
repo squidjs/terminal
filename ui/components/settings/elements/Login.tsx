@@ -1,26 +1,15 @@
 import React, { FC, FormEvent, ReactElement, useContext, useState } from 'react';
 import { login as cloudLogin } from '@app/cloud/cloud';
-import { setHosts } from '@app/store/hosts/actions';
-import { Dispatch } from 'redux';
-import { HostsAction } from '@app/store/types';
-import { connect } from 'react-redux';
 import { AuthContext } from '@ui/contexts/AuthContext';
 import Subtitle from '@ui/components/settings/elements/Subtitle';
 import Text from '@ui/components/settings/elements/Text';
 import Alert from '@ui/components/settings/elements/Alert';
 import Input from '@ui/components/settings/elements/Input';
+import { HostsContext } from '@ui/contexts/HostsContext';
 
-interface Props {
+const Login: FC = (): ReactElement => {
 
-    dispatch: (action: HostsAction) => void;
-}
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: HostsAction) => { dispatch(action) } }
-}
-
-const Login: FC<Props> = ({ dispatch }: Props): ReactElement => {
+    const { dispatch } = useContext(HostsContext);
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
@@ -52,7 +41,7 @@ const Login: FC<Props> = ({ dispatch }: Props): ReactElement => {
 
             const hosts = await cloudLogin(email, password);
 
-            dispatch(setHosts(hosts));
+            dispatch({ type: 'SET', hosts });
             setAuth({ type: 'SET', state: true });
             setLoading(false);
 
@@ -86,4 +75,4 @@ const Login: FC<Props> = ({ dispatch }: Props): ReactElement => {
     );
 }
 
-export default connect(mapDispatchToProps)(Login);
+export default Login;

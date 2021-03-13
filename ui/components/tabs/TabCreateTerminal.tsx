@@ -1,7 +1,5 @@
 import React, { CSSProperties, FC, ReactElement, useContext, useEffect } from 'react';
 import { ISSHHost } from '@common/config/Config';
-import { AppState } from '@app/store/types';
-import { connect } from 'react-redux';
 import { TerminalType } from '@app/Terminal';
 import { remote } from 'electron';
 import { UndefinedObject } from '@common/types/types';
@@ -9,22 +7,14 @@ import { nextWindowId } from '@common/utils/utils';
 import electron from 'electron';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import { WindowsContext } from '@ui/contexts/WindowsContext';
+import { HostsContext } from '@ui/contexts/HostsContext';
 const { Menu, MenuItem } = remote;
-
-interface Props {
-
-    hosts: ISSHHost[];
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    hosts: state.hosts,
-});
 
 let menu: UndefinedObject<Electron.Menu>;
 
-const TabCreateTerminal: FC<Props> = ({ hosts: cloudSSHHosts }: Props): ReactElement => {
+const TabCreateTerminal: FC = (): ReactElement => {
 
+    const { hosts } = useContext(HostsContext);
     const { windows, dispatch } = useContext(WindowsContext);
     const config = useContext(ConfigContext);
 
@@ -32,7 +22,7 @@ const TabCreateTerminal: FC<Props> = ({ hosts: cloudSSHHosts }: Props): ReactEle
      * Update the shells menu if the config or
      * the cloud hosts changed.
      */
-    useEffect(() => updateShells(), [config, windows, cloudSSHHosts]);
+    useEffect(() => updateShells(), [config, windows, hosts]);
 
     /**
      * Update the shells by settings them in a Menu.
@@ -51,11 +41,11 @@ const TabCreateTerminal: FC<Props> = ({ hosts: cloudSSHHosts }: Props): ReactEle
 
         const { localSSHHosts } = config;
 
-        if(localSSHHosts && localSSHHosts.length >= 1 || cloudSSHHosts && cloudSSHHosts.length >= 1)
+        if(localSSHHosts && localSSHHosts.length >= 1 || hosts && hosts.length >= 1)
             menu?.append(new MenuItem({ type: 'separator' }));
 
         buildSubmenu(menu, 'Local SSH Hosts', localSSHHosts);
-        buildSubmenu(menu, 'Cloud SSH Hosts', cloudSSHHosts);
+        buildSubmenu(menu, 'Cloud SSH Hosts', hosts);
     }
 
     /**
@@ -125,4 +115,4 @@ const TabCreateTerminal: FC<Props> = ({ hosts: cloudSSHHosts }: Props): ReactEle
     );
 }
 
-export default connect(mapStateToProps)(TabCreateTerminal);
+export default TabCreateTerminal;
