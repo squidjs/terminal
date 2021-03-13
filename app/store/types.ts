@@ -1,4 +1,3 @@
-import { INotification } from '@common/notifications/notification';
 import { IWindow } from '@app/Terminal';
 import { ISSHHost } from '@common/config/Config';
 
@@ -16,13 +15,6 @@ export type SelectedAction = {
     selected: number;
 }
 
-export type NotificationsState = INotification[];
-export type NotificationsAction = {
-
-    type: string;
-    notification: INotification;
-}
-
 export type HostsState = ISSHHost[];
 export type HostsAction = {
 
@@ -34,6 +26,5 @@ export type AppState = {
 
     windows: WindowsState;
     selected: SelectedState;
-    notifications: NotificationsState;
     hosts: HostsState;
 }
