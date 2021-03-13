@@ -1,39 +1,31 @@
 import React, { CSSProperties, FC, ReactElement, useContext, useEffect } from 'react';
 import { ISSHHost } from '@common/config/Config';
-import { Dispatch } from 'redux';
-import { AppState, WindowsAction } from '@app/store/types';
+import { AppState } from '@app/store/types';
 import { connect } from 'react-redux';
-import { IWindow, TerminalType } from '@app/Terminal';
+import { TerminalType } from '@app/Terminal';
 import { remote } from 'electron';
 import { UndefinedObject } from '@common/types/types';
-import { createWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
 import electron from 'electron';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
 const { Menu, MenuItem } = remote;
 
 interface Props {
 
-    windows: IWindow[];
     hosts: ISSHHost[];
-    dispatch: (action: WindowsAction) => void;
 }
 
 const mapStateToProps = (state: AppState) => ({
 
-    windows: state.windows,
     hosts: state.hosts,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: WindowsAction) => { dispatch(action) } }
-}
-
 let menu: UndefinedObject<Electron.Menu>;
 
-const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch }: Props): ReactElement => {
+const TabCreateTerminal: FC<Props> = ({ hosts: cloudSSHHosts }: Props): ReactElement => {
 
+    const { windows, dispatch } = useContext(WindowsContext);
     const config = useContext(ConfigContext);
 
     /**
@@ -101,11 +93,15 @@ const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch 
      */
     const createTerminal = (terminalType: TerminalType) => {
 
-        dispatch(createWindow({
-            id: nextWindowId(windows),
-            name: 'Terminal',
-            terminalType,
-        }));
+        dispatch({
+            type: 'CREATE',
+            window: {
+                id: nextWindowId(windows),
+                name: 'Terminal',
+                terminalType,
+                selected: true,
+            },
+        });
     }
 
     /**
@@ -129,4 +125,4 @@ const TabCreateTerminal: FC<Props> = ({ windows, hosts: cloudSSHHosts, dispatch 
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabCreateTerminal);
+export default connect(mapStateToProps)(TabCreateTerminal);

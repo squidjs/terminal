@@ -1,37 +1,17 @@
 import React, { FC, ReactElement, useEffect, useContext } from 'react';
 import Window from '@ui/windows/Window';
 import Navbar from '@ui/components/navbar/Navbar';
-import { IWindow } from '@app/Terminal';
-import { AppState, SelectedAction } from '@app/store/types';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { setSelected } from '@app/store/selected/actions';
 import { remote } from 'electron';
 import ShortcutsListener from '@ui/utils/ShortcutsListener';
 import Notifications from '@ui/components/notifications/Notifications';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
 import './styles/app.scss';
 
-interface Props {
+const App: FC = (): ReactElement => {
 
-    windows: IWindow[];
-    selected: number;
-    dispatch: (action: SelectedAction) => void;
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    windows: state.windows,
-    selected: state.selected,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: SelectedAction) => { dispatch(action) } }
-}
-
-const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement => {
-
+    const { windows, dispatch } = useContext(WindowsContext);
+    const selected = windows.find((current) => current.selected);
     const config = useContext(ConfigContext);
 
     /**
@@ -41,13 +21,13 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
      */
     useEffect(() => {
 
-        if(windows.find((current) => current.id === selected))
+        if(selected)
             return;
 
         if(windows.length >= 1) {
 
-            const { id } = windows[0];
-            dispatch(setSelected(id));
+            const window = windows[0];
+            dispatch({ type: 'SELECT', window });
 
         } else
             remote.getCurrentWindow().close();
@@ -78,4 +58,4 @@ const App: FC<Props> = ({ windows, selected, dispatch }: Props): ReactElement =>
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

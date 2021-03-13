@@ -1,23 +1,13 @@
-import React, { FC, ReactElement } from 'react';
-import { IWindow } from '@app/Terminal';
+import React, { FC, ReactElement, useContext } from 'react';
 import Tab from '@ui/components/tabs/tab/Tab';
 import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal';
-import { connect } from 'react-redux';
-import { AppState } from '@app/store/types';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
 import '@ui/styles/tabs.scss';
 import '@ui/styles/nerdfonts.min.css';
 
-interface Props {
+const Tabs: FC = (): ReactElement => {
 
-    windows: IWindow[];
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    windows: state.windows,
-});
-
-const Tabs: FC<Props> = ({ windows }: Props): ReactElement => {
+    const { windows } = useContext(WindowsContext);
 
     return (
         <div className="tabs">
@@ -33,4 +23,4 @@ const Tabs: FC<Props> = ({ windows }: Props): ReactElement => {
     );
 }
 
-export default connect(mapStateToProps)(Tabs);
+export default Tabs;

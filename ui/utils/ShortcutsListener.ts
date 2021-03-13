@@ -1,38 +1,22 @@
-import { FC, ReactElement, useEffect } from 'react';
+import { FC, ReactElement, useContext, useEffect } from 'react';
 import { IConfig } from '@common/config/Config';
 import { ipcRenderer, remote } from 'electron';
 import { IShortcut, IShortcutActions } from '@common/config/shortcuts';
-import { AppState, SelectedAction, WindowsAction } from '@app/store/types';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { IWindow } from '@app/Terminal';
-import { createWindow, deleteWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
-import { setSelected } from '@app/store/selected/actions';
 import { buildMenu } from '@app/menu/menu';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
 const { Menu } = remote;
 
 interface Props {
 
     children: ReactElement;
     config: IConfig;
-    windows: IWindow[];
-    selected: number;
-    dispatch: (action: WindowsAction | SelectedAction) => void;
 }
 
-const mapStateToProps = (state: AppState) => ({
+const ShortcutsListener: FC<Props> = ({ children, config }: Props): ReactElement => {
 
-    windows: state.windows,
-    selected: state.selected,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: WindowsAction | SelectedAction) => { dispatch(action) } }
-}
-
-const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dispatch }: Props): ReactElement => {
+    const { windows, dispatch } = useContext(WindowsContext);
+    const selected = windows.find((current) => current.selected);
 
     /**
      * Listen for menu ipc message to show app menu
@@ -69,15 +53,25 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
         switch(shortcut.action) {
 
             case 'terminal:create':
-                dispatch(createWindow({
-                    id: nextWindowId(windows),
-                    name: 'Terminal',
-                    terminalType: config.defaultShell,
-                }));
+                dispatch( {
+                    type: 'CREATE',
+                    window: {
+                        id: nextWindowId(windows),
+                        name: 'Terminal',
+                        terminalType: config.defaultShell,
+                        selected: true,
+                    },
+                });
                 break;
 
             case 'terminal:close':
-                dispatch(deleteWindow(windows.find((current) => current.id === selected) as IWindow));
+                if(!selected)
+                    break;
+
+                dispatch({
+                    type: 'DELETE',
+                    window: selected,
+                });
                 break;
 
             case 'terminal:zoomin':
@@ -111,22 +105,20 @@ const ShortcutsListener: FC<Props> = ({ children, config, windows, selected, dis
      */
     const focus = (left: boolean) => {
 
-        const current = windows.find((current) => current.id === selected);
-
-        if(!current)
+        if(!selected)
             return;
 
-        let currentIndex = windows.indexOf(current);
+        let currentIndex = windows.indexOf(selected);
 
         left ? currentIndex-- : currentIndex++;
 
         const toFocus = windows[currentIndex];
 
         if(toFocus)
-            dispatch(setSelected(toFocus.id));
+            dispatch({ type: 'SELECT', window: toFocus });
     }
 
     return children;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShortcutsListener);
+export default ShortcutsListener;

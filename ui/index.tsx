@@ -6,6 +6,7 @@ import store from '@app/store/store';
 import ConfigContext from '@ui/contexts/ConfigContext';
 import AuthContext from '@ui/contexts/AuthContext';
 import BlocksProvider from '@ui/contexts/NotificationsContext';
+import WindowsProvider from '@ui/contexts/WindowsContext';
 
 if(module.hot)
     module.hot.accept();
@@ -17,7 +18,9 @@ render(
         <BlocksProvider>
             <ConfigContext>
                 <AuthContext>
-                    <App />
+                    <WindowsProvider>
+                        <App />
+                    </WindowsProvider>
                 </AuthContext>
             </ConfigContext>
         </BlocksProvider>

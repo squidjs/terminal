@@ -1,43 +1,27 @@
 import React, { CSSProperties, FC, ReactElement, useContext } from 'react';
-import { connect } from 'react-redux';
-import { AppState, WindowsAction } from '@app/store/types';
-import { Dispatch } from 'redux';
-import { createWindow } from '@app/store/windows/actions';
 import { nextWindowId } from '@common/utils/utils';
-import { IWindow } from '@app/Terminal';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import { AuthContext } from '@ui/contexts/AuthContext';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
 
-interface Props {
+const SettingsButton: FC = (): ReactElement | null => {
 
-    windows: IWindow[];
-    dispatch: (action: WindowsAction) => void;
-}
-
-const mapStateToProps = (state: AppState) => ({
-
-    windows: state.windows,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-
-    return { dispatch: (action: WindowsAction) => { dispatch(action) } }
-}
-
-const SettingsButton: FC<Props> = ({ windows, dispatch }: Props): ReactElement | null => {
-
+    const { windows, dispatch } = useContext(WindowsContext);
     const { theme } = useContext(ConfigContext);
     const { auth } = useContext(AuthContext);
 
     // Open the settings windows on click
-    const onClick = () => dispatch(createWindow({
-
-        id: nextWindowId(windows),
-        name: 'Settings',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        terminalType: null,
-    }));
+    const onClick = () => dispatch({
+        type: 'CREATE',
+        window: {
+            id: nextWindowId(windows),
+            name: 'Settings',
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            terminalType: null,
+            selected: false,
+        },
+    });
 
     return (
         auth ?
@@ -51,4 +35,4 @@ const SettingsButton: FC<Props> = ({ windows, dispatch }: Props): ReactElement |
     )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsButton);
+export default SettingsButton;
