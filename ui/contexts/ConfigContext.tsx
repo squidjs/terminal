@@ -4,9 +4,14 @@ import { defaultConfig } from '@common/config/defaultConfig';
 import { configReloadedNotification } from '@app/notifications/notification';
 import { NotificationsContext } from '@ui/contexts/NotificationsContext';
 
+interface Props {
+
+    children: ReactElement;
+}
+
 export const ConfigContext = createContext<IConfig>(defaultConfig);
 
-const ConfigProvider: FC = ({ children }): ReactElement => {
+const ConfigProvider: FC<Props> = ({ children }: Props): ReactElement => {
 
     const { dispatch } = useContext(NotificationsContext);
     const [config, setConfig] = useState<IConfig>(defaultConfig);
