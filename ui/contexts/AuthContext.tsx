@@ -1,21 +1,21 @@
-import React, { FC, ReactElement, useEffect, createContext, useReducer, Reducer } from 'react';
-import { HostsAction, NotificationsAction } from '@app/store/types';
+import React, { FC, ReactElement, useEffect, createContext, useReducer, Reducer, useContext } from 'react';
+import { HostsAction } from '@app/store/types';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { initializeCloud } from '@app/cloud/cloud';
 import { setHosts } from '@app/store/hosts/actions';
-import { addNotification } from '@app/store/notifications/actions';
-import { cloudUnreachable } from '@common/notifications/notification';
+import { cloudUnreachable } from '@app/notifications/notification';
+import { NotificationsContext } from '@ui/contexts/NotificationsContext';
 
 interface Props {
 
     children: ReactElement;
-    dispatch: (action: HostsAction | NotificationsAction) => void;
+    dispatch: (action: HostsAction) => void;
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: HostsAction | NotificationsAction) => { dispatch(action) } }
+    return { dispatch: (action: HostsAction) => { dispatch(action) } }
 }
 
 type Action = { type: 'SET', state: boolean };
@@ -27,6 +27,7 @@ export const AuthContext = createContext<AuthContextType>(defaultState);
 
 const AuthProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement => {
 
+    const { dispatch: dispatchNotification } = useContext(NotificationsContext);
     const [auth, setAuth] = useReducer<Reducer<boolean, Action>>((state: boolean, action: Action) => action.state, false);
 
     // Initialize cloud when mounted
@@ -44,7 +45,7 @@ const AuthProvider: FC<Props> = ({ children, dispatch }: Props): ReactElement =>
         }).catch((err) => {
 
             console.error(err);
-            dispatch(addNotification(cloudUnreachable()));
+            dispatchNotification({ type: 'ADD', notification: cloudUnreachable() });
         });
 
     }, []);

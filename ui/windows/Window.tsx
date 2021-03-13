@@ -5,22 +5,23 @@ import { IConfig } from '@common/config/Config';
 import { UndefinedObject } from '@common/types/types';
 import DragDrop from '@ui/utils/DragDrop';
 import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
-import { AppState, NotificationsAction, WindowsAction } from '@app/store/types';
+import { AppState, WindowsAction } from '@app/store/types';
 import { connect } from 'react-redux';
 import { deleteWindow, updateWindow } from '@app/store/windows/actions';
 import { ipcRenderer } from 'electron';
 import { IShortcutActions } from '@common/config/shortcuts';
-import { fontSizeNotification } from '@common/notifications/notification';
-import { addNotification } from '@app/store/notifications/actions';
+import { fontSizeNotification } from '@app/notifications/notification';
 import Settings from '@ui/windows/Settings';
 import '@ui/styles/xterm.scss';
+import { NotificationsContext } from '@ui/contexts/NotificationsContext';
+import { NotificationsActions } from '@app/store/notifications/actions/NotificationsActions';
 
 interface Props {
 
     config: IConfig;
     window: IWindow;
     selected: number;
-    dispatch: (action: WindowsAction | NotificationsAction) => void;
+    dispatch: (action: WindowsAction) => void;
 }
 
 interface State {
@@ -35,10 +36,12 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
 
-    return { dispatch: (action: WindowsAction | NotificationsAction) => { dispatch(action) } }
+    return { dispatch: (action: WindowsAction) => { dispatch(action) } }
 }
 
 class Window extends Component<Props, State> {
+
+    static contextType = NotificationsContext;
 
     constructor(props: Props) {
 
@@ -175,8 +178,10 @@ class Window extends Component<Props, State> {
 
         const zoom = this.state.terminal?.zoom(zoomIn);
 
+        const { dispatch }: { dispatch: (action: NotificationsActions) => void } = this.context;
+
         const notification = fontSizeNotification(zoom || 0);
-        this.props.dispatch(addNotification(notification));
+        dispatch({ type: 'ADD', notification });
     }
 
     /**
