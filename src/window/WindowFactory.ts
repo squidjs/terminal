@@ -7,7 +7,7 @@ import Config  from '@common/config/Config';
 import windowStateKeeper, { State } from 'electron-window-state';
 import { IConfig } from '@common/config/Config';
 import { isDev } from '@common/utils/utils';
-import { callHook } from '@common/plugins/PluginManager';
+import { callTrigger } from '@common/plugins/plugins';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 
@@ -73,7 +73,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             };
         }
 
-        const options = callHook('hookWindowOptions', {
+        const options = callTrigger('hookWindowOptions', {
 
             ...params,
             minWidth: 600,
@@ -110,7 +110,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             window.show();
             window.focus();
 
-            callHook('onWindowShow', window);
+            callTrigger('onWindowShow', window);
         });
 
         window.on('moved', () => window.webContents.send('focus'));

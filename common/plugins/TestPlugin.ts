@@ -1,4 +1,4 @@
-import { Plugin } from '@common/plugins/Plugin';
+import { Plugin } from '@common/plugins/plugin';
 
 const HelloWorld: Plugin = {
 

@@ -11,6 +11,8 @@ export const isMac = process.platform === 'darwin';
 
 export const isMainProcess = (process && process.type === 'browser');
 
+export type Process = 'main' | 'renderer';
+
 const winPathRegex = /^[A-Z]:\\.+/;
 const wslBasePath = '/mnt/';
 

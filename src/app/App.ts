@@ -3,7 +3,7 @@ import WindowFactory from '@src/window/WindowFactory';
 import NativeContextMenu from '@src/window/NativeContextMenu';
 import { app, protocol } from 'electron';
 import Updater from '@src/updater/Updater';
-import { callHook } from '@common/plugins/PluginManager';
+import { callTrigger } from '@common/plugins/plugins';
 
 export default class App {
 
@@ -17,6 +17,8 @@ export default class App {
         app.allowRendererProcessReuse = false;
 
         this.listenAppEvents();
+
+        callTrigger('onAppLoaded', app);
     }
 
     /**
@@ -44,7 +46,7 @@ export default class App {
 
         app.on('window-all-closed', () => {
 
-            callHook('onAppClosed');
+            callTrigger('onAppClose');
             app.quit();
         });
 

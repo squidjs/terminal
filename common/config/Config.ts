@@ -6,8 +6,8 @@ import watch from 'node-watch';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
 import { IShortcut } from '@common/config/shortcuts';
-import { callHook } from '@common/plugins/PluginManager';
-import { processHook } from '@common/plugins/Plugin';
+import { callTrigger } from '@common/plugins/plugins';
+import { getProcessTrigger } from '@common/plugins/hooks';
 
 export default class Config {
 
@@ -89,7 +89,7 @@ export default class Config {
         const data = fs.readFileSync(this.CONFIG);
         let config: IConfig = JSON.parse(data.toString());
 
-        const { param } = callHook('hookConfig', processHook(config));
+        const { param } = callTrigger('hookConfig', getProcessTrigger(config));
         config = param;
 
         this.config = config;
