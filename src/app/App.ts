@@ -3,6 +3,7 @@ import WindowFactory from '@src/window/WindowFactory';
 import NativeContextMenu from '@src/window/NativeContextMenu';
 import { app, protocol } from 'electron';
 import Updater from '@src/updater/Updater';
+import MacIntegration from '@src/integrations/MacIntegration';
 
 export default class App {
 
@@ -10,6 +11,8 @@ export default class App {
     private nativeContextMenu: NativeContextMenu;
 
     constructor(args: string[]) {
+
+        new MacIntegration();
 
         this.nativeContextMenu = new NativeContextMenu();
         this.nativeContextMenu.check(args);
