@@ -6,6 +6,7 @@
   "copyright": "Copyright © 2021 Squid",
   "productName": "Squid",
   "generateUpdatesFilesForAllChannels": true,
+  "extraFiles": ["resources"],
   "nsis": {
     "oneClick": false,
     "installerIcon": "./build/icon.ico",
@@ -31,6 +32,7 @@
   "mac": {
     "icon": "./build/icon.icns",
     "category": "public.app-category.developer-tools",
+    "identity": null,
     "target": [
       {
         "target": "default",
