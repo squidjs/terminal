@@ -30,7 +30,7 @@ const loadPlugins = () => {
 
     // TODO for in the plugins directory
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    plugins.push(loadPlugin(require('./TestPlugin').default));
+    plugins.push(loadPlugin(require('./MaterialTheme').default));
 
     pluginsLoaded = true;
 }
