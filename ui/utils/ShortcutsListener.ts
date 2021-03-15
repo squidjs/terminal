@@ -1,7 +1,7 @@
 import { FC, ReactElement, useContext, useEffect } from 'react';
 import { IConfig } from '@common/config/Config';
 import { ipcRenderer, remote } from 'electron';
-import { IShortcut, IShortcutActions } from '@common/config/shortcuts';
+import { IShortcut, IShortcutActions } from '@common/shortcuts/shortcuts';
 import { nextWindowId } from '@common/utils/utils';
 import { buildMenu } from '@app/menu/menu';
 import { WindowsContext } from '@ui/contexts/WindowsContext';

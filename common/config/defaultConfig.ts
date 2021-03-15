@@ -1,6 +1,6 @@
 import { IConfig, IShell, ISSHHost } from '@common/config/Config';
 import { isMac, isWin } from '@common/utils/utils';
-import { IShortcut } from '@common/config/shortcuts';
+import { IShortcut } from '@common/shortcuts/shortcuts';
 
 const bashShell: IShell = {
 

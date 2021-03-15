@@ -4,7 +4,7 @@ import { IConfig } from '@common/config/Config';
 import DragDrop from '@ui/utils/DragDrop';
 import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
 import { ipcRenderer } from 'electron';
-import { IShortcutActions } from '@common/config/shortcuts';
+import { IShortcutActions } from '@common/shortcuts/shortcuts';
 import { fontSizeNotification } from '@app/notifications/notification';
 import Settings from '@ui/windows/Settings';
 import { NotificationsContext } from '@ui/contexts/NotificationsContext';
