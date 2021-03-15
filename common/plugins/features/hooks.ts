@@ -1,13 +1,16 @@
 import { BrowserWindow, BrowserWindowConstructorOptions, app } from 'electron';
 import { IConfig } from '@common/config/Config';
 import { isMainProcess, Process } from '@common/utils/utils';
+import { Provider } from '@common/plugins/features/providers';
+import { INotification } from '@app/notifications/notification';
 
 // The list of availables parameters for the triggers
 export type TriggerParams =
     BrowserWindowConstructorOptions |
     ProcessTriggerParam<IConfig> |
     BrowserWindow |
-    typeof app;
+    typeof app |
+    Provider<INotification>;
 
 
 // A helper type to specify the parameter for a trigger which can

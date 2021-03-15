@@ -1,6 +1,8 @@
 import { BrowserWindow, BrowserWindowConstructorOptions, app } from 'electron';
 import { IConfig } from '@common/config/Config';
-import { ProcessTriggerParam } from '@common/plugins/hooks';
+import { ProcessTriggerParam } from '@common/plugins/features/hooks';
+import { Provider } from '@common/plugins/features/providers';
+import { INotification } from '@app/notifications/notification';
 
 export interface Plugin {
 
@@ -31,9 +33,21 @@ export interface Plugin {
      * Event called when the window has finished building and has
      * been shown after ready-to-show event.
      *
+     * Process: main
+     *
      * @param options - The browser window
      */
     onWindowShow?: (options: BrowserWindow) => void;
+
+    /**
+     * Provide a notifications provider to add a notification. Called
+     * at the startup of the app.
+     *
+     * Process: renderer
+     *
+     * @param options - The notification provider
+     */
+    provideNotifications?: (options: Provider<INotification>) => void;
 
     /**
      * Hook the window options. Called when the browser window is

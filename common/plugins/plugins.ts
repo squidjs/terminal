@@ -1,6 +1,6 @@
 import { Plugin } from '@common/plugins/plugin';
 import { isMainProcess } from '@common/utils/utils';
-import { TriggerParams } from '@common/plugins/hooks';
+import { TriggerParams } from '@common/plugins/features/hooks';
 
 // Keep track of is the plugins has been loaded in the current process
 let pluginsLoaded = false;
@@ -9,13 +9,10 @@ let plugins: Plugin[] = [];
 /**
  * Load a single plugin.
  *
- * @param path - The path to the plugin
+ * @param plugin - The path to the plugin
  * @returns The loaded plugin
  */
-const loadPlugin = (path: string): Plugin => {
-
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const plugin = require(path).default;
+const loadPlugin = (plugin: Plugin): Plugin => {
 
     if(isMainProcess)
         callPluginTrigger(plugin, 'onLoad');
@@ -32,7 +29,8 @@ const loadPlugins = () => {
     plugins = [];
 
     // TODO for in the plugins directory
-    plugins.push(loadPlugin('./TestPlugin'));
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    plugins.push(loadPlugin(require('./TestPlugin').default));
 
     pluginsLoaded = true;
 }
