@@ -1,17 +1,17 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { userDataPath } from '@common/utils/utils';
+import { homePath } from '@common/utils/utils';
 import { defaultConfig } from '@common/config/defaultConfig';
 import watch from 'node-watch';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
-import { IShortcut } from '@common/config/shortcuts';
+import { IShortcut } from '@common/shortcuts/shortcuts';
 
 export default class Config {
 
     // Create a singleton instance of this object
     private static instance: Config = new Config();
-    private readonly CONFIG: string = path.join(userDataPath, 'squid.json');
+    private readonly CONFIG: string = path.join(homePath, '.squidrc.json');
 
     // A cache of the config
     private config: UndefinedObject<IConfig>;

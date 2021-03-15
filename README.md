@@ -39,7 +39,7 @@ Please report any issues or new features you wish to see for Squid.
 Documentation is available at [https://squidjs.github.io/docs](https://squidjs.github.io/docs);
 
 ## Extending
-Squid is higly customizable thanks to a powerful **plugins** system. With plugins, you can easily share and add custom **themes**, and add **new features**.
+The config file is located in your user's home directory, and called `.squidrc.json`. Squid is higly customizable thanks to a powerful **plugins** system. With plugins, you can easily share and add custom **themes**, and add **new features**.
 
 See the [documentation](https://squidjs.github.io/docs/configuration) for more information.
 
