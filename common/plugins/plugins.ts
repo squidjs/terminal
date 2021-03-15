@@ -7,7 +7,7 @@ import fs from 'fs';
 
 const PLUGINS_FOLDER = isDev ?
     path.join(__dirname, 'local') :
-    path.join((electron.app || electron.remote.app).getPath('home'), '.squid', 'plugins');
+    path.join((electron.app || electron.remote.app).getPath('home'), '.squid');
 
 // Keep track of is the plugins has been loaded in the current process
 let pluginsLoaded = false;
@@ -21,8 +21,12 @@ let plugins: Plugin[] = [];
  */
 const loadPlugin = (pluginDir: string): Plugin => {
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const plugin = require(`${(isDev ? './local' : PLUGINS_FOLDER) + '/' + path.parse(pluginDir).name}`).default;
+    let plugin: Plugin;
+
+    if(isDev)
+        plugin = require('./local/' + pluginDir + '/index').default;
+    else
+        plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'index'));
 
     if(isMainProcess)
         callPluginTrigger(plugin, 'onLoad');
@@ -37,6 +41,9 @@ const loadPlugins = () => {
 
     // Reset the plugins list
     plugins = [];
+
+    if(!fs.existsSync(PLUGINS_FOLDER))
+        fs.mkdirSync(PLUGINS_FOLDER);
 
     const pluginsDir = fs.readdirSync(PLUGINS_FOLDER);
 
