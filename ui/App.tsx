@@ -34,12 +34,15 @@ const App: FC = (): ReactElement => {
 
     }, [windows]);
 
+    const { image, opacity } = config.backgroundImage;
+    const backgroundImage = `url(${image.startsWith('http') ? '' : 'squid://'}${image})`;
+
     return (
         <ShortcutsListener config={config}>
             <div className="main" style={{ backgroundColor: config.theme.background }}>
                 {
                     config.backgroundImage.enabled &&
-                        <div className="background" style={{ backgroundImage: `url(squid://${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
+                        <div className="background" style={{ backgroundImage, opacity }} />
                 }
                 <Navbar />
                 {
