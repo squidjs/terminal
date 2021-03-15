@@ -24,6 +24,7 @@ const loadPlugin = (pluginDir: string): Plugin => {
     let plugin: Plugin;
 
     if(isDev)
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         plugin = require('./local/' + pluginDir + '/index').default;
     else
         plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'index'));
