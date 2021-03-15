@@ -8,6 +8,12 @@ const bashShell: IShell = {
     path: 'bash',
 }
 
+const zshShell: IShell = {
+
+    name: 'ZSH',
+    path: '/bin/zsh',
+}
+
 const cmdShell: IShell = {
 
     name: 'CMD',
@@ -35,18 +41,19 @@ const wslShell: IShell = {
 const defaultShell: IShell = {
 
     name: 'Default',
-    path: isWin ? cmdShell.path : bashShell.path,
+    path: isWin ? cmdShell.path : isMac ? zshShell.path : bashShell.path,
 }
 
 const shells: IShell[] = [];
 
-if(isWin) {
-
+if(isMac) {
+    shells.push(zshShell);
+    shells.push(bashShell);
+} else if(isWin) {
     shells.push(cmdShell);
     shells.push(powerShell);
     shells.push(gitBashShell);
     shells.push(wslShell);
-
 } else
     shells.push(bashShell);
 
