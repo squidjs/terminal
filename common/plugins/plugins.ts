@@ -1,6 +1,13 @@
 import { Plugin } from '@common/plugins/plugin';
-import { isMainProcess } from '@common/utils/utils';
+import { isDev, isMainProcess } from '@common/utils/utils';
 import { TriggerParams } from '@common/plugins/features/hooks';
+import electron from 'electron';
+import path from 'path';
+import fs from 'fs';
+
+const PLUGINS_FOLDER = isDev ?
+    path.join(__dirname, 'local') :
+    path.join((electron.app || electron.remote.app).getPath('home'), '.squid', 'plugins');
 
 // Keep track of is the plugins has been loaded in the current process
 let pluginsLoaded = false;
@@ -9,10 +16,13 @@ let plugins: Plugin[] = [];
 /**
  * Load a single plugin.
  *
- * @param plugin - The path to the plugin
+ * @param pluginDir - The path to the plugin
  * @returns The loaded plugin
  */
-const loadPlugin = (plugin: Plugin): Plugin => {
+const loadPlugin = (pluginDir: string): Plugin => {
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const plugin = require(`${(isDev ? './local' : PLUGINS_FOLDER) + '/' + path.parse(pluginDir).name}`).default;
 
     if(isMainProcess)
         callPluginTrigger(plugin, 'onLoad');
@@ -28,9 +38,12 @@ const loadPlugins = () => {
     // Reset the plugins list
     plugins = [];
 
-    // TODO for in the plugins directory
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    plugins.push(loadPlugin(require('./MaterialTheme').default));
+    const pluginsDir = fs.readdirSync(PLUGINS_FOLDER);
+
+    pluginsDir.forEach((pluginDir) => {
+
+        plugins.push(loadPlugin(pluginDir));
+    });
 
     pluginsLoaded = true;
 }
@@ -70,7 +83,7 @@ export const callTrigger = <T extends TriggerParams>(trigger: keyof Plugin, para
 
     plugins.forEach((plugin) => {
 
-        cache = callPluginTrigger(plugin, trigger, param);
+        cache = callPluginTrigger(plugin, trigger, cache ? cache : param);
     });
 
     return cache as T;
