@@ -1,3 +1,0 @@
-## Securely save SSH Hosts to the Cloud
-
-Coming soon...

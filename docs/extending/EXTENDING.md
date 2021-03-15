@@ -1,3 +1,0 @@
-## Extending Squid with themes and plugins
-
-Coming soon...
