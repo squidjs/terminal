@@ -1,0 +1,3 @@
+## Contributing to the documentation
+
+Coming soon...
