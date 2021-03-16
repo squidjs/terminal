@@ -19,7 +19,7 @@ export default class Terminal {
     private xTerminal: XTerminalFactory;
     private readonly process: ProcessFactory<ProcessType>;
 
-    constructor(config: IConfig, id: number, terminalType: TerminalType, onClose: () => void, onTitle: (title: string) => void) {
+    constructor(config: IConfig, id: number, terminalType: TerminalType, onClose: () => void, onTitle: (title: string) => void, openPath?: string) {
 
         this.config = config;
         this.xTerminal = new XTerminalFactory(config);
@@ -32,7 +32,7 @@ export default class Terminal {
             config: this.config,
         });
 
-        this.buildProcess(isSSH, terminalType, terminal);
+        this.buildProcess(isSSH, terminalType, terminal, openPath);
 
         this.xTerminal.spawn(id, this.process, (title: string) => {
 
@@ -53,8 +53,9 @@ export default class Terminal {
      * @param isSSH - If we want a ssh terminal
      * @param terminalType - The terminal type object
      * @param terminal - The xterm instance
+     * @param openPath - An optional path where to open the terminal
      */
-    private buildProcess(isSSH: boolean, terminalType: TerminalType, terminal: XTerminal) {
+    private buildProcess(isSSH: boolean, terminalType: TerminalType, terminal: XTerminal, openPath?: string) {
 
         if(!isSSH) {
 
@@ -66,7 +67,7 @@ export default class Terminal {
                 terminal,
                 shell: shell.path,
                 // eslint-disable-next-line @typescript-eslint/no-var-requires
-                cwd: require('os').homedir(),
+                cwd: openPath || require('os').homedir(),
                 terminalType,
             });
 
