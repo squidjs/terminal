@@ -163,4 +163,5 @@ export const defaultConfig: IConfig = {
     localSSHHosts,
     // TODO
     cloudUrl: '',
+    plugins: [],
 }

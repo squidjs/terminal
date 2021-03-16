@@ -5,7 +5,9 @@ import { defaultConfig } from '@common/config/defaultConfig';
 import watch from 'node-watch';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
-import { IShortcut } from '@common/shortcuts/shortcuts';
+import { IShortcut } from '@common/config/shortcuts';
+import { callTrigger } from '@common/plugins/plugins';
+import { getProcessTrigger } from '@common/plugins/hooks';
 
 export default class Config {
 
@@ -85,7 +87,10 @@ export default class Config {
     private readFile(): IConfig {
 
         const data = fs.readFileSync(this.CONFIG);
-        const config: IConfig = JSON.parse(data.toString());
+        let config: IConfig = JSON.parse(data.toString());
+
+        const { param } = callTrigger('hookConfig', getProcessTrigger(config));
+        config = param;
 
         this.config = config;
 
@@ -110,6 +115,17 @@ export default class Config {
 
             done();
         });
+    }
+
+    /**
+     * Read the config file synchronously without hooking.
+     *
+     * @returns A IConfig
+     */
+    public getHooklessConfig(): IConfig {
+
+        const data = fs.readFileSync(this.CONFIG);
+        return JSON.parse(data.toString());
     }
 
     /**
@@ -174,6 +190,10 @@ export interface IConfig {
      * The url to use for the cloud.
      */
     cloudUrl: string;
+    /**
+     * The list of names of enabled plugin and theme.
+     */
+    plugins: string[];
 }
 
 export interface ITheme {

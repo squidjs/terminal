@@ -8,6 +8,10 @@ export const isDev = process.env.NODE_ENV !== 'production';
 export const isWin = process.platform === 'win32';
 export const isMac = process.platform === 'darwin';
 
+export const isMainProcess = (process && process.type === 'browser');
+
+export type Process = 'main' | 'renderer';
+
 const winPathRegex = /^[A-Z]:\\.+/;
 const wslBasePath = '/mnt/';
 

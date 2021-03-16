@@ -2,6 +2,7 @@ import { UndefinedObject } from '@common/types/types';
 import WindowFactory from '@src/window/WindowFactory';
 import { app, protocol } from 'electron';
 import Updater from '@src/updater/Updater';
+import { callTrigger } from '@common/plugins/plugins';
 import MacIntegration from '@src/integrations/MacIntegration';
 import WindowsIntegration from '@src/integrations/WindowsIntegration';
 
@@ -18,6 +19,8 @@ export default class App {
         app.allowRendererProcessReuse = false;
 
         this.listenAppEvents();
+
+        callTrigger('onAppLoaded', app);
     }
 
     /**
@@ -43,7 +46,11 @@ export default class App {
      */
     private listenAppEvents() {
 
-        app.on('window-all-closed', () => app.quit());
+        app.on('window-all-closed', () => {
+
+            callTrigger('onAppClose');
+            app.quit();
+        });
 
         app.on('activate', () => {
 
@@ -59,7 +66,7 @@ export default class App {
                 callback({ path: url });
             });
 
-            this.createWindow()
+            this.createWindow();
         });
     }
 }
