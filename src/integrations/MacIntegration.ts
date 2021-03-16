@@ -34,7 +34,7 @@ export default class MacIntegration extends Integration {
      *
      * @returns A promise of if the integration is installed
      */
-    public isInstalled(): Promise<boolean> {
+    public async isInstalled(): Promise<boolean> {
 
         return new Promise<boolean>((resolve) => {
 
