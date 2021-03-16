@@ -6,4 +6,4 @@ if(module.hot)
     module.hot.accept();
 
 // Instantiate a new app
-new App(process.argv);
+new App();

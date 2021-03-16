@@ -1,11 +1,17 @@
 import { IConfig, IShell, ISSHHost } from '@common/config/Config';
 import { isMac, isWin } from '@common/utils/utils';
-import { IShortcut } from '@common/config/shortcuts';
+import { IShortcut } from '@common/shortcuts/shortcuts';
 
 const bashShell: IShell = {
 
     name: 'Bash',
     path: 'bash',
+}
+
+const zshShell: IShell = {
+
+    name: 'ZSH',
+    path: '/bin/zsh',
 }
 
 const cmdShell: IShell = {
@@ -35,18 +41,19 @@ const wslShell: IShell = {
 const defaultShell: IShell = {
 
     name: 'Default',
-    path: isWin ? cmdShell.path : bashShell.path,
+    path: isWin ? cmdShell.path : isMac ? zshShell.path : bashShell.path,
 }
 
 const shells: IShell[] = [];
 
-if(isWin) {
-
+if(isMac) {
+    shells.push(zshShell);
+    shells.push(bashShell);
+} else if(isWin) {
     shells.push(cmdShell);
     shells.push(powerShell);
     shells.push(gitBashShell);
     shells.push(wslShell);
-
 } else
     shells.push(bashShell);
 
@@ -124,6 +131,7 @@ export const defaultConfig: IConfig = {
     tabsIcons: true,
     altClickMoveCursor: true,
     vibrancy: true,
+    css: '',
     bell: {
         enabled: false,
         sound: '',

@@ -1,0 +1,49 @@
+{
+  "publish": [
+    "github"
+  ],
+  "appId": "com.squids.squid",
+  "copyright": "Copyright © 2021 Squid",
+  "productName": "Squid",
+  "generateUpdatesFilesForAllChannels": true,
+  "extraFiles": ["resources"],
+  "nsis": {
+    "oneClick": false,
+    "installerIcon": "./build/icon.ico",
+    "allowToChangeInstallationDirectory": true
+  },
+  "win": {
+    "icon": "build/icon.ico"
+  },
+  "linux": {
+    "icon": "./build/icon.png",
+    "category": "TerminalEmulator",
+    "target": [
+      {
+        "target": "deb",
+        "arch": ["x64"]
+      },
+      {
+        "target": "AppImage",
+        "arch": ["x64"]
+      }
+    ]
+  },
+  "mac": {
+    "icon": "./build/icon.icns",
+    "category": "public.app-category.developer-tools",
+    "identity": null,
+    "target": [
+      {
+        "target": "default",
+        "arch": ["arm64", "x64"]
+      }
+    ]
+  },
+  "snap": {
+    "publish": {
+      "provider": "generic",
+      "url": "https://anydummyurl.com"
+    }
+  }
+}

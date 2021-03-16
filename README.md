@@ -24,8 +24,9 @@ We use [Electron](https://electronjs.org) and [ReactJS](https://reactjs.org). Ev
 
 ## Table of content
 - [Downloading](#downloading)
+- [Documentation](#documentation)
+- [Extending the app](#extending)
 - [Save SSH Hosts to the cloud](#cloud)
-- [App settings](#settings)
 - [Contributing](#contributing)
 - [Licence](#licence)
 
@@ -34,139 +35,20 @@ We use [Electron](https://electronjs.org) and [ReactJS](https://reactjs.org). Ev
 
 Please report any issues or new features you wish to see for Squid.
 
+## Documentation
+Documentation is available at [https://squidjs.github.io/docs](https://squidjs.github.io/docs);
+
+## Extending
+The config file is located in your user's home directory, and called `.squidrc.json`. Squid is higly customizable thanks to a powerful **plugins** system. With plugins, you can easily share and add custom **themes**, and add **new features**.
+
+See the [documentation](https://squidjs.github.io/docs/configuration) for more information.
+
 ## Cloud
 You can save SSH Hosts in a remote server, to make them available on all the computers you use. They are then linked to your account on this server. The server is called [Squid Cloud](https://github.com/squidjs/cloud).
 
-You can choose to use our server (this is the default configuration), or you can **self-host** it. See bellow for more information.
+You can choose to use our server (this is the default configuration), or you can **self-host** it.
 
-More information coming soon...
-
-## Settings
-The settings file is located in the `userData` folder.
-
-Depending on your OS, `userData` correspond to:
-* `%APPDATA%/squid` on Windows
-* `~/.config/squid` on Linux
-* `~/Library/Application Support/squid` on macOS
-
-Below is the default settings file, located in `userData/squid.json`.
-Most of these settings will apply immediately when saving the file, without the need to restart the app.
-
-<details>
-    <summary>Example settings file</summary>
-    <pre>{
-  "theme": {
-    "background": "rgba(9, 11, 16, 0.9)",
-    "border": "#37474F",
-    "text": "#6b6b6b",
-    "textHover": "#d0d0d0",
-    "foreground": "#ECEFF1",
-    "cursor": "#82AAFF",
-    "cursorAccent": "#000000",
-    "selection": "#82AAFF",
-    "black": "#000000",
-    "red": "#E54B4B",
-    "green": "#9ECE58",
-    "yellow": "#FAED70",
-    "blue": "#396FE2",
-    "magenta": "#BB80B3",
-    "cyan": "#2DDAFD",
-    "white": "#d0d0d0",
-    "brightBlack": "#6b6b6b",
-    "brightRed": "#FF5370",
-    "brightGreen": "#C3E88D",
-    "brightYellow": "#FFCB6B",
-    "brightBlue": "#82AAFF",
-    "brightMagenta": "#C792EA",
-    "brightCyan": "#89DDFF",
-    "brightWhite": "#ffffff"
-  },
-  "defaultShell": {
-    "name": "Default",
-    "path": "/bin/zsh"
-  },
-  "shells": [
-    {
-      "name": "ZSH",
-      "path": "/bin/zsh"
-    },
-    {
-      "name": "Bash",
-      "path": "/bin/bash"
-    }
-  ],
-  "webGlRendering": true,
-  "copyOnSelected": true,
-  "restoreWindowPosition": true,
-  "tabsIcons": true,
-  "altClickMoveCursor": true,
-  "vibrancy": true,
-  "bell": {
-    "enabled": false,
-    "sound": ""
-  },
-  "cursor": {
-    "style": "block",
-    "blink": true,
-    "width": 1
-  },
-  "font": {
-    "size": 14,
-    "family": "monospace",
-    "weight": "normal",
-    "weightBold": "bold",
-    "letterSpacing": 0,
-    "lineHeight": 1
-  },
-  "scroll": {
-    "sensitivity": 1,
-    "fastScrollSensitivity": 5,
-    "fastScrollModifier": "shift"
-  },
-  "backgroundImage": {
-    "enabled": false,
-    "opacity": 0.5,
-    "image": ""
-  },
-  "shortcuts": [
-    {
-      "keybinds": "Cmd+Shift+T",
-      "action": "terminal:create"
-    },
-    {
-      "keybinds": "Cmd+Shift+W",
-      "action": "terminal:close"
-    },
-    {
-      "keybinds": "Cmd+Shift+O",
-      "action": "terminal:zoomin"
-    },
-    {
-      "keybinds": "Cmd+Shift+P",
-      "action": "terminal:zoomout"
-    },
-    {
-      "keybinds": "Cmd+Shift+L",
-      "action": "terminal:left"
-    },
-    {
-      "keybinds": "Cmd+Shift+M",
-      "action": "terminal:right"
-    }
-  ],
-  "localSSHHosts": [
-    {
-      "name": "Default host",
-      "host": "hostname",
-      "port": 22,
-      "username": "root",
-      "password": "removeIfNotNeeded",
-      "privateKey": "removeIfNotNeeded"
-    }
-  ],
-  "cloudUrl": ""
-}</pre>
-</details>
+See the [documentation](https://squidjs.github.io/docs/cloud) for more information.
 
 ## Contributing
 First, make sure you have Yarn installed on your system.

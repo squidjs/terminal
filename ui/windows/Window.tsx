@@ -4,20 +4,22 @@ import { IConfig } from '@common/config/Config';
 import DragDrop from '@ui/utils/DragDrop';
 import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
 import { ipcRenderer } from 'electron';
-import { IShortcutActions } from '@common/config/shortcuts';
+import { IShortcutActions } from '@common/shortcuts/shortcuts';
 import { fontSizeNotification } from '@app/notifications/notification';
 import Settings from '@ui/windows/Settings';
 import { NotificationsContext } from '@ui/contexts/NotificationsContext';
 import { WindowsContext } from '@ui/contexts/WindowsContext';
+import { UndefinedObject } from '@common/types/types';
 import '@ui/styles/xterm.scss';
 
 interface Props {
 
     config: IConfig;
     window: IWindow;
+    openPath: UndefinedObject<string>;
 }
 
-const Window: FC<Props> = ({ config, window }: Props): ReactElement => {
+const Window: FC<Props> = ({ config, window, openPath }: Props): ReactElement => {
 
     const { dispatch: dispatchNotification } = useContext(NotificationsContext);
     const { windows, dispatch } = useContext(WindowsContext);
@@ -81,7 +83,7 @@ const Window: FC<Props> = ({ config, window }: Props): ReactElement => {
             }, (name: string) => {
 
                 dispatch({ type: 'UPDATE', window: { ...window, name } });
-            });
+            }, openPath);
         }
     }
 

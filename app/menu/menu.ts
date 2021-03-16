@@ -1,4 +1,4 @@
-import { IShortcut, IShortcutActions } from '@common/config/shortcuts';
+import { IShortcut, IShortcutActions } from '@common/shortcuts/shortcuts';
 import { MenuItemConstructorOptions, remote } from 'electron';
 import { IConfig } from 'common/config/Config';
 import { defaultConfig } from '@common/config/defaultConfig';

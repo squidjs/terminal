@@ -1,19 +1,21 @@
 import { UndefinedObject } from '@common/types/types';
 import WindowFactory from '@src/window/WindowFactory';
-import NativeContextMenu from '@src/window/NativeContextMenu';
 import { app, protocol } from 'electron';
 import Updater from '@src/updater/Updater';
 import { callTrigger } from '@common/plugins/plugins';
+import MacIntegration from '@src/integrations/MacIntegration';
+import WindowsIntegration from '@src/integrations/WindowsIntegration';
 
 export default class App {
 
     private window: UndefinedObject<WindowFactory>;
-    private nativeContextMenu: NativeContextMenu;
 
-    constructor(args: string[]) {
+    constructor() {
 
-        this.nativeContextMenu = new NativeContextMenu();
-        this.nativeContextMenu.check(args);
+        // Instanciate the "Open here" integrations
+        new MacIntegration();
+        new WindowsIntegration();
+
         app.allowRendererProcessReuse = false;
 
         this.listenAppEvents();

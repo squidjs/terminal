@@ -87,6 +87,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             // @ts-ignore
             icon: path.join(__static, 'logo.png'),
             show: false,
+            backgroundColor: '#00000000',
             webPreferences: {
                 nodeIntegration: true,
                 enableRemoteModule: true,
@@ -126,8 +127,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     private setVibrancy(enabled: boolean) {
 
-        // TODO fix vibrancy
-        //this.getFactoryObject().setVibrancy(enabled ? 'appearance-based' : null);
+        this.getFactoryObject().setVibrancy(enabled ? 'fullscreen-ui' : null);
     }
 
     /**

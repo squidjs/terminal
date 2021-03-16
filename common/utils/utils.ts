@@ -3,8 +3,7 @@ import { IWindow, TerminalType } from '@app/Terminal';
 import { IShell } from '@common/config/Config';
 import crypto from 'crypto';
 
-export const userDataPath = (electron.app || electron.remote.app).getPath('userData');
-
+export const homePath = (electron.app || electron.remote.app).getPath('home');
 export const isDev = process.env.NODE_ENV !== 'production';
 export const isWin = process.platform === 'win32';
 export const isMac = process.platform === 'darwin';
