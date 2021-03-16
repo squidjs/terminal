@@ -6,6 +6,7 @@ import ShortcutsListener from '@ui/utils/ShortcutsListener';
 import Notifications from '@ui/components/notifications/Notifications';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import { WindowsContext } from '@ui/contexts/WindowsContext';
+import useOpenPath from '@ui/hooks/useOpenPath';
 import './styles/app.scss';
 
 const App: FC = (): ReactElement => {
@@ -13,6 +14,7 @@ const App: FC = (): ReactElement => {
     const { windows, dispatch } = useContext(WindowsContext);
     const selected = windows.find((current) => current.selected);
     const config = useContext(ConfigContext);
+    const openPath = useOpenPath();
 
     /**
      * Find if the current selected terminal has been destroyed. If so,
@@ -51,7 +53,8 @@ const App: FC = (): ReactElement => {
                             <Window
                                 key={window.id}
                                 config={config}
-                                window={window} />
+                                window={window}
+                                openPath={openPath} />
                         )
                     }
                     {/* TODO set border ? */}
