@@ -36,28 +36,34 @@ const App: FC = (): ReactElement => {
 
     }, [windows]);
 
+    const { image, opacity } = config.backgroundImage;
+    const backgroundImage = `url(${image.startsWith('http') ? '' : 'squid://'}${image})`;
+
     return (
-        <ShortcutsListener config={config}>
-            <div className="main" style={{ backgroundColor: config.theme.background }}>
-                {
-                    config.backgroundImage.enabled &&
-                        <div className="background" style={{ backgroundImage: `url(squid://${config.backgroundImage.image})`, opacity: config.backgroundImage.opacity }} />
-                }
-                <Navbar />
-                {
-                    windows.map((window) =>
-                        <Window
-                            key={window.id}
-                            config={config}
-                            window={window}
-                            openPath={openPath} />
-                    )
-                }
-                {/* TODO set border ? */}
-                {/* <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} /> */}
-                <Notifications />
-            </div>
-        </ShortcutsListener>
+        <>
+            <ShortcutsListener config={config}>
+                <div className="main" style={{ backgroundColor: config.theme.background }}>
+                    {
+                        config.backgroundImage.enabled &&
+                        <div className="background" style={{ backgroundImage, opacity }} />
+                    }
+                    <Navbar />
+                    {
+                        windows.map((window) =>
+                            <Window
+                                key={window.id}
+                                config={config}
+                                window={window}
+                                openPath={openPath} />
+                        )
+                    }
+                    {/* TODO set border ? */}
+                    {/* <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} /> */}
+                    <Notifications />
+                </div>
+            </ShortcutsListener>
+            <style>{ config.css }</style>
+        </>
     );
 }
 
