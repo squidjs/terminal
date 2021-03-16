@@ -4,6 +4,7 @@ import { TriggerParams } from '@common/plugins/hooks';
 import electron from 'electron';
 import path from 'path';
 import fs from 'fs';
+import Config from '@common/config/Config';
 
 const PLUGINS_FOLDER = isDev ?
     path.join(__dirname, 'local') :
@@ -40,6 +41,8 @@ const loadPlugin = (pluginDir: string): SquidPlugin => {
  */
 const loadPlugins = () => {
 
+    const { plugins: enabledPlugins } = Config.getInstance().getHooklessConfig();
+
     // Reset the plugins list
     plugins = [];
 
@@ -48,10 +51,12 @@ const loadPlugins = () => {
 
     const pluginsDir = fs.readdirSync(PLUGINS_FOLDER);
 
-    pluginsDir.forEach((pluginDir) => {
+    pluginsDir
+        .filter((pluginDir) => enabledPlugins.includes(pluginDir))
+        .forEach((pluginDir) => {
 
-        plugins.push(loadPlugin(pluginDir));
-    });
+            plugins.push(loadPlugin(pluginDir));
+        });
 
     pluginsLoaded = true;
 }
@@ -86,7 +91,7 @@ const callPluginTrigger = <T extends TriggerParams>(plugin: SquidPlugin, trigger
  */
 export const callTrigger = <T extends TriggerParams>(trigger: keyof SquidPlugin, param?: T): T => {
 
-    if(!pluginsLoaded)
+    if(!pluginsLoaded || trigger === 'hookConfig')
         loadPlugins();
 
     let cache: T | undefined = param;

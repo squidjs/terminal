@@ -118,6 +118,17 @@ export default class Config {
     }
 
     /**
+     * Read the config file synchronously without hooking.
+     *
+     * @returns A IConfig
+     */
+    public getHooklessConfig(): IConfig {
+
+        const data = fs.readFileSync(this.CONFIG);
+        return JSON.parse(data.toString());
+    }
+
+    /**
      * Get the singleton instance of this Config object.
      */
     public static getInstance(): Config {
@@ -175,6 +186,10 @@ export interface IConfig {
      * The url to use for the cloud.
      */
     cloudUrl: string;
+    /**
+     * The list of names of enabled plugin and theme.
+     */
+    plugins: string[];
 }
 
 export interface ITheme {
