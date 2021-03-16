@@ -7,7 +7,7 @@ import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
 import { IShortcut } from '@common/config/shortcuts';
 import { callTrigger } from '@common/plugins/plugins';
-import { getProcessTrigger } from '@common/plugins/features/hooks';
+import { getProcessTrigger } from '@common/plugins/hooks';
 
 export default class Config {
 

@@ -1,10 +1,10 @@
 import { BrowserWindow, BrowserWindowConstructorOptions, app } from 'electron';
 import { IConfig } from '@common/config/Config';
-import { ProcessTriggerParam } from '@common/plugins/features/hooks';
-import { Provider } from '@common/plugins/features/providers';
+import { ProcessTriggerParam } from '@common/plugins/hooks';
+import { Provider } from '@common/plugins/providers';
 import { INotification } from '@app/notifications/notification';
 
-export interface Plugin {
+export interface SquidPlugin {
 
     /**
      * Event when the plugin load.

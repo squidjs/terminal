@@ -1,6 +1,6 @@
-import { Plugin } from '@common/plugins/plugin';
-import { isDev, isMainProcess } from '@common/utils/utils';
-import { TriggerParams } from '@common/plugins/features/hooks';
+import { SquidPlugin } from '@common/plugins/package/src';
+import { isDev, isMainProcess } from '../utils/utils';
+import { TriggerParams } from '@common/plugins/hooks';
 import electron from 'electron';
 import path from 'path';
 import fs from 'fs';
@@ -11,7 +11,7 @@ const PLUGINS_FOLDER = isDev ?
 
 // Keep track of is the plugins has been loaded in the current process
 let pluginsLoaded = false;
-let plugins: Plugin[] = [];
+let plugins: SquidPlugin[] = [];
 
 /**
  * Load a single plugin.
@@ -19,15 +19,15 @@ let plugins: Plugin[] = [];
  * @param pluginDir - The path to the plugin
  * @returns The loaded plugin
  */
-const loadPlugin = (pluginDir: string): Plugin => {
+const loadPlugin = (pluginDir: string): SquidPlugin => {
 
-    let plugin: Plugin;
+    let plugin: SquidPlugin;
 
     if(isDev)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        plugin = require('./local/' + pluginDir + '/index').default;
+        plugin = require('./local/' + pluginDir + '/dist/index').default;
     else
-        plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'index'));
+        plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'dist', 'index'));
 
     if(isMainProcess)
         callPluginTrigger(plugin, 'onLoad');
@@ -65,10 +65,12 @@ const loadPlugins = () => {
  * @param param - An optional parameter
  * @returns The modifier parameter or undefined if no parameter was provided
  */
-const callPluginTrigger = <T extends TriggerParams>(plugin: Plugin, trigger: keyof Plugin, param?: T): T => {
+const callPluginTrigger = <T extends TriggerParams>(plugin: SquidPlugin, trigger: keyof SquidPlugin, param?: T): T => {
 
     if(trigger in plugin)
-        return param ? plugin[trigger](param) : plugin[trigger]();
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            return param ? plugin[trigger](param) : plugin[trigger]();
 
     return param as T;
 }
@@ -82,7 +84,7 @@ const callPluginTrigger = <T extends TriggerParams>(plugin: Plugin, trigger: key
  * @param param - An optional parameter
  * @returns The modifier parameter or undefined if no parameter was provided
  */
-export const callTrigger = <T extends TriggerParams>(trigger: keyof Plugin, param?: T): T => {
+export const callTrigger = <T extends TriggerParams>(trigger: keyof SquidPlugin, param?: T): T => {
 
     if(!pluginsLoaded)
         loadPlugins();
