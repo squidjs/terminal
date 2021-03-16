@@ -131,6 +131,7 @@ export const defaultConfig: IConfig = {
     tabsIcons: true,
     altClickMoveCursor: true,
     vibrancy: true,
+    css: '',
     bell: {
         enabled: false,
         sound: '',

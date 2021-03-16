@@ -159,6 +159,10 @@ export interface IConfig {
      * If the vibrancy is enabled.
      */
     vibrancy: boolean;
+    /**
+     * Additional CSS to add.
+     */
+    css: string;
     bell: IBell;
     cursor: ICursor;
     font: IFont

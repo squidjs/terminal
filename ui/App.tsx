@@ -38,26 +38,29 @@ const App: FC = (): ReactElement => {
     const backgroundImage = `url(${image.startsWith('http') ? '' : 'squid://'}${image})`;
 
     return (
-        <ShortcutsListener config={config}>
-            <div className="main" style={{ backgroundColor: config.theme.background }}>
-                {
-                    config.backgroundImage.enabled &&
+        <>
+            <ShortcutsListener config={config}>
+                <div className="main" style={{ backgroundColor: config.theme.background }}>
+                    {
+                        config.backgroundImage.enabled &&
                         <div className="background" style={{ backgroundImage, opacity }} />
-                }
-                <Navbar />
-                {
-                    windows.map((window) =>
-                        <Window
-                            key={window.id}
-                            config={config}
-                            window={window} />
-                    )
-                }
-                {/* TODO set border ? */}
-                {/* <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} /> */}
-                <Notifications />
-            </div>
-        </ShortcutsListener>
+                    }
+                    <Navbar />
+                    {
+                        windows.map((window) =>
+                            <Window
+                                key={window.id}
+                                config={config}
+                                window={window} />
+                        )
+                    }
+                    {/* TODO set border ? */}
+                    {/* <div className="border" style={{ boxShadow: `0 0 0 1px inset ${config.theme.border}` }} /> */}
+                    <Notifications />
+                </div>
+            </ShortcutsListener>
+            <style>{ config.css }</style>
+        </>
     );
 }
 
