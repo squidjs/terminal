@@ -1,4 +1,4 @@
-import { SquidPlugin } from 'squid-plugins/src';
+import SquidPlugin from 'squid-plugins';
 
 const MaterialTheme: SquidPlugin = {
 

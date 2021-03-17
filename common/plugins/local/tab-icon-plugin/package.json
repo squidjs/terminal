@@ -1,7 +1,7 @@
 {
-  "name": "squid-plugins",
-  "version": "0.1.0",
-  "description": "Package to create plugins and themes for Squid.",
+  "name": "squid-tab-icon-plugin",
+  "version": "1.0.0",
+  "description": "Change the default tab icon for Squid terminal.",
   "author": {
     "email": "quiibzdev@gmail.com",
     "name": "QuiiBz",
@@ -10,13 +10,18 @@
   "license": "MIT",
   "repository": "https://github.com/squidjs/terminal",
   "keywords": [
+    "squid-plugin",
     "plugin",
-    "theme",
     "shell",
     "terminal",
     "squid"
   ],
+  "scripts": {
+    "dist": "tsc",
+    "watch": "tsc -w"
+  },
   "devDependencies": {
+    "squid-plugins": "file:../../package",
     "typescript": "^4.2.3"
   }
 }

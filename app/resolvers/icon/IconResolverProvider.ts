@@ -10,7 +10,7 @@ import SettingsIconResolver from '@app/resolvers/icon/resolvers/SettingsIconReso
 export type IconResolverType = [string, string, boolean?];
 
 // Default ssh icon
-export const SSH_ICON: IconResolverType = ['fa-server', '#0465B6'];
+export const SSH_ICON: IconResolverType = ['nf-fa-server', '#0465B6'];
 
 export default class IconResolverProvider extends ResolverProvider<IWindow, IconResolverType> {
 

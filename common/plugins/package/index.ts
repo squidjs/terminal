@@ -3,8 +3,16 @@ import { IConfig } from '@common/config/Config';
 import { ProcessTriggerParam } from '@common/plugins/hooks';
 import { Provider } from '@common/plugins/providers';
 import { INotification } from '@app/notifications/notification';
+import { IWindow } from '@app/Terminal';
+import { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
 
-export interface SquidPlugin {
+export type TabIconParam = {
+
+    window: IWindow;
+    icon: IconResolverType;
+}
+
+export default interface SquidPlugin {
 
     /**
      * Event when the plugin load.
@@ -70,4 +78,14 @@ export interface SquidPlugin {
      * @returns The hooked config
      */
     hookConfig?: (options: ProcessTriggerParam<IConfig>) => ProcessTriggerParam<IConfig>;
+
+    /**
+     * Hook the tab icon. Called when the window changes.
+     *
+     * Process: renderer
+     *
+     * @param options - An object containing the window and the icon
+     * @returns The hooked tab icon
+     */
+    hookTabIcon?: (options: TabIconParam) => TabIconParam;
 }
