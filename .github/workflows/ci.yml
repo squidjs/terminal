@@ -24,6 +24,8 @@ jobs:
           node-version: ${{matrix.node-version}}
       - name: Install
         run: yarn
+      - name: Install local plugin
+        run: cd common/plugins/local/material-theme && yarn
       - name: Install node-gyp
         run: yarn global add node-gyp
       - name: Rebuild dep
