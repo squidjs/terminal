@@ -17,6 +17,7 @@
     "dist:mac": "yarn compile && electron-builder -m -p onTagOrDraft",
     "dist:linux": "yarn compile && electron-builder -l -p onTagOrDraft",
     "rebuild": "electron-rebuild",
+    "rebuild:arm64": "electron-rebuild -a arm64",
     "lint": "eslint . --ext .ts,.tsx",
     "setupIcon": "node scripts/setupIcon.js",
     "colortest": "yarn colortest:256 && yarn colortest:true",
