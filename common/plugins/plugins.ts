@@ -28,7 +28,7 @@ const loadPlugin = (pluginDir: string): SquidPlugin => {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         plugin = require('./local/' + pluginDir + '/dist/index').default;
     else
-        plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'dist', 'index'));
+        plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'dist', 'index')).default;
 
     if(isMainProcess)
         callPluginTrigger(plugin, 'onLoad');
