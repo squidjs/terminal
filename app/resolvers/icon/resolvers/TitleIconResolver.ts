@@ -19,55 +19,55 @@ export default class TitleIconResolver implements Resolver<IWindow, IconResolver
 
         // Tools and CLIs
         if(name.includes('vim'))
-            icon = ['custom-vim', '#019833'];
+            icon = ['nf-custom-vim', '#019833'];
         else if(name.includes('docker'))
-            icon = ['linux-docker', '#247ECF'];
+            icon = ['nf-linux-docker', '#247ECF'];
         else if(name.includes('brew'))
-            icon = ['fa-beer', '#F3AB3E'];
+            icon = ['nf-fa-beer', '#F3AB3E'];
         else if(name.includes('git'))
-            icon = ['dev-git', '#E94E31'];
+            icon = ['nf-dev-git', '#E94E31'];
         else if(name.includes('heroku'))
-            icon = ['dev-heroku', '#411094'];
+            icon = ['nf-dev-heroku', '#411094'];
         else if(name.includes('electron'))
-            icon = ['custom-electron', '#FFFFFF'];
+            icon = ['nf-custom-electron', '#FFFFFF'];
         else if(name.includes('vercel'))
             icon = ['▲', '#FFFFFF', true];
 
         // Databases
         else if(name.includes('mysql') || name.includes('mariadb'))
-            icon = ['dev-mysql', '#31889C'];
+            icon = ['nf-dev-mysql', '#31889C'];
         else if(name.includes('msql'))
-            icon = ['dev-msql_server', '#B11C1C'];
+            icon = ['nf-dev-msql_server', '#B11C1C'];
         else if(name.includes('sqlite'))
-            icon = ['dev-sqllite', '#53A6DC'];
+            icon = ['nf-dev-sqllite', '#53A6DC'];
         else if(name.includes('postgresql'))
-            icon = ['dev-postgresql', '#31648D'];
+            icon = ['nf-dev-postgresql', '#31648D'];
         else if(name.includes('redis'))
-            icon = ['dev-redis', '#D82F27'];
+            icon = ['nf-dev-redis', '#D82F27'];
         else if(name.includes('mongo'))
-            icon = ['dev-mongodb', '#419432'];
+            icon = ['nf-dev-mongodb', '#419432'];
 
         // Packages manager
         else if(name.includes('yarn'))
-            icon = ['dev-javascript', '#E8D44D'];
+            icon = ['nf-dev-javascript', '#E8D44D'];
         else if(name.includes('npm'))
-            icon = ['dev-npm', '#C53635'];
+            icon = ['nf-dev-npm', '#C53635'];
         else if(name.includes('cargo'))
-            icon = ['dev-rust', '#F84C00'];
+            icon = ['nf-dev-rust', '#F84C00'];
         else if(name.includes('composer'))
-            icon = ['dev-composer', '#204599'];
+            icon = ['nf-dev-composer', '#204599'];
 
         // Languages
         else if(name.includes('php'))
-            icon = ['dev-php', '#7377AD'];
+            icon = ['nf-dev-php', '#7377AD'];
         else if(name.includes('node'))
-            icon = ['mdi-nodejs', '#6DA55F'];
+            icon = ['nf-mdi-nodejs', '#6DA55F'];
         else if(name.includes('python'))
-            icon = ['dev-python', '#FFD040'];
+            icon = ['nf-dev-python', '#FFD040'];
         else if(name.includes('rust'))
-            icon = ['dev-rust', '#F84C00'];
+            icon = ['nf-dev-rust', '#F84C00'];
         else if(name.includes('go'))
-            icon = ['mdi-language_go', '#2EA8D0'];
+            icon = ['nf-mdi-language_go', '#2EA8D0'];
 
         return icon;
     }

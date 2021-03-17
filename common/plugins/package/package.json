@@ -1,6 +1,6 @@
 {
   "name": "squid-plugins",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Package to create plugins and themes for Squid.",
   "author": {
     "email": "quiibzdev@gmail.com",

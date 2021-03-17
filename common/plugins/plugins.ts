@@ -1,4 +1,4 @@
-import { SquidPlugin } from '@common/plugins/package/src';
+import SquidPlugin from '@common/plugins/package';
 import { isDev, isMainProcess } from '../utils/utils';
 import { TriggerParams } from '@common/plugins/hooks';
 import electron from 'electron';

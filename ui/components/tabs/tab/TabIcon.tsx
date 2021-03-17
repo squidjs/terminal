@@ -2,6 +2,8 @@ import React, { ReactElement, FC } from 'react';
 import { IWindow } from '@app/Terminal';
 import ResolverProvider from '@common/resolvers/ResolverProvider';
 import IconResolverProvider, { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
+import { callTrigger } from '@common/plugins/plugins';
+import { TabIconParam } from '@common/plugins/package';
 
 interface Props {
 
@@ -13,7 +15,10 @@ const resolver: ResolverProvider<IWindow, IconResolverType> = new IconResolverPr
 
 const TabIcon: FC<Props> = ({ window }: Props): ReactElement | null => {
 
-    const icon = resolver.resolve(window);
+    const { icon } = callTrigger('hookTabIcon', {
+        window,
+        icon: resolver.resolve(window),
+    } as TabIconParam);
 
     // Only render the icon if it's actually defined
     if(!icon)
@@ -27,7 +32,7 @@ const TabIcon: FC<Props> = ({ window }: Props): ReactElement | null => {
         );
 
     return (
-        <i className={`icon nf nf-${iconPath}`} style={{ color }} />
+        <i className={`icon nf ${iconPath}`} style={{ color }} />
     );
 }
 

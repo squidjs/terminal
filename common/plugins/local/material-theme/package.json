@@ -17,10 +17,11 @@
     "squid"
   ],
   "scripts": {
-    "dist": "tsc"
+    "dist": "tsc",
+    "watch": "tsc -w"
   },
   "devDependencies": {
-    "squid-plugins": "^0.0.1",
+    "squid-plugins": "file:../../package",
     "typescript": "^4.2.3"
   }
 }

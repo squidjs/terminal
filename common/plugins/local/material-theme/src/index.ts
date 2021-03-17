@@ -1,6 +1,14 @@
-import { SquidPlugin } from 'squid-plugins/src';
+import SquidPlugin from 'squid-plugins';
 
 const MaterialTheme: SquidPlugin = {
+
+    hookTabIcon: (options) => {
+
+        return {
+            ...options,
+            icon: ['nf-mdi-ghost', '#FFFFFF'],
+        };
+    },
 
     hookConfig: (options) => {
 

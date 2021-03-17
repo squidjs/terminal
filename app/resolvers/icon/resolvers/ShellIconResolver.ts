@@ -21,15 +21,15 @@ export default class ShellIconResolver implements Resolver<IWindow, IconResolver
         const path = (object.terminalType as IShell).path;
 
         if(path.includes('bash') || path.includes('zsh'))
-            icon = ['fa-terminal', '#969696']
+            icon = ['nf-fa-terminal', '#969696']
         else if(path.includes('wsl.exe'))
-            icon = ['dev-linux', '#F7F7F7']
+            icon = ['nf-dev-linux', '#F7F7F7']
         else if(path.includes('cmd.exe'))
-            icon = ['custom-windows', '#05A4DF']
+            icon = ['nf-custom-windows', '#05A4DF']
         else if(path.includes('powershell.exe'))
-            icon = ['dev-terminal', '#0273B7']
+            icon = ['nf-dev-terminal', '#0273B7']
         else if(path.includes('bash.exe'))
-            icon = ['dev-git', '#E84D31']
+            icon = ['nf-dev-git', '#E84D31']
 
         return icon;
     }

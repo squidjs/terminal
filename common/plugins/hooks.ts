@@ -3,6 +3,7 @@ import { IConfig } from '@common/config/Config';
 import { isMainProcess, Process } from '@common/utils/utils';
 import { Provider } from '@common/plugins/providers';
 import { INotification } from '@app/notifications/notification';
+import { TabIconParam } from '@common/plugins/package';
 
 // The list of availables parameters for the triggers
 export type TriggerParams =
@@ -10,7 +11,8 @@ export type TriggerParams =
     ProcessTriggerParam<IConfig> |
     BrowserWindow |
     typeof app |
-    Provider<INotification>;
+    Provider<INotification> |
+    TabIconParam;
 
 
 // A helper type to specify the parameter for a trigger which can
