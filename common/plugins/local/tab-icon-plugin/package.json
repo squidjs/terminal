@@ -1,0 +1,27 @@
+{
+  "name": "squid-tab-icon-plugin",
+  "version": "1.0.0",
+  "description": "Change the default tab icon for Squid terminal.",
+  "author": {
+    "email": "quiibzdev@gmail.com",
+    "name": "QuiiBz",
+    "url": "https://github.com/QuiiBz"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/squidjs/terminal",
+  "keywords": [
+    "squid-plugin",
+    "plugin",
+    "shell",
+    "terminal",
+    "squid"
+  ],
+  "scripts": {
+    "dist": "tsc",
+    "watch": "tsc -w"
+  },
+  "devDependencies": {
+    "squid-plugins": "file:../../package",
+    "typescript": "^4.2.3"
+  }
+}
