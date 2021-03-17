@@ -5,7 +5,7 @@ import { defaultConfig } from '@common/config/defaultConfig';
 import watch from 'node-watch';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
-import { IShortcut } from '@common/config/shortcuts';
+import { IShortcut } from '@common/shortcuts/shortcuts';
 import { callTrigger } from '@common/plugins/plugins';
 import { getProcessTrigger } from '@common/plugins/hooks';
 
