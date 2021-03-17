@@ -1,7 +1,7 @@
-import electron from 'electron';
+import * as electron from 'electron';
 import { IWindow, TerminalType } from '@app/Terminal';
 import { IShell } from '@common/config/Config';
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 
 export const homePath = (electron.app || electron.remote.app).getPath('home');
 export const isDev = process.env.NODE_ENV !== 'production';
