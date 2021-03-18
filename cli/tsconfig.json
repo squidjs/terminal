@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "target": "ES5",
+    "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@cli/*": [
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

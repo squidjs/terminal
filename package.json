@@ -1,7 +1,7 @@
 {
   "name": "squid",
   "version": "0.2.0-canary",
-  "description": "The Shell and SSH terminal for everyone",
+  "description": "The extendible Shell and SSH terminal, with E2E encryption in the cloud.",
   "author": {
     "email": "quiibzdev@gmail.com",
     "name": "QuiiBz",
@@ -11,11 +11,13 @@
   "repository": "https://github.com/squidjs/terminal",
   "scripts": {
     "dev": "electron-webpack dev",
-    "compile": "yarn setupIcon && electron-webpack",
+    "cli": "cd cli && yarn start",
+    "compile": "yarn setupIcon && yarn dist:cli && electron-webpack",
     "dist": "yarn compile && electron-builder",
     "dist:win": "yarn compile && electron-builder -w -p onTagOrDraft",
     "dist:mac": "yarn compile && electron-builder -m -p onTagOrDraft",
     "dist:linux": "yarn compile && electron-builder -l -p onTagOrDraft",
+    "dist:cli": "cd cli && yarn dist",
     "rebuild": "electron-rebuild",
     "rebuild:arm64": "electron-rebuild -a arm64",
     "lint": "eslint . --ext .ts,.tsx",
@@ -46,7 +48,7 @@
   "devDependencies": {
     "@babel/preset-react": "^7.12.10",
     "@types/keytar": "^4.4.2",
-    "@types/node": "^12.13.0",
+    "@types/node": "^14.14.35",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/ssh2": "^0.5.46",
