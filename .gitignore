@@ -2,5 +2,6 @@ dist/
 node_modules/
 .idea/
 build/icon.*
+common/plugins/local/
 
 .DS_STORE
