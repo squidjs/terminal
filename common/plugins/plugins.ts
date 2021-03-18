@@ -1,14 +1,11 @@
 import SquidPlugin from '@common/plugins/package';
-import { isDev, isMainProcess } from '../utils/utils';
+import { homePath, isDev, isMainProcess } from '../utils/utils';
 import { TriggerParams } from '@common/plugins/hooks';
-import electron from 'electron';
 import path from 'path';
 import fs from 'fs';
 import Config from '@common/config/Config';
 
-const PLUGINS_FOLDER = isDev ?
-    path.join(__dirname, 'local') :
-    path.join((electron.app || electron.remote.app).getPath('home'), '.squid');
+const PLUGINS_FOLDER = path.join(homePath, '.squid');
 
 // Keep track of is the plugins has been loaded in the current process
 let pluginsLoaded = false;
@@ -22,13 +19,7 @@ let plugins: SquidPlugin[] = [];
  */
 const loadPlugin = (pluginDir: string): SquidPlugin => {
 
-    let plugin: SquidPlugin;
-
-    if(isDev)
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        plugin = require('./local/' + pluginDir + '/dist/index').default;
-    else
-        plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'dist', 'index')).default;
+    const plugin: SquidPlugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'dist', 'index')).default;
 
     if(isMainProcess)
         callPluginTrigger(plugin, 'onLoad');
