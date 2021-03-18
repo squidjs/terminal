@@ -4,13 +4,7 @@
     "target": "ES5",
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "baseUrl": ".",
-    "paths": {
-      "@cli/*": [
-        "src/*"
-      ]
-    }
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*"
