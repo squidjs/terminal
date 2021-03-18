@@ -3,4 +3,5 @@ node_modules/
 .idea/
 build/icon.*
 
+resources/cli/cli.js
 .DS_STORE
