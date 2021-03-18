@@ -15,4 +15,5 @@ yargs(hideBin(process.argv))
     .command(newCommand)
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     .version(require('../package.json').version)
+    .scriptName('squid')
     .argv

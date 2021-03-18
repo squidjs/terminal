@@ -3,7 +3,7 @@ import { Arguments } from 'yargs';
 
 export const resolveArgPath = (args: Arguments) => {
 
-    const openPath = args.path || process.cwd();
+    const openPath = args.path || args.p || process.cwd();
     return resolve(openPath as string);
 }
 
