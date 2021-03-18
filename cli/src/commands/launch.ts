@@ -12,7 +12,13 @@ export const launch: CommandModule = {
 
         const path = resolveArgPath(args);
 
-        if(isMac)
+        if(isMac) {
+
+            // Since we set ELECTRON_RUN_AS_NODE to 1 in the shell script
+            // we need to remove it when launching the app.
+            delete process.env['ELECTRON_RUN_AS_NODE'];
+
             exec(`${APP_PATH} open ${path}`);
+        }
     },
 };

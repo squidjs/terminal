@@ -6,7 +6,7 @@ import { uninstall } from './commands/uninstall';
 import { list } from './commands/list';
 import { newCommand } from './commands/new';
 
-yargs(hideBin(process.argv))
+yargs(hideBin(process.env.ELECTRON_RUN_AS_NODE ? process.argv.slice(1) : process.argv))
     .usage('Usage: $0 [options] [command]')
     .command(launch)
     .command(install)
