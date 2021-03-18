@@ -83,9 +83,6 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             transparent: true,
             title: 'Squid',
             titleBarStyle: 'hidden',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            icon: path.join(__static, 'logo.png'),
             show: false,
             backgroundColor: '#00000000',
             webPreferences: {
