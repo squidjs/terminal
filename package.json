@@ -11,7 +11,6 @@
   "repository": "https://github.com/squidjs/terminal",
   "scripts": {
     "dev": "electron-webpack dev",
-    "cli": "cd cli && yarn start",
     "compile": "yarn setupIcon && yarn dist:cli && electron-webpack",
     "dist": "yarn compile && electron-builder",
     "dist:win": "yarn compile && electron-builder -w -p onTagOrDraft",
