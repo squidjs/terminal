@@ -1,5 +1,8 @@
 import { Arguments, CommandModule } from 'yargs';
-import { resolveArgPath } from '../utils/utils';
+import { isMac, resolveArgPath } from '../utils/utils';
+import { exec } from 'child_process';
+
+const APP_PATH = isMac ? '/Applications/Squid.app/Contents/MacOS/squid' : '';
 
 export const launch: CommandModule = {
 
@@ -9,6 +12,7 @@ export const launch: CommandModule = {
 
         const path = resolveArgPath(args);
 
-        console.log('open', path);
+        if(isMac)
+            exec(`${APP_PATH} open ${path}`);
     },
 };
