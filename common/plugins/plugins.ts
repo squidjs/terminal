@@ -1,5 +1,5 @@
 import SquidPlugin from '@common/plugins/package';
-import { homePath, isDev, isMainProcess } from '../utils/utils';
+import { homePath, isMainProcess } from '../utils/utils';
 import { TriggerParams } from '@common/plugins/hooks';
 import path from 'path';
 import fs from 'fs';
