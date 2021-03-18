@@ -2,8 +2,18 @@ import { isDev, isMac, isWin } from '@common/utils/utils';
 import * as fs from 'fs';
 import * as path from 'path';
 import { app } from 'electron';
+import sudo from 'sudo-prompt';
 
-const BIN_NAME = isMac ? 'squid-mac' : isWin ? 'squid-windows' : 'squid-linux';
+const BIN_NAME = isMac ?
+    'squid-mac' : isWin ?
+    'squid-windows' :
+    'squid-linux';
+
+// TODO other OS paths
+const ICON = isMac ?
+    '/Applications/Squid.app/Contents/Resources/Squid.icns' : isWin ?
+    '' :
+    '';
 
 const SCRIPT_PATH = isDev ?
     path.resolve(
@@ -15,9 +25,12 @@ const SCRIPT_PATH = isDev ?
         'Contents',
         'Resources',
         'bin',
-        'squid');
+        BIN_NAME);
+
 // TODO windows path
-const INSTALL_PATH = isWin ? '' : '/usr/local/bin/squid'
+const INSTALL_PATH = isWin ?
+    '' :
+    '/usr/local/bin/squid'
 
 /**
  * Check if the CLI is installed at INSTALL_PATH.
@@ -47,8 +60,14 @@ const install = async() => {
 
         fs.symlink(SCRIPT_PATH, INSTALL_PATH, (err) => {
 
-            // TODO check if no perm
-            console.log(err);
+            if(err) {
+
+                sudo.exec(`ln -s ${SCRIPT_PATH} ${INSTALL_PATH}`, {
+                    name: 'Squid',
+                    icns: ICON,
+                }, () => resolve());
+            }
+
             resolve();
         });
     });
@@ -61,6 +80,7 @@ export const tryInstallCli = async() => {
 
     const installed = await isInstalled();
 
+    // TODO upgrade
     if(!installed)
         await install();
 }
