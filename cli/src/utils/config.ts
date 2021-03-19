@@ -10,6 +10,11 @@ export const getConfig = (): IConfig => {
     return JSON.parse(data.toString());
 }
 
+export const saveConfig = (config: IConfig) => {
+
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+}
+
 export interface IConfig {
 
     plugins: string[];
