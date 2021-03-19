@@ -25,6 +25,7 @@ const Window: FC<Props> = ({ config, window, openPath }: Props): ReactElement =>
     const { windows, dispatch } = useContext(WindowsContext);
     const selected = windows.find((current) => current.selected);
     const terminal = useRef<Terminal>();
+    const firstConfigLoaded = useRef(false);
 
     /**
      * Focus the terminal when anything update, and try summoning
@@ -59,7 +60,10 @@ const Window: FC<Props> = ({ config, window, openPath }: Props): ReactElement =>
      */
     useEffect(() => {
 
-        terminal.current?.updateConfig(config);
+        if(firstConfigLoaded.current)
+            terminal.current?.updateConfig(config);
+        else
+            firstConfigLoaded.current = true;
 
     }, [config]);
 

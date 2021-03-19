@@ -2,12 +2,22 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { homePath } from '@common/utils/utils';
 import { defaultConfig } from '@common/config/defaultConfig';
-import watch from 'node-watch';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
 import { IShortcut } from '@common/shortcuts/shortcuts';
 import { callTrigger } from '@common/plugins/plugins';
 import { getProcessTrigger } from '@common/plugins/hooks';
+
+// Lazy load node-watch
+let watch: any;
+
+const getNodeWatch = (): any => {
+
+    if(!watch)
+        watch = require('node-watch');
+
+    return watch;
+}
 
 export default class Config {
 
@@ -62,7 +72,7 @@ export default class Config {
 
         if(callback != undefined) {
 
-            const watcher = watch(this.CONFIG, { recursive: false });
+            const watcher = getNodeWatch()(this.CONFIG, { recursive: false });
 
             watcher.on('change', async () => {
 

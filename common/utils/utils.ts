@@ -1,7 +1,17 @@
 import electron from 'electron';
 import { IWindow, TerminalType } from '@app/Terminal';
 import { IShell } from '@common/config/Config';
-import crypto from 'crypto';
+
+// Lazy load crypto
+let crypto: any;
+
+const getCrypto = (): any => {
+
+    if(!crypto)
+        crypto = require('crypto');
+
+    return crypto;
+}
 
 export const homePath = (electron.app || electron.remote.app).getPath('home');
 export const isDev = process.env.NODE_ENV !== 'production';
@@ -102,12 +112,20 @@ export function isSettingsWindow(window: IWindow): boolean {
  */
 export async function hash(password: string): Promise<string> {
 
-    return crypto.createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
+    return getCrypto().createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
 }
 
 // The algorithm to use to create the cipher
 const algorithm = 'aes-256-ctr';
-const iv = crypto.randomBytes(16);
+let iv: any;
+
+const getIv = (): any => {
+
+    if(!iv)
+        iv = getCrypto().randomBytes(16);
+
+    return iv;
+}
 
 /**
  * Represent an encrypted object with a specific iv and json-encoded content.
@@ -128,12 +146,12 @@ export interface IEncrypted {
  */
 export function encrypt(text: string, encryptToken: string): IEncrypted {
 
-    const cipher = crypto.createCipheriv(algorithm, encryptToken, iv);
+    const cipher = getCrypto().createCipheriv(algorithm, encryptToken, getIv());
     const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 
     return {
 
-        iv: iv.toString('hex'),
+        iv: getIv().toString('hex'),
         content: encrypted.toString('hex')
     }
 }
@@ -149,7 +167,7 @@ export function encrypt(text: string, encryptToken: string): IEncrypted {
 
 export function decrypt(encrypted: IEncrypted, encryptToken: string): string {
 
-    const decipher = crypto.createDecipheriv(algorithm, encryptToken, Buffer.from(encrypted.iv, 'hex'));
+    const decipher = getCrypto().createDecipheriv(algorithm, encryptToken, Buffer.from(encrypted.iv, 'hex'));
     const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted.content, 'hex')), decipher.final()]);
 
     return decrypted.toString();

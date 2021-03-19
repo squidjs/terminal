@@ -33,13 +33,36 @@ export default class XTerminalFactory implements Factory<XTerminal> {
      */
     public build({ config }: XTerminalFactoryParams): XTerminal {
 
+        const { bell, cursor, font, scroll, altClickMoveCursor, theme } = config;
+
         const options: ITerminalOptions = {
             allowTransparency: true,
             windowsMode: isWin,
+            bellSound: bell.sound,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            bellStyle: bell.enabled ? 'soud' : 'none',
+            cursorBlink: cursor.blink,
+            cursorStyle: cursor.style,
+            cursorWidth: cursor.width,
+            fontSize: font.size,
+            fontFamily: font.family,
+            fontWeight: font.weight,
+            fontWeightBold: font.weightBold,
+            letterSpacing: font.letterSpacing,
+            lineHeight: font.lineHeight,
+            scrollSensitivity: scroll.sensitivity,
+            fastScrollSensitivity: scroll.fastScrollSensitivity,
+            fastScrollModifier: scroll.fastScrollModifier as 'alt' | 'ctrl' | 'shift',
+            altClickMovesCursor: altClickMoveCursor,
+            theme: {
+                ...theme,
+                background: 'transparent',
+            }
         };
 
         this.factoryObject = new XTerminal(options);
-        this.loadConfig(config);
+        this.config = config;
 
         return this.factoryObject;
     }

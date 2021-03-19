@@ -30,7 +30,7 @@ const ShortcutsListener: FC<Props> = ({ children, config }: Props): ReactElement
     /**
      * Setup the shortcuts if they have changed.
      */
-    useEffect(() => setupShortcuts(), [config, selected])
+    useEffect(() => setupShortcuts(), [config.shortcuts, selected])
 
     /**
      * Setup all the shortcuts to a Menu, with a accelerator

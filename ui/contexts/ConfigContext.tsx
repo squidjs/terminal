@@ -14,12 +14,12 @@ export const ConfigContext = createContext<IConfig>(defaultConfig);
 const ConfigProvider: FC<Props> = ({ children }: Props): ReactElement => {
 
     const { dispatch } = useContext(NotificationsContext);
-    const [config, setConfig] = useState<IConfig>(defaultConfig);
+    const [config, setConfig] = useState<IConfig>(Config.getInstance().loadConfig());
 
     // Load the config on mount
     useEffect(() => {
 
-        const config = Config.getInstance().loadConfig((config) => {
+        Config.getInstance().loadConfig((config) => {
 
             // Add a notification when config is reloaded
             const notification = configReloadedNotification(config === undefined);
@@ -28,8 +28,6 @@ const ConfigProvider: FC<Props> = ({ children }: Props): ReactElement => {
             if(config)
                 setConfig(config);
         });
-
-        setConfig(config);
 
     }, []);
 

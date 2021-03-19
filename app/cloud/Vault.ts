@@ -1,5 +1,16 @@
-import * as keytar from 'keytar';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { UndefinedObject } from '@common/types/types';
+
+// Lazy load keytar
+let keytar: any;
+
+const getKeytar = (): any => {
+
+    if(!keytar)
+        keytar = require('keytar');
+
+    return keytar;
+}
 
 const SERVICE_NAME = 'squid';
 type AccountType = 'apiToken' | 'encryptToken';
@@ -43,7 +54,7 @@ export default class Vault {
      */
     public setPassword(account: AccountType, password: string) {
 
-        keytar.setPassword(SERVICE_NAME, account, password);
+        getKeytar().setPassword(SERVICE_NAME, account, password);
 
         // Update the local data cache
         if(account === 'apiToken')
@@ -59,7 +70,7 @@ export default class Vault {
      */
     public deletePassword(account: AccountType) {
 
-        keytar.deletePassword(SERVICE_NAME, account);
+        getKeytar().deletePassword(SERVICE_NAME, account);
 
         // Update the local data cache
         this.data = undefined;
@@ -73,7 +84,7 @@ export default class Vault {
      */
     private async getPassword(account: AccountType): Promise<string> {
 
-        const password = await keytar.getPassword(SERVICE_NAME, account);
+        const password = await getKeytar().getPassword(SERVICE_NAME, account);
 
         return password || '';
     }

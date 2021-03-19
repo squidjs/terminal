@@ -1,10 +1,8 @@
 import XTerminalFactory from '@app/factories/XTerminalFactory';
-import PtyProcessFactory from '@app/factories/process/PtyProcessFactory';
 import { IConfig, IShell, ISSHHost } from '@common/config/Config';
 import ProcessFactory from '@app/factories/ProcessFactory';
 import { IPty } from 'node-pty';
 import { Client } from 'ssh2';
-import SSHProcessFactory from '@app/factories/process/SSHProcessFactory';
 import { Terminal as XTerminal } from 'xterm';
 import { clipboard } from 'electron';
 import { isTerminalSSH } from '@common/utils/utils';
@@ -25,7 +23,9 @@ export default class Terminal {
         this.xTerminal = new XTerminalFactory(config);
 
         const isSSH = isTerminalSSH(terminalType);
-        this.process = isSSH ? new SSHProcessFactory() : new PtyProcessFactory();
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const processFactory = isSSH ? require('@app/factories/process/SSHProcessFactory').default : require('@app/factories/process/PtyProcessFactory').default;
+        this.process = new processFactory();
 
         const terminal = this.xTerminal.build({
 
@@ -59,13 +59,12 @@ export default class Terminal {
 
         if(!isSSH) {
 
-            const shell = terminalType as IShell;
+            const { path } = terminalType as IShell;
 
-            // Force cast to get type definitions
-            (this.process as PtyProcessFactory).build({
+            this.process.build({
 
                 terminal,
-                shell: shell.path,
+                shell: path,
                 // eslint-disable-next-line @typescript-eslint/no-var-requires
                 cwd: openPath || require('os').homedir(),
                 terminalType,
@@ -75,8 +74,7 @@ export default class Terminal {
 
             const ssh = terminalType as ISSHHost;
 
-            // Force cast to get type definitions
-            (this.process as SSHProcessFactory).build({
+            this.process.build({
 
                 ...ssh,
                 // eslint-disable-next-line @typescript-eslint/no-var-requires
