@@ -1,5 +1,6 @@
 ## Contributing
 First, make sure you have Yarn installed on your system.
+For information about the CLI, head over to [CLI.md](cli/CLI.md)
 
 You will need `windows-build-tools` to compile the project. Install it globally (as an administrator) with:
 - `yarn global add windows-build-tools`

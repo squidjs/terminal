@@ -5,6 +5,7 @@ import Updater from '@src/updater/Updater';
 import { callTrigger } from '@common/plugins/plugins';
 import MacIntegration from '@src/integrations/MacIntegration';
 import WindowsIntegration from '@src/integrations/WindowsIntegration';
+import { tryInstallCli } from '@src/cli/install';
 
 export default class App {
 
@@ -15,6 +16,8 @@ export default class App {
         // Instanciate the "Open here" integrations
         new MacIntegration();
         new WindowsIntegration();
+
+        tryInstallCli();
 
         app.allowRendererProcessReuse = false;
 

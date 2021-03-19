@@ -27,6 +27,7 @@ We use [Electron](https://electronjs.org) and [ReactJS](https://reactjs.org). Ev
 - [Documentation](#documentation)
 - [Extending the app](#extending)
 - [Save SSH Hosts to the cloud](#cloud)
+- [CLI](#cli)
 - [Contributing](#contributing)
 - [Licence](#licence)
 
@@ -49,6 +50,12 @@ You can save SSH Hosts in a remote server, to make them available on all the com
 You can choose to use our server (this is the default configuration), or you can **self-host** it.
 
 See the [documentation](https://squidjs.github.io/docs/cloud) for more information.
+
+## CLI
+Squid ships with an easy-to-use CLI, used to start the app from any terminal and manage themes and plugins easily.
+Run `squid --help` for a list of available commands.
+
+See the [documentation](https://squidjs.github.io/docs/cli) for more information.
 
 ## Contributing
 First, make sure you have Yarn installed on your system.

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Deeply inspired by https://github.com/Microsoft/vscode/blob/1.17.0/resources/darwin/bin/code.sh
+
+PATH="/Applications/Squid.app/Contents"
+ELECTRON="$PATH/MacOS/Squid"
+CLI="$PATH/Resources/cli/cli.js"
+ELECTRON_RUN_AS_NODE=1 "$ELECTRON" "$CLI" "$@"
+exit $?

@@ -6,12 +6,17 @@ import { app } from 'electron';
 import { isDev, isMac } from '@common/utils/utils';
 
 const WORKFLOW_NAME = 'Open Squid here.workflow';
-const RESOURCE_PATH = path.join(
-    isDev ? '/Applications/Squid.app' : app.getPath('exe'),
-    'Contents',
-    'Resources',
-    'workflows',
-    WORKFLOW_NAME);
+const RESOURCE_PATH = isDev ?
+    path.resolve(
+        'resources',
+        'workflows',
+        WORKFLOW_NAME) :
+    path.join(
+        app.getPath('exe'),
+        'Contents',
+        'Resources',
+        'workflows',
+        WORKFLOW_NAME);
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const INSTALL_PATH = path.join(process.env.HOME!, 'Library', 'Services', WORKFLOW_NAME);
 
@@ -53,7 +58,7 @@ export default class MacIntegration extends Integration {
         return new Promise((resolve) => {
 
             const childProcess = exec(`cp -r "${RESOURCE_PATH}" "${INSTALL_PATH}"`);
-            childProcess.on('close', resolve)
+            childProcess.on('close', resolve);
         });
     }
 

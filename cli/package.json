@@ -1,0 +1,29 @@
+{
+  "name": "squid-cli",
+  "version": "0.2.0-canary",
+  "description": "The CLI for Squid.",
+  "author": {
+    "email": "quiibzdev@gmail.com",
+    "name": "QuiiBz",
+    "url": "https://github.com/QuiiBz"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/squidjs/terminal",
+  "main": "dist/index.js",
+  "scripts": {
+    "watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "dist": "webpack"
+  },
+  "dependencies": {
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^7.3.1",
+    "@types/yargs": "^16.0.0",
+    "chalk": "^4.1.0",
+    "inquirer": "^8.0.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  }
+}
