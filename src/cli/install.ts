@@ -22,7 +22,8 @@ const SCRIPT_PATH = isDev ?
         BIN_NAME) :
     path.join(
         app.getPath('exe'),
-        'Contents',
+        '..',
+        '..',
         'Resources',
         'bin',
         BIN_NAME);
