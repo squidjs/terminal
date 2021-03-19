@@ -1,8 +1,8 @@
 import React, { FC, ReactElement, useEffect, createContext, useReducer, Reducer, useContext } from 'react';
-import { initializeCloud } from '@app/cloud/cloud';
 import { cloudUnreachable } from '@app/notifications/notification';
 import { NotificationsContext } from '@ui/contexts/NotificationsContext';
 import { HostsContext } from '@ui/contexts/HostsContext';
+import { ISSHHost } from '@common/config/Config';
 
 interface Props {
 
@@ -25,7 +25,8 @@ const AuthProvider: FC<Props> = ({ children }: Props): ReactElement => {
     // Initialize cloud when mounted
     useEffect(() => {
 
-        initializeCloud().then(({ shouldLogin, hosts }) => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        require('@app/cloud/cloud').initializeCloud().then(({ shouldLogin, hosts }: { shouldLogin: boolean, hosts: ISSHHost[] }) => {
 
             const logged = !shouldLogin;
 
@@ -34,7 +35,7 @@ const AuthProvider: FC<Props> = ({ children }: Props): ReactElement => {
             if(logged)
                 dispatch({ type: 'SET', hosts });
 
-        }).catch((err) => {
+        }).catch((err: Error) => {
 
             console.error(err);
             dispatchNotification({ type: 'ADD', notification: cloudUnreachable() });

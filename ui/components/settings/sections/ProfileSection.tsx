@@ -1,5 +1,4 @@
 import React, { FC, ReactElement, useContext } from 'react';
-import { logout as cloudLogout } from '@app/cloud/cloud';
 import { AuthContext } from '@ui/contexts/AuthContext';
 import Subtitle from '@ui/components/settings/elements/Subtitle';
 import Text from '@ui/components/settings/elements/Text';
@@ -17,7 +16,8 @@ const ProfileSection: FC = (): ReactElement => {
      */
     const logout = () => {
 
-        cloudLogout();
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        require('@app/cloud/cloud').logout();
 
         dispatch({ type: 'SET', hosts: [] });
         setAuth({ type: 'SET', state: false });
