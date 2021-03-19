@@ -60,19 +60,19 @@ if(isMac) {
 const leader = isMac ? 'Cmd' : 'Ctrl';
 const shortcuts: IShortcut[] = [
     {
-        keybinds: `${leader}+Shift+T`,
+        keybinds: `${leader}+T`,
         action: 'terminal:create',
     },
     {
-        keybinds: `${leader}+Shift+W`,
+        keybinds: `${leader}+W`,
         action: 'terminal:close',
     },
     {
-        keybinds: `${leader}+Shift+O`,
+        keybinds: `${leader}+numadd`,
         action: 'terminal:zoomin',
     },
     {
-        keybinds: `${leader}+Shift+P`,
+        keybinds: `${leader}+numsub`,
         action: 'terminal:zoomout',
     },
     {

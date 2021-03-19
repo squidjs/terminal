@@ -2,7 +2,8 @@ import { IShortcut, IShortcutActions } from '@common/shortcuts/shortcuts';
 import { MenuItemConstructorOptions, remote } from 'electron';
 import { IConfig } from 'common/config/Config';
 import { defaultConfig } from '@common/config/defaultConfig';
-const { Menu } = remote;
+import { isMac } from '@common/utils/utils';
+const { Menu, app, shell } = remote;
 
 /**
  * Build the app menu with the given shortcuts from the config.
@@ -15,6 +16,51 @@ const { Menu } = remote;
 export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut) => void): any => {
 
     const template: Array<MenuItemConstructorOptions> = [
+        (isMac ? {
+            label: app.name,
+            submenu: [
+                { role: 'about' },
+                { type: 'separator' },
+                { role: 'services' },
+                { type: 'separator' },
+                { role: 'hide' },
+                { role: 'hideOthers' },
+                { role: 'unhide' },
+                { type: 'separator' },
+                { role: 'quit' }
+            ]
+        } : { }),
+        {
+            label: 'Terminal',
+            submenu: [
+                { label: 'New terminal', ...getShortcut(config, executeShortcut, 'terminal:create') },
+                { label: 'Close terminal', ...getShortcut(config, executeShortcut, 'terminal:close') },
+                { type: 'separator' },
+                isMac ? { role: 'close' } : { role: 'quit' }
+            ]
+        },
+        {
+            label: 'Edit',
+            submenu: [
+                { role: 'undo' },
+                { role: 'redo' },
+                { type: 'separator' },
+                { role: 'cut' },
+                { label: 'Copy', accelerator: 'CmdOrCtrl+C', click: () => executeShortcut({ action:  'default:copy', keybinds: '' }) },
+                { label: 'Paste', accelerator: 'CmdOrCtrl+V', click: () => executeShortcut({ action:  'default:paste', keybinds: '' }) },
+                isMac ? { role: 'pasteAndMatchStyle' } : { },
+                { role: 'selectAll' },
+                isMac ? { role: 'pasteAndMatchStyle' } : { },
+                { type: 'separator' },
+                isMac ? {
+                    label: 'Speech',
+                    submenu: [
+                        { role: 'startSpeaking' },
+                        { role: 'stopSpeaking' }
+                    ]
+                } : { },
+            ]
+        },
         {
             label: 'View',
             submenu: [
@@ -26,23 +72,37 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
                 { label: 'Zoom Out', ...getShortcut(config, executeShortcut, 'terminal:zoomout') },
                 { type: 'separator' },
                 { label: 'Focus left terminal', ...getShortcut(config, executeShortcut, 'terminal:left') },
-                { label: 'Focus right terminal', ...getShortcut(config, executeShortcut, 'terminal:right') }
-            ]
-        },
-        {
-            label: 'Edit',
-            submenu: [
-                { label: 'Copy', accelerator: 'CmdOrCtrl+C', click: () => executeShortcut({ action:  'default:copy', keybinds: '' }) },
-                { label: 'Paste', accelerator: 'CmdOrCtrl+V', click: () => executeShortcut({ action:  'default:paste', keybinds: '' }) },
+                { label: 'Focus right terminal', ...getShortcut(config, executeShortcut, 'terminal:right') },
             ]
         },
         {
             label: 'Window',
             submenu: [
-                { label: 'New terminal', ...getShortcut(config, executeShortcut, 'terminal:create') },
-                { label: 'Close terminal', ...getShortcut(config, executeShortcut, 'terminal:close') },
+                { role: 'minimize' },
+                isMac ? { type: 'separator' } : { },
+                isMac ? { role: 'front' } : { },
+                isMac ? { type: 'separator' } : { },
+                isMac ? { role: 'togglefullscreen' } : { },
             ]
         },
+        {
+            role: 'help',
+            submenu: [
+                // TODO change urls
+                {
+                    label: 'Website',
+                    click: async() => await shell.openExternal('https://github.com/squidjs/terminal'),
+                },
+                {
+                    label: 'Documentation',
+                    click: async() => await shell.openExternal('https://github.com/squidjs/terminal'),
+                },
+                {
+                    label: 'GitHub',
+                    click: async() => await shell.openExternal('https://github.com/squidjs/terminal'),
+                }
+            ]
+        }
     ];
 
     return Menu.buildFromTemplate(template);

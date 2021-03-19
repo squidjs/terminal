@@ -83,6 +83,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             transparent: true,
             title: 'Squid',
             titleBarStyle: 'hidden',
+            visualEffectState: 'active', // Always show the vibrancy
             show: false,
             backgroundColor: '#00000000',
             webPreferences: {
