@@ -7,17 +7,10 @@ import { UndefinedObject } from '@common/types/types';
 import { IShortcut } from '@common/shortcuts/shortcuts';
 import { callTrigger } from '@common/plugins/plugins';
 import { getProcessTrigger } from '@common/plugins/hooks';
+import { lazyload } from '@common/utils/lazyload';
+import type watch from 'node-watch';
 
-// Lazy load node-watch
-let watch: any;
-
-const getNodeWatch = (): any => {
-
-    if(!watch)
-        watch = require('node-watch');
-
-    return watch;
-}
+const lazyNodeWatch = lazyload<typeof watch>('node-watch');
 
 export default class Config {
 
@@ -72,7 +65,7 @@ export default class Config {
 
         if(callback != undefined) {
 
-            const watcher = getNodeWatch()(this.CONFIG, { recursive: false });
+            const watcher = lazyNodeWatch()(this.CONFIG, { recursive: false });
 
             watcher.on('change', async () => {
 

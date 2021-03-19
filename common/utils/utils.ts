@@ -1,17 +1,10 @@
 import electron from 'electron';
 import { IWindow, TerminalType } from '@app/Terminal';
 import { IShell } from '@common/config/Config';
+import type crypto from 'crypto';
+import { lazyload, lazyLoadAction } from '@common/utils/lazyload';
 
-// Lazy load crypto
-let crypto: any;
-
-const getCrypto = (): any => {
-
-    if(!crypto)
-        crypto = require('crypto');
-
-    return crypto;
-}
+const lazyCrypto = lazyload<typeof crypto>('crypto');
 
 export const homePath = (electron.app || electron.remote.app).getPath('home');
 export const isDev = process.env.NODE_ENV !== 'production';
@@ -112,20 +105,12 @@ export function isSettingsWindow(window: IWindow): boolean {
  */
 export async function hash(password: string): Promise<string> {
 
-    return getCrypto().createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
+    return lazyCrypto().createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
 }
 
 // The algorithm to use to create the cipher
 const algorithm = 'aes-256-ctr';
-let iv: any;
-
-const getIv = (): any => {
-
-    if(!iv)
-        iv = getCrypto().randomBytes(16);
-
-    return iv;
-}
+const lazyIv = lazyLoadAction<Buffer>(() => lazyCrypto().randomBytes(16));
 
 /**
  * Represent an encrypted object with a specific iv and json-encoded content.
@@ -146,12 +131,12 @@ export interface IEncrypted {
  */
 export function encrypt(text: string, encryptToken: string): IEncrypted {
 
-    const cipher = getCrypto().createCipheriv(algorithm, encryptToken, getIv());
+    const cipher = lazyCrypto().createCipheriv(algorithm, encryptToken, lazyIv());
     const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 
     return {
 
-        iv: getIv().toString('hex'),
+        iv: lazyIv().toString('hex'),
         content: encrypted.toString('hex')
     }
 }
@@ -167,7 +152,7 @@ export function encrypt(text: string, encryptToken: string): IEncrypted {
 
 export function decrypt(encrypted: IEncrypted, encryptToken: string): string {
 
-    const decipher = getCrypto().createDecipheriv(algorithm, encryptToken, Buffer.from(encrypted.iv, 'hex'));
+    const decipher = lazyCrypto().createDecipheriv(algorithm, encryptToken, Buffer.from(encrypted.iv, 'hex'));
     const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted.content, 'hex')), decipher.final()]);
 
     return decrypted.toString();

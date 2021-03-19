@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations,@typescript-eslint/no-var-requires */
 import { Addon, AddonType } from '@app/addons/Addons';
 import { ITerminalAddon, Terminal as XTerminal } from 'xterm';
 import { shell } from 'electron';
@@ -88,23 +89,18 @@ export default class AddonsProvider {
         switch(addonType) {
 
             case AddonType.FIT:
-                // eslint-disable-next-line no-case-declarations,@typescript-eslint/no-var-requires
                 const { FitAddon } = require('xterm-addon-fit');
                 return new FitAddon();
             case AddonType.UNICODE:
-                // eslint-disable-next-line no-case-declarations,@typescript-eslint/no-var-requires
                 const { Unicode11Addon } = require('xterm-addon-unicode11');
                 return new Unicode11Addon();
             case AddonType.LIGATURES:
-                // eslint-disable-next-line no-case-declarations,@typescript-eslint/no-var-requires
                 const { LigaturesAddon } = require('xterm-addon-ligatures');
                 return new LigaturesAddon();
             case AddonType.WEBGL:
-                // eslint-disable-next-line no-case-declarations,@typescript-eslint/no-var-requires
                 const { WebglAddon } = require('xterm-addon-webgl');
                 return new WebglAddon();
             case AddonType.WEBLINKS:
-                // eslint-disable-next-line no-case-declarations,@typescript-eslint/no-var-requires
                 const { WebLinksAddon } = require('xterm-addon-web-links');
                 return new WebLinksAddon((event: MouseEvent, uri: string) => {
 
