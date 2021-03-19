@@ -49,7 +49,7 @@ export const initializeProject = (name: string, path: string, useYarn: boolean, 
         fs.writeFileSync(tsconfigPath, JSON.stringify({
             compilerOptions: {
                 target: 'es5',
-                lodule: 'commonjs',
+                module: 'commonjs',
                 outDir: './dist',
                 skipLibCheck: true
             },
