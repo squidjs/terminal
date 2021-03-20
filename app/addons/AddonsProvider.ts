@@ -95,7 +95,7 @@ export default class AddonsProvider {
                 const { Unicode11Addon } = require('xterm-addon-unicode11');
                 return new Unicode11Addon();
             case AddonType.LIGATURES:
-                const { LigaturesAddon } = require('xterm-addon-ligatures');
+                const { LigaturesAddon } = require('./ligatures/LigaturesAddon');
                 return new LigaturesAddon();
             case AddonType.WEBGL:
                 const { WebglAddon } = require('xterm-addon-webgl');
