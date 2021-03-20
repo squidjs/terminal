@@ -56,11 +56,18 @@ export const shouldUpdateCLI = (installed: boolean): boolean => {
     if(!installed)
         return false;
 
-    const stdout = execSync('squid --version').toString();
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const currentVersion = require('../../package.json').version;
+    try {
 
-    return formatVersion(currentVersion) !== formatVersion(stdout);
+        const stdout = execSync('squid --version').toString();
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const currentVersion = require('../../package.json').version;
+
+        return formatVersion(currentVersion) !== formatVersion(stdout);
+
+    } catch (err) {
+
+        return false;
+    }
 }
 
 /**

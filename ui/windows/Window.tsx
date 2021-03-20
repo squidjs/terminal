@@ -93,11 +93,11 @@ const Window: FC<Props> = ({ config, window, openPath }: Props): ReactElement =>
 
     /**
      * Listen for events from the main ipc. Don't do anything if this
-     * is a settings window.
+     * is a settings window or if the window is not selected.
      */
     const listen = () => {
 
-        if(isSettingsWindow(window))
+        if(isSettingsWindow(window) || !selected)
             return;
 
         ipcRenderer.on('shortcuts', (event, args) => {
