@@ -1,7 +1,7 @@
 import { ITerminalAddon, ITerminalOptions, Terminal as XTerminal } from 'xterm';
 import { Factory } from '@common/factories/Factory';
 import { UndefinedObject } from '@common/types/types';
-import { clipboard } from 'electron';
+import { clipboard, shell } from 'electron';
 import { FitAddon } from 'xterm-addon-fit';
 import { AddonType } from '@app/addons/Addons';
 import AddonsProvider from '@app/addons/AddonsProvider';
@@ -9,6 +9,9 @@ import { IConfig } from '@common/config/Config';
 import { isWin } from '@common/utils/utils';
 import ProcessFactory from '@app/factories/ProcessFactory';
 import { ProcessType } from '@app/Terminal';
+
+// A regex to find git ssh uris: https://regex101.com/r/Q3uR0U/1
+const GIT_SSH_REGEX = /git@[a-z]*\.[a-z]*:[a-zA-Z0-9]*\/[a-zA-Z0-9]*/;
 
 export default class XTerminalFactory implements Factory<XTerminal> {
 
@@ -63,6 +66,13 @@ export default class XTerminalFactory implements Factory<XTerminal> {
 
         this.factoryObject = new XTerminal(options);
         this.config = config;
+
+        // Add link matcher to open git repos when the remote is ssh and not https
+        this.factoryObject.registerLinkMatcher(GIT_SSH_REGEX, (event: MouseEvent, uri: string) => {
+
+            uri = 'https://' + uri.split('@')[1].replace(':', '/');
+            shell.openExternal(uri);
+        });
 
         return this.factoryObject;
     }
