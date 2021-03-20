@@ -22,7 +22,7 @@ const TabCreateTerminal: FC = (): ReactElement => {
      * Update the shells menu if the config or
      * the cloud hosts changed.
      */
-    useEffect(() => updateShells(), [config, windows, hosts]);
+    useEffect(() => updateShells(), [config, hosts]);
 
     /**
      * Update the shells by settings them in a Menu.
