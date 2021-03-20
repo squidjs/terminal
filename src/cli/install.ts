@@ -1,8 +1,9 @@
-import { isDev, isMac, isWin } from '@common/utils/utils';
+import { formatVersion, isMac, isWin } from '@common/utils/utils';
 import * as fs from 'fs';
-import * as path from 'path';
-import { app } from 'electron';
 import sudo from 'sudo-prompt';
+import { execSync } from 'child_process';
+import * as electron from 'electron';
+import { INotification, INotificationLevel } from '@app/notifications/notification';
 
 const BIN_NAME = isMac ?
     'squid-mac' : isWin ?
@@ -15,18 +16,10 @@ const ICON = isMac ?
     '' :
     '';
 
-const SCRIPT_PATH = isDev ?
-    path.resolve(
-        'resources',
-        'bin',
-        BIN_NAME) :
-    path.join(
-        app.getPath('exe'),
-        '..',
-        '..',
-        'Resources',
-        'bin',
-        BIN_NAME);
+const SCRIPT_PATH = isMac ?
+    `/Applications/Squid.app/Contents/Resources/bin/${BIN_NAME}` : isWin ?
+    '' :
+    '';
 
 // TODO windows path
 const INSTALL_PATH = isWin ?
@@ -36,42 +29,133 @@ const INSTALL_PATH = isWin ?
 /**
  * Check if the CLI is installed at INSTALL_PATH.
  *
- * @returns A promise of true if installed, false else
+ * @returns If the CLI is installed.
  */
-const isInstalled = async(): Promise<boolean> => {
+export const isCLIInstalled = (): boolean => {
 
-    return new Promise<boolean>((resolve) => {
+    try {
 
-        fs.readlink(INSTALL_PATH, (err, link) => {
+        const link = fs.readlinkSync(INSTALL_PATH);
 
-            if(err)
-                resolve(false);
+        return link === SCRIPT_PATH;
 
-            resolve(link === SCRIPT_PATH);
-        });
-    });
+    } catch (err) {
+
+        return false;
+    }
+}
+
+/**
+ * Check if the CLI should be updated or not.
+ *
+ * @param installed - If the cli is already installed
+ * @returns If we should update
+ */
+export const shouldUpdateCLI = (installed: boolean): boolean => {
+
+    if(!installed)
+        return false;
+
+    const stdout = execSync('squid --version').toString();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const currentVersion = require('../../package.json').version;
+
+    return formatVersion(currentVersion) !== formatVersion(stdout);
 }
 
 /**
  * Install the CLI.
+ *
+ * @param allowSudo - If we allow installing with sudo
  */
-const install = async() => {
+export const installCLI = async(allowSudo = false) => {
 
     return new Promise<void>((resolve) => {
 
-        fs.symlink(SCRIPT_PATH, INSTALL_PATH, (err) => {
+        if(isWin) {
+            // TODO windows install
+        } else {
 
-            if(err) {
+            fs.symlink(SCRIPT_PATH, INSTALL_PATH, async(err) => {
 
-                sudo.exec(`ln -s ${SCRIPT_PATH} ${INSTALL_PATH}`, {
-                    name: 'Squid',
-                    icns: ICON,
-                }, () => resolve());
-            }
+                if(err && err.code === 'EACCES' && allowSudo)
+                    await sudoInstall();
 
-            resolve();
-        });
+                sendNotification(true);
+                resolve();
+            });
+        }
     });
+}
+
+/**
+ * Uninstall the CLI.
+ *
+ * @param allowSudo - If we allow uninstalling with sudo
+ */
+export const uninstallCLI = async(allowSudo = false) => {
+
+    return new Promise<void>((resolve) => {
+
+        if(isWin) {
+            // TODO windows install
+        } else {
+
+            fs.unlink(INSTALL_PATH, async(err) => {
+
+                if(err && err.code === 'EACCES' && allowSudo)
+                    await sudoUninstall();
+
+                sendNotification(false);
+                resolve();
+            });
+        }
+    });
+}
+
+/**
+ * Install the CLI with sudo.
+ */
+const sudoInstall = async() => {
+
+    return new Promise<void>((resolve) => {
+
+        sudo.exec(`ln -s ${SCRIPT_PATH} ${INSTALL_PATH}`, {
+            name: 'Squid',
+            icns: ICON,
+        }, () => resolve());
+    });
+}
+
+/**
+ * Uninstall the CLI with sudo.
+ */
+const sudoUninstall = async() => {
+
+    return new Promise<void>((resolve) => {
+
+        sudo.exec(`rm ${INSTALL_PATH}`, {
+            name: 'Squid',
+            icns: ICON,
+        }, () => resolve());
+    });
+}
+
+/**
+ * Send an installed or uninstalled success notification.
+ *
+ * @param installed - If we sucessfully installed or uninstalled the CLI
+ */
+const sendNotification = (installed: boolean) => {
+
+    const notification: INotification = {
+        title: 'CLI',
+        content: `Successfully ${installed ? 'installed' : 'uninstalled'} the CLI.`,
+        level: INotificationLevel.SUCCESS,
+        time: 3,
+    };
+
+    (electron.BrowserWindow || electron.remote.BrowserWindow).getFocusedWindow()?.webContents.send('notification', notification);
 }
 
 /**
@@ -79,9 +163,12 @@ const install = async() => {
  */
 export const tryInstallCli = async() => {
 
-    const installed = await isInstalled();
+    const installed = isCLIInstalled();
+    const update = shouldUpdateCLI(installed);
 
-    // TODO upgrade
+    if(update)
+        await uninstallCLI();
+
     if(!installed)
-        await install();
+        await installCLI();
 }

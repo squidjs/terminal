@@ -157,3 +157,14 @@ export function decrypt(encrypted: IEncrypted, encryptToken: string): string {
 
     return decrypted.toString();
 }
+
+/**
+ * Format a version number by keeping only the sementic numbers.
+ *
+ * @param version - The version string to format
+ * @returns The formatted version string
+ */
+export const formatVersion = (version: string): string => {
+
+    return version.split('-')[0].trim();
+}

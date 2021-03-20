@@ -5,6 +5,7 @@ import { notificationsReducer } from '@app/store/notifications/reducers/Notifica
 import { NotificationsActions } from '@app/store/notifications/actions/NotificationsActions';
 import { callTrigger } from '@common/plugins/plugins';
 import { Provider } from '@common/plugins/providers';
+import { ipcRenderer } from 'electron';
 
 interface Props {
 
@@ -33,6 +34,11 @@ const NotificationsProvider: FC<Props> = ({ children }: Props): ReactElement => 
         }
 
         callTrigger('provideNotifications', notificationProvider);
+
+        ipcRenderer.on('notification', (event, notification: INotification) => {
+
+            notificationProvider(notification);
+        });
 
     }, []);
 

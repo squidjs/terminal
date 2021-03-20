@@ -3,6 +3,7 @@ import { MenuItemConstructorOptions, remote } from 'electron';
 import { IConfig } from 'common/config/Config';
 import { defaultConfig } from '@common/config/defaultConfig';
 import { isMac } from '@common/utils/utils';
+import { installCLI, isCLIInstalled, shouldUpdateCLI, uninstallCLI } from '@src/cli/install';
 const { Menu, app, shell } = remote;
 
 /**
@@ -14,6 +15,9 @@ const { Menu, app, shell } = remote;
  */
 // eslint-disable-next-line
 export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut) => void): any => {
+
+    const cliInstalled = isCLIInstalled();
+    const cliUpdate = shouldUpdateCLI(cliInstalled);
 
     const template: Array<MenuItemConstructorOptions> = [
         (isMac ? {
@@ -73,6 +77,31 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
                 { type: 'separator' },
                 { label: 'Focus left terminal', ...getShortcut(config, executeShortcut, 'terminal:left') },
                 { label: 'Focus right terminal', ...getShortcut(config, executeShortcut, 'terminal:right') },
+            ]
+        },
+        {
+            label: 'CLI',
+            submenu: [
+                {
+                    label: 'Install CLI',
+                    enabled: !cliInstalled,
+                    click: async() => await installCLI(true),
+                },
+                {
+                    label: 'Uninstall CLI',
+                    enabled: cliInstalled,
+                    click: async() => await uninstallCLI(true),
+                },
+                { type: 'separator' },
+                {
+                    label: 'Update CLI',
+                    enabled: cliUpdate,
+                    click: async() => {
+
+                        await uninstallCLI(true);
+                        await installCLI(true);
+                    },
+                },
             ]
         },
         {
