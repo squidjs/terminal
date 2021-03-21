@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
+    "get-installed-path": "^4.0.8",
     "inquirer": "^8.0.0",
     "yargs": "^16.2.0"
   },
