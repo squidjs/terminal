@@ -12,8 +12,13 @@ export const lazyload = <T>(name: string): () => T => {
 
     return () => {
 
-        if(!lazyModule)
-            lazyModule = __non_webpack_require__(`${name}`);
+        if(!lazyModule) {
+
+            if(typeof __non_webpack_require__ !== 'undefined')
+                lazyModule = __non_webpack_require__(`${name}`);
+            else
+                lazyModule = require(`${name}`);
+        }
 
         return lazyModule;
     }

@@ -1,7 +1,6 @@
 import SquidPlugin from '@common/plugins/package';
 import { homePath, isMainProcess } from '../utils/utils';
 import { TriggerParams } from '@common/plugins/hooks';
-import electron from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import Config from '@common/config/Config';
@@ -20,7 +19,10 @@ let plugins: SquidPlugin[] = [];
  */
 const loadPlugin = (pluginDir: string): SquidPlugin => {
 
-    const plugin: SquidPlugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'dist', 'index')).default;
+    let plugin: SquidPlugin = {};
+
+    if(typeof __non_webpack_require__ !== 'undefined')
+        plugin = __non_webpack_require__(path.join(PLUGINS_FOLDER, pluginDir, 'dist', 'index')).default;
 
     if(isMainProcess)
         callPluginTrigger(plugin, 'onLoad');
