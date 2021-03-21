@@ -19,7 +19,7 @@
 We use [Electron](https://electronjs.org) and [ReactJS](https://reactjs.org). Everything is written in [TypeScript](https://typescriptlang.org).
 
 <p align="center">
-    <img src="https://i.imgur.com/PwCDVYx.png" />
+    <img src="https://i.imgur.com/XRdKFnk.png" />
 </p>
 
 ## Table of content
