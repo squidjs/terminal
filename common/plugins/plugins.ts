@@ -2,8 +2,8 @@ import { SquidPlugin } from '@common/plugins/package/src';
 import { isDev, isMainProcess } from '../utils/utils';
 import { TriggerParams } from '@common/plugins/hooks';
 import electron from 'electron';
-import path from 'path';
-import fs from 'fs';
+import * as path from 'path';
+import * as fs from 'fs';
 import Config from '@common/config/Config';
 
 const PLUGINS_FOLDER = isDev ?

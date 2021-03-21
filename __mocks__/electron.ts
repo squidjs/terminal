@@ -1,3 +1,3 @@
 export const app = {
-    getPath: jest.fn(),
+    getPath: jest.fn().mockReturnValue(process.env.HOME),
 };
