@@ -37,9 +37,9 @@ export const initializeProject = (name: string, path: string, useYarn: boolean, 
         ],
     }, null, 2));
 
-    fs.writeFileSync(join(projectPath, '.gitignore'), `.node_modulees
-.idea
-.vscode
+    fs.writeFileSync(join(projectPath, '.gitignore'), `node_modules/
+.idea/
+.vscode/
 
 .DS_STORE`);
 
