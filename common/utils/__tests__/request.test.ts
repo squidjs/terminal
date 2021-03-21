@@ -2,7 +2,7 @@ import { baseUrl, makeAuthRequest, makeRequest, MethodType } from '@common/utils
 
 describe('Make a request', () => {
 
-    const getCallParams = (method: MethodType, body?: any) => {
+    const getCallParams = (method: MethodType, body?: Record<string, string>) => {
 
         return expect.objectContaining({
             method,
@@ -66,7 +66,7 @@ describe('Make an auth request', () => {
 
     const fakeToken = 'faketoken';
 
-    const getCallParams = (method: MethodType, body?: any) => {
+    const getCallParams = (method: MethodType, body?: Record<string, string>) => {
 
         return expect.objectContaining({
             method,
