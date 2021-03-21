@@ -3,7 +3,7 @@ import { isDev } from '@common/utils/utils';
 
 const { cloudUrl } = Config.getInstance().loadConfig();
 
-const baseUrl = isDev ?
+export const baseUrl = isDev ?
     'http://localhost:3333' :
     cloudUrl;
 
@@ -22,15 +22,13 @@ export type MethodType = 'GET' | 'POST';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const makeRequest = async(url: string, method: MethodType, body?: any): Promise<any> => {
 
-    // We only make json requests and responses
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-
     const response = await fetch(`${baseUrl}/${url}`, {
 
         method,
-        headers,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(body),
     });
 
@@ -51,16 +49,14 @@ export const makeRequest = async(url: string, method: MethodType, body?: any): P
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const makeAuthRequest = async(url: string, method: MethodType, token: string, body?: any): Promise<any> => {
 
-    // We only make json requests and responses
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', `Bearer ${token}`);
-
     const response = await fetch(`${baseUrl}/${url}`, {
 
         method,
-        headers,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
         body: JSON.stringify(body),
     });
 

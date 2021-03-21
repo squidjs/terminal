@@ -1,4 +1,4 @@
-import electron from 'electron';
+import * as electron from 'electron';
 import { IWindow, TerminalType } from '@app/Terminal';
 import { IShell } from '@common/config/Config';
 import type crypto from 'crypto';
@@ -26,7 +26,7 @@ const wslBasePath = '/mnt/';
  * @param path - The path to resolve
  * @returns The path which work with wsl
  */
-export function resolveToWSLPath(window: IWindow, path: string): string {
+export const resolveToWSLPath = (window: IWindow, path: string): string => {
 
     if(!isTerminalSSH(window.terminalType) && !(window.terminalType as IShell).path.includes('wsl.exe'))
         return path;
@@ -46,7 +46,10 @@ export function resolveToWSLPath(window: IWindow, path: string): string {
  * @param path - The path to add quotes to
  * @returns The quoted path
  */
-export function addQuotes(path: string): string {
+export const addQuotes = (path: string): string => {
+
+    if(isBlank(path))
+        throw new Error('Path can not be empty');
 
     if(!path.includes(' '))
         return path;
@@ -59,7 +62,7 @@ export function addQuotes(path: string): string {
  *
  * @param windows - The list of current windows
  */
-export function nextWindowId(windows: IWindow[]): number {
+export const nextWindowId = (windows: IWindow[]): number => {
 
     let id = 0;
 
@@ -75,7 +78,7 @@ export function nextWindowId(windows: IWindow[]): number {
  * @param terminalType - The type of the terminal to check
  * @returns If the terminal  type is ssh or shell
  */
-export function isTerminalSSH(terminalType: TerminalType): boolean {
+export const isTerminalSSH = (terminalType: TerminalType): boolean => {
 
     // To define the type of terminal we check if there
     // is a username property. If yes, we assume that
@@ -91,7 +94,7 @@ export function isTerminalSSH(terminalType: TerminalType): boolean {
  * @param window - The window to check
  * @returns True if window is a settings window
  */
-export function isSettingsWindow(window: IWindow): boolean {
+export const isSettingsWindow = (window: IWindow): boolean => {
 
     return window.terminalType === null;
 }
@@ -103,7 +106,10 @@ export function isSettingsWindow(window: IWindow): boolean {
  * @param password - The password to hash
  * @returns A promise of the hashed password
  */
-export async function hash(password: string): Promise<string> {
+export const hash = async(password: string): Promise<string> => {
+
+    if(isBlank(password))
+        throw new Error('Password can not be empty');
 
     return lazyCrypto().createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
 }
@@ -129,7 +135,7 @@ export interface IEncrypted {
  * @param encryptToken - The token used to encrypt
  * @returns The IEncrypted object
  */
-export function encrypt(text: string, encryptToken: string): IEncrypted {
+export const encrypt = (text: string, encryptToken: string): IEncrypted => {
 
     const cipher = lazyCrypto().createCipheriv(algorithm, encryptToken, lazyIv());
     const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
@@ -150,7 +156,7 @@ export function encrypt(text: string, encryptToken: string): IEncrypted {
  * @returns The decrypted object
  */
 
-export function decrypt(encrypted: IEncrypted, encryptToken: string): string {
+export const decrypt = (encrypted: IEncrypted, encryptToken: string): string => {
 
     const decipher = lazyCrypto().createDecipheriv(algorithm, encryptToken, Buffer.from(encrypted.iv, 'hex'));
     const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted.content, 'hex')), decipher.final()]);
@@ -167,4 +173,15 @@ export function decrypt(encrypted: IEncrypted, encryptToken: string): string {
 export const formatVersion = (version: string): string => {
 
     return version.split('-')[0].trim();
+}
+
+/**
+ * Check if a string is null or blank.
+ *
+ * @param value - The value to check
+ * @returns True if the value is null or blank
+ */
+export const isBlank = (value: string): boolean => {
+
+    return (!value || /^\s*$/.test(value));
 }
