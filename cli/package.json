@@ -1,6 +1,6 @@
 {
   "name": "squid-cli",
-  "version": "0.2.0-canary",
+  "version": "0.3.0-canary",
   "description": "The CLI for Squid.",
   "author": {
     "email": "quiibzdev@gmail.com",
@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "get-installed-path": "^4.0.8",
     "inquirer": "^8.0.0",
     "yargs": "^16.2.0"
   },

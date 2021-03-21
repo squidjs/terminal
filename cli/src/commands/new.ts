@@ -2,6 +2,7 @@ import { Arguments, Argv, CommandModule } from 'yargs';
 import inquirer from 'inquirer'
 import { resolveArgPath } from '../utils/utils';
 import { initializeProject, Language, PackageType } from '../new/new';
+import chalk from 'chalk';
 
 export const newCommand: CommandModule = {
 
@@ -27,6 +28,12 @@ export const newCommand: CommandModule = {
         let name = args.name as string;
         const path = resolveArgPath(args);
         const useYarn = !args.npm;
+
+        if(!useYarn) {
+
+            console.log(chalk.red('NPM is not yet supported to install packages.'));
+            return;
+        }
 
         inquirer.prompt([
             {

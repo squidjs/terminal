@@ -2,7 +2,7 @@ import { Arguments, Argv, CommandModule } from 'yargs';
 import chalk from 'chalk';
 import { getConfig, PACKAGES_PATH, saveConfig } from '../utils/config';
 import { spawn } from 'child_process';
-import { getInstalledPath } from 'get-installed-path';
+import { YARN_PATH } from '../utils/utils';
 
 export const install: CommandModule = {
 
@@ -33,32 +33,27 @@ export const install: CommandModule = {
         console.log(`Installing ${packageName} in ${chalk.green(PACKAGES_PATH)}...`);
         console.log(' ');
 
-        getInstalledPath('yarn').then((path) => {
+        const install = spawn(process.execPath, [YARN_PATH, 'add', '--cwd', process.env.HOME, '--modules-folder', '.squid', packageName], { stdio: 'inherit', env: process.env });
 
-            path += '/bin/yarn';
+        install.on('message', (msg) => console.log(msg))
+        install.on('exit', (code) => {
 
-            const install = spawn(path, ['add', '--cwd', process.env.HOME, '--modules-folder', '.squid', '--no-lockfile', packageName], { stdio: 'inherit', env: process.env });
+            if(code !== 0) {
 
-            install.on('message', (msg) => console.log(msg))
-            install.on('exit', (code) => {
+                console.log('Installation failed!')
+                return;
+            }
 
-                if(code !== 0) {
-
-                    console.log('Installation failed!')
-                    return;
-                }
-
-                const config = getConfig();
-                saveConfig({
-                    ...config,
-                    packages: [...config.packages, packageName],
-                });
-
-                console.log(' ');
-                console.log('Success!');
-
-                process.exit(0);
+            const config = getConfig();
+            saveConfig({
+                ...config,
+                packages: [...config.packages, packageName],
             });
+
+            console.log(' ');
+            console.log('Success!');
+
+            process.exit(0);
         });
     },
 };

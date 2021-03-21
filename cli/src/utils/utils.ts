@@ -9,3 +9,8 @@ export const resolveArgPath = (args: Arguments) => {
 
 export const isMac = process.platform === 'darwin';
 export const isWin = process.platform === 'win32';
+
+export const YARN_PATH = isMac ?
+    '/Applications/Squid.app/Contents/Resources/bin/yarn' : isWin ?
+    '' :
+    '';

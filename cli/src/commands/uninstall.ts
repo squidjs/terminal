@@ -2,8 +2,8 @@ import { Arguments, CommandModule } from 'yargs';
 import chalk from 'chalk';
 import { getConfig, PACKAGES_PATH, saveConfig } from '../utils/config';
 import { spawn } from 'child_process';
-import path from 'path';
 import { getPackages } from './list';
+import { YARN_PATH } from '../utils/utils';
 
 export const uninstall: CommandModule = {
 
@@ -15,7 +15,7 @@ export const uninstall: CommandModule = {
         const packageName = args.name as string;
         const packages = getPackages();
 
-        if(packages.every(({ name }) => name !== packageName)) {
+        if(!packages.find(({ name }) => name === packageName)) {
 
             console.log(chalk.red(`${packageName} is not installed.`));
             return;
@@ -25,9 +25,16 @@ export const uninstall: CommandModule = {
         console.log(`Uninstalling ${packageName} in ${chalk.green(PACKAGES_PATH)}...`);
         console.log(' ');
 
-        const install = spawn('rm', ['-rf', path.join(PACKAGES_PATH, packageName)], { stdio: 'inherit' });
+        const install = spawn(process.execPath, [YARN_PATH, 'remove', '--cwd', process.env.HOME, '--modules-folder', '.squid', packageName], { stdio: 'inherit' });
 
-        install.on('exit', () => {
+        install.on('message', (msg) => console.log(msg))
+        install.on('exit', (code) => {
+
+            if(code !== 0) {
+
+                console.log('Uninstallation failed!')
+                return;
+            }
 
             const config = getConfig();
             saveConfig({

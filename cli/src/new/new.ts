@@ -6,6 +6,7 @@ import { javascriptThemeTemplate } from './templates/javascript-theme';
 import { javascriptPluginTemplate } from './templates/javascript-plugin';
 import { typescriptPluginTemplate } from './templates/typescript-plugin';
 import { typescriptThemeTemplate } from './templates/typescript-theme';
+import { YARN_PATH } from '../utils/utils';
 
 export type PackageType = 'Theme' | 'Plugin';
 export type Language = 'TypeScript' | 'JavaScript';
@@ -79,7 +80,7 @@ export const initializeProject = (name: string, path: string, useYarn: boolean, 
     console.log(`Installing ${chalk.blue(packages.join(', '))}`);
     console.log(' ');
 
-    const install = spawn(useYarn ? 'yarn' : 'npm', useYarn ? ['add', '--cwd', projectPath, '-D', ...packages] : ['i', '--prefix', projectPath, '--dev', ...packages], { stdio: 'inherit' });
+    const install = spawn(process.execPath, [YARN_PATH, 'add', '--cwd', projectPath, '-D', ...packages], { stdio: 'inherit' });
 
     install.on('message', (msg) => console.log(msg))
     install.on('exit', () => {

@@ -37,8 +37,7 @@ export const getPackages = (): PackageItem[] => {
         else {
 
             try {
-                // eslint-disable-next-line @typescript-eslint/no-var-requires
-                const { name: pName, version: pVersion } = require(packagePath);
+                const { name: pName, version: pVersion } = JSON.parse(fs.readFileSync(packageJsonPath).toString());
                 name = pName;
                 version = pVersion;
 
@@ -63,11 +62,19 @@ export const list: CommandModule = {
     describe: 'List installed package',
     handler: () => {
 
+        const packages = getPackages();
+
+        if(packages.length === 0) {
+
+            console.log(chalk.red('Not packages installed.'));
+            return;
+        }
+
         console.log(' ');
         console.log(`Installed packages in ${chalk.green(PACKAGES_PATH)}`);
         console.log(' ');
 
-        getPackages().forEach(({ name, version, error }) => {
+        packages.forEach(({ name, version, error }) => {
 
             console.log(` - ${name} ${chalk.gray('v' + version)}`);
             error && console.log(`   \\=> ${chalk.red(error)}`);
