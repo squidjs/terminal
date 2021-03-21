@@ -52,7 +52,7 @@ const Window: FC<Props> = ({ config, window, openPath }: Props): ReactElement =>
             ipcRenderer.removeAllListeners('focus');
         }
 
-    }, []);
+    }, [selected?.id]);
 
     /**
      * When the component update, we check if the props changed, and if so

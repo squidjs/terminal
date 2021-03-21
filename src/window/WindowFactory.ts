@@ -85,7 +85,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             titleBarStyle: 'hidden',
             visualEffectState: 'active', // Always show the vibrancy
             show: false,
-            backgroundColor: '#00000000',
+            backgroundColor: '#00ffffff',
             webPreferences: {
                 nodeIntegration: true,
                 enableRemoteModule: true,
