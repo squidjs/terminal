@@ -3,8 +3,8 @@ import { NotificationsContextType } from '@app/store/notifications/types';
 import { INotification } from '@app/notifications/notification';
 import { notificationsReducer } from '@app/store/notifications/reducers/NotificationsReducer';
 import { NotificationsActions } from '@app/store/notifications/actions/NotificationsActions';
-import { callTrigger } from '@common/plugins/plugins';
-import { Provider } from '@common/plugins/providers';
+import { callTrigger } from '@common/packages/packages';
+import { Provider } from '@common/packages/providers';
 import { ipcRenderer } from 'electron';
 
 interface Props {

@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 const CONFIG_PATH = path.join(process.env.HOME, '.squidrc.json');
-export const PLUGINS_PATH = path.join(process.env.HOME, '.squid');
+export const PACKAGES_PATH = path.join(process.env.HOME, '.squid');
 
 export const getConfig = (): IConfig => {
 
@@ -17,5 +17,5 @@ export const saveConfig = (config: IConfig) => {
 
 export interface IConfig {
 
-    plugins: string[];
+    packages: string[];
 }

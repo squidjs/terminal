@@ -1,9 +1,9 @@
 import { BrowserWindow, BrowserWindowConstructorOptions, app } from 'electron';
 import { IConfig } from '@common/config/Config';
 import { isMainProcess, Process } from '@common/utils/utils';
-import { Provider } from '@common/plugins/providers';
+import { Provider } from '@common/packages/providers';
 import { INotification } from '@app/notifications/notification';
-import { TabIconParam } from '@common/plugins/package';
+import { TabIconParam } from '@common/packages/package';
 
 // The list of availables parameters for the triggers
 export type TriggerParams =

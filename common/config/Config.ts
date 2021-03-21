@@ -5,8 +5,8 @@ import { defaultConfig } from '@common/config/defaultConfig';
 import { FontWeight } from 'xterm';
 import { UndefinedObject } from '@common/types/types';
 import { IShortcut } from '@common/shortcuts/shortcuts';
-import { callTrigger } from '@common/plugins/plugins';
-import { getProcessTrigger } from '@common/plugins/hooks';
+import { callTrigger } from '@common/packages/packages';
+import { getProcessTrigger } from '@common/packages/hooks';
 import { lazyload } from '@common/utils/lazyload';
 import type watch from 'node-watch';
 
@@ -194,9 +194,9 @@ export interface IConfig {
      */
     cloudUrl: string;
     /**
-     * The list of names of enabled plugin and theme.
+     * The list of names of enabled packages.
      */
-    plugins: string[];
+    packages: string[];
 }
 
 export interface ITheme {

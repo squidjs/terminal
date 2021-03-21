@@ -40,7 +40,7 @@ Please report any issues or new features you wish to see for Squid.
 Documentation is available at [https://squidjs.github.io/docs](https://squidjs.github.io/docs);
 
 ## Extending
-The config file is located in your user's home directory, and called `.squidrc.json`. Squid is higly customizable thanks to a powerful **plugins** system. With plugins, you can easily share and add custom **themes**, and add **new features**.
+The config file is located in your user's home directory, and called `.squidrc.json`. Squid is higly customizable thanks to a powerful **packages** system. With packages, you can easily share and add custom **themes** and **packages** to add new features.
 
 See the [documentation](https://squidjs.github.io/docs/configuration) for more information.
 
@@ -52,7 +52,7 @@ You can choose to use our server (this is the default configuration), or you can
 See the [documentation](https://squidjs.github.io/docs/cloud) for more information.
 
 ## CLI
-Squid ships with an easy-to-use CLI, used to start the app from any terminal and manage themes and plugins easily.
+Squid ships with an easy-to-use CLI, used to start the app from any terminal and manage packages easily.
 Run `squid --help` for a list of available commands.
 
 See the [documentation](https://squidjs.github.io/docs/cli) for more information.

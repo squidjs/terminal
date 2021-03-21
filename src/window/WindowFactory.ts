@@ -7,7 +7,7 @@ import Config  from '@common/config/Config';
 import windowStateKeeper, { State } from 'electron-window-state';
 import { IConfig } from '@common/config/Config';
 import { isDev } from '@common/utils/utils';
-import { callTrigger } from '@common/plugins/plugins';
+import { callTrigger } from '@common/packages/packages';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
 

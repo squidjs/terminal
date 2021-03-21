@@ -1,6 +1,6 @@
 import { Arguments, Argv, CommandModule } from 'yargs';
 import chalk from 'chalk';
-import { getConfig, PLUGINS_PATH, saveConfig } from '../utils/config';
+import { getConfig, PACKAGES_PATH, saveConfig } from '../utils/config';
 import { spawn } from 'child_process';
 import { getInstalledPath } from 'get-installed-path';
 
@@ -8,7 +8,7 @@ export const install: CommandModule = {
 
     command: 'install <name>',
     aliases: ['i', 'add'],
-    describe: 'Install a theme or plugin',
+    describe: 'Install a package',
     builder: (args: Argv) => {
 
         return args
@@ -25,12 +25,12 @@ export const install: CommandModule = {
 
         if(!useYarn) {
 
-            console.log(chalk.red('NPM is not yet supported to install plugins and themes.'));
+            console.log(chalk.red('NPM is not yet supported to install packages.'));
             return;
         }
 
         console.log(' ');
-        console.log(`Installing ${packageName} in ${chalk.green(PLUGINS_PATH)}...`);
+        console.log(`Installing ${packageName} in ${chalk.green(PACKAGES_PATH)}...`);
         console.log(' ');
 
         getInstalledPath('yarn').then((path) => {
@@ -51,7 +51,7 @@ export const install: CommandModule = {
                 const config = getConfig();
                 saveConfig({
                     ...config,
-                    plugins: [...config.plugins, packageName],
+                    packages: [...config.packages, packageName],
                 });
 
                 console.log(' ');

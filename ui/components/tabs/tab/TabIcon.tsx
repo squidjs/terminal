@@ -2,8 +2,8 @@ import React, { ReactElement, FC } from 'react';
 import { IWindow } from '@app/Terminal';
 import ResolverProvider from '@common/resolvers/ResolverProvider';
 import IconResolverProvider, { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
-import { callTrigger } from '@common/plugins/plugins';
-import { TabIconParam } from '@common/plugins/package';
+import { callTrigger } from '@common/packages/packages';
+import { TabIconParam } from '@common/packages/package';
 
 interface Props {
 

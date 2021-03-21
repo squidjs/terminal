@@ -1,12 +1,12 @@
 import { Arguments, Argv, CommandModule } from 'yargs';
 import inquirer from 'inquirer'
 import { resolveArgPath } from '../utils/utils';
-import { initializeProject, Language, Template } from '../new/new';
+import { initializeProject, Language, PackageType } from '../new/new';
 
 export const newCommand: CommandModule = {
 
     command: 'new [name]',
-    describe: 'Initialize a new theme or plugin',
+    describe: 'Initialize a package',
     builder: (args: Argv) => {
 
         return args
@@ -31,16 +31,16 @@ export const newCommand: CommandModule = {
         inquirer.prompt([
             {
                 type: 'input',
-                message: 'Plugin / theme name:',
+                message: 'Package name:',
                 default: name,
                 name: 'name',
             },
             {
                 type: 'list',
                 message: 'Type of project:',
-                choices: ['Plugin', 'Theme'] as Template[],
-                default: 'Plugin' as Template,
-                name: 'template',
+                choices: ['Plugin', 'Theme'] as PackageType[],
+                default: 'Plugin' as PackageType,
+                name: 'packageType',
             },
             {
                 type: 'list',
@@ -53,9 +53,9 @@ export const newCommand: CommandModule = {
         ]).then((answers) => {
 
             name = answers.name;
-            const { template, language }: { template: Template, language: Language } = answers
+            const { packageType, language }: { packageType: PackageType, language: Language } = answers
 
-            initializeProject(name, path, useYarn, template, language);
+            initializeProject(name, path, useYarn, packageType, language);
         });
     },
 };

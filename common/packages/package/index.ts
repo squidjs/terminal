@@ -1,7 +1,7 @@
 import { BrowserWindow, BrowserWindowConstructorOptions, app } from 'electron';
 import { IConfig } from '@common/config/Config';
-import { ProcessTriggerParam } from '@common/plugins/hooks';
-import { Provider } from '@common/plugins/providers';
+import { ProcessTriggerParam } from '@common/packages/hooks';
+import { Provider } from '@common/packages/providers';
 import { INotification } from '@app/notifications/notification';
 import { IWindow } from '@app/Terminal';
 import { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
@@ -12,10 +12,10 @@ export type TabIconParam = {
     icon: IconResolverType;
 }
 
-export default interface SquidPlugin {
+export default interface SquidPackage {
 
     /**
-     * Event when the plugin load.
+     * Event when the package load.
      *
      * Process: main
      */
