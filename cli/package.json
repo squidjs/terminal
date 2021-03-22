@@ -18,6 +18,7 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "inquirer": "^8.0.0",
+    "node-fetch": "^2.6.1",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
