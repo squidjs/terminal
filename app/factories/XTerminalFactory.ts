@@ -57,6 +57,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
             scrollSensitivity: scroll.sensitivity,
             fastScrollSensitivity: scroll.fastScrollSensitivity,
             fastScrollModifier: scroll.fastScrollModifier as 'alt' | 'ctrl' | 'shift',
+            scrollback: scroll.scrollBack,
             altClickMovesCursor: altClickMoveCursor,
             theme: {
                 ...theme,

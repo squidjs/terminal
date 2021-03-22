@@ -152,10 +152,14 @@ export interface IConfig {
     shells: IShell[];
     /**
      * If we should enable webgl rendering.
-     * Enable it would cause the ligatures
-     * addon to not work properly.
+     * This feature currently don't work along with
+     * ligatures.
      */
     webGlRendering: boolean;
+    /**
+     * If we should enable font ligatures.
+     */
+    fontLigatures: boolean;
     /**
      * If we should copy to the clipboard the
      * selected text on copy.
@@ -306,6 +310,10 @@ interface IScroll {
      * The key to enable fast scroll.
      */
     fastScrollModifier: string;
+    /**
+     * The amount of lines in the scrollback.
+     */
+    scrollBack: number;
 }
 
 interface IBackgroundImage {

@@ -3,7 +3,7 @@ import { MenuItemConstructorOptions, remote } from 'electron';
 import { IConfig } from 'common/config/Config';
 import { defaultConfig } from '@common/config/defaultConfig';
 import { isMac } from '@common/utils/utils';
-import { installCLI, isCLIInstalled, shouldUpdateCLI, uninstallCLI } from '@src/cli/install';
+import { installCLI, isCLIInstalled, uninstallCLI } from '@src/cli/install';
 const { Menu, app, shell } = remote;
 
 /**
@@ -17,7 +17,6 @@ const { Menu, app, shell } = remote;
 export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut) => void): any => {
 
     const cliInstalled = isCLIInstalled();
-    const cliUpdate = shouldUpdateCLI(cliInstalled);
 
     const template: Array<MenuItemConstructorOptions> = [
         (isMac ? {
@@ -91,16 +90,6 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
                     label: 'Uninstall CLI',
                     enabled: cliInstalled,
                     click: async() => await uninstallCLI(true),
-                },
-                { type: 'separator' },
-                {
-                    label: 'Update CLI',
-                    enabled: cliUpdate,
-                    click: async() => {
-
-                        await uninstallCLI(true);
-                        await installCLI(true);
-                    },
                 },
             ]
         },

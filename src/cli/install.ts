@@ -1,7 +1,6 @@
-import { formatVersion, isMac, isWin } from '@common/utils/utils';
+import { isMac, isWin } from '@common/utils/utils';
 import * as fs from 'fs';
 import sudo from 'sudo-prompt';
-import { execSync } from 'child_process';
 import * as electron from 'electron';
 import { INotification, INotificationLevel } from '@app/notifications/notification';
 
@@ -38,31 +37,6 @@ export const isCLIInstalled = (): boolean => {
         const link = fs.readlinkSync(INSTALL_PATH);
 
         return link === SCRIPT_PATH;
-
-    } catch (err) {
-
-        return false;
-    }
-}
-
-/**
- * Check if the CLI should be updated or not.
- *
- * @param installed - If the cli is already installed
- * @returns If we should update
- */
-export const shouldUpdateCLI = (installed: boolean): boolean => {
-
-    if(!installed)
-        return false;
-
-    try {
-
-        const stdout = execSync('squid --version').toString();
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const currentVersion = require('../../package.json').version;
-
-        return formatVersion(currentVersion) !== formatVersion(stdout);
 
     } catch (err) {
 
@@ -171,7 +145,7 @@ const sendNotification = (installed: boolean) => {
 export const tryInstallCli = async() => {
 
     const installed = isCLIInstalled();
-    const update = shouldUpdateCLI(installed);
+    const update = false;//shouldUpdateCLI(installed);
 
     if(update)
         await uninstallCLI();

@@ -126,6 +126,7 @@ export const defaultConfig: IConfig = {
     defaultShell,
     shells,
     webGlRendering: true,
+    fontLigatures: false,
     copyOnSelected: true,
     restoreWindowPosition: true,
     tabsIcons: true,
@@ -153,6 +154,7 @@ export const defaultConfig: IConfig = {
         sensitivity: 1,
         fastScrollSensitivity: 5,
         fastScrollModifier: 'shift',
+        scrollBack: 2000,
     },
     backgroundImage: {
         enabled: false,
