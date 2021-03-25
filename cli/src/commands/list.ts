@@ -66,7 +66,7 @@ export const list: CommandModule = {
 
         if(packages.length === 0) {
 
-            console.log(chalk.red('Not packages installed.'));
+            console.log(chalk.red('No packages installed.'));
             return;
         }
 
