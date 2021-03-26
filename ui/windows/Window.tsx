@@ -1,5 +1,6 @@
 import React, { FC, ReactElement, useContext, useEffect, useRef } from 'react';
-import Terminal, { IWindow } from '@app/Terminal';
+import type Terminal from '@app/Terminal';
+import { IWindow } from '@app/Terminal';
 import { IConfig } from '@common/config/Config';
 import DragDrop from '@ui/utils/DragDrop';
 import { addQuotes, isSettingsWindow, resolveToWSLPath } from '@common/utils/utils';
@@ -80,7 +81,8 @@ const Window: FC<Props> = ({ config, window, openPath }: Props): ReactElement =>
 
             const { terminalType, id } = window;
 
-            terminal.current = new Terminal(config, id, terminalType, () => {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            terminal.current = new (require('@app/Terminal').default)(config, id, terminalType, () => {
 
                 dispatch({ type: 'DELETE', window });
 
