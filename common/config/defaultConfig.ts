@@ -131,6 +131,7 @@ export const defaultConfig: IConfig = {
     restoreWindowPosition: true,
     tabsIcons: true,
     altClickMoveCursor: true,
+    renderBoldTextBright: true,
     vibrancy: true,
     css: '',
     bell: {

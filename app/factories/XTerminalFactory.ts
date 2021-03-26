@@ -36,7 +36,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
      */
     public build({ config }: XTerminalFactoryParams): XTerminal {
 
-        const { bell, cursor, font, scroll, altClickMoveCursor, theme } = config;
+        const { bell, cursor, font, scroll, altClickMoveCursor, renderBoldTextBright, theme } = config;
 
         const options: ITerminalOptions = {
             allowTransparency: true,
@@ -59,6 +59,7 @@ export default class XTerminalFactory implements Factory<XTerminal> {
             fastScrollModifier: scroll.fastScrollModifier as 'alt' | 'ctrl' | 'shift',
             scrollback: scroll.scrollBack,
             altClickMovesCursor: altClickMoveCursor,
+            drawBoldTextInBrightColors: renderBoldTextBright,
             theme: {
                 ...theme,
                 background: 'transparent',
@@ -102,7 +103,9 @@ export default class XTerminalFactory implements Factory<XTerminal> {
         terminal.setOption('scrollSensitivity', config.scroll.sensitivity);
         terminal.setOption('fastScrollSensitivity', config.scroll.fastScrollSensitivity);
         terminal.setOption('fastScrollModifier', config.scroll.fastScrollModifier);
+        terminal.setOption('scrollback', config.scroll.scrollBack);
         terminal.setOption('altClickMovesCursor', config.altClickMoveCursor);
+        terminal.setOption('drawBoldTextInBrightColors', config.renderBoldTextBright);
         terminal.setOption('theme', {
             ...config.theme,
             background: 'transparent',

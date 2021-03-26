@@ -179,6 +179,10 @@ export interface IConfig {
      */
     altClickMoveCursor: boolean;
     /**
+     * If we should render bold text in bright colors.
+     */
+    renderBoldTextBright: boolean;
+    /**
      * If the vibrancy is enabled.
      */
     vibrancy: boolean;
