@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { render } from 'react-dom';
-import App from '@ui/App';
 import ConfigContext from '@ui/contexts/ConfigContext';
 import AuthContext from '@ui/contexts/AuthContext';
 import BlocksProvider from '@ui/contexts/NotificationsContext';
@@ -11,6 +10,7 @@ if(module.hot)
     module.hot.accept();
 
 const root = document.getElementById('app');
+const LazyApp = lazy(() => import('@ui/app'));
 
 render(
     <BlocksProvider>
@@ -18,7 +18,9 @@ render(
             <HostsContext>
                 <AuthContext>
                     <WindowsProvider>
-                        <App />
+                        <Suspense fallback={null}>
+                            <LazyApp />
+                        </Suspense>
                     </WindowsProvider>
                 </AuthContext>
             </HostsContext>
