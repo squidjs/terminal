@@ -13,7 +13,7 @@
   "scripts": {
     "watch": "tsc --watch",
     "start": "node dist/index.js",
-    "dist": "webpack"
+    "dist": "NODE_ENV=production webpack"
   },
   "dependencies": {
     "chalk": "^4.1.0",

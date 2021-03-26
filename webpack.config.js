@@ -1,6 +1,11 @@
 const path = require('path');
+
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = {
     externals: ['node-pty'],
+    devtool: isProd ? false : 'eval',
+    mode: isProd ? 'production' : 'development',
     resolve: {
         alias: {
             '@app': path.resolve(__dirname, 'app'),
