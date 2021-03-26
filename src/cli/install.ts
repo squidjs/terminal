@@ -1,8 +1,11 @@
 import { isMac, isWin } from '@common/utils/utils';
-import * as fs from 'fs';
-import sudo from 'sudo-prompt';
+import * as fs from 'fs'
+import type sudo from 'sudo-prompt';
+import { lazyload } from '@common/utils/lazyload';
 import * as electron from 'electron';
 import { INotification, INotificationLevel } from '@app/notifications/notification';
+
+const lazySudo = lazyload<typeof sudo>('sudo-prompt');
 
 const BIN_NAME = isMac ?
     'squid-mac' : isWin ?
@@ -101,7 +104,7 @@ const sudoInstall = async() => {
 
     return new Promise<void>((resolve) => {
 
-        sudo.exec(`ln -s ${SCRIPT_PATH} ${INSTALL_PATH}`, {
+        lazySudo().exec(`ln -s ${SCRIPT_PATH} ${INSTALL_PATH}`, {
             name: 'Squid',
             icns: ICON,
         }, () => resolve());
@@ -115,7 +118,7 @@ const sudoUninstall = async() => {
 
     return new Promise<void>((resolve) => {
 
-        sudo.exec(`rm ${INSTALL_PATH}`, {
+        lazySudo().exec(`rm ${INSTALL_PATH}`, {
             name: 'Squid',
             icns: ICON,
         }, () => resolve());

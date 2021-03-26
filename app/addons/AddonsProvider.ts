@@ -34,11 +34,12 @@ export default class AddonsProvider {
      */
     private setupAddon(config: IConfig, terminal: XTerminal, addon: Addon) {
 
-        if(addon &&
-           (addon.type !== AddonType.WEBGL || config.webGlRendering) &&
+        if((addon.type !== AddonType.WEBGL || config.webGlRendering) &&
            (addon.type !== AddonType.LIGATURES || config.fontLigatures)) {
 
+            addon.addon = this.resolveAddonFromType(addon.type);
             addon.loaded = true;
+
             terminal.loadAddon(addon.addon);
 
             if(addon.type === AddonType.UNICODE)
@@ -75,7 +76,7 @@ export default class AddonsProvider {
         return {
 
             type: addonType,
-            addon: this.resolveAddonFromType(addonType),
+            addon: undefined,
             loaded: false,
         };
     }

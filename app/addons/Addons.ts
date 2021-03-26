@@ -1,4 +1,5 @@
 import { ITerminalAddon } from 'xterm';
+import { UndefinedObject } from '@common/types/types';
 
 /**
  * Represent an addon with a type and the addon
@@ -10,7 +11,7 @@ import { ITerminalAddon } from 'xterm';
 export interface Addon {
 
     type: AddonType;
-    addon: ITerminalAddon;
+    addon: UndefinedObject<ITerminalAddon>;
     loaded: boolean;
 }
 
