@@ -10,7 +10,7 @@ if(module.hot)
     module.hot.accept();
 
 const root = document.getElementById('app');
-const LazyApp = lazy(() => import('@ui/app'));
+const LazyApp = lazy(() => import('./App'));
 
 render(
     <BlocksProvider>
