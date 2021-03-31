@@ -1,6 +1,6 @@
 .navbar {
 
-    width: calc(100vw - 80px);
+    width: 100vw;
     height: 30px;
 
     display: flex;
@@ -13,6 +13,7 @@
     &.mac {
 
         padding-left: 80px;
+        width: calc(100vw - 80px);
     }
 
     .buttons {
