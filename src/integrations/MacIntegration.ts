@@ -18,7 +18,7 @@ const RESOURCE_PATH = isDev ?
         'workflows',
         WORKFLOW_NAME);
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const INSTALL_PATH = path.join(process.env.HOME!, 'Library', 'Services', WORKFLOW_NAME);
+const INSTALL_PATH = isMac ? path.join(process.env.HOME!, 'Library', 'Services', WORKFLOW_NAME) : '';
 
 export default class MacIntegration extends Integration {
 
