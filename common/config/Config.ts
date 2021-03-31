@@ -127,8 +127,12 @@ export default class Config {
      */
     public getHooklessConfig(): IConfig {
 
-        const data = fs.readFileSync(this.CONFIG);
-        return JSON.parse(data.toString());
+        let data = defaultConfig;
+
+        if(fs.existsSync(this.CONFIG))
+            data = JSON.parse(fs.readFileSync(this.CONFIG).toString());
+
+        return data;
     }
 
     /**
