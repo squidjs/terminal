@@ -19,7 +19,7 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
     const cliInstalled = isCLIInstalled();
 
     const template: Array<MenuItemConstructorOptions> = [
-        (isMac ? {
+        ...(isMac ? [{
             label: app.name,
             submenu: [
                 { role: 'about' },
@@ -32,7 +32,7 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
                 { type: 'separator' },
                 { role: 'quit' }
             ]
-        } : { }),
+        }] as MenuItemConstructorOptions[] : [] as MenuItemConstructorOptions[]),
         {
             label: 'Terminal',
             submenu: [
@@ -51,17 +51,17 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
                 { role: 'cut' },
                 { label: 'Copy', accelerator: 'CmdOrCtrl+C', click: () => executeShortcut({ action:  'default:copy', keybinds: '' }) },
                 { label: 'Paste', accelerator: 'CmdOrCtrl+V', click: () => executeShortcut({ action:  'default:paste', keybinds: '' }) },
-                isMac ? { role: 'pasteAndMatchStyle' } : { },
+                ...(isMac ? [{ role: 'pasteAndMatchStyle' }] as MenuItemConstructorOptions[] : [] as MenuItemConstructorOptions[]),
                 { role: 'selectAll' },
-                isMac ? { role: 'pasteAndMatchStyle' } : { },
+                ...(isMac ? [{ role: 'pasteAndMatchStyle' }] as MenuItemConstructorOptions[] : [] as MenuItemConstructorOptions[]),
                 { type: 'separator' },
-                isMac ? {
+                ...(isMac ? [{
                     label: 'Speech',
                     submenu: [
                         { role: 'startSpeaking' },
                         { role: 'stopSpeaking' }
                     ]
-                } : { },
+                }] as MenuItemConstructorOptions[] : [] as MenuItemConstructorOptions[]),
             ]
         },
         {
@@ -97,10 +97,11 @@ export const buildMenu = (config: IConfig, executeShortcut: (shortcut: IShortcut
             label: 'Window',
             submenu: [
                 { role: 'minimize' },
-                isMac ? { type: 'separator' } : { },
-                isMac ? { role: 'front' } : { },
-                isMac ? { type: 'separator' } : { },
-                isMac ? { role: 'togglefullscreen' } : { },
+                ...(isMac ? [
+                    { type: 'separator' },
+                    { role: 'front' },
+                    { type: 'separator' },
+                    { role: 'togglefullscreen' }] as MenuItemConstructorOptions[] : [] as MenuItemConstructorOptions[]),
             ]
         },
         {
