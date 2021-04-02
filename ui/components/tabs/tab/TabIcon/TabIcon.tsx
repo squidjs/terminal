@@ -1,24 +1,15 @@
 import React, { ReactElement, FC } from 'react';
 import { IWindow } from '@app/Terminal';
-import ResolverProvider from '@common/resolvers/ResolverProvider';
-import IconResolverProvider, { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
-import { callTrigger } from '@common/packages/packages';
-import { TabIconParam } from '@common/packages/package';
+import useTabIcon from '@ui/components/tabs/tab/TabIcon/TabIconLogic';
 
 interface Props {
 
     window: IWindow;
 }
 
-// The resolver to use
-const resolver: ResolverProvider<IWindow, IconResolverType> = new IconResolverProvider();
-
 const TabIcon: FC<Props> = ({ window }: Props): ReactElement | null => {
 
-    const { icon } = callTrigger('hookTabIcon', {
-        window,
-        icon: resolver.resolve(window),
-    } as TabIconParam);
+    const icon = useTabIcon(window);
 
     // Only render the icon if it's actually defined
     if(!icon)
