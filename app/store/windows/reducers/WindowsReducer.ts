@@ -17,6 +17,9 @@ export const windowsReducer = (state: IWindow[], action: WindowsActions): IWindo
         case 'SELECT':
             return select(action.window, state);
 
+        case 'SET':
+            return action.windows;
+
         default:
             return state;
 	}

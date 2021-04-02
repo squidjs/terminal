@@ -1,6 +1,6 @@
 import { IWindow } from '@app/Terminal';
 
-export type WindowsActions = CreateWindowAction | DeleteWindowAction | UpdateWindowAction | SelectWindowAction;
+export type WindowsActions = CreateWindowAction | DeleteWindowAction | UpdateWindowAction | SelectWindowAction | SetWindowsAction;
 
 export type CreateWindowAction = {
 
@@ -24,4 +24,10 @@ export type SelectWindowAction = {
 
     type: 'SELECT';
     window: IWindow;
+}
+
+export type SetWindowsAction = {
+
+    type: 'SET',
+    windows: IWindow[];
 }
