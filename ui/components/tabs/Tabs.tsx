@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useContext } from 'react';
-import Tab from '@ui/components/tabs/tab/Tab';
+import Tab from '@ui/components/tabs/tab/Tab/Tab';
 import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal';
 import { WindowsContext } from '@ui/contexts/WindowsContext';
 import '@ui/styles/tabs.scss';

@@ -6,7 +6,10 @@ export const windowsReducer = (state: IWindow[], action: WindowsActions): IWindo
 	switch(action.type) {
 
 		case 'CREATE':
-			return [...state, action.window];
+			return [...state, action.window].map((current) => ({
+                ...current,
+                selected: current.id === action.window.id })
+            );
 
         case 'DELETE':
             return [...state].filter((current) => current.id !== action.window.id);
