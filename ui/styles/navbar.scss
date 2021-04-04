@@ -21,6 +21,13 @@
         display: flex;
         justify-content: flex-end;
 
+        .button-separator {
+
+            width: 1px;
+            height: 100%;
+            margin: 0 15px;
+        }
+
         button {
 
             -webkit-app-region: no-drag;

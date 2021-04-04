@@ -6,7 +6,7 @@ import { UndefinedObject } from '@common/types/types';
 import Config  from '@common/config/Config';
 import windowStateKeeper, { State } from 'electron-window-state';
 import { IConfig } from '@common/config/Config';
-import { isDev } from '@common/utils/utils';
+import { isDev, isWin } from '@common/utils/utils';
 import { callTrigger } from '@common/packages/packages';
 
 export default class WindowFactory implements Factory<BrowserWindow> {
@@ -83,6 +83,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             transparent: true,
             title: 'Squid',
             titleBarStyle: 'hidden',
+            frame: !isWin,
             visualEffectState: 'active', // Always show the vibrancy
             show: false,
             backgroundColor: '#00ffffff',

@@ -5,6 +5,7 @@ import { ConfigContext } from '@ui/contexts/ConfigContext';
 import NavbarButton from '@ui/components/navbar/buttons/NavbarButton';
 import { remote } from 'electron';
 import { isMac } from '@common/utils/utils';
+import ButtonSeparator from '@ui/components/navbar/ButtonSeparator';
 import '@ui/styles/navbar.scss';
 
 const Navbar: FC = (): ReactElement => {
@@ -23,6 +24,15 @@ const Navbar: FC = (): ReactElement => {
                     onClick={() => remote.getCurrentWindow().webContents.send('menu')}
                     icon="mdi-settings" />
                 <AuthButton />
+                {
+                    !isMac &&
+                    <>
+                        <ButtonSeparator />
+                        <NavbarButton onClick={() => remote.getCurrentWindow().minimize()} icon="mdi-window_minimize" />
+                        <NavbarButton onClick={() => remote.getCurrentWindow().isMaximized() ? remote.getCurrentWindow().unmaximize() : remote.getCurrentWindow().maximize()} icon="mdi-window_restore" />
+                        <NavbarButton onClick={() => remote.getCurrentWindow().close()} icon="mdi-window_close" />
+                    </>
+                }
             </div>
         </div>
     );
