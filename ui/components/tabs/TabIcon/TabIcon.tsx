@@ -1,6 +1,6 @@
 import React, { ReactElement, FC } from 'react';
 import { IWindow } from '@app/Terminal';
-import useTabIcon from '@ui/components/tabs/tab/TabIcon/TabIconLogic';
+import useTabIcon from '@ui/components/tabs/TabIcon/TabIconLogic';
 
 interface Props {
 

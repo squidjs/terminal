@@ -1,27 +1,13 @@
 import React, { CSSProperties, FC, ReactElement, useContext } from 'react';
-import { nextWindowId } from '@common/utils/utils';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import { AuthContext } from '@ui/contexts/AuthContext';
-import { WindowsContext } from '@ui/contexts/WindowsContext';
+import useSettingsButton from '@ui/components/navbar/buttons/SettingsButton/SettingsButtonLogic';
 
 const SettingsButton: FC = (): ReactElement | null => {
 
-    const { windows, dispatch } = useContext(WindowsContext);
+    const onClick = useSettingsButton();
     const { theme } = useContext(ConfigContext);
     const { auth } = useContext(AuthContext);
-
-    // Open the settings windows on click
-    const onClick = () => dispatch({
-        type: 'CREATE',
-        window: {
-            id: nextWindowId(windows),
-            name: 'Settings',
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            terminalType: null,
-            selected: false,
-        },
-    });
 
     return (
         auth ?

@@ -12,7 +12,7 @@ const useTab = (window: IWindow) => {
     const config = useContext(ConfigContext);
     const menu = useMemo(() => Menu.buildFromTemplate([
         {
-            label: 'Close tab',
+            label: 'Close Tab',
             click: () => dispatch({ type: 'DELETE', window }),
         },
         {
@@ -22,7 +22,7 @@ const useTab = (window: IWindow) => {
         },
         { type: 'separator' },
         {
-            label: 'New tab',
+            label: 'New Tab',
             click: () => dispatch({
                 type: 'CREATE',
                 window: {

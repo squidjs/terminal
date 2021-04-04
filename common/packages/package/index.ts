@@ -80,12 +80,12 @@ export default interface SquidPackage {
     hookConfig?: (options: ProcessTriggerParam<IConfig>) => ProcessTriggerParam<IConfig>;
 
     /**
-     * Hook the tab icon. Called when the window changes.
+     * Hook the Tab icon. Called when the window changes.
      *
      * Process: renderer
      *
      * @param options - An object containing the window and the icon
-     * @returns The hooked tab icon
+     * @returns The hooked Tab icon
      */
     hookTabIcon?: (options: TabIconParam) => TabIconParam;
 }

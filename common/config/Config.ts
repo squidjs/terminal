@@ -380,7 +380,7 @@ export interface HasEnv {
 
 export interface IProfile {
     /**
-     * Represent a profile tab.
+     * Represent a profile Tab.
      */
     profile: true;
 }

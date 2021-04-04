@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useContext } from 'react';
-import Tab from '@ui/components/tabs/tab/Tab/Tab';
-import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal';
+import Tab from '@ui/components/tabs/Tab/Tab';
+import TabCreateTerminal from '@ui/components/tabs/TabCreateTerminal/TabCreateTerminal';
 import { WindowsContext } from '@ui/contexts/WindowsContext';
 import '@ui/styles/tabs.scss';
 import '@ui/styles/nerdfonts.min.css';
