@@ -1,13 +1,49 @@
-name: Lint & test
-on: [push, pull_request]
+name: CI
+on:
+  push:
+    branches:
+      - master
+      - canary
+    pull_request:
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        node-version: [15.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node-version}}
       - name: Install
         run: yarn
-      - name: Run ESLint
-        run: yarn lint
-      - name: Run tests
-        run: yarn unit
+      - name: Install CLI
+        run: cd cli && yarn
+      - name: Install node-gyp
+        run: yarn global add node-gyp
+      - name: Rebuild dep
+        run: yarn rebuild
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: yarn dist:linux
+      - name: Build MacOS
+        if: matrix.os == 'macos-latest'
+        run: yarn dist:mac
+      - name: Build Windows
+        if: matrix.os == 'windows-latest'
+        run: yarn dist:win
+      - name: Upload files
+        uses: LabhanshAgrawal/upload-artifact@v3
+        with:
+          path: |
+            dist/*.deb
+            dist/*.AppImage
+            dist/*.dmg
+            dist/*.exe
