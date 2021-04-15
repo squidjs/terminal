@@ -4,6 +4,7 @@ import Config from '@common/config/Config';
 import { WindowsActions } from '@app/store/windows/actions/WindowsActions';
 import { IWindow } from '@app/Terminal';
 import { windowsReducer } from '@app/store/windows/reducers/WindowsReducer';
+import { callTrigger } from '@common/packages/packages';
 
 interface Props {
 
@@ -26,7 +27,18 @@ export const WindowsContext = createContext<WindowsContextType>(defaultState);
 
 const WindowsProvider: FC<Props> = ({ children }: Props): ReactElement => {
 
-    const [windows, dispatch] = useReducer<Reducer<IWindow[], WindowsActions>>(windowsReducer, defaultState.windows);
+    const reducer = (state: IWindow[], action: WindowsActions): IWindow[] => {
+
+        const reducedState = windowsReducer(state, action);
+
+        return callTrigger('hookWindowsReducer', {
+            reducedState,
+            state,
+            action,
+        }).state;
+    }
+
+    const [windows, dispatch] = useReducer<Reducer<IWindow[], WindowsActions>>(reducer, defaultState.windows);
 
     return (
         <WindowsContext.Provider value={{ windows, dispatch }}>
