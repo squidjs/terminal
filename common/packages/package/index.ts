@@ -5,11 +5,19 @@ import { Provider } from '@common/packages/providers';
 import { INotification } from '@app/notifications/notification';
 import { IWindow } from '@app/Terminal';
 import { IconResolverType } from '@app/resolvers/icon/IconResolverProvider';
+import { WindowsActions } from '@app/store/windows/actions/WindowsActions';
 
 export type TabIconParam = {
 
     window: IWindow;
     icon: IconResolverType;
+}
+
+export type WindowsReducerParam = {
+
+    reducedState: IWindow[];
+    state: IWindow[];
+    action: WindowsActions;
 }
 
 export default interface SquidPackage {
@@ -88,4 +96,15 @@ export default interface SquidPackage {
      * @returns The hooked tab icon
      */
     hookTabIcon?: (options: TabIconParam) => TabIconParam;
+
+    /**
+     * Hook the windows reducer. Called whenever the windows reducer
+     * is called.
+     *
+     * Process: renderer
+     *
+     * @param options - An object containing the initial state, the state and the action
+     * @returns The hooked state
+     */
+    hookWindowsReducer?: (options: WindowsReducerParam) => WindowsReducerParam[];
 }
