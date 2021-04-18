@@ -16,8 +16,20 @@ const Navbar: FC = (): ReactElement => {
     if(isMac)
         className += ' mac';
 
+    const toggleMaximize = () => {
+
+        if(remote.getCurrentWindow().isMaximized())
+            remote.getCurrentWindow().unmaximize();
+        else
+            remote.getCurrentWindow().maximize();
+    };
+
     return (
-        <div className={className} style={{ '--border': theme.border } as CSSProperties }>
+        <div
+            onDoubleClick={toggleMaximize} 
+            className={className}
+            style={{ '--border': theme.border } as CSSProperties }
+        >
             <Tabs />
             <div className="buttons">
                 <NavbarButton
@@ -29,7 +41,7 @@ const Navbar: FC = (): ReactElement => {
                     <>
                         <ButtonSeparator />
                         <NavbarButton onClick={() => remote.getCurrentWindow().minimize()} icon="mdi-window_minimize" />
-                        <NavbarButton onClick={() => remote.getCurrentWindow().isMaximized() ? remote.getCurrentWindow().unmaximize() : remote.getCurrentWindow().maximize()} icon="mdi-window_restore" />
+                        <NavbarButton onClick={toggleMaximize} icon="mdi-window_restore" />
                         <NavbarButton onClick={() => remote.getCurrentWindow().close()} icon="mdi-window_close" />
                     </>
                 }
