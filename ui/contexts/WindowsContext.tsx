@@ -29,13 +29,12 @@ const WindowsProvider: FC<Props> = ({ children }: Props): ReactElement => {
 
     const reducer = (state: IWindow[], action: WindowsActions): IWindow[] => {
 
-        const reducedState = windowsReducer(state, action);
-
-        return callTrigger('hookWindowsReducer', {
-            reducedState,
+        const hookState = callTrigger('hookWindowsReducer', {
             state,
             action,
         }).state;
+
+        return windowsReducer(hookState, action);        
     }
 
     const [windows, dispatch] = useReducer<Reducer<IWindow[], WindowsActions>>(reducer, defaultState.windows);

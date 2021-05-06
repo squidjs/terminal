@@ -15,7 +15,6 @@ export type TabIconParam = {
 
 export type WindowsReducerParam = {
 
-    reducedState: IWindow[];
     state: IWindow[];
     action: WindowsActions;
 }
