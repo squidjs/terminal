@@ -34,8 +34,7 @@ export default class AddonsProvider {
      */
     private setupAddon(config: IConfig, terminal: XTerminal, addon: Addon) {
 
-        if((addon.type !== AddonType.WEBGL || config.webGlRendering) &&
-           (addon.type !== AddonType.LIGATURES || config.fontLigatures)) {
+        if(addon.type !== AddonType.LIGATURES || config.fontLigatures) {
 
             addon.addon = this.resolveAddonFromType(addon.type);
             addon.loaded = true;

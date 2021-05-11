@@ -126,7 +126,7 @@ export const defaultConfig: IConfig = {
     defaultShell,
     shells,
     webGlRendering: true,
-    fontLigatures: false,
+    fontLigatures: true,
     copyOnSelected: true,
     restoreWindowPosition: true,
     tabsIcons: true,
