@@ -89,6 +89,7 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             backgroundColor: '#00ffffff',
             webPreferences: {
                 nodeIntegration: true,
+                contextIsolation: false,
                 enableRemoteModule: true,
             },
         } as BrowserWindowConstructorOptions);
