@@ -4,7 +4,7 @@ const fs = require('fs')
 const isArm = require('os').arch === 'arm64';
 
 exports.default = async (context) => {
-    const baseDirPath = path.resolve(__dirname)
+    const baseDirPath = path.resolve(__dirname, '..', '..')
     const snapshotName = isArm ? 'v8_context_snapshot.bin' : 'v8_context_snapshot.arm64.bin';
     const pathToBlob = path.join(baseDirPath, snapshotName)
 

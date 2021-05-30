@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 
-const baseDirPath = path.resolve(__dirname)
+const baseDirPath = path.resolve(__dirname, '..', '..')
 const snapshotName = require('os').arch === 'arm64' ? 'v8_context_snapshot.bin' : 'v8_context_snapshot.arm64.bin';
 const pathToBlob = path.join(baseDirPath, snapshotName)
 

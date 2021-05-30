@@ -7,7 +7,7 @@ const electronLink = require('electron-link')
 const excludedModules = {}
 
 async function main () {
-  const baseDirPath = path.resolve(__dirname)
+  const baseDirPath = path.resolve(__dirname, '..', '..')
 
   console.log('Creating a linked script..')
   const result = await electronLink({
