@@ -142,17 +142,24 @@ export default class WindowFactory implements Factory<BrowserWindow> {
         if(!this.factoryObject)
             return;
 
-        if(isDev)
-            this.factoryObject.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
-        else {
+        // if(isDev)
+        //     this.factoryObject.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+        // else {
 
-            this.factoryObject.loadURL(formatUrl({
+        //     this.factoryObject.loadURL(formatUrl({
 
-                pathname: path.join(__dirname, 'index.html'),
-                protocol: 'file',
-                slashes: true,
-            }));
-        }
+        //         pathname: path.join(__dirname, 'index.html'),
+        //         protocol: 'file',
+        //         slashes: true,
+        //     }));
+        // }
+        
+        this.factoryObject.loadURL(formatUrl({
+            
+            pathname: path.join(__dirname, 'index.html'),
+            protocol: 'file',
+            slashes: true,
+        }));
     }
 
     /**
