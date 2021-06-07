@@ -1,15 +1,14 @@
-import React, { CSSProperties, FC, ReactElement, useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { HostsContext } from '@ui/contexts/HostsContext';
+import { WindowsContext } from '@ui/contexts/WindowsContext';
+import { ConfigContext } from '@ui/contexts/ConfigContext';
+import { Menu as Menutype, remote } from 'electron';
 import { ISSHHost } from '@common/config/Config';
 import { TerminalType } from '@app/Terminal';
-import { remote } from 'electron';
 import { nextWindowId } from '@common/utils/utils';
-import { Menu as Menutype } from 'electron';
-import { ConfigContext } from '@ui/contexts/ConfigContext';
-import { WindowsContext } from '@ui/contexts/WindowsContext';
-import { HostsContext } from '@ui/contexts/HostsContext';
 const { Menu, MenuItem } = remote;
 
-const TabCreateTerminal: FC = (): ReactElement => {
+const useTabCreateTerminal = () => {
 
     const { hosts } = useContext(HostsContext);
     const { windows, dispatch } = useContext(WindowsContext);
@@ -99,20 +98,11 @@ const TabCreateTerminal: FC = (): ReactElement => {
      */
     const openShells = () => menu.current?.popup({ window: remote.getCurrentWindow() });
 
-    return (
-        <>
-            <button
-                type="button"
-                className="tab-create"
-                onClick={() => createTerminal(config.defaultShell)}
-                style={{ '--color': config.theme.text, '--hover': config.theme.textHover } as CSSProperties}>+</button>
-            <button
-                type="button"
-                className="tab-create"
-                onClick={() => openShells()}
-                style={{ '--color': config.theme.text, '--hover': config.theme.textHover } as CSSProperties}>...</button>
-        </>
-    );
+    return {
+        config,
+        createTerminal,
+        openShells,
+    };
 }
 
-export default TabCreateTerminal;
+export default useTabCreateTerminal;

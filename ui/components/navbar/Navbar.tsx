@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, ReactElement, useContext } from 'react';
 import Tabs from '@ui/components/tabs/Tabs';
-import AuthButton from '@ui/components/navbar/buttons/SettingsButton';
+import AuthButton from '@ui/components/navbar/buttons/SettingsButton/SettingsButton';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import NavbarButton from '@ui/components/navbar/buttons/NavbarButton';
 import { remote } from 'electron';

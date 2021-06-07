@@ -1,12 +1,10 @@
-import React, { FC, ReactElement, useContext, useEffect } from 'react';
-import { updateNotification } from '@app/notifications/notification';
-import Notification from '@ui/components/notifications/Notification';
+import { useContext, useEffect } from 'react';
+import { NotificationsContext } from '@ui/contexts/NotificationsContext';
 import { ipcRenderer } from 'electron';
 import { IUpdateStatus } from '@common/types/types';
-import { NotificationsContext } from '@ui/contexts/NotificationsContext';
-import '@ui/styles/notifications.scss';
+import { updateNotification } from '@app/notifications/notification';
 
-const Notifications: FC = (): ReactElement => {
+const useNotifications = () => {
 
     const { notifications, dispatch } = useContext(NotificationsContext);
 
@@ -28,16 +26,7 @@ const Notifications: FC = (): ReactElement => {
         });
     }, []);
 
-    return (
-        <div className="notifications">
-            {
-                notifications.map((notification, index) => {
-
-                    return <Notification key={index} notification={notification} />
-                })
-            }
-        </div>
-    );
+    return notifications;
 }
 
-export default Notifications;
+export default useNotifications;

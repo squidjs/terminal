@@ -3,7 +3,7 @@ import Window from '@ui/windows/Window';
 import Navbar from '@ui/components/navbar/Navbar';
 import { remote } from 'electron';
 import ShortcutsListener from '@ui/utils/ShortcutsListener';
-import Notifications from '@ui/components/notifications/Notifications';
+import Notifications from '@ui/components/notifications/Notifications/Notifications';
 import { ConfigContext } from '@ui/contexts/ConfigContext';
 import { WindowsContext } from '@ui/contexts/WindowsContext';
 import useOpenPath from '@ui/hooks/useOpenPath';
