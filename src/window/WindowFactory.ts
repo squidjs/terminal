@@ -83,12 +83,17 @@ export default class WindowFactory implements Factory<BrowserWindow> {
             transparent: true,
             title: 'Squid',
             titleBarStyle: 'hidden',
+            trafficLightPosition: {
+                x: 8,
+                y: 6,
+            },
             frame: !isWin,
             visualEffectState: 'active', // Always show the vibrancy
             show: false,
             backgroundColor: '#00ffffff',
             webPreferences: {
                 nodeIntegration: true,
+                contextIsolation: false,
                 enableRemoteModule: true,
             },
         } as BrowserWindowConstructorOptions);
@@ -137,17 +142,24 @@ export default class WindowFactory implements Factory<BrowserWindow> {
         if(!this.factoryObject)
             return;
 
-        if(isDev)
-            this.factoryObject.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
-        else {
+        // if(isDev)
+        //     this.factoryObject.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+        // else {
 
-            this.factoryObject.loadURL(formatUrl({
+        //     this.factoryObject.loadURL(formatUrl({
 
-                pathname: path.join(__dirname, 'index.html'),
-                protocol: 'file',
-                slashes: true,
-            }));
-        }
+        //         pathname: path.join(__dirname, 'index.html'),
+        //         protocol: 'file',
+        //         slashes: true,
+        //     }));
+        // }
+        
+        this.factoryObject.loadURL(formatUrl({
+            
+            pathname: path.join(__dirname, 'index.html'),
+            protocol: 'file',
+            slashes: true,
+        }));
     }
 
     /**

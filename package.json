@@ -11,12 +11,15 @@
   "repository": "https://github.com/squidjs/terminal",
   "scripts": {
     "dev": "electron-webpack dev",
-    "compile": "yarn setupIcon && yarn dist:cli && cross-env NODE_ENV=production electron-webpack",
+    "compile": "yarn setupIcon && yarn dist:cli && yarn snapshot && cross-env NODE_ENV=production electron-webpack",
     "dist": "yarn compile && electron-builder",
     "dist:win": "yarn compile && electron-builder -w -p onTagOrDraft",
     "dist:mac": "yarn compile && electron-builder -m -p onTagOrDraft",
     "dist:linux": "yarn compile && electron-builder -l -p onTagOrDraft",
     "dist:cli": "cd cli && yarn dist",
+    "snapshot": "yarn snapshot:create && yarn snapshot:copy",
+    "snapshot:create": "node ./scripts/snapshot/create.js",
+    "snapshot:copy": "node ./scripts/snapshot/copy.js",
     "rebuild": "electron-rebuild",
     "rebuild:arm64": "electron-rebuild -a arm64",
     "test": "yarn lint && yarn unit",
@@ -51,6 +54,9 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.12.10",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-typescript": "^8.2.1",
     "@types/jest": "^26.0.20",
     "@types/keytar": "^4.4.2",
     "@types/node": "^14.14.35",
@@ -61,8 +67,10 @@
     "@typescript-eslint/parser": "^4.11.0",
     "copy-dir": "^1.3.0",
     "cross-env": "^7.0.3",
-    "electron": "^11.2.3",
+    "electron": "^13.0.1",
     "electron-builder": "^22.10.5",
+    "electron-link": "^0.6.0",
+    "electron-mksnapshot": "^13.0.0",
     "electron-rebuild": "^2.3.5",
     "electron-webpack": "^2.8.2",
     "electron-webpack-ts": "^4.0.1",
@@ -72,7 +80,10 @@
     "eslint-plugin-unused-imports": "^1.0.1",
     "husky": "^5.0.6",
     "jest": "^26.6.3",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.0",
+    "postcss": "^8.3.0",
+    "rollup": "^2.50.6",
+    "rollup-plugin-postcss": "^4.0.0",
     "sass-loader": "^10.1.0",
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.3",
@@ -80,5 +91,8 @@
   },
   "optionalDependencies": {
     "native-reg": "^0.3.4"
+  },
+  "resolutions": {
+    "node-abi": "https://github.com/lgeiger/node-abi.git#a790e7a5362a45388fb74f3156186f57d04fb4a2"
   }
 }
